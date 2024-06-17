@@ -6,37 +6,51 @@
 
             <div class="row bg-white m-auto">
                 <div class="col-sm-6 bg-light">
-                    <img src={{asset('assets/images/login-img.png')}} class="w-100 p-5">
+                    <img src={{ asset('assets/images/login-img.png') }} class="w-100 p-5">
                 </div>
 
                 <div class="col-sm-6">
 
                     <div class="registration py-5">
-                        <form action="#">
-                            <div class="form-row row">
-                                <div class="input-data">
-                                    <input type="text" required>
-                                    <div class="underline"></div>
-                                    <label for="">User Name</label>
-                                </div>
+                        @if (session()->has('error'))
+                            <span class="alert text-danger">{{ session()->get('error') }}</span>
+                        @endif
+                        <form method="POST" action="{{ route('jobseekerlogin') }}" autocomplete="off">
+                            @csrf
+                            <div class="d-none">
+                                <input type="hidden" name="user_type" value="Jobseeker">
                             </div>
                             <div class="form-row row">
                                 <div class="input-data">
-                                    <input type="text" required>
+                                    <input type="email" name="email" value="{{ old('email') }}" required>
+                                    <div class="underline"></div>
+                                    <label for="">Email</label>
+                                </div>
+                                @error('email')
+                                    <span class="alert text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-row row">
+                                <div class="input-data ">
+                                    <input type="password" autocomplete="new-password" name="password" required>
                                     <div class="underline"></div>
                                     <label for="">Password</label>
                                 </div>
 
+                                @error('password')
+                                    <span class="alert text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
 
                             <div class="form-row row">
                                 <div class="checkbox col">
-                                    <input type="checkbox" required>
+                                    <input type="checkbox" name="remember" id="remember"
+                                        {{ old('remember') ? 'checked' : '' }}>
                                     <label for="">Remember Me</label>
                                 </div>
 
                                 <div class="input-data col">
-                                    <a href="#">Forgot Password?</a>
+                                    <a href="#" class="btn btn-warning">Forgot Password?</a>
                                 </div>
                             </div>
                             <div class="form-row submit-btn">

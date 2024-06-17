@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'jobseeker' => [
+            'driver' => 'session',
+            'provider' => 'jobseekers',
+        ]
     ],
 
     /*
@@ -60,15 +64,20 @@ return [
     */
 
     'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\User::class,
-        ],
-
         // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
+        //     'driver' => 'eloquent',
+        //     // 'model' => App\Models\User::class,
+        //     'model' => App\Models\AllUser::class,   // user is store in all_user table.
         // ],
+
+        'users' => [
+            'driver' => 'database',
+            'table' => 'all_users',
+        ],
+        'jobseekers' => [
+            'driver' => 'database',
+            'table' => 'jobseekers',
+        ], //
     ],
 
     /*
