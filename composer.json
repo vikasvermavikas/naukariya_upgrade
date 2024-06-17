@@ -7,12 +7,17 @@
     "require": {
         "php": "^8.1",
         "guzzlehttp/guzzle": "^7.2",
+        "intervention/image": "*",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
+        "laravel/socialite": "*",
         "laravel/tinker": "^2.8",
-        "laravel/ui": "^4.5"
+        "laravel/ui": "^4.5",
+        "maatwebsite/excel": "*",
+        "stevebauman/location": "*"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "*",
         "fakerphp/faker": "^1.9.1",
         "laravel/breeze": "^1.29",
         "laravel/pint": "^1.0",

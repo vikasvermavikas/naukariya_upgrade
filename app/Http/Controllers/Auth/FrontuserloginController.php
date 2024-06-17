@@ -137,7 +137,6 @@ class FrontuserloginController extends Controller
 
                         Session::flush();
                         Session::put('user', ['id' => $data->id, 'fname' => $data->fname, 'lname' => $data->lname, 'email' => $data->email, 'company_id' => $data->company_id, 'user_type' => $data->user_type, 'last_login' => $data->last_login, 'profile_pic_thumb' => $data->profile_pic_thumb]);
-
                         //fetch last login and stored in table
                         $user = AllUser::find($data->id);
                         $user->last_login = Carbon::now();

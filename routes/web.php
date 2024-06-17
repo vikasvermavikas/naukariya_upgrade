@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\FrontJobseekerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\FrontuserloginController;
 use App\Http\Controllers\UserprofileController;
@@ -70,3 +71,12 @@ Route::get('/job_details', function () {
 
 Route::post('jobseekerlogin', [FrontuserloginController::class, 'login'])->name('jobseekerlogin');
 Route::post('/jobseeker-logout', [UserprofileController::class, 'logout'])->name('jobseekerlogout');
+
+// jobseeker login
+Route::post('jobseekerregister', [FrontJobseekerController::class, 'store'])->name('jobseekerregister');
+
+
+
+
+
+

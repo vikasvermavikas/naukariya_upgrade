@@ -5,76 +5,104 @@
         <div class="container py-5">
             <div class="row my-5">
                 <div class="registration w-75 bg-white m-auto">
-                    <form action="#">
+                    <form action="{{ route('jobseekerregister') }}" method="post" enctype="multipart/form-data" autocomplete="off">
+                        @csrf
+                        
                         <div class="form-row row">
                             <div class="input-data col">
-                                <input type="text" required>
+                                <input type="text" name="firstname">
                                 <div class="underline"></div>
                                 <label for="">First Name</label>
+                                @error('firstname')
+                                        <small class="text-danger"> {{$message }}</small>
+                                @enderror
                             </div>
                             <div class="input-data col">
-                                <input type="text" required>
+                                <input type="text" name="lastname">
                                 <div class="underline"></div>
                                 <label for="">Last Name</label>
+                                @error('lastname')
+                                    <small class="text-danger"> {{$message }}</small>
+                                @enderror
                             </div>
                         </div>
-                        <div class="form-row row">
+                        <div class="form-row row mt-2">
                             <div class="input-data col">
-                                <input type="text" required>
+                                <input type="text" name="email">
                                 <div class="underline"></div>
                                 <label for="">Email Address</label>
+                                @error('email')
+                                    <small class="text-danger"> {{$message }}</small>
+                                @enderror
                             </div>
                             <div class="input-data col">
-                                <input type="text" required>
+                                <input type="text" name="mobile" >
                                 <div class="underline"></div>
                                 <label for="">Contact No.</label>
+                                @error('mobile')
+                                    <small class="text-danger"> {{$message }}</small>
+                                @enderror
                             </div>
                         </div>
                         <div class="form-row row">
                             <div class="input-data col">
-                                <input type="password" required>
+                                <input type="password" name="password">
                                 <div class="underline"></div>
                                 <label for="">Password</label>
+                                @error('password')
+                                    <small class="text-danger"> {{$message }}</small>
+                                @enderror
                             </div>
                             <div class="input-data col">
-                                <input type="password" required>
+                                <input type="password" name="password_confirmation">
                                 <div class="underline"></div>
                                 <label for="">Confirm Password</label>
+                                @error('password_confirmation')
+                                    <small class="text-danger"> {{$message }}</small>
+                                @enderror
                             </div>
                         </div>
 
                         <div class="form-row row">
                             <div class="input-data col">
-                                <select class="form-select" required>
+                                <select class="form-select" name="gender" required>
                                     <option>Gender</option>
                                     <option>Male</option>
                                     <option>Female</option>
                                     <option>Other</option>
                                 </select>
-
+                                @error('gender')
+                                    <small class="text-danger"> {{$message }}</small>
+                                @enderror
                             </div>
 
                             <div class="input-data col">
-                                <select class="form-select" required>
+                                <select class="form-select" name="candidate_type">
                                     <option>I am a</option>
                                     <option>Fresher</option>
                                     <option>Experience</option>
                                 </select>
+                                @error('candidate_type')
+                                    <small class="text-danger"> {{$message }}</small>
+                                @enderror
                             </div>
 
 
                         </div>
                         <div class="form-row row">
                             <div class="input-data col">
-                                <input type="file" required>
+                                <input type="file" name="resume">
                                 <div class="underline"></div>
                                 <label for=""></label>
+                                @error('resume')
+                                    <small class="text-danger"> {{$message }}</small>
+                                @enderror
                             </div>
-                            <div class="input-data col">
+                            {{-- <div class="input-data col">
                                 <input type="text" required>
                                 <div class="underline"></div>
                                 <label for="">Enter Captcha</label>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="form-row submit-btn">
                             <div class="input-data">
