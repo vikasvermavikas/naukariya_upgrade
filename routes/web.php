@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\FrontJobseekerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -64,3 +65,13 @@ Route::get('/register', function (){
 Route::get('/login', function (){
     return view('login');
 })->name('login');
+
+
+// jobseeker login
+Route::post('jobseekerregister', [FrontJobseekerController::class, 'store'])->name('jobseekerregister');
+
+
+
+
+
+
