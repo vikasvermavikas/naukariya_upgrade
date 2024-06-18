@@ -5,6 +5,7 @@ use App\Http\Controllers\FrontJobseekerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\FrontuserloginController;
 use App\Http\Controllers\UserprofileController;
+use App\Http\Controllers\JobmanagerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,48 +36,43 @@ use App\Http\Controllers\UserprofileController;
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::middleware(['guest'])->group(function () {
+Route::middleware('guest:jobseeker')->group(function () {
 
-    Route::get('/', function () {
-        return view('homepage');
-    })->name('home');
-    Route::get('/job_listing', function () {
-        return view('job_listing');
-    })->name('job_listing');
+
     Route::get('/about', function () {
         return view('about');
     })->name('about');
+
     Route::get('/blog', function () {
         return view('blog');
     })->name('blog');
+
     Route::get('/single-blog', function () {
         return view('single-blog');
     })->name('single-blog');
+
     Route::get('/elements', function () {
         return view('elements');
     })->name('elements');
+
     Route::get('/contact', function () {
         return view('contact');
     })->name('contact');
+
     Route::get('/register', function () {
         return view('register');
     })->name('register');
+
     Route::get('/login', function () {
         return view('login');
     })->name('login');
+    
+    Route::get('/', [JobmanagerController::class, 'getJobsByCategory'])->name('home');
 });
-Route::get('/job_details', function () {
-    return view('job_details');
-})->name('job_details');
-
-Route::post('jobseekerlogin', [FrontuserloginController::class, 'login'])->name('jobseekerlogin');
-Route::post('/jobseeker-logout', [UserprofileController::class, 'logout'])->name('jobseekerlogout');
 
 // jobseeker login
 Route::post('jobseekerregister', [FrontJobseekerController::class, 'store'])->name('jobseekerregister');
-
-
-
-
-
-
+Route::get('/job_details/{id}', [JobmanagerController::class, 'showSingleJob'])->name('job_details');
+Route::get('job_listing', [JobmanagerController::class, 'browsejob'])->name('job_listing');
+Route::post('jobseekerlogin', [FrontuserloginController::class, 'login'])->name('jobseekerlogin');
+Route::post('/jobseeker-logout', [UserprofileController::class, 'logout'])->name('jobseekerlogout');

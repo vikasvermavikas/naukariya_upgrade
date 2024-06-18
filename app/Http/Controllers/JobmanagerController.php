@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Redirect;
 
 class JobmanagerController extends Controller
 {
-   
+
     public function index()
     {
         $data = DB::table('jobmanagers')
@@ -37,7 +37,7 @@ class JobmanagerController extends Controller
 
     public function count_applyjob($id)
     {
-        $data = ApplyJob::where('job_id', $id)->count();                                                
+        $data = ApplyJob::where('job_id', $id)->count();
         return response($data);
     }
 
@@ -462,31 +462,31 @@ class JobmanagerController extends Controller
         $data = DB::table('jobmanagers')
             ->leftjoin('job_categories', 'job_categories.id', 'jobmanagers.job_category_id')
             ->leftjoin('client_names', 'client_names.id', 'jobmanagers.client_id')
-            ->select('jobmanagers.id', 'jobmanagers.title', 'jobmanagers.description', 'jobmanagers.status', 'jobmanagers.last_apply_date',  'jobmanagers.created_at',  'jobmanagers.updated_at', 'job_categories.job_category','client_names.name')
+            ->select('jobmanagers.id', 'jobmanagers.title', 'jobmanagers.description', 'jobmanagers.status', 'jobmanagers.last_apply_date',  'jobmanagers.created_at',  'jobmanagers.updated_at', 'job_categories.job_category', 'client_names.name')
             ->where('jobmanagers.userid', $uid)
             ->orderBy('jobmanagers.created_at', 'DESC');
 
-            if (isset($keyword) && $keyword !== '') {
-                $data->where(function ($query) use ($keyword) {
-                    $query->where('jobmanagers.title', 'like', "%$keyword%")
+        if (isset($keyword) && $keyword !== '') {
+            $data->where(function ($query) use ($keyword) {
+                $query->where('jobmanagers.title', 'like', "%$keyword%")
                     ->orwhere('client_names.name', 'like', "%$keyword%")
                     ->orWhere('jobmanagers.status', $keyword);
-                });
-            }
+            });
+        }
 
 
-             $data =$data->paginate(10);
+        $data = $data->paginate(10);
 
         return response()->json(['data' => $data], 200);
     }
     public function browsejobViewAll(Request $request)
     {   //keyword within browsejob
 
-      
-         $searchTerm = request('searchkeyword');
-         //keyword in home page
+
+        $searchTerm = request('searchkeyword');
+        //keyword in home page
         $keywordhome = request('keyword');
-        $location = str_replace("Jobs-in-", "",request('location'));
+        $location = str_replace("Jobs-in-", "", request('location'));
         $experience = request('experience');
         $jobtype = request('jobtype');
         //checkbox filter in browsejob start
@@ -494,39 +494,54 @@ class JobmanagerController extends Controller
         $maxSalary = request('maxsalary');
         $minExp = request('minexp');
         $maxExp = request('maxexp');
-        $industryVal =request('industryVal');
-        $functionalVal =request('functionalVal');
-        $jobtypeVal =request('jobtypeVal');
-        $qualificationVal =request('qualificationVal');
-       
-        
-        
+        $industryVal = request('industryVal');
+        $functionalVal = request('functionalVal');
+        $jobtypeVal = request('jobtypeVal');
+        $qualificationVal = request('qualificationVal');
+
+
+
         //checkbox filter in browsejob end
         $dataFilter = DB::table('jobmanagers')
             ->leftjoin('empcompaniesdetails', 'empcompaniesdetails.id', '=', 'jobmanagers.company_id')
             ->leftjoin('industries', 'industries.id', '=', 'jobmanagers.job_industry_id')
             ->leftjoin('functional_roles', 'functional_roles.id', '=', 'jobmanagers.job_functional_role_id')
             ->leftjoin('job_types', 'job_types.id', '=', 'jobmanagers.job_type_id')
-            ->select('jobmanagers.id','jobmanagers.title','jobmanagers.job_exp','jobmanagers.job_skills', 'jobmanagers.main_exp',
-                'jobmanagers.max_exp','empcompaniesdetails.company_name','jobmanagers.job_industry_id','jobmanagers.job_functional_role_id','industries.category_name',
-                'functional_roles.subcategory_name','job_types.job_type','jobmanagers.job_type_id','jobmanagers.job_qualification_id','jobmanagers.offered_sal_min','jobmanagers.offered_sal_max')
+            ->select(
+                'jobmanagers.id',
+                'jobmanagers.title',
+                'jobmanagers.job_exp',
+                'jobmanagers.job_skills',
+                'jobmanagers.main_exp',
+                'jobmanagers.max_exp',
+                'empcompaniesdetails.company_name',
+                'jobmanagers.job_industry_id',
+                'jobmanagers.job_functional_role_id',
+                'industries.category_name',
+                'functional_roles.subcategory_name',
+                'job_types.job_type',
+                'jobmanagers.job_type_id',
+                'jobmanagers.job_qualification_id',
+                'jobmanagers.offered_sal_min',
+                'jobmanagers.offered_sal_max'
+            )
             ->where('jobmanagers.job_for', '!=', 'Consultant')
             ->where('jobmanagers.status', 'Active')
             ->where('empcompaniesdetails.status', '1')
             ->orderBy('jobmanagers.created_at', 'DESC');
-            
+
 
         //search keyword within Browse jobs start
         if (isset($searchTerm) && $searchTerm !== '') {
             $dataFilter->where(function ($query) use ($searchTerm) {
                 $query->where('jobmanagers.title', 'like', "%$searchTerm%")
-                ->orWhere('jobmanagers.responsibility', 'like', "%$searchTerm%")
-                ->orWhere('jobmanagers.job_keywords', 'like', "%$searchTerm%")
-                ->orWhere('jobmanagers.job_skills', 'like', "%$searchTerm%")
-                ->orWhere('jobmanagers.job_preference', 'like', "%$searchTerm%")
-                ->orWhere('jobmanagers.job_exp', 'like', "%$searchTerm%")
-                ->orWhere('jobmanagers.job_for', 'like', "%$searchTerm%")
-                ->orWhere('jobmanagers.main_exp', 'like', "%$searchTerm%");
+                    ->orWhere('jobmanagers.responsibility', 'like', "%$searchTerm%")
+                    ->orWhere('jobmanagers.job_keywords', 'like', "%$searchTerm%")
+                    ->orWhere('jobmanagers.job_skills', 'like', "%$searchTerm%")
+                    ->orWhere('jobmanagers.job_preference', 'like', "%$searchTerm%")
+                    ->orWhere('jobmanagers.job_exp', 'like', "%$searchTerm%")
+                    ->orWhere('jobmanagers.job_for', 'like', "%$searchTerm%")
+                    ->orWhere('jobmanagers.main_exp', 'like', "%$searchTerm%");
             });
         }
         //search keyword within Browse jobs end
@@ -535,17 +550,17 @@ class JobmanagerController extends Controller
         if (isset($keywordhome) && $keywordhome !== '') {
             $dataFilter->where(function ($query) use ($keywordhome) {
                 $query->where('jobmanagers.title', 'like', "%$keywordhome%")
-                ->orWhere('jobmanagers.responsibility', 'like', "%$keywordhome%")
-                ->orWhere('jobmanagers.job_keywords', 'like', "%$keywordhome%")
-                ->orWhere('jobmanagers.job_skills', 'like', "%$keywordhome%")
-                ->orWhere('jobmanagers.job_preference', 'like', "%$keywordhome%")
-                ->orWhere('jobmanagers.job_exp', 'like', "%$keywordhome%")
-                ->orWhere('jobmanagers.job_for', 'like', "%$keywordhome%")
-                ->orWhere('jobmanagers.main_exp', 'like', "%$keywordhome%")
-                ->orWhere('jobmanagers.max_exp', 'like', "%$keywordhome%")
-                ->orWhere('empcompaniesdetails.company_name', 'like', "%$keywordhome%")
-                ->orWhere('industries.category_name', 'like', "%$keywordhome%")
-                ->orWhere('functional_roles.subcategory_name', 'like', "%$keywordhome%");
+                    ->orWhere('jobmanagers.responsibility', 'like', "%$keywordhome%")
+                    ->orWhere('jobmanagers.job_keywords', 'like', "%$keywordhome%")
+                    ->orWhere('jobmanagers.job_skills', 'like', "%$keywordhome%")
+                    ->orWhere('jobmanagers.job_preference', 'like', "%$keywordhome%")
+                    ->orWhere('jobmanagers.job_exp', 'like', "%$keywordhome%")
+                    ->orWhere('jobmanagers.job_for', 'like', "%$keywordhome%")
+                    ->orWhere('jobmanagers.main_exp', 'like', "%$keywordhome%")
+                    ->orWhere('jobmanagers.max_exp', 'like', "%$keywordhome%")
+                    ->orWhere('empcompaniesdetails.company_name', 'like', "%$keywordhome%")
+                    ->orWhere('industries.category_name', 'like', "%$keywordhome%")
+                    ->orWhere('functional_roles.subcategory_name', 'like', "%$keywordhome%");
             });
         }
 
@@ -609,7 +624,7 @@ class JobmanagerController extends Controller
                 $query->WhereIn('jobmanagers.job_qualification_id', $qualificationVal);
             });
         }
-        
+
         $data = $dataFilter->paginate(25);
         return response()->json(['data' => $data], 200);
     }
@@ -618,11 +633,11 @@ class JobmanagerController extends Controller
     public function browsejob(Request $request)
     {   //keyword within browsejob
 
-      
-         $searchTerm = request('searchkeyword');
-         //keyword in home page
+
+        $searchTerm = request('searchkeyword');
+        //keyword in home page
         $keywordhome = request('keyword');
-        $location = str_replace("Jobs-in-", "",request('location'));
+        $location = str_replace("Jobs-in-", "", request('location'));
         $experience = request('experience');
         $jobtype = request('jobtype');
         //checkbox filter in browsejob start
@@ -630,40 +645,58 @@ class JobmanagerController extends Controller
         $maxSalary = request('maxsalary');
         $minExp = request('minexp');
         $maxExp = request('maxexp');
-        $industryVal =request('industryVal');
-        $functionalVal =request('functionalVal');
-        $jobtypeVal =request('jobtypeVal');
-        $qualificationVal =request('qualificationVal');
-       
-        
-        
+        $industryVal = request('industryVal');
+        $functionalVal = request('functionalVal');
+        $jobtypeVal = request('jobtypeVal');
+        $qualificationVal = request('qualificationVal');
+
+
+
         //checkbox filter in browsejob end
         $dataFilter = DB::table('jobmanagers')
             ->leftjoin('empcompaniesdetails', 'empcompaniesdetails.id', '=', 'jobmanagers.company_id')
             ->leftjoin('industries', 'industries.id', '=', 'jobmanagers.job_industry_id')
             ->leftjoin('functional_roles', 'functional_roles.id', '=', 'jobmanagers.job_functional_role_id')
             ->leftjoin('job_types', 'job_types.id', '=', 'jobmanagers.job_type_id')
-            ->select('jobmanagers.id','jobmanagers.title','jobmanagers.job_exp','jobmanagers.job_skills', 'jobmanagers.main_exp',
-                'jobmanagers.max_exp','empcompaniesdetails.company_name','jobmanagers.job_industry_id','jobmanagers.job_functional_role_id','industries.category_name',
-                'functional_roles.subcategory_name','job_types.job_type','jobmanagers.job_type_id','jobmanagers.job_qualification_id','jobmanagers.offered_sal_min','jobmanagers.offered_sal_max')
+            ->select(
+                'jobmanagers.id',
+                'jobmanagers.title',
+                'jobmanagers.job_exp',
+                'jobmanagers.job_skills',
+                'jobmanagers.main_exp',
+                'jobmanagers.max_exp',
+                'empcompaniesdetails.company_name',
+                'jobmanagers.job_industry_id',
+                'jobmanagers.job_functional_role_id',
+                'industries.category_name',
+                'functional_roles.subcategory_name',
+                'job_types.job_type',
+                'jobmanagers.job_type_id',
+                'jobmanagers.job_qualification_id',
+                'jobmanagers.offered_sal_min',
+                'jobmanagers.offered_sal_max',
+                'jobmanagers.location',
+                'jobmanagers.sal_disclosed',
+
+            )
             ->where('jobmanagers.job_for', '!=', 'Consultant')
             ->where('jobmanagers.status', 'Active')
             ->where('empcompaniesdetails.status', '1')
             ->orderBy('jobmanagers.created_at', 'DESC');
-            $datafilters = $dataFilter;
-        $datas = $datafilters->paginate(25);  
+        $datafilters = $dataFilter;
+        $datas = $datafilters->paginate(25);
 
         //search keyword within Browse jobs start
         if (isset($searchTerm) && $searchTerm !== '') {
             $dataFilter->where(function ($query) use ($searchTerm) {
                 $query->where('jobmanagers.title', 'like', "%$searchTerm%")
-                ->orWhere('jobmanagers.responsibility', 'like', "%$searchTerm%")
-                ->orWhere('jobmanagers.job_keywords', 'like', "%$searchTerm%")
-                ->orWhere('jobmanagers.job_skills', 'like', "%$searchTerm%")
-                ->orWhere('jobmanagers.job_preference', 'like', "%$searchTerm%")
-                ->orWhere('jobmanagers.job_exp', 'like', "%$searchTerm%")
-                ->orWhere('jobmanagers.job_for', 'like', "%$searchTerm%")
-                ->orWhere('jobmanagers.main_exp', 'like', "%$searchTerm%");
+                    ->orWhere('jobmanagers.responsibility', 'like', "%$searchTerm%")
+                    ->orWhere('jobmanagers.job_keywords', 'like', "%$searchTerm%")
+                    ->orWhere('jobmanagers.job_skills', 'like', "%$searchTerm%")
+                    ->orWhere('jobmanagers.job_preference', 'like', "%$searchTerm%")
+                    ->orWhere('jobmanagers.job_exp', 'like', "%$searchTerm%")
+                    ->orWhere('jobmanagers.job_for', 'like', "%$searchTerm%")
+                    ->orWhere('jobmanagers.main_exp', 'like', "%$searchTerm%");
             });
         }
         //search keyword within Browse jobs end
@@ -672,26 +705,26 @@ class JobmanagerController extends Controller
         if (isset($keywordhome) && $keywordhome !== '') {
             $dataFilter->where(function ($query) use ($keywordhome) {
                 $query->where('jobmanagers.title', 'like', "%$keywordhome%")
-                ->orWhere('jobmanagers.responsibility', 'like', "%$keywordhome%")
-                ->orWhere('jobmanagers.job_keywords', 'like', "%$keywordhome%")
-                ->orWhere('jobmanagers.job_skills', 'like', "%$keywordhome%")
-                ->orWhere('jobmanagers.job_preference', 'like', "%$keywordhome%")
-                ->orWhere('jobmanagers.job_exp', 'like', "%$keywordhome%")
-                ->orWhere('jobmanagers.job_for', 'like', "%$keywordhome%")
-                ->orWhere('jobmanagers.main_exp', 'like', "%$keywordhome%")
-                ->orWhere('jobmanagers.max_exp', 'like', "%$keywordhome%")
-                ->orWhere('empcompaniesdetails.company_name', 'like', "%$keywordhome%")
-                ->orWhere('industries.category_name', 'like', "%$keywordhome%")
-                ->orWhere('functional_roles.subcategory_name', 'like', "%$keywordhome%");
+                    ->orWhere('jobmanagers.responsibility', 'like', "%$keywordhome%")
+                    ->orWhere('jobmanagers.job_keywords', 'like', "%$keywordhome%")
+                    ->orWhere('jobmanagers.job_skills', 'like', "%$keywordhome%")
+                    ->orWhere('jobmanagers.job_preference', 'like', "%$keywordhome%")
+                    ->orWhere('jobmanagers.job_exp', 'like', "%$keywordhome%")
+                    ->orWhere('jobmanagers.job_for', 'like', "%$keywordhome%")
+                    ->orWhere('jobmanagers.main_exp', 'like', "%$keywordhome%")
+                    ->orWhere('jobmanagers.max_exp', 'like', "%$keywordhome%")
+                    ->orWhere('empcompaniesdetails.company_name', 'like', "%$keywordhome%")
+                    ->orWhere('industries.category_name', 'like', "%$keywordhome%")
+                    ->orWhere('functional_roles.subcategory_name', 'like', "%$keywordhome%");
             });
         }
 
 
-      
 
-     //   print_r($datas);die;
+
+        //   print_r($datas);die;
         $dataFilter->where('jobmanagers.job_exp', 'like', "%$location%");
-       
+
 
         if (isset($location) && $location !== null) {
             $dataFilter->where('jobmanagers.job_exp', 'like', "%$location%");
@@ -753,9 +786,10 @@ class JobmanagerController extends Controller
                 $query->WhereIn('jobmanagers.job_qualification_id', $qualificationVal);
             });
         }
-        
+
         $data = $dataFilter->paginate(25);
-        return response()->json(['data' => $data,'datas' => $datas], 200);
+        return view('job_listing', ['data' => $data]);
+        // return response()->json(['data' => $data, 'datas' => $datas], 200);
     }
 
     public function searchjob(Request $request)
@@ -883,10 +917,10 @@ class JobmanagerController extends Controller
         $job->description = $request->description;
         $job->responsibility = $request->responsibility;
         $job->job_sector_id = $request->job_sector_id;
-         $job->meta_title = $request->meta_title;
-         $job->meta_keywords = $request->meta_keywords;
-         $job->meta_description = $request->meta_description;
-       // $job->meta_canonical = $request->meta_canonical;
+        $job->meta_title = $request->meta_title;
+        $job->meta_keywords = $request->meta_keywords;
+        $job->meta_description = $request->meta_description;
+        // $job->meta_canonical = $request->meta_canonical;
         $job->is_deleted = $request->is_deleted;
         $job->job_address = $request->job_address;
         $job->job_city_id = $request->job_city_id;
@@ -1102,7 +1136,7 @@ class JobmanagerController extends Controller
     public function getJobSectors(Request $request)
     {
         $callback = function ($query) {
-            $query->select('id', 'title', 'job_sector_id', 'location','job_exp','main_exp','max_exp','status')->where('status', 'Active');
+            $query->select('id', 'title', 'job_sector_id', 'location', 'job_exp', 'main_exp', 'max_exp', 'status')->where('status', 'Active');
         };
 
         $jobs = JobSector::whereHas('jobmanagers', $callback)
@@ -1114,18 +1148,90 @@ class JobmanagerController extends Controller
 
     public function getJobsByCategory(Request $request)
     {
-        $id = $request->sector_id;
+        // $id = $request->sector_id;
 
-        $jobs = DB::table('jobmanagers')
+        $egovernance = DB::table('jobmanagers')
             ->leftjoin('empcompaniesdetails', 'jobmanagers.company_id', 'empcompaniesdetails.id')
             ->leftjoin('job_sectors', 'job_sectors.id', 'jobmanagers.job_sector_id')
-            ->select('jobmanagers.id', 'jobmanagers.job_sector_id', 'jobmanagers.last_apply_date', 'jobmanagers.location', 'jobmanagers.job_skills', 'jobmanagers.job_exp', 'jobmanagers.title', 'jobmanagers.main_exp', 'jobmanagers.max_exp', 'empcompaniesdetails.company_name','empcompaniesdetails.company_logo')
-            ->where('jobmanagers.job_sector_id', $id)
+            ->select(
+                'jobmanagers.id',
+                'jobmanagers.job_sector_id',
+                'jobmanagers.last_apply_date',
+                'jobmanagers.location',
+                'jobmanagers.job_skills',
+                'jobmanagers.job_exp',
+                'jobmanagers.title',
+                'jobmanagers.sal_disclosed',
+                'jobmanagers.offered_sal_min',
+                'jobmanagers.offered_sal_max',
+                'jobmanagers.main_exp',
+                'jobmanagers.max_exp',
+                'empcompaniesdetails.company_name',
+                'empcompaniesdetails.company_logo',
+            )
+            ->where('jobmanagers.job_sector_id', 1)
             ->where('jobmanagers.job_for', '!=', 'Consultant')
             ->where('job_sectors.status', '1')
             ->where('jobmanagers.status', 'Active')
             ->orderBy('jobmanagers.created_at', 'DESC')
+            ->offset(0)
+            ->limit(4)
             ->get();
+        $corporate = DB::table('jobmanagers')
+            ->leftjoin('empcompaniesdetails', 'jobmanagers.company_id', 'empcompaniesdetails.id')
+            ->leftjoin('job_sectors', 'job_sectors.id', 'jobmanagers.job_sector_id')
+            ->select(
+                'jobmanagers.id',
+                'jobmanagers.job_sector_id',
+                'jobmanagers.last_apply_date',
+                'jobmanagers.location',
+                'jobmanagers.job_skills',
+                'jobmanagers.job_exp',
+                'jobmanagers.title',
+                'jobmanagers.sal_disclosed',
+                'jobmanagers.offered_sal_min',
+                'jobmanagers.offered_sal_max',
+                'jobmanagers.main_exp',
+                'jobmanagers.max_exp',
+                'empcompaniesdetails.company_name',
+                'empcompaniesdetails.company_logo'
+            )
+            ->where('jobmanagers.job_sector_id', 2)
+            ->where('jobmanagers.job_for', '!=', 'Consultant')
+            ->where('job_sectors.status', '1')
+            ->where('jobmanagers.status', 'Active')
+            ->orderBy('jobmanagers.created_at', 'DESC')
+            ->offset(0)
+            ->limit(4)
+            ->get();
+        $government = DB::table('jobmanagers')
+            ->leftjoin('empcompaniesdetails', 'jobmanagers.company_id', 'empcompaniesdetails.id')
+            ->leftjoin('job_sectors', 'job_sectors.id', 'jobmanagers.job_sector_id')
+            ->select(
+                'jobmanagers.id',
+                'jobmanagers.job_sector_id',
+                'jobmanagers.last_apply_date',
+                'jobmanagers.location',
+                'jobmanagers.job_skills',
+                'jobmanagers.job_exp',
+                'jobmanagers.title',
+                'jobmanagers.sal_disclosed',
+                'jobmanagers.offered_sal_min',
+                'jobmanagers.offered_sal_max',
+                'jobmanagers.main_exp',
+                'jobmanagers.max_exp',
+                'empcompaniesdetails.company_name',
+                'empcompaniesdetails.company_logo'
+            )
+            ->where('jobmanagers.job_sector_id', 3)
+            ->where('jobmanagers.job_for', '!=', 'Consultant')
+            ->where('job_sectors.status', '1')
+            ->where('jobmanagers.status', 'Active')
+            ->orderBy('jobmanagers.created_at', 'DESC')
+            ->offset(0)
+            ->limit(4)
+            ->get();
+
 
         // $callback = function($query) {
         //     $query->select('id', 'title', 'job_sector_id', 'job_exp', 'main_exp', 'max_exp', 'company_id', 'status')->where('status', 'Active');
@@ -1145,7 +1251,8 @@ class JobmanagerController extends Controller
 
         // $jobs = $jobs->get();
 
-        return response()->json($jobs, 200);
+        // return response()->json($jobs, 200);
+        return view('homepage', ['egovernance' => $egovernance, 'corporate' => $corporate, 'government' => $government]);
     }
 
     public function showSingleJob($id)
@@ -1158,6 +1265,8 @@ class JobmanagerController extends Controller
             ->leftjoin('cities', 'cities.id', 'jobmanagers.job_city_id')
             ->leftjoin('states', 'states.id', 'jobmanagers.job_state_id')
             ->leftjoin('job_sectors', 'job_sectors.id', 'jobmanagers.job_sector_id')
+            ->leftjoin('job_types', 'job_types.id', 'jobmanagers.job_type_id')
+            ->leftjoin('job_shifts', 'job_shifts.id', 'jobmanagers.job_shift_id')
             ->select(
                 'jobmanagers.id',
                 'jobmanagers.qualification_for_gov',
@@ -1176,10 +1285,14 @@ class JobmanagerController extends Controller
                 'jobmanagers.offered_sal_max',
                 'jobmanagers.main_exp',
                 'jobmanagers.max_exp',
+                'jobmanagers.job_vaccancy',
+                'job_shifts.job_shift',
+                'job_types.job_type',
                 // 'jobmanagers.meta_title',
                 // 'jobmanagers.meta_keywords',
                 // 'jobmanagers.meta_description',
                 'empcompaniesdetails.company_name',
+                'empcompaniesdetails.owner_name',
                 'empcompaniesdetails.com_email',
                 'empcompaniesdetails.com_contact',
                 'empcompaniesdetails.facebook_url',
@@ -1196,12 +1309,14 @@ class JobmanagerController extends Controller
                 'job_sectors.job_sector',
                 'jobmanagers.government_apply_link',
                 'jobmanagers.start_apply_date',
-                'jobmanagers.last_apply_date'
+                'jobmanagers.last_apply_date',
+                'jobmanagers.sal_disclosed',
             )
             ->where('jobmanagers.id', $id)
             ->first();
 
-        return response()->json(['data' => $data], 200);
+        // return response()->json(['data' => $data], 200);
+        return view('job_details', ['data' => $data]);
     }
 
     public function showjobdetailOnly($id)
@@ -1273,8 +1388,19 @@ class JobmanagerController extends Controller
                 ->orwhereIn('jobmanagers.job_functional_role_id', explode(",", $parts[1]))
                 ->orwhereIn('jobmanagers.job_type_id', explode(",", $parts[2]))
                 ->orwhereIn('jobmanagers.job_qualification_id', explode(",", $parts[4]))
-                ->select('jobmanagers.id','jobmanagers.title','jobmanagers.job_exp','jobmanagers.job_skills','jobmanagers.main_exp','jobmanagers.max_exp','empcompaniesdetails.company_name',
-                    'jobmanagers.job_industry_id', 'industries.category_name','functional_roles.subcategory_name','job_types.job_type','jobmanagers.job_type_id'
+                ->select(
+                    'jobmanagers.id',
+                    'jobmanagers.title',
+                    'jobmanagers.job_exp',
+                    'jobmanagers.job_skills',
+                    'jobmanagers.main_exp',
+                    'jobmanagers.max_exp',
+                    'empcompaniesdetails.company_name',
+                    'jobmanagers.job_industry_id',
+                    'industries.category_name',
+                    'functional_roles.subcategory_name',
+                    'job_types.job_type',
+                    'jobmanagers.job_type_id'
                 );
         } else {
             $dataFilter = DB::table('jobmanagers')
@@ -1290,9 +1416,19 @@ class JobmanagerController extends Controller
                 ->orwhereIn('jobmanagers.job_functional_role_id', explode(",", $parts[1]))
                 ->orwhereIn('jobmanagers.job_type_id', explode(",", $parts[2]))
                 ->orwhereIn('jobmanagers.job_qualification_id', explode(",", $parts[4]))
-                ->select('jobmanagers.id','jobmanagers.title','jobmanagers.job_exp','jobmanagers.job_skills','jobmanagers.main_exp',
-                    'jobmanagers.max_exp','empcompaniesdetails.company_name','jobmanagers.job_industry_id','industries.category_name',
-                    'functional_roles.subcategory_name','job_types.job_type','jobmanagers.job_type_id'
+                ->select(
+                    'jobmanagers.id',
+                    'jobmanagers.title',
+                    'jobmanagers.job_exp',
+                    'jobmanagers.job_skills',
+                    'jobmanagers.main_exp',
+                    'jobmanagers.max_exp',
+                    'empcompaniesdetails.company_name',
+                    'jobmanagers.job_industry_id',
+                    'industries.category_name',
+                    'functional_roles.subcategory_name',
+                    'job_types.job_type',
+                    'jobmanagers.job_type_id'
                 );
         }
         $data = $dataFilter->paginate(10);
@@ -1301,13 +1437,13 @@ class JobmanagerController extends Controller
     public function filter(Request $request)
     {
         $data = DB::table('jobmanagers')
-            ->leftjoin('apply_jobs', 'apply_jobs.job_id', '=', 'jobmanagers.id' )
+            ->leftjoin('apply_jobs', 'apply_jobs.job_id', '=', 'jobmanagers.id')
             ->leftjoin('empcompaniesdetails', 'empcompaniesdetails.id', '=', 'jobmanagers.company_id')
             ->leftjoin('client_names', 'client_names.id', '=', 'jobmanagers.client_id')
-            ->select('jobmanagers.id', 'jobmanagers.title', 'jobmanagers.job_for', 'jobmanagers.status', 'jobmanagers.created_at', 'empcompaniesdetails.company_name','client_names.name as clientname', DB::raw("count(apply_jobs.id) as total"))
+            ->select('jobmanagers.id', 'jobmanagers.title', 'jobmanagers.job_for', 'jobmanagers.status', 'jobmanagers.created_at', 'empcompaniesdetails.company_name', 'client_names.name as clientname', DB::raw("count(apply_jobs.id) as total"))
             ->groupBy('jobmanagers.id', 'jobmanagers.title', 'jobmanagers.job_for', 'jobmanagers.status', 'jobmanagers.created_at', 'empcompaniesdetails.company_name', 'client_names.name')
-            ->orderBy('id','DESC');
-              
+            ->orderBy('id', 'DESC');
+
 
         if (isset($request->company_id) && $request->company_id != '') {
             $data->Where('jobmanagers.company_id', $request->company_id);
@@ -1412,14 +1548,14 @@ class JobmanagerController extends Controller
 
     public function uploadBulkGovtJob(Request $request)
     {
-        
+
         $imageName = time() . '.' . $request->csvFile->getClientOriginalExtension();
 
         $request->csvFile->move(public_path('/govt_jobs/csv_file/'), $imageName);
 
         $counter = 0;
         $totalRecords = 0;
-        
+
         if (($handle = fopen(public_path('/govt_jobs/csv_file/') . $imageName, 'r')) !== FALSE) {
             while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
 
@@ -1555,7 +1691,7 @@ class JobmanagerController extends Controller
         $data = DB::table('jobmanagers')
             ->leftjoin('empcompaniesdetails', 'empcompaniesdetails.id', '=', 'jobmanagers.company_id')
             ->leftjoin('client_names', 'client_names.id', '=', 'jobmanagers.client_id')
-            ->select('jobmanagers.*', 'empcompaniesdetails.company_name','client_names.name as clientname')
+            ->select('jobmanagers.*', 'empcompaniesdetails.company_name', 'client_names.name as clientname')
             ->where('jobmanagers.id', $id)
             ->first();
 
@@ -1563,16 +1699,15 @@ class JobmanagerController extends Controller
     }
     public function getClientList(Request $request)
     {
-        $companyId= $request->company_id;
+        $companyId = $request->company_id;
         $data = ClientName::all();
 
-        if(isset($companyId)) {
+        if (isset($companyId)) {
             $data = ClientName::where('company_id', $companyId)->get();
         }
-        
+
 
         return response()->json(['data' => $data]);
-        
     }
 
     // PLEASE DO NOT REMOVE IT
@@ -1587,9 +1722,9 @@ class JobmanagerController extends Controller
         $job_pos = Jobmanager::where('id', $searchId)->first()->title;
 
         $data = DB::table('jobmanagers')
-            
+
             ->where('title', 'like', "%$job_pos")
-            ->where('id','!=',$job_id)
+            ->where('id', '!=', $job_id)
             ->select('*')
             ->take(3)
 

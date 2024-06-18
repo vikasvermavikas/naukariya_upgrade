@@ -94,7 +94,7 @@ class FrontuserloginController extends Controller
                     ]);
 
                     // return response()->json(['data' => $data, 'status' => 'success'], 200);
-                    return redirect()->route('job_details');
+                    return redirect()->route('job_listing');
                 } else {
                     $errors = 'Your account is not activated by admin. Please contact.';
                     //log mail table

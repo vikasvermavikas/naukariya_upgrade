@@ -25,7 +25,7 @@
                                                 <li><a href={{ route('blog') }}>Blog</a></li>
                                                 <li><a href={{ route('single-blog') }}>Blog Details</a></li>
                                                 <li><a href={{ route('elements') }}>Elements</a></li>
-                                                <li><a href={{ route('job_details') }}>job Details</a></li>
+                                                {{-- <li><a href={{ route('job_details') }}>job Details</a></li> --}}
                                             </ul>
                                         </li>
                                         <li><a href={{ route('contact') }}>Contact</a></li>
