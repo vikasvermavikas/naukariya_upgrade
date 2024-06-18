@@ -17,9 +17,14 @@ class ContactUsController extends Controller
 
     public function store(Request $request)
     {
+
+    // dd($request);
+
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required'
+            'email' => 'required',
+            'remarks' => 'required'
+         
         ]);
         $contact = new ContactUs();
         $contact->name = $request->name;
@@ -35,6 +40,8 @@ class ContactUsController extends Controller
         $remarks = $request->remarks;
         Mail::to($to)->send(new ContactUsMail($name, $mobile, $remarks, $email));
         Mail::to($email)->send(new ContactUsThanksMail($name));
+
+        return redirect()->back();
 
     }
 }

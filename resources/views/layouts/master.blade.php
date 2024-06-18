@@ -1,18 +1,18 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>{{$title ? $title : 'Naukriyan - Changing Millions of Lives'}} </title>
+    <title>{{ $title ? $title : 'Naukriyan - Changing Millions of Lives' }} </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="manifest" href="site.webmanifest">
+    {{-- <link rel="manifest" href="site.webmanifest"> --}}
     <link rel="shortcut icon" type="image/x-icon" href={{ asset('assets/img/favicon.png') }}>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- CSS here -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
-    
+
     <link rel="stylesheet" href="{{ asset('assets/css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/flaticon.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/price_rangs.css') }}">
@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
     @yield('style')
+
 </head>
 
 <body>
@@ -84,7 +85,13 @@
     <script src={{ asset('assets/js/plugins.js') }}></script>
     <script src={{ asset('assets/js/main.js') }}></script>
 
-
+    <script>
+        if ($(".employer")[0]){
+        $('.employer').click(function() {
+            $('.show-employer').toggle();
+        });
+    }
+    </script>
 </body>
 
 </html>

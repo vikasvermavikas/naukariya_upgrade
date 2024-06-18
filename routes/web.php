@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\FrontuserloginController;
 use App\Http\Controllers\UserprofileController;
 use App\Http\Controllers\JobmanagerController;
+use App\Http\Controllers\FrontAllUserController;
+use App\Http\Controllers\ContactUsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +40,6 @@ use App\Http\Controllers\JobmanagerController;
 
 Route::middleware('guest:jobseeker')->group(function () {
 
-
     Route::get('/about', function () {
         return view('about');
     })->name('about');
@@ -66,8 +67,13 @@ Route::middleware('guest:jobseeker')->group(function () {
     Route::get('/login', function () {
         return view('login');
     })->name('login');
-    
+
     Route::get('/', [JobmanagerController::class, 'getJobsByCategory'])->name('home');
+
+
+    Route::get('employer-signup', [FrontAllUserController::class, 'employerRegister'])->name('employer-register');
+    Route::post('employerregister', [FrontAllUserController::class, 'store'])->name('employerregister');
+    Route::post('/add-contactus-detail', [ContactUsController::class, 'store'])->name('contactus');
 });
 
 // jobseeker login
@@ -76,3 +82,5 @@ Route::get('/job_details/{id}', [JobmanagerController::class, 'showSingleJob'])-
 Route::get('job_listing', [JobmanagerController::class, 'browsejob'])->name('job_listing');
 Route::post('jobseekerlogin', [FrontuserloginController::class, 'login'])->name('jobseekerlogin');
 Route::post('/jobseeker-logout', [UserprofileController::class, 'logout'])->name('jobseekerlogout');
+
+

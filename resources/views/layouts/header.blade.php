@@ -1,17 +1,18 @@
+
 <header>
     <!-- Header Start -->
     <div class="header-area header-transparrent">
         <div class="headder-top header-sticky">
             <div class="container">
                 <div class="row align-items-center">
-                    <div class="col-lg-3 col-md-2">
+                    <div class="col-lg-2 col-md-2">
                         <!-- Logo -->
                         <div class="logo">
                             <a href={{ route('home') }}><img src={{ asset('assets/images/naukriyan-logo.png') }}
                                     alt="Naukriyan-Logo"></a>
                         </div>
                     </div>
-                    <div class="col-lg-9 col-md-9">
+                    <div class="col-lg-10 col-md-10">
                         <div class="menu-wrapper">
                             <!-- Main-menu -->
                             <div class="main-menu">
@@ -32,6 +33,7 @@
                                     </ul>
                                 </nav>
                             </div>
+                       
                             <!-- Header-btn -->
                             @guest('jobseeker')
                                 <div class="header-btn d-none f-right d-lg-block">
@@ -47,6 +49,17 @@
                                     <button type="submit" class="btn head-btn2">Logout</button>
                                 </form>
                             @endguest
+                            <div class="header-btn d-none f-right d-lg-block">
+                                <div class="dropdown">
+                                    <a  href="#" class="btn head-btn1 dropdown-toggle employer" data-bs-toggle="dropdown" aria-expanded="false">
+                                      Employer
+                                    </a>
+                                    <ul class="dropdown-menu show-employer">
+                                      <li><a class="dropdown-item" href="">Sign In</a></li>
+                                      <li><a class="dropdown-item" href="{{ route('employer-register') }}">Sign Up</a></li>
+                                    </ul>
+                                  </div>
+                            </div>
                         </div>
                     </div>
                     <!-- Mobile Menu -->
