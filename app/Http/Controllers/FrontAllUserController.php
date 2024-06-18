@@ -96,10 +96,17 @@ class FrontAllUserController extends Controller
         return view('public.forgetpassword', compact('companies', 'last_company_id'));
     }
 
+
+    public function employerRegister(){
+        $companies = Empcompaniesdetail::select('id','company_name')->get();
+        return view('register-employer',compact('companies'));
+    }
     public function store(Request $request)
     {
-        $validator = Validator::make(
-            $request->all(),
+
+       
+
+        $validator = $request->validate(
             [
                 'firstname' => 'required|regex:/^[a-zA-Z]+$/u',
                 'lastname' => 'required|regex:/^[a-zA-Z]+$/u',
@@ -108,8 +115,9 @@ class FrontAllUserController extends Controller
                 "mobile" => 'required|min:10|max:12|unique:jobseekers,contact',
                 "password" => ['required', 'min:8', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/'],
                 "gender" => 'required|string',
-                "usertype" => 'required',
-                "com_search" => 'required',
+                // 'usertype.required' => 'User type is required', rakesh 18/06/2024
+                // "com_search" => 'required',
+                "company_id" => 'required'
                 // 'captcha' => 'required|captcha'
             ],
             [
@@ -122,20 +130,22 @@ class FrontAllUserController extends Controller
                 'mobile.unique' => 'Mobile is already registered',
                 'password.required' => 'Password is required',
                 'gender.required' => 'Gender is required',
-                'usertype.required' => 'User type is required',
-                'com_search.required' => 'Company name is required',
+                // 'usertype.required' => 'User type is required', rakesh 18/06/2024
+                'company_id.required' => 'Company name is required',
                 // 'captcha.captcha'=>'Invalid captcha code.'
                
             ]
         );
+        // dd($request);
+        // if ($validator->fails()) {
+        //     return Response::json(array(
+        //         'success' => false,
+        //         'errors' => $validator->getMessageBag()->toArray()
+        //     ), 400);
+        // }
 
-        if ($validator->fails()) {
-            return Response::json(array(
-                'success' => false,
-                'errors' => $validator->getMessageBag()->toArray()
-            ), 400);
-        }
 
+        
         if (isset($request->other)) {
             $input_company = new Empcompaniesdetail();
             $input_company->company_name = $request->other;
@@ -197,7 +207,8 @@ class FrontAllUserController extends Controller
             $userPackage->save();
         }
         //return redirect('/#/register-success');
-        return response()->json(['status' => 'success', 'message' => 'Account Created Successfully'], 200);
+        return redirect()->route('employer-register')->with('success', 'Account Created Successfully');
+        // return response()->json(['status' => 'success', 'message' => 'Account Created Successfully'], 200);
     }
 
     public function EmailVerify($token)

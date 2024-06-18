@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -7,7 +7,7 @@
     <title>{{$title ? $title : 'Naukriyan - Changing Millions of Lives'}} </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="manifest" href="site.webmanifest">
+    {{-- <link rel="manifest" href="site.webmanifest"> --}}
     <link rel="shortcut icon" type="image/x-icon" href={{ asset('assets/img/favicon.png') }}>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- CSS here -->
@@ -23,6 +23,9 @@
     <link rel="stylesheet" href="{{ asset('assets/css/slick.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/nice-select.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <style>
+      
+    </style>
 </head>
 
 <body>
@@ -81,7 +84,11 @@
     <script src={{ asset('assets/js/plugins.js') }}></script>
     <script src={{ asset('assets/js/main.js') }}></script>
 
-
+<script>
+    $('.employer').click(function(){
+        $('.show-employer').toggle();
+    });
+</script>
 </body>
 
 </html>

@@ -5,6 +5,8 @@ use App\Http\Controllers\FrontJobseekerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\FrontuserloginController;
 use App\Http\Controllers\UserprofileController;
+use App\Http\Controllers\FrontAllUserController;
+use App\Http\Controllers\ContactUsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,6 +63,9 @@ Route::middleware(['guest'])->group(function () {
     Route::get('/register', function () {
         return view('register');
     })->name('register');
+
+   
+
     Route::get('/login', function () {
         return view('login');
     })->name('login');
@@ -74,6 +79,21 @@ Route::post('/jobseeker-logout', [UserprofileController::class, 'logout'])->name
 
 // jobseeker login
 Route::post('jobseekerregister', [FrontJobseekerController::class, 'store'])->name('jobseekerregister');
+
+
+//admin register
+
+Route::get('/admin-register', function () {
+    return view('register-admin');
+})->name('register-admin');
+
+
+Route::get('employer-signup', [FrontAllUserController::class, 'employerRegister'])->name('employer-register');
+Route::post('employerregister', [FrontAllUserController::class, 'store'])->name('employerregister');
+Route::post('/add-contactus-detail', [ContactUsController::class, 'store'])->name('contactus');
+
+
+
 
 
 
