@@ -8,7 +8,6 @@ use App\Http\Controllers\UserprofileController;
 use App\Http\Controllers\JobmanagerController;
 use App\Http\Controllers\FrontAllUserController;
 use App\Http\Controllers\ContactUsController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -82,5 +81,11 @@ Route::get('/job_details/{id}', [JobmanagerController::class, 'showSingleJob'])-
 Route::get('job_listing', [JobmanagerController::class, 'browsejob'])->name('job_listing');
 Route::post('jobseekerlogin', [FrontuserloginController::class, 'login'])->name('jobseekerlogin');
 Route::post('/jobseeker-logout', [UserprofileController::class, 'logout'])->name('jobseekerlogout');
+
+
+//login employers
+Route::get('jobseekerlogin', [FrontuserloginController::class,'loadLoginPage'])->name('loadLoginPage');
+Route::post('jobseekerlogin', [FrontuserloginController::class,'login'])->name('jobseekerlogin');
+
 
 

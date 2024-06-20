@@ -54,6 +54,10 @@ class FrontuserloginController extends Controller
         return response()->json(['data' => $data], 200);
     }
 
+    public function loadLoginPage(){
+        return view('loginemployer');
+    }
+
     public function login(Request $request)
     {
         $request->validate([

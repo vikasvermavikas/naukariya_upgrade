@@ -19,7 +19,7 @@
 <section class="contact-section">
         <div class="container">
             <div class="d-none d-sm-block mb-2 pb-2">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14020.409158098062!2d77.210832!3d28.536645!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce1f700000001%3A0x68dca73f09d47c81!2sPrakhar%20Software%20Solutions%20Pvt.%20Ltd.!5e0!3m2!1sen!2sin!4v1718702674922!5m2!1sen!2sin" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14020.409158098062!2d77.210832!3d28.536645!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce1f700000001%3A0x68dca73f09d47c81!2sPrakhar%20Software%20Solutions%20Pvt.%20Ltd.!5e0!3m2!1sen!2sin!4v1718702674922!5m2!1sen!2sin" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
 
             <div class="row">
@@ -69,21 +69,21 @@
                     <div class="media contact-info">
                         <span class="contact-info__icon"><i class="ti-home"></i></span>
                         <div class="media-body">
-                            <h3>Buttonwood, California.</h3>
-                            <p>Rosemead, CA 91770</p>
+                            <h3>Delhi, India</h3>
+                            <p>C – 11, LGF, Opp. State Bank of India, Malviya Nagar, New Delhi - 110017</p>
                         </div>
                     </div>
                     <div class="media contact-info">
                         <span class="contact-info__icon"><i class="ti-tablet"></i></span>
                         <div class="media-body">
-                            <h3>+1 253 565 2365</h3>
-                            <p>Mon to Fri 9am to 6pm</p>
+                            <h3>+91 11 4010 4369</h3>
+                            <p>Mon to Sat 9:30 am to 6:30 pm</p>
                         </div>
                     </div>
                     <div class="media contact-info">
                         <span class="contact-info__icon"><i class="ti-email"></i></span>
                         <div class="media-body">
-                            <h3>support@colorlib.com</h3>
+                            <h3>info@prakharsoftwares.com</h3>
                             <p>Send us your query anytime!</p>
                         </div>
                     </div>
