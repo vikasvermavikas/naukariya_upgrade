@@ -90,3 +90,9 @@ Route::get('/get-industry', [IndustryController::class, 'index'])->name('getIndu
 
 
 
+//login employers
+Route::get('jobseekerlogin', [FrontuserloginController::class,'loadLoginPage'])->name('loadLoginPage');
+Route::post('jobseekerlogin', [FrontuserloginController::class,'login'])->name('jobseekerlogin');
+
+
+

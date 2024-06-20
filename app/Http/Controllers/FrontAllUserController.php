@@ -171,7 +171,7 @@ class FrontAllUserController extends Controller
 
         $alluser->designation = $request->designation;
         $alluser->company_id = $comp_id;
-        $alluser->user_type = $request->usertype;
+        $alluser->user_type = $request->user_type;
 
         $email = $request->email;
         $name = $request->firstname;

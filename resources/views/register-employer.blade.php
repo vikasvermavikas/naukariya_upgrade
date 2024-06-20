@@ -104,6 +104,7 @@
 
                         </div>
                         <div class="form-row row">
+                            <input type="hidden" name="user_type" value="Employer">
                             {{-- <div class="input-data col">
                                 <input type="text" required>
                                 <div class="underline"></div>

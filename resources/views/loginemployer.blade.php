@@ -19,7 +19,7 @@
                         <form method="POST" action="{{ route('jobseekerlogin') }}" autocomplete="off">
                             @csrf
                             <div class="d-none">
-                                <input type="hidden" name="user_type" value="Jobseeker">
+                                <input type="hidden" name="user_type" value="Employer">
                             </div>
                             <div class="form-row row">
                                 <div class="input-data">
@@ -68,7 +68,7 @@
                                             <img src='https://developers.google.com/identity/images/g-logo.png'>
                                         </div>
                                         <span class='text-container'>
-                                            <a href="{{route('sociallogin', ['provider' => 'google', 'userType' => 'Jobseeker'])}}">Sign in with Google</a>
+                                            <span>Sign in with Google</span>
                                         </span>
                                     </div>
                                 </div>
@@ -76,7 +76,11 @@
                         </form>
                     </div>
                 </div>
+
             </div>
         </div>
+
+
+
     </section>
 @endsection

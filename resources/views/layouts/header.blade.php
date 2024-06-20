@@ -55,7 +55,7 @@
                                       Employer
                                     </a>
                                     <ul class="dropdown-menu show-employer">
-                                      <li><a class="dropdown-item" href="">Sign In</a></li>
+                                      <li><a class="dropdown-item" href="{{route('loadLoginPage')}}">Sign In</a></li>
                                       <li><a class="dropdown-item" href="{{ route('employer-register') }}">Sign Up</a></li>
                                     </ul>
                                   </div>
