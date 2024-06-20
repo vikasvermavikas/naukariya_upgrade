@@ -67,7 +67,7 @@
                                             <img src='https://developers.google.com/identity/images/g-logo.png'>
                                         </div>
                                         <span class='text-container'>
-                                            <span>Sign in with Google</span>
+                                            <a href="{{route('sociallogin', ['provider' => 'google', 'userType' => 'Jobseeker'])}}">Sign in with Google</a>
                                         </span>
                                     </div>
                                 </div>

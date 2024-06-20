@@ -5,7 +5,7 @@
         <!-- Hero Area Start-->
         <div class="slider-area ">
             <div class="single-slider section-overly slider-height2 d-flex align-items-center"
-                data-background="assets/img/hero/about.jpg">
+                style="background-image : url('assets/img/hero/about.jpg')">
                 <div class="container">
                     <div class="row">
                         <div class="col-xl-12">
@@ -46,12 +46,8 @@
                                 </div>
                                 <!-- Select job items start -->
                                 <div class="select-job-items2">
-                                    <select name="select">
-                                        <option value="">All Category</option>
-                                        <option value="">Category 1</option>
-                                        <option value="">Category 2</option>
-                                        <option value="">Category 3</option>
-                                        <option value="">Category 4</option>
+                                    <select class="form-control" name="job_category" id="industries">
+                                        <option value="">Select Industry</option>
                                     </select>
                                 </div>
                                 <!--  Select job items End-->
@@ -61,19 +57,19 @@
                                         <h4>Job Type</h4>
                                     </div>
                                     <label class="container">Full Time
-                                        <input type="checkbox">
+                                        <input type="checkbox" class="jobtype" name="fulltime" value="2">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="container">Part Time
-                                        <input type="checkbox" checked="checked active">
+                                        <input type="checkbox" class="jobtype" name="parttime" value="1">
                                         <span class="checkmark"></span>
                                     </label>
-                                    <label class="container">Remote
-                                        <input type="checkbox">
+                                    <label class="container">Internship
+                                        <input type="checkbox" class="jobtype" name="internship" value="4">
                                         <span class="checkmark"></span>
                                     </label>
-                                    <label class="container">Freelance
-                                        <input type="checkbox">
+                                    <label class="container">Freelancer
+                                        <input type="checkbox" class="jobtype" name="freelance" value="3">
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
@@ -81,22 +77,20 @@
                             </div>
                             <!-- single two -->
                             <div class="single-listing">
-                                <div class="small-section-tittle2">
+                                {{-- <div class="small-section-tittle2">
                                     <h4>Job Location</h4>
                                 </div>
                                 <!-- Select job items start -->
                                 <div class="select-job-items2">
                                     <select name="select">
-                                        <option value="">Anywhere</option>
-                                        <option value="">Category 1</option>
-                                        <option value="">Category 2</option>
-                                        <option value="">Category 3</option>
-                                        <option value="">Category 4</option>
+                                        <option value="1">Basic</option>
+                                        <option value="2">Hot</option>
+                                        <option value="3">Featured</option>
                                     </select>
-                                </div>
+                                </div> --}}
                                 <!--  Select job items End-->
                                 <!-- select-Categories start -->
-                                <div class="select-Categories pt-80 pb-50">
+                                <div class="select-Categories pb-50">
                                     <div class="small-section-tittle2">
                                         <h4>Experience</h4>
                                     </div>
@@ -122,7 +116,7 @@
                             <!-- single three -->
                             <div class="single-listing">
                                 <!-- select-Categories start -->
-                                <div class="select-Categories pb-50">
+                                <div class="select-Categories">
                                     <div class="small-section-tittle2">
                                         <h4>Posted Within</h4>
                                     </div>
@@ -153,7 +147,7 @@
                                 </div>
                                 <!-- select-Categories End -->
                             </div>
-                            <div class="single-listing">
+                            {{-- <div class="single-listing">
                                 <!-- Range Slider Start -->
                                 <aside class="left_widgets p_filter_widgets price_rangs_aside sidebar_box_shadow">
                                     <div class="small-section-tittle2">
@@ -178,7 +172,7 @@
                                     </div>
                                 </aside>
                                 <!-- Range Slider End -->
-                            </div>
+                            </div> --}}
                         </div>
                         <!-- Job Category Listing End -->
                     </div>
@@ -193,15 +187,34 @@
                                         <div class="count-job mb-35">
                                             <span>{{ count($data) }} Jobs found</span>
                                             <!-- Select job items start -->
-                                            <div class="select-job-items">
+                                            <div>
+                                                <form action="{{ route('job_listing') }}" method="GET"
+                                                    class="form-inline">
+
+                                                    <input type="text" name="searchkeyword"
+                                                        placeholder="Search by Keyword"
+                                                        value="{{ $searchTerm ? $searchTerm : '' }}" class="form-control"
+                                                        required>
+                                                    @error('searchkeyword')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                    <button class="ml-2 form-control text-white"
+                                                        style="background:#e35e25;border:0;">Search</button>
+                                                    <a href="{{ route('job_listing') }}"
+                                                        class="ml-2 form-control text-white"
+                                                        style="background:#e35e25;border:0;">Clear</a>
+
+                                                </form>
+                                            </div>
+                                            {{-- <div class="select-job-items">
                                                 <span>Sort by</span>
-                                                <select name="select">
+                                                <select class="form-control" name="select">
                                                     <option value="">None</option>
                                                     <option value="">job list</option>
                                                     <option value="">job list</option>
                                                     <option value="">job list</option>
                                                 </select>
-                                            </div>
+                                            </div> --}}
                                             <!--  Select job items End-->
                                         </div>
                                     </div>
@@ -225,19 +238,21 @@
                                     <div class="single-job-items mb-30">
                                         <div class="job-items">
                                             <div class="company-img">
-                                                <a href="{{route('job_details', ['id' => $item->id])}}"><img src="assets/img/icon/job-list1.png"
-                                                        alt=""></a>
+                                                <a href="{{ route('job_details', ['id' => $item->id]) }}"><img
+                                                        src="assets/img/icon/job-list1.png" alt=""></a>
                                             </div>
                                             <div class="job-tittle job-tittle2">
-                                                <a href="{{route('job_details', ['id' => $item->id])}}">
+                                                <a href="{{ route('job_details', ['id' => $item->id]) }}">
                                                     <h4>{{ $item->title }}</h4>
                                                 </a>
                                                 <ul>
                                                     <li>{{ $item->company_name }}</li>
-                                                    <li><i class="fas fa-map-marker-alt"></i>{{ $item->location ? $item->location : 'Not Defined' }} </li>
+                                                    <li><i
+                                                            class="fas fa-map-marker-alt"></i>{{ $item->location ? $item->location : 'Not Defined' }}
+                                                    </li>
                                                     <li>{{ $item->sal_disclosed == 'Yes' ? 'INR ' . $minsalary . ' - ' . $item->offered_sal_max : 'Not Disclosed' }}
                                                     </li>
-                                                 
+
                                                 </ul>
                                                 <span class="text-muted">Experience Required : {{ $exp_required }}</span>
                                             </div>
@@ -272,4 +287,8 @@
         <!--Pagination End  -->
 
     </main>
+@endsection
+
+@section('script')
+    <script src="{{ asset('assests/js/custom_js/job-listing.js') }}"></script>
 @endsection

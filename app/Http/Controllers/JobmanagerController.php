@@ -650,8 +650,6 @@ class JobmanagerController extends Controller
         $jobtypeVal = request('jobtypeVal');
         $qualificationVal = request('qualificationVal');
 
-
-
         //checkbox filter in browsejob end
         $dataFilter = DB::table('jobmanagers')
             ->leftjoin('empcompaniesdetails', 'empcompaniesdetails.id', '=', 'jobmanagers.company_id')
@@ -684,7 +682,7 @@ class JobmanagerController extends Controller
             ->where('empcompaniesdetails.status', '1')
             ->orderBy('jobmanagers.created_at', 'DESC');
         $datafilters = $dataFilter;
-        $datas = $datafilters->paginate(25);
+        $totalrecord = $datafilters->count();
 
         //search keyword within Browse jobs start
         if (isset($searchTerm) && $searchTerm !== '') {
@@ -787,8 +785,8 @@ class JobmanagerController extends Controller
             });
         }
 
-        $data = $dataFilter->paginate(25);
-        return view('job_listing', ['data' => $data]);
+        $data = $dataFilter->paginate(25)->withQueryString();
+        return view('job_listing', ['data' => $data, 'searchTerm' => $searchTerm]);
         // return response()->json(['data' => $data, 'datas' => $datas], 200);
     }
 

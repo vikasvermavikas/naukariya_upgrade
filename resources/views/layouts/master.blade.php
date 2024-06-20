@@ -48,7 +48,7 @@
 
     @include('layouts.footer')
 
-    @yield('script')
+  
 
     <!-- All JS Custom Plugins Link Here here -->
     <script src={{ asset('assets/js/vendor/modernizr-3.5.0.min.js') }}></script>
@@ -72,7 +72,7 @@
     <!-- Scrollup, nice-select, sticky -->
     <script src={{ asset('assets/js/jquery.scrollUp.min.js') }}></script>
     <script src={{ asset('assets/js/jquery.nice-select.min.js') }}></script>
-    <script src={{ asset('assets/js/jquery.sticky.js') }}></script>
+    <script src={{ asset('assets/js/jquery.sticky.js') }}></script> 
 
     <!-- contact js -->
     <script src={{ asset('assets/js/contact.js') }}></script>
@@ -84,7 +84,8 @@
     <!-- Jquery Plugins, main Jquery -->
     <script src={{ asset('assets/js/plugins.js') }}></script>
     <script src={{ asset('assets/js/main.js') }}></script>
-
+    @yield('script')
+    
     <script>
         if ($(".employer")[0]){
         $('.employer').click(function() {

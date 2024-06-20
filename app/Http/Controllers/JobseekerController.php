@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\URL;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -49,151 +50,121 @@ class JobseekerController extends Controller
     }
 
 
-public function redirect($provider, $userType)
-{   
-   
-    Session::put('user', ['user_type' => $userType]);
-    return Socialite::driver($provider)
-    // ->with(['state' => 'event_slug='.$userType])
-    ->redirect();
-}
- 
-public function callback($provider)
-{
-    // dd("ok1");
-    // exit;
-    // $state = $req->input('state');
-    // parse_str($state, $result);
-    // $user_type = $result['event_slug'];
+    public function redirect($provider, $userType)
+    {
 
-    $user_type = Session::get('user')['user_type'];
-    
-    $getInfo = Socialite::driver($provider)->user();
+        Session::put('user', ['user_type' => $userType]);
+        return Socialite::driver($provider)->stateless()
+            // ->with(['state' => 'event_slug='.$userType])
+            ->redirect();
+    }
 
-    if($user_type == 'Jobseeker'){
+    public function callback($provider)
+    {
+        // $state = $req->input('state');
+        // parse_str($state, $result);
+        // $user_type = $result['event_slug'];
 
-        $jobseeker = Jobseeker::where('email',$getInfo->user['email'])->first();
-        // if($provider == 'google'){
-        //     $jobseeker = Jobseeker::where('email',$getInfo->user['email'])->first();
-        // }else{
-        //     $jobseeker = Jobseeker::where('linkdin_id',$getInfo['id'])->first();
-        // }
-        $user_exist = 0;
-        
-        if(!$jobseeker){
-            $jobseeker = new Jobseeker();
-            $jobseeker->fname = $getInfo->user['given_name'];
-            $jobseeker->lname = $getInfo->user['family_name'];
-            $jobseeker->email = $getInfo->user['email'];
-            ($provider == 'google')? $jobseeker->google_id  = $getInfo['id'] : $jobseeker->linkedin_id  = $getInfo['id']; 
-            ($provider == 'google')?  $jobseeker->sign_in_through  = 'google' :  $jobseeker->sign_in_through  = 'linkedin';         
-            $jobseeker->user_type="Jobseeker";
-            $jobseeker->save();
+        $user_type = Session::get('user')['user_type'];
 
-        }else{
-            if($jobseeker->password != NULL){
+        $getInfo = Socialite::driver($provider)->stateless()->user();
+
+        if ($user_type == 'Jobseeker') {
+
+            $jobseeker = Jobseeker::where('email', $getInfo->user['email'])->first();
+            $user_exist = 0;
+
+            if (!$jobseeker) {
+                $jobseeker = new Jobseeker();
+                $jobseeker->fname = $getInfo->user['given_name'];
+                $jobseeker->lname = $getInfo->user['family_name'];
+                $jobseeker->email = $getInfo->user['email'];
+                ($provider == 'google') ? $jobseeker->google_id  = $getInfo['id'] : $jobseeker->linkedin_id  = $getInfo['id'];
+                ($provider == 'google') ?  $jobseeker->sign_in_through  = 'google' :  $jobseeker->sign_in_through  = 'linkedin';
+                $jobseeker->user_type = "Jobseeker";
+                $jobseeker->save();
+            } else {
+          
                 $user_exist = 1;
+
+                if ($provider == 'google') {
+                    $jobseeker->google_id  = $getInfo['id'];
+                } else {
+                    $jobseeker->linkdin_id  = $getInfo['id'];
+                }
+                $jobseeker->save();
             }
-            
-            if($provider == 'google'){
-                $jobseeker->google_id  = $getInfo['id'];
-                // $auth =  ['email' => $jobseeker->email, 'google_id'  => $getInfo['id'] ];
-            }else{
-                $jobseeker->linkdin_id  = $getInfo['id'];
-                // $auth =  ['email' => $jobseeker->email, 'linkedin_id'  => $getInfo['id'] ];
-            }
-            $jobseeker->save();
-        }
 
-        Session::flush();
-
-        // if (Auth::guard('jobseeker')->attempt(($provider == 'google')? ['email' => $jobseeker->email, 'google_id'  => $getInfo['id'] ] : ['email' => $jobseeker->email, 'linkedin_id'  => $getInfo['id'] ])) {
-        if ($jobseeker->email == $getInfo->user['email'] && ($provider == 'google')? $jobseeker->google_id  = $getInfo['id'] : $jobseeker->linkedin_id  = $getInfo['id']) {   
-            
-        Auth::login($jobseeker);
-         
-        $data = DB::table('jobseekers')
-        ->where('email', $getInfo->user['email'])
-        ->where('user_type', 'Jobseeker')
-        ->first();     
-
-        // if ($data->active == 'Yes') {
-        Session::flush();
-        Session::put('user', ['id' => $jobseeker->id, 'fname' => $jobseeker->fname, 'lname' =>  $jobseeker->lname, 'email' => $jobseeker->email, 'user_type' => 'Jobseeker', 'last_login' => '23', 'profile_pic_thumb' => $getInfo->user['picture']]);
-        
-        if($user_exist == 1){
-            return redirect()->to('/#/browsejob');
-
-        }else{
-            return redirect()->to('/#/profile-stage');
-
-        }
-
-        }else{
             Session::flush();
 
-            return redirect()->to('/#/');
-        }
+            if (Auth::guard('jobseeker')->login($jobseeker, true)) {
 
-      
+                Session::put('user', ['id' => $jobseeker->id, 'fname' => $jobseeker->fname, 'lname' =>  $jobseeker->lname, 'email' => $jobseeker->email, 'user_type' => 'Jobseeker', 'last_login' => '23', 'profile_pic_thumb' => $getInfo->user['picture']]);
 
-    } elseif($user_type == 'Employer'){
+                if ($user_exist == 1) {
+                    return redirect()->route('job_listing');
+                } else {
+                    return redirect()->route('job_listing');
+                }
+            } else {
+                Session::flush();
 
-        // if($provider == 'google'){
-        //     $employer = AllUser::where('google_id',$getInfo['id'])->first();
-        // }else{
-        //     $employer = AllUser::where('linkdin_id',$getInfo['id'])->first();
-        // }
-
-        $employer = AllUser::where('email',$getInfo->user['email'])->first();
-
-        if(!$employer){
-            $employer = new AllUser();
-            $employer->fname = $getInfo->user['given_name'];
-            $employer->lname = $getInfo->user['family_name'];
-            $employer->email = $getInfo->user['email'];
-            $employer->google_id = $getInfo['id'];
-            ($provider == 'google')? $employer->google_id  = $getInfo['id'] : $employer->linkedin_id  = $getInfo['id']; 
-            ($provider == 'google')?  $employer->sign_in_through  = 'google' :  $employer->sign_in_through  = 'linkedin';
-            $employer->user_type="Employer";
-            $employer->save();
-
-        }else{
-
-            if($provider == 'google'){
-                $employer->google_id  = $getInfo['id'];
-                // $auth =  ['email' => $employer->email, 'google_id'  => $getInfo['id'] ];
-            }else{
-                $employer->linkdin_id  = $getInfo['id'];
-                // $auth =  ['email' => $employer->email, 'linkedin_id'  => $getInfo['id'] ];
+                return redirect()->to('/');
             }
-            $employer->save();
-        }
+        } elseif ($user_type == 'Employer') {
 
-        if ($employer->email == $getInfo->user['email'] && ($provider == 'google')? $employer->google_id  = $getInfo['id'] : $employer->linkedin_id  = $getInfo['id']) {
-     
-        $data = DB::table('all_users')
-        ->where('email', $getInfo->user['email'])
-        ->where('user_type', 'Employer')
-        ->first();
-                
-        // if ($data->active == 'Yes') {
-        Session::flush();
-        Session::put('user', ['id' => $employer->id, 'fname' => $employer->fname, 'lname' =>  $employer->lname, 'email' => $employer->email, 'user_type' => 'Employer',  'profile_pic_thumb' => $getInfo->user['picture']]);
+            // if($provider == 'google'){
+            //     $employer = AllUser::where('google_id',$getInfo['id'])->first();
+            // }else{
+            //     $employer = AllUser::where('linkdin_id',$getInfo['id'])->first();
             // }
-            return redirect()->to('/#/empdashboard/');
-        }else{
-            return redirect()->to('/#/');
+
+            $employer = AllUser::where('email', $getInfo->user['email'])->first();
+
+            if (!$employer) {
+                $employer = new AllUser();
+                $employer->fname = $getInfo->user['given_name'];
+                $employer->lname = $getInfo->user['family_name'];
+                $employer->email = $getInfo->user['email'];
+                $employer->google_id = $getInfo['id'];
+                ($provider == 'google') ? $employer->google_id  = $getInfo['id'] : $employer->linkedin_id  = $getInfo['id'];
+                ($provider == 'google') ?  $employer->sign_in_through  = 'google' :  $employer->sign_in_through  = 'linkedin';
+                $employer->user_type = "Employer";
+                $employer->save();
+            } else {
+
+                if ($provider == 'google') {
+                    $employer->google_id  = $getInfo['id'];
+                    // $auth =  ['email' => $employer->email, 'google_id'  => $getInfo['id'] ];
+                } else {
+                    $employer->linkdin_id  = $getInfo['id'];
+                    // $auth =  ['email' => $employer->email, 'linkedin_id'  => $getInfo['id'] ];
+                }
+                $employer->save();
+            }
+
+            if ($employer->email == $getInfo->user['email'] && ($provider == 'google') ? $employer->google_id  = $getInfo['id'] : $employer->linkedin_id  = $getInfo['id']) {
+
+                $data = DB::table('all_users')
+                    ->where('email', $getInfo->user['email'])
+                    ->where('user_type', 'Employer')
+                    ->first();
+
+                // if ($data->active == 'Yes') {
+                Session::flush();
+                Session::put('user', ['id' => $employer->id, 'fname' => $employer->fname, 'lname' =>  $employer->lname, 'email' => $employer->email, 'user_type' => 'Employer',  'profile_pic_thumb' => $getInfo->user['picture']]);
+                // }
+                return redirect()->to('/#/empdashboard/');
+            } else {
+                return redirect()->to('/#/');
+            }
         }
-
-        
     }
-}
 
 
- 
 
-public function store(Request $request)
+
+    public function store(Request $request)
     {
         $jobseeker = new Jobseeker();
 
@@ -590,7 +561,7 @@ public function store(Request $request)
     }
     public function getLocations()
     {
-         $cities = Cities::where('state_id','<',  42)->groupBy('cities_name')->pluck('cities_name')->toArray();
+        $cities = Cities::where('state_id', '<',  42)->groupBy('cities_name')->pluck('cities_name')->toArray();
         //  $master_location = DB::table('master_location')->pluck('location')->toArray();
         //$skills = JsSkill::pluck('skill')->toArray();
         // $companies = Empcompaniesdetail::pluck('company_name')->toArray();
@@ -620,46 +591,46 @@ public function store(Request $request)
     {
         //dd($request->all());
         $userId = Session::get('user')['id'];
-        $filename = time().'.'.$request->resume->extension();
-        $path=public_path().'/resume/';
-        $upload = $request->resume->move($path,$filename);
+        $filename = time() . '.' . $request->resume->extension();
+        $path = public_path() . '/resume/';
+        $upload = $request->resume->move($path, $filename);
 
         $addressData = [
             'js_userid' => $userId,
             'resume' => $filename,
         ];
 
-        JsResume::updateOrCreate(['js_userid' => $userId],$addressData);
+        JsResume::updateOrCreate(['js_userid' => $userId], $addressData);
     }
     public function testUploadImage(Request $request)
     {
-       //dd($request->all());
+        //dd($request->all());
         $userId = Session::get('user')['id'];
-       // dd($userId);
-        $filename = time().'.'.$request->image->extension();
-        $path=public_path().'/jobseeker_profile_image/';
-        $upload = $request->image->move($path,$filename);
+        // dd($userId);
+        $filename = time() . '.' . $request->image->extension();
+        $path = public_path() . '/jobseeker_profile_image/';
+        $upload = $request->image->move($path, $filename);
         //dd($upload);
-        $jobseekeer= Jobseeker::findorFail($userId);
+        $jobseekeer = Jobseeker::findorFail($userId);
         $jobseekeer->profile_pic_thumb = $filename;
         $jobseekeer->save();
-    //     $profileData = [
-    //         'id'=>$userId,
-            
-    //         'profile_pic_thumb' => $filename,
-    //     ];
-    //    // dd($profileData);
-    //    try {
-    //     $up =  DB::table
-    //     $queryStatus = "Successful";
-    // } catch(Exception $e) {
-    //     $queryStatus = "Not success";
-    // }
-    // dd($queryStatus);
-        
-      // dd($up);
+        //     $profileData = [
+        //         'id'=>$userId,
+
+        //         'profile_pic_thumb' => $filename,
+        //     ];
+        //    // dd($profileData);
+        //    try {
+        //     $up =  DB::table
+        //     $queryStatus = "Successful";
+        // } catch(Exception $e) {
+        //     $queryStatus = "Not success";
+        // }
+        // dd($queryStatus);
+
+        // dd($up);
         //Jobseeker::updateOrCreate(['id'=>$userId], $profileData);
-        
-       
+
+
     }
 }

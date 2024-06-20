@@ -8,7 +8,8 @@ use App\Http\Controllers\UserprofileController;
 use App\Http\Controllers\JobmanagerController;
 use App\Http\Controllers\FrontAllUserController;
 use App\Http\Controllers\ContactUsController;
-
+use App\Http\Controllers\JobseekerController;
+use App\Http\Controllers\IndustryController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -82,5 +83,10 @@ Route::get('/job_details/{id}', [JobmanagerController::class, 'showSingleJob'])-
 Route::get('job_listing', [JobmanagerController::class, 'browsejob'])->name('job_listing');
 Route::post('jobseekerlogin', [FrontuserloginController::class, 'login'])->name('jobseekerlogin');
 Route::post('/jobseeker-logout', [UserprofileController::class, 'logout'])->name('jobseekerlogout');
+// Social Login
+Route::get('/auth/redirect/{provider}/{userType}', [JobseekerController::class, 'redirect'])->name('sociallogin');
+Route::get('/callback/{provider}', [JobseekerController::class, 'callback'])->name('socialcallback');
+Route::get('/get-industry', [IndustryController::class, 'index'])->name('getIndustries');
+
 
 

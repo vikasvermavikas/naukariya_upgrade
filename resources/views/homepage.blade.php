@@ -1,7 +1,7 @@
 @extends('layouts.master', ['title' => 'Home Page'])
 @section('style')
     <style>
-        .nav-tabs .nav-link.active {
+        .nav-link.active {
             background-color: #e35e25;
             color: white !important;
         }
@@ -34,7 +34,7 @@
                                     </div>
                                     <div class="select-form">
                                         <div class="select-itms">
-                                            <select name="select" id="select1">
+                                            <select class="form-control mt-3 border-0" name="select" id="select1">
                                                 <option value="">Location BD</option>
                                                 <option value="">Location PK</option>
                                                 <option value="">Location US</option>
@@ -203,15 +203,15 @@
                         <div class="container">
 
                             <!-- Nav tabs -->
-                            <ul class="nav nav-tabs d-flex justify-content-center" role="tablist">
+                            <ul class="nav d-flex justify-content-center" role="tablist">
                                 <li class="nav-item border rounded">
                                     <a class="nav-link text-dark active" data-toggle="tab"
                                         href="#egovernance">E-GOVERNANCE</a>
                                 </li>
-                                <li class="nav-item border rounded">
+                                <li class="nav-item border rounded ml-2">
                                     <a class="nav-link text-dark" data-toggle="tab" href="#corporate">CORPORATE</a>
                                 </li>
-                                <li class="nav-item border rounded">
+                                <li class="nav-item border rounded ml-2">
                                     <a class="nav-link text-dark" data-toggle="tab" href="#government">GOVERNMENT</a>
                                 </li>
                             </ul>

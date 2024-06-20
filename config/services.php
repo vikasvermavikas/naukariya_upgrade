@@ -30,5 +30,16 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+     'google' => [
+        'client_id' => '22216784316-4otdclm580jfkajn2f67g2vs4hiht380.apps.googleusercontent.com',
+        'client_secret' => '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',
+        'redirect' => '/callback/google',
+    ],
+
+    'linkedin' => [
+        'client_id' => '77fmedn0mszmhz',
+        'client_secret' => '0VZk5u9cVT2ljFN6',
+        'redirect' => '/callback/linkedin',
+    ],
 
 ];
