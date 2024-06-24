@@ -80,7 +80,9 @@ Route::middleware('guest:jobseeker')->group(function () {
 // jobseeker login
 Route::post('jobseekerregister', [FrontJobseekerController::class, 'store'])->name('jobseekerregister');
 Route::get('/job_details/{id}', [JobmanagerController::class, 'showSingleJob'])->name('job_details');
-Route::get('job_listing', [JobmanagerController::class, 'browsejob'])->name('job_listing');
+
+Route::get('job-listing', [JobmanagerController::class, 'joblisting'])->name('loadJoblistPage');
+Route::get('job_listing-data', [JobmanagerController::class, 'browsejob'])->name('job_listing');
 Route::post('jobseekerlogin', [FrontuserloginController::class, 'login'])->name('jobseekerlogin');
 Route::post('/jobseeker-logout', [UserprofileController::class, 'logout'])->name('jobseekerlogout');
 // Social Login

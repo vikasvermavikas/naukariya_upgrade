@@ -57,19 +57,19 @@
                                         <h4>Job Type</h4>
                                     </div>
                                     <label class="container">Full Time
-                                        <input type="checkbox" class="jobtype" name="fulltime" value="2">
+                                        <input type="checkbox" class="jobtype" id="full_time" name="fulltime" value="2">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="container">Part Time
-                                        <input type="checkbox" class="jobtype" name="parttime" value="1">
+                                        <input type="checkbox" class="jobtype" id="parttime" name="parttime" value="1">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="container">Internship
-                                        <input type="checkbox" class="jobtype" name="internship" value="4">
+                                        <input type="checkbox" class="jobtype" id="internship" name="internship" value="4">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="container">Freelancer
-                                        <input type="checkbox" class="jobtype" name="freelance" value="3">
+                                        <input type="checkbox" class="jobtype" id="freelance" name="freelance" value="3">
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
@@ -95,19 +95,19 @@
                                         <h4>Experience</h4>
                                     </div>
                                     <label class="container">1-2 Years
-                                        <input type="checkbox">
+                                        <input type="checkbox" class="experience" id="experience" name="experience" value="1-2">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="container">2-3 Years
-                                        <input type="checkbox" checked="checked active">
+                                        <input type="checkbox" class="experience" id="experience" name="experience" value="2-3">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="container">3-6 Years
-                                        <input type="checkbox">
+                                        <input type="checkbox" class="experience" id="experience" name="experience" value="3-6">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="container">6-more..
-                                        <input type="checkbox">
+                                        <input type="checkbox" class="experience" id="experience" name="experience" value="6">
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
@@ -120,28 +120,35 @@
                                     <div class="small-section-tittle2">
                                         <h4>Posted Within</h4>
                                     </div>
-                                    <label class="container">Any
-                                        <input type="checkbox">
+                                    {{-- <label class="container">Any
+                                        <input type="checkbox" class="experience" id="experience" name="postwithin" value="3-6">
                                         <span class="checkmark"></span>
-                                    </label>
+                                    </label> --}}
                                     <label class="container">Today
-                                        <input type="checkbox" checked="checked active">
+                                        <input type="radio" class="postedWithin" id="experience" name="postwithin" value="{{date('Y-m-d')}}">
                                         <span class="checkmark"></span>
                                     </label>
+
+                                    @php
+                                    $twodate = \Carbon\Carbon::now()->subDays(2);
+                                    $threedate = \Carbon\Carbon::now()->subDays(3);
+                                    $fivedate = \Carbon\Carbon::now()->subDays(5);
+                                    $tendate = \Carbon\Carbon::now()->subDays(10);
+                                    @endphp
                                     <label class="container">Last 2 days
-                                        <input type="checkbox">
+                                        <input type="radio" class="postedWithin" id="experience" name="postwithin" value="{{date_format($twodate, 'Y-m-d')}}">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="container">Last 3 days
-                                        <input type="checkbox">
+                                        <input type="radio" class="postedWithin" id="experience" name="postwithin" value="{{date_format($threedate, 'Y-m-d')}}">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="container">Last 5 days
-                                        <input type="checkbox">
+                                        <input type="radio" class="postedWithin" id="experience" name="postwithin" value="{{date_format($fivedate, 'Y-m-d')}}">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="container">Last 10 days
-                                        <input type="checkbox">
+                                        <input type="radio" class="postedWithin" id="experience" name="postwithin" value="{{date_format($tendate, 'Y-m-d')}}">
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
@@ -185,7 +192,7 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="count-job mb-35">
-                                            <span>{{ count($data) }} Jobs found</span>
+                                            <span> Jobs found</span>
                                             <!-- Select job items start -->
                                             <div>
                                                 <form action="{{ route('job_listing') }}" method="GET"
@@ -234,7 +241,7 @@
 
                                     @endphp
 
-
+                                <div class="joblists">
                                     <div class="single-job-items mb-30">
                                         <div class="job-items">
                                             <div class="company-img">
@@ -259,9 +266,14 @@
                                         </div>
 
                                     </div>
+                                </div>
                                 @empty
                                     <span class="text-danger text-center">No Jobs Found</span>
                                 @endforelse
+
+                                <div class="joblists1">
+
+                                </div>
 
                             </div>
                         </section>
@@ -277,7 +289,7 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="single-wrap d-flex justify-content-center">
-                            {{ $data->links() }}
+                        
 
                         </div>
                     </div>
