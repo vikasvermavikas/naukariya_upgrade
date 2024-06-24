@@ -1,4 +1,3 @@
-
 <header>
     <!-- Header Start -->
     <div class="header-area header-transparrent">
@@ -33,33 +32,37 @@
                                     </ul>
                                 </nav>
                             </div>
-                       
+
                             <!-- Header-btn -->
-                            @guest('jobseeker')
-                                <div class="header-btn d-none f-right d-lg-block">
-                                    <a href={{ route('register') }} class="btn head-btn1">Register</a>
-                                    <a href={{ route('login') }} class="btn head-btn1">Login</a>
-                                </div>
-                            @else
+                            @if (Auth::guard('employer')->check() || Auth::guard('jobseeker')->check())
                                 <span>
-                                    {{ Auth::guard('jobseeker')->user()->fname . ' ' . Auth::guard('jobseeker')->user()->lname }}</span>
+                                    {{ Auth::guard('employer')->check() ? Auth::guard('employer')->user()->fname . ' ' . Auth::guard('employer')->user()->lname :  Auth::guard('jobseeker')->user()->fname . ' ' . Auth::guard('jobseeker')->user()->lname}}</span>
 
                                 <form id="logout-form" action="{{ route('jobseekerlogout') }}" method="POST">
                                     @csrf
                                     <button type="submit" class="btn head-btn2">Logout</button>
                                 </form>
-                            @endguest
-                            <div class="header-btn d-none f-right d-lg-block">
-                                <div class="dropdown">
-                                    <a  href="#" class="btn head-btn1 dropdown-toggle employer" data-bs-toggle="dropdown" aria-expanded="false">
-                                      Employer
-                                    </a>
-                                    <ul class="dropdown-menu show-employer">
-                                      <li><a class="dropdown-item" href="{{route('loadLoginPage')}}">Sign In</a></li>
-                                      <li><a class="dropdown-item" href="{{ route('employer-register') }}">Sign Up</a></li>
-                                    </ul>
-                                  </div>
-                            </div>
+                            @else
+                                <div class="header-btn d-none f-right d-lg-block">
+                                    <a href={{ route('register') }} class="btn head-btn1">Register</a>
+                                    <a href={{ route('login') }} class="btn head-btn1">Login</a>
+                                </div>
+                                <div class="header-btn d-none f-right d-lg-block">
+                                    <div class="dropdown">
+                                        <a href="#" class="btn head-btn1 dropdown-toggle employer"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            Employer
+                                        </a>
+                                        <ul class="dropdown-menu show-employer">
+                                            <li><a class="dropdown-item" href="{{ route('loadLoginPage') }}">Sign
+                                                    In</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('employer-register') }}">Sign
+                                                    Up</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            @endif
+
                         </div>
                     </div>
                     <!-- Mobile Menu -->

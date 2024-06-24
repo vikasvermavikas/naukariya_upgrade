@@ -45,7 +45,7 @@ return [
             'driver' => 'token',
             'provider' => 'users',
         ],
-         'admin' => [
+        'admin' => [
             'driver' => 'session',
             'provider' => 'admins',
         ],
@@ -63,6 +63,10 @@ return [
             'driver' => 'token',
             'provider' => 'jobseekers',
             'hash' => false,
+        ],
+        'employer' => [
+            'driver' => 'session',
+            'provider' => 'employers',
         ],
     ],
 
@@ -95,6 +99,11 @@ return [
         'jobseekers' => [
             'driver' => 'eloquent',
             'model' => App\Models\Jobseeker::class,
+        ],
+        'employers' => [
+            'driver' => 'database',
+            'model' => App\Models\AllUser::class,
+            'table' => 'all_users',
         ],
 
         // 'users' => [

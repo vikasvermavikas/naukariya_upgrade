@@ -248,7 +248,7 @@
                                                 <ul>
                                                     <li>{{ $item->company_name }}</li>
                                                     <li><i
-                                                            class="fas fa-map-marker-alt"></i>{{ $item->location ? $item->location : 'Not Defined' }}
+                                                            class="fas fa-map-marker-alt"></i>{{ $item->job_exp ? $item->job_exp : 'Not Defined' }}
                                                     </li>
                                                     <li>{{ $item->sal_disclosed == 'Yes' ? 'INR ' . $minsalary . ' - ' . $item->offered_sal_max : 'Not Disclosed' }}
                                                     </li>

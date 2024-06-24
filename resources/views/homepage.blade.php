@@ -28,22 +28,20 @@
                         <div class="row">
                             <div class="col-xl-8">
                                 <!-- form -->
-                                <form action="#" class="search-box">
+                                <form action="{{ route('job_listing') }}" method="GET" class="search-box">
                                     <div class="input-form">
-                                        <input type="text" placeholder="Job Tittle or keyword">
+                                        <input type="text" name="searchkeyword" placeholder="Job Tittle or keyword" required>
                                     </div>
                                     <div class="select-form">
-                                        <div class="select-itms">
-                                            <select class="form-control mt-3 border-0" name="select" id="select1">
-                                                <option value="">Location BD</option>
-                                                <option value="">Location PK</option>
-                                                <option value="">Location US</option>
-                                                <option value="">Location UK</option>
-                                            </select>
+                                        <div class="select-itms h-100">
+                                            <input class="form-control h-100 border-0" list="locationlist" name="location"
+                                                id="location" placeholder="Enter location">
+                                            <datalist id="locationlist" class="bg-white" role="listbox">
+                                            </datalist>
                                         </div>
                                     </div>
                                     <div class="search-form">
-                                        <a href="#">Find job</a>
+                                        <button class="form-control btn btn-warning h-100" type="submit">Find job</button>
                                     </div>
                                 </form>
                             </div>
@@ -246,7 +244,7 @@
                                                     <ul>
                                                         <li>{{ $item->company_name }}</li>
                                                         <li><i
-                                                                class="fas fa-map-marker-alt"></i>{{ $item->location ? $item->location : 'Not Defined' }}
+                                                                class="fas fa-map-marker-alt"></i>{{ $item->job_exp ? $item->job_exp : 'Not Defined' }}
                                                         </li>
                                                         <li>{{ $item->sal_disclosed == 'Yes' ? 'INR ' . $minsalary . ' - ' . $item->offered_sal_max : 'Not Disclosed' }}
                                                         </li>
@@ -261,7 +259,7 @@
                                     @endforelse
 
                                 </div>
-                                <div id="corporate" class="container tab-pane active"><br>
+                                <div id="corporate" class="container tab-pane"><br>
 
                                     <!-- single-job-content -->
                                     @forelse ($corporate as $item)
@@ -580,4 +578,7 @@
         <!-- Blog Area End -->
 
     </main>
+@endsection
+@section('script')
+    <script src="{{ asset('assests/js/custom_js/homepage.js') }}"></script>
 @endsection

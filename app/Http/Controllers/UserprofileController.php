@@ -58,11 +58,16 @@ class UserprofileController extends Controller
     }
 
     public function logout()
-    {
-        Auth::guard('jobseeker')->logout();
+    {   
+        if(Auth::guard('jobseeker')->check()){
+            Auth::guard('jobseeker')->logout();
+        }
+        if(Auth::guard('employer')->check()){
+            Auth::guard('employer')->logout();
+        }
         Session::flush();
 
-        return redirect()->route('login');
+        return redirect()->route('home');
     }
 
     public function count_job()

@@ -84,7 +84,7 @@ class JobseekerController extends Controller
                 $jobseeker->user_type = "Jobseeker";
                 $jobseeker->save();
             } else {
-          
+
                 $user_exist = 1;
 
                 if ($provider == 'google') {
@@ -113,12 +113,6 @@ class JobseekerController extends Controller
             }
         } elseif ($user_type == 'Employer') {
 
-            // if($provider == 'google'){
-            //     $employer = AllUser::where('google_id',$getInfo['id'])->first();
-            // }else{
-            //     $employer = AllUser::where('linkdin_id',$getInfo['id'])->first();
-            // }
-
             $employer = AllUser::where('email', $getInfo->user['email'])->first();
 
             if (!$employer) {
@@ -135,28 +129,21 @@ class JobseekerController extends Controller
 
                 if ($provider == 'google') {
                     $employer->google_id  = $getInfo['id'];
-                    // $auth =  ['email' => $employer->email, 'google_id'  => $getInfo['id'] ];
                 } else {
                     $employer->linkdin_id  = $getInfo['id'];
-                    // $auth =  ['email' => $employer->email, 'linkedin_id'  => $getInfo['id'] ];
                 }
                 $employer->save();
             }
 
             if ($employer->email == $getInfo->user['email'] && ($provider == 'google') ? $employer->google_id  = $getInfo['id'] : $employer->linkedin_id  = $getInfo['id']) {
 
-                $data = DB::table('all_users')
-                    ->where('email', $getInfo->user['email'])
-                    ->where('user_type', 'Employer')
-                    ->first();
+                Auth::guard('employer')->login($employer, true);
 
-                // if ($data->active == 'Yes') {
-                Session::flush();
                 Session::put('user', ['id' => $employer->id, 'fname' => $employer->fname, 'lname' =>  $employer->lname, 'email' => $employer->email, 'user_type' => 'Employer',  'profile_pic_thumb' => $getInfo->user['picture']]);
-                // }
-                return redirect()->to('/#/empdashboard/');
+
+                return redirect()->route('job_listing');
             } else {
-                return redirect()->to('/#/');
+                return redirect()->route('home');
             }
         }
     }
@@ -559,9 +546,9 @@ class JobseekerController extends Controller
 
         return $demo;
     }
-    public function getLocations()
+    public function getLocations($search = '')
     {
-        $cities = Cities::where('state_id', '<',  42)->groupBy('cities_name')->pluck('cities_name')->toArray();
+        // $cities = Cities::where('state_id', '<',  42)->groupBy('cities_name')->pluck('cities_name')->toArray();
         //  $master_location = DB::table('master_location')->pluck('location')->toArray();
         //$skills = JsSkill::pluck('skill')->toArray();
         // $companies = Empcompaniesdetail::pluck('company_name')->toArray();
@@ -570,9 +557,15 @@ class JobseekerController extends Controller
         // $roleSkillsJobTitle = $jobManagers->map(function ($query) {
         // });
 
-        $demo = array_merge($cities);
-
-        return $demo;
+        // $demo = array_merge($cities);
+        $cities = '';
+        if ($search) {
+            $cities = Cities::select('cities_name')->where('cities_name', 'like', "%$search%")
+            ->offset(0)
+            ->limit(5)
+            ->get();
+        }
+        return $cities;
     }
 
     public function getJobseekerInfo($id)

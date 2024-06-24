@@ -716,10 +716,6 @@ class JobmanagerController extends Controller
                     ->orWhere('functional_roles.subcategory_name', 'like', "%$keywordhome%");
             });
         }
-
-
-
-
         //   print_r($datas);die;
         $dataFilter->where('jobmanagers.job_exp', 'like', "%$location%");
 

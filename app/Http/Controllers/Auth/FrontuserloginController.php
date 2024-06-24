@@ -54,7 +54,8 @@ class FrontuserloginController extends Controller
         return response()->json(['data' => $data], 200);
     }
 
-    public function loadLoginPage(){
+    public function loadLoginPage()
+    {
         return view('loginemployer');
     }
 
@@ -75,7 +76,7 @@ class FrontuserloginController extends Controller
                 ->where('user_type', $user_type)
                 ->first();
 
-            if (isset($data) && Auth::guard('jobseeker')->attempt(['email' => $request->email, 'password' => $request->password])) {
+            if (isset($data) && Auth::guard('jobseeker')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
                 if ($data->active == 'Yes') {
 
                     Session::put('user', ['id' => $data->id, 'fname' => $data->fname, 'lname' => $data->lname, 'email' => $data->email, 'user_type' => $data->user_type, 'last_login' => $data->last_login, 'profile_pic_thumb' => $data->profile_pic_thumb]);
@@ -112,7 +113,6 @@ class FrontuserloginController extends Controller
                         'updated_at' => Carbon::now()
                     ]);
                     return redirect()->route('login')->with('error', $errors);
-
                 }
             } else {
                 $errors = 'Username or password is invalid';
@@ -137,9 +137,8 @@ class FrontuserloginController extends Controller
                 ->first();
             if (isset($data) && password_verify($request->password, $data->password)) {
                 if ($data->email_verified == 'Yes') {
-                    if ($data->active == 'Yes') {
-
-                        Session::flush();
+                    if ($data->active == 'Yes' && Auth::guard('employer')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+                        // Session::flush();
                         Session::put('user', ['id' => $data->id, 'fname' => $data->fname, 'lname' => $data->lname, 'email' => $data->email, 'company_id' => $data->company_id, 'user_type' => $data->user_type, 'last_login' => $data->last_login, 'profile_pic_thumb' => $data->profile_pic_thumb]);
                         //fetch last login and stored in table
                         $user = AllUser::find($data->id);
@@ -155,8 +154,7 @@ class FrontuserloginController extends Controller
                             'created_at' => Carbon::now(),
                             'updated_at' => Carbon::now()
                         ]);
-
-                        return response()->json(['data' => $data, 'status' => 'success'], 200);
+                        return redirect()->route('job_listing');
                     } else {
                         $errors = 'Your account is not activated by admin. Please contact.';
                         //log mail table
@@ -169,7 +167,7 @@ class FrontuserloginController extends Controller
                             'created_at' => Carbon::now(),
                             'updated_at' => Carbon::now()
                         ]);
-                        return response()->json(['error' => $errors, 'status' => 'failed'], 400);
+                        return redirect()->route('loadLoginPage')->with('error', $errors);
                     }
                 } else {
                     $errors = 'Email not verified';
@@ -184,10 +182,10 @@ class FrontuserloginController extends Controller
                         'updated_at' => Carbon::now()
                     ]);
 
-                    return response()->json(['error' => $errors, 'status' => 'failed'], 400);
+                    return redirect()->route('loadLoginPage')->with('error', $errors);
                 }
             } else {
-                $errors = 'Username or password is invalid';
+                $errors = 'Email or password is invalid';
                 //log mail table
                 DB::table('loginlogs')->insert([
                     'username' => $request->email,
@@ -198,8 +196,7 @@ class FrontuserloginController extends Controller
                     'updated_at' => Carbon::now()
 
                 ]);
-
-                return response()->json(['error' => $errors, 'status' => 'failed'], 400);
+                return redirect()->route('loadLoginPage')->with('error', $errors);
             }
         }
     }

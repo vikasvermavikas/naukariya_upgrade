@@ -39,7 +39,7 @@ use App\Http\Controllers\IndustryController;
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::middleware('guest:jobseeker')->group(function () {
+Route::middleware(['guest:jobseeker', 'guest:employer'])->group(function () {
 
     Route::get('/about', function () {
         return view('about');
@@ -75,6 +75,9 @@ Route::middleware('guest:jobseeker')->group(function () {
     Route::get('employer-signup', [FrontAllUserController::class, 'employerRegister'])->name('employer-register');
     Route::post('employerregister', [FrontAllUserController::class, 'store'])->name('employerregister');
     Route::post('/add-contactus-detail', [ContactUsController::class, 'store'])->name('contactus');
+
+    //login employers
+    Route::get('employerlogin', [FrontuserloginController::class, 'loadLoginPage'])->name('loadLoginPage');
 });
 
 // jobseeker login
@@ -87,12 +90,4 @@ Route::post('/jobseeker-logout', [UserprofileController::class, 'logout'])->name
 Route::get('/auth/redirect/{provider}/{userType}', [JobseekerController::class, 'redirect'])->name('sociallogin');
 Route::get('/callback/{provider}', [JobseekerController::class, 'callback'])->name('socialcallback');
 Route::get('/get-industry', [IndustryController::class, 'index'])->name('getIndustries');
-
-
-
-//login employers
-Route::get('jobseekerlogin', [FrontuserloginController::class,'loadLoginPage'])->name('loadLoginPage');
-Route::post('jobseekerlogin', [FrontuserloginController::class,'login'])->name('jobseekerlogin');
-
-
-
+Route::get('/get-locations/{search?}', [JobseekerController::class, 'getLocations'])->name('get-locations');
