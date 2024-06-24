@@ -149,18 +149,18 @@ $(document).ready(function() {
         $('.postedWithin:checked').each(function() {
             postedWithin.push($(this).val());
         });
-
         var queryString = `industry=${industry}&jobTypes=${jobTypes.join(',')}&experiences=${experiences.join(',')}&postedWithin=${postedWithin.join(',')}`;
+
 
         $.ajax({
             url: `/job_listing-data?${queryString}`,
             type: 'GET',
                 success: function(data) {
                     $('.joblists').hide();
-                    // console.log(data.data.data);
-
                                 var html = '';
-                                $.each(data.data.data, function(key, value) {
+                                var base_url = window.location.origin;
+                                if(data.data.data.length  > 0){
+                                    $.each(data.data.data, function(key, value) {
                                         //  console.log(value.id);
                                         $minsalary = 0;
                                         var exp_required ;
@@ -173,19 +173,23 @@ $(document).ready(function() {
                                         if (value.main_exp === '0' && value.max_exp === '0') {
                                             exp_required = 'Fresher';
                                         }
+                                        // let jobdetails = route('job_details', value.id);
+                                        var base_url = window.location.origin+ 'job_details/'+ value.id;
+
+
                     
-                                    html += ` <div class="single-job-items mb-30">
+                                    html += `<div class="single-job-items mb-30">
                                                 <div class="job-items mb-30">
                                             <div class="company-img">
-                                                <a href="{{ route('job_details', ['id' => ${value.id}]) }}"><img
+                                                <a href="${base_url}"><img
                                                         src="assets/img/icon/job-list1.png" alt=""></a>
                                             </div>
                                             <div class="job-tittle job-tittle2">
-                                                <a href="{{ route('job_details', ['id' => ${value.id}]) }}">
+                                                <a href="${base_url}">
                                                     <h4>${value.title}</h4>
                                                 </a>
                                                 <ul>
-                                                    <li>${value.company}</li>
+                                                    <li>${value.company_name}</li>
                                                     <li><i
                                                             class="fas fa-map-marker-alt"></i>${value.location ? value.location : 'Not Defined' }
                                                     </li>
@@ -199,6 +203,10 @@ $(document).ready(function() {
                                         </div>`;
                                    
                                 });
+                                }else{
+                                    window.location  = `${base_url}/job-listing`;
+                                }
+                        
                                 $('.joblists1').html(html);
                               console.log(html);
                             },
@@ -214,9 +222,9 @@ $(document).ready(function() {
     $('.experience').on('change', fetchJobListings);
     $('.postedWithin').on('change', fetchJobListings);
 
-    $('#postedWithin').click(function(){
-        if(this.checked) {
-            fetchJobListings
-        }
-    } );
+    // $('#postedWithin').click(function(){
+    //     if(this.checked) {
+    //         fetchJobListings
+    //     }
+    // } );
 });
