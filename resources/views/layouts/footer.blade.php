@@ -9,7 +9,7 @@
                          <div class="footer-tittle">
                              <h4>About Us</h4>
                              <div class="footer-pera">
-                                 <p>Heaven frucvitful doesn't cover lesser dvsays appear creeping seasons so behold.</p>
+                                 <p>With an objective to serve our society in terms of enhanced employment rate and better lifestyle to every individual of this nation, we are working efficiently with our clients who encompass both the corporate and government organizations. Prakhar Software Solutions Pvt. Ltd.</p>
                             </div>
                          </div>
                      </div>
@@ -22,8 +22,7 @@
                             <h4>Contact Info</h4>
                             <ul>
                                 <li>
-                                <p>Address :Your address goes
-                                    here, your demo address.</p>
+                                <p>Address :C – 11, LGF, Opp. State Bank of India, Malviya Nagar, New Delhi - 110017 , India</p>
                                 </li>
                                 <li><a href="#">Phone : +8880 44338899</a></li>
                                 <li><a href="#">Email : info@colorlib.com</a></li>
@@ -78,7 +77,7 @@
                 <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
                     <!-- logo -->
                     <div class="footer-logo mb-20">
-                    <a href="index.html"><img src={{asset('assets/images/naukriyan-white-logo.png')}} alt=""></a>
+                    <a href="{{ route('home') }}"><img src={{asset('assets/images/naukriyan-white-logo.png')}} alt=""></a>
                     </div>
                 </div>
                 <div class="col-xl-3 col-lg-3 col-md-4 col-sm-5">
