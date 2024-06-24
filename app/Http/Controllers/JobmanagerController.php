@@ -1471,6 +1471,13 @@ class JobmanagerController extends Controller
 
     public function showSingleJob($id)
     {
+        $isapplied = false;
+        if (Auth::guard('jobseeker')->check() && DB::table('apply_jobs')->where([
+            'jsuser_id' => Auth::guard('jobseeker')->user()->id,
+            'job_id' => $id,
+        ])->exists()) {
+          $isapplied = true;
+        }
         $data = DB::table('jobmanagers')
             ->leftjoin('empcompaniesdetails', 'jobmanagers.company_id', 'empcompaniesdetails.id')
             ->leftjoin('career_levels', 'career_levels.id', 'jobmanagers.job_carreer_level')
@@ -1530,7 +1537,7 @@ class JobmanagerController extends Controller
             ->first();
 
         // return response()->json(['data' => $data], 200);
-        return view('job_details', ['data' => $data]);
+        return view('job_details', ['data' => $data, 'isapplied' => $isapplied]);
     }
 
     public function showjobdetailOnly($id)

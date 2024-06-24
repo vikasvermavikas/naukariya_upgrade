@@ -61,52 +61,16 @@ class ApplyJobController extends Controller
     {
         $this->validate($request, []);
 
-        $userid = Session::get('user')['id'];
+        // $userid = Session::get('user')['id'];
+        $userid = Auth::guard('jobseeker')->user()->id;
         $application_id = "NKR/" . $userid . "/" . $id;
-
         $applyjob = new ApplyJob();
-        $applyjob->jsuser_id = Session::get('user')['id'];
+        $applyjob->jsuser_id = $userid;
         $applyjob->job_id = $id;
         $applyjob->application_id = $application_id;
-        $applyjob->username = Session::get('user')['email'];
+        $applyjob->username = Auth::guard('jobseeker')->user()->email;
         $applyjob->save();
-        //send Mail to recruitmentMail(It can be changed to Employer email that will be job posted by him)
-        $job =DB::table('jobmanagers')
-        ->leftjoin('empcompaniesdetails', 'empcompaniesdetails.id', '=', 'jobmanagers.company_id')
-        ->leftjoin('all_users', 'all_users.company_id', '=', 'jobmanagers.company_id')
-        ->select('empcompaniesdetails.com_email','jobmanagers.title','all_users.fname','all_users.user_type')
-        ->where('jobmanagers.id', $id)
-        ->first();
-        
-        $rec_email=$job->com_email;
-        $rec_name =$job->fname;
-        $rec_usertype =$job->user_type;
-        $rec_title =$job->title;
-        $data = [
-            'application_id' => $application_id,
-            'jobseeker_email' => Session::get('user')['email'],
-            'name' =>$rec_name,
-            'usertype' =>$rec_usertype,
-            'title' =>$rec_title
-        ];
-
-        // Mail::send('SendMail.ApplyJobMailRecruiter', $data, function ($message) use ($rec_email) {
-        //     $message->to($rec_email)
-        //         ->subject("New Job Apply Request");
-        //     //$message->from(env('MAIL_USERNAME'),"Naukriyan.com");
-        //     $message->from(env('TEST_USEREMAIL'), "Naukriyan.com");
-        // });
-        //send mail to jobseeker
-        // $data = [
-        //     'application_id' => $application_id,
-        //     'title' =>$rec_title
-        // ];
-        // $email=Session::get('user')['email'];
-        // Mail::send('SendMail.ApplyJobMailCandidate', $data, function ($message) use ($email) {
-        //     $message->to($email)
-        //         ->subject("Job Apply");
-        //     //$message->from(env('MAIL_USERNAME'),"Naukriyan.com");
-        //     $message->from(env('TEST_USEREMAIL'), "Naukriyan.com");
-        // });
+       
+        return redirect()->back()->with(['message' => 'Job successfully applied']);
     }
 }

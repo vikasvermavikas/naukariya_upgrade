@@ -10,6 +10,7 @@ use App\Http\Controllers\FrontAllUserController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\JobseekerController;
 use App\Http\Controllers\IndustryController;
+use App\Http\Controllers\ApplyJobController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -93,3 +94,8 @@ Route::get('/auth/redirect/{provider}/{userType}', [JobseekerController::class, 
 Route::get('/callback/{provider}', [JobseekerController::class, 'callback'])->name('socialcallback');
 Route::get('/get-industry', [IndustryController::class, 'index'])->name('getIndustries');
 Route::get('/get-locations/{search?}', [JobseekerController::class, 'getLocations'])->name('get-locations');
+
+// Jobseekers routes.
+Route::middleware('jobseeker')->group(function () {
+    Route::post('/apply-job/{id}', [ApplyJobController::class, 'store'])->name('applyjob');
+});

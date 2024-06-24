@@ -31,6 +31,14 @@
 
         @endphp
         <div class="job-post-company pt-120 pb-120">
+            <div class="col-md-12">
+                @if ($errors->has('message'))
+                    <div class="alert alert-danger" role="alert">{{ $errors->first('message') }}</div>
+                @endif
+                @if (session()->has('message'))
+                    <div class="alert alert-success" role="alert">{{ session()->get('message') }}</div>
+                @endif
+            </div>
             <div class="container">
                 <div class="row justify-content-between">
                     <!-- Left Content -->
@@ -49,7 +57,6 @@
                                 </div> --}}
                                 <div class="job-tittle">
                                     <ul>
-
                                         <li>{{ $data->company_name }}</li>
                                         <li><i
                                                 class="fas fa-map-marker-alt"></i>{{ $data->location ? $data->location : 'Not Defined' }}
@@ -103,8 +110,8 @@
                                 <h4>Job Overview</h4>
                             </div>
                             <ul>
-                                <li>Posted date : <span>{{  $data->start_apply_date }}</span></li>
-                                <li>Location : <span>{{ $data->location ? $data->location : 'Not Defined' }}</span></li>
+                                <li>Posted date : <span>{{ $data->start_apply_date }}</span></li>
+                                <li>Location : <span>{{ $data->job_exp ? $data->job_exp : 'Not Defined' }}</span></li>
                                 <li>Vacancy : <span>{{ $data->job_vaccancy }}</span></li>
                                 <li>Job nature : <span>{{ $data->job_type }}</span></li>
                                 <li>Salary :
@@ -112,9 +119,146 @@
                                 </li>
                                 <li>Job Shift : <span>{{ $data->job_shift }}</span></li>
                             </ul>
-                            <div class="apply-btn2">
-                                <a href="#" class="btn">Apply Now</a>
+                            <div class="row">
+
+                                <div class="mr-1">
+                                    {{-- <a href="#" class="btn btn-warning"></a> --}}
+                                    @if ($isapplied)
+                                        <button class="bg-success btn" style="pointer-events: none" tabindex="-1"
+                                            aria-disabled="true">Applied</button>
+                                    @else
+                                        <button type="button" class="btn" data-toggle="modal"
+                                            data-target="#myModal">
+                                            Apply Now
+                                        </button>
+                                    @endif
+                                </div>
+                                <div class="">
+                                    <form action="" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="job_id" value="{{ $data->id }}">
+                                        <button class="btn mr-2" >Save Job</button>
+                                    </form>
+                                    {{-- <a href="#" class="btn btn-warning mr-2">Save Job</a> --}}
+                                </div>
+                                <div class="text-center col-sm-12">
+                                    <a href="#" class="btn mt-2">Follow</a>
+                                </div>
+
                             </div>
+                            <div class="container">
+                                <!-- The Modal -->
+                                <div class="modal fade" id="myModal">
+                                    <div class="modal-dialog modal-dialog-scrollable">
+                                        <div class="modal-content">
+
+                                            <!-- Modal Header -->
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Confirmation before Apply?</h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+
+                                            <form role="form" action={{ route('applyjob', ['id' => $data->id]) }}
+                                                method="post">
+                                                @csrf
+                                                <!-- Modal body -->
+                                                <div class="modal-body">
+                                                    <div class="form-group row inputBox">
+                                                        <div class="col-sm-12">
+                                                            <div class="input text">
+                                                                <p><strong>Job Title</strong> :- {{ $data->title }}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row inputBox">
+                                                        <div class="col-sm-12">
+                                                            <div class="input text">
+                                                                <p><strong> Location</strong> :- {{ $data->job_exp }}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row inputBox">
+                                                        <div class="col-sm-12">
+                                                            <div class="input text">
+                                                                <p><strong>Company Name</strong> :-
+                                                                    {{ $data->company_name }}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="question">
+                                                        <p> Do you have any of the relavant or Equivalent Qualification ?
+                                                            ({{ $data->qualification }})
+                                                        </p>
+                                                        <fieldset class="mb-3">
+                                                            <div class="form-group ask_question">
+                                                                <div class="icheck-primary d-inline">
+                                                                    <input type="radio" id="radioPrimary1" name="r1"
+                                                                        checked="checked"> <label for="radioPrimary1"> Yes
+                                                                    </label>
+                                                                </div>
+                                                                <div class="icheck-primary d-inline"><input type="radio"
+                                                                        id="radioPrimary2" name="r1"> <label
+                                                                        for="radioPrimary2"> No
+                                                                    </label></div>
+                                                            </div>
+                                                        </fieldset>
+                                                    </div>
+                                                    <div class="question">
+                                                        <p> Do you have relevant experience of this job
+                                                            ({{ $exp_required }}) </p>
+                                                        <fieldset class="mb-3">
+                                                            <div class="form-group ask_question">
+                                                                <div class="icheck-primary d-inline"><input type="radio"
+                                                                        id="radioPrimary3" name="ex1" checked="checked">
+                                                                    <label for="radioPrimary3"> Yes </label>
+                                                                </div>
+                                                                <div class="icheck-primary d-inline"><input type="radio"
+                                                                        id="radioPrimary4" name="ex1"> <label
+                                                                        for="radioPrimary4"> No
+                                                                    </label></div>
+                                                            </div>
+                                                        </fieldset>
+                                                    </div>
+                                                    <div class="question">
+                                                        <p> Do you have relevant skill for this job ?(Field Sales Executive,
+                                                            sourcing new prospects, closing sales deals, negotiating,
+                                                            maintaining positive customer relations, Excellent convincing
+                                                            skills, client handling ability.) </p>
+                                                        <fieldset class="mb-3">
+                                                            <div class="form-group ask_question">
+                                                                <div class="icheck-primary d-inline"><input type="radio"
+                                                                        id="radioPrimary5" name="sk1"
+                                                                        checked="checked">
+                                                                    <label for="radioPrimary5"> Yes </label>
+                                                                </div>
+                                                                <div class="icheck-primary d-inline"><input type="radio"
+                                                                        id="radioPrimary6" name="sk1"> <label
+                                                                        for="radioPrimary6"> No
+                                                                    </label></div>
+                                                            </div>
+                                                        </fieldset>
+                                                    </div>
+
+                                                </div>
+
+
+                                                <!-- Modal footer -->
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary">
+                                                        Confirm Apply
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger"
+                                                        data-dismiss="modal">Close</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
                         </div>
                         <div class="post-details4  mb-50">
                             <!-- Small Section Tittle -->
@@ -122,11 +266,11 @@
                                 <h4>Company Information</h4>
                             </div>
                             <span>{{ $data->company_name }}</span>
-                            <p>{{$data->about}}</p>
+                            <p>{{ $data->about }}</p>
                             <ul>
-                                <li>Name: <span>{{$data->owner_name}} </span></li>
-                                <li>Web : <span> {{$data->website}}</span></li>
-                                <li>Email: <span>{{$data->com_email}}</span></li>
+                                <li>Name: <span>{{ $data->owner_name }} </span></li>
+                                <li>Web : <span> {{ $data->website }}</span></li>
+                                <li>Email: <span>{{ $data->com_email }}</span></li>
                             </ul>
                         </div>
                     </div>
