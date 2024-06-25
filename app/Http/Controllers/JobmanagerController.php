@@ -813,18 +813,20 @@ class JobmanagerController extends Controller
         // $minExp = request('minexp');
 
         // $maxExp = request('maxexp');
-
+        
+        // $industryVal = request('industryVal');
+        $industryVal = $request->industry;
 
         $countStr = strlen($request->experiences)-1;
         $minExp = substr($request->experiences, 0,1);
         $maxExp = substr($request->experiences, $countStr,1);
 
-        // $industryVal = request('industryVal');
-        $industryVal = request('industry');
+     
+
 
 
         $functionalVal = request('functionalVal');
-        $jobtypeVal = request('jobtypeVal');
+        // $jobtypeVal = request('jobtypeVal');
         $qualificationVal = request('qualificationVal');
         $postwithin = $request->postedWithin;
 
@@ -860,6 +862,7 @@ class JobmanagerController extends Controller
             ->orderBy('jobmanagers.created_at', 'DESC');
           
         $datafilters = $dataFilter;
+
         $totalrecord = $datafilters->count();
 
         //search keyword within Browse jobs start
@@ -905,14 +908,14 @@ class JobmanagerController extends Controller
         if (isset($location) && $location !== null) {
             $dataFilter->where('jobmanagers.job_exp', 'like', "%$location%");
         }
-        if (isset($experience) && $experience !== null) {
-            $dataFilter->where(function ($query) use ($experience) {
-                $query->Where('jobmanagers.max_exp', '<=', $experience);
-            });
-        }
+        // if (isset($experience) && $experience !== null) {
+        //     $dataFilter->where(function ($query) use ($experience) {
+        //         $query->Where('jobmanagers.max_exp', '<=', $experience);
+        //     });
+        // }
         if (isset($jobtype) && $jobtype !== null) {
             $dataFilter->where(function ($query) use ($jobtype) {
-                $query->Where('jobmanagers.job_type_id', $jobtype);
+                $query->WhereIn('jobmanagers.job_type_id', [$jobtype]);
             });
         }
         //search from home end
@@ -928,50 +931,44 @@ class JobmanagerController extends Controller
             });
         }
 
-        //morethan 6 years experience
-        
-
-        if (isset($minExp) && $minExp !== null) {
-            $dataFilter->where(function ($query) use ($minExp) {
-                $query->Where('jobmanagers.main_exp', '>=', $minExp);
-            });
-        }
-        if (isset($maxExp) && $maxExp !== null) {
-            $dataFilter->where(function ($query) use ($maxExp) {
-                $query->Where('jobmanagers.max_exp', '<=', $maxExp);
-            });
-        }
-
-        // $maxExperience = $request->experiences;
-        // if ($request->experiences == "6") {
-        //     $dataFilter->where(function ($query) use ($maxExperience) {
-        //         $query->where('jobmanagers.max_exp', '>=', $maxExperience);
-        //     });
-        // }
-
-
         if (isset($industryVal) && $industryVal !== null) {
-
             $dataFilter->where(function ($query) use ($industryVal) {
                 $query->whereIn('jobmanagers.job_industry_id', [$industryVal]);
             });
         }
 
-        if (isset($functionalVal) && $functionalVal !== null) {
-            $dataFilter->Where(function ($query) use ($functionalVal) {
-                $query->WhereIn('jobmanagers.job_functional_role_id', $functionalVal);
+
+        // if (isset($jobtypeVal) && $jobtypeVal !== null) {
+        //     $dataFilter->Where(function ($query) use ($jobtypeVal) {
+        //         $query->WhereIn('jobmanagers.job_type_id', $jobtypeVal);
+        //     });
+        // }
+
+
+
+        //morethan 6 years experience
+        
+
+        // if (isset($minExp) && isset($maxExp)) {
+        //     $dataFilter->Where(function ($query) use ($minExp) {
+        //         $query->Where('jobmanagers.main_exp', '>=', $minExp);
+        //         $query->Where('jobmanagers.max_exp', '<=', $maxExp);
+        //     });
+        // }
+
+        // if (isset($maxExp) && $maxExp !== null) {
+        //     $dataFilter->Where(function ($query) use ($maxExp) {
+               
+        //     });
+        // }
+
+        $maxExperience = $request->experiences;
+        if ($request->experiences == "6") {
+            $dataFilter->where(function ($query) use ($maxExperience) {
+                $query->where('jobmanagers.max_exp', '>=', $maxExperience);
             });
         }
-        if (isset($jobtypeVal) && $jobtypeVal !== null) {
-            $dataFilter->Where(function ($query) use ($jobtypeVal) {
-                $query->WhereIn('jobmanagers.job_type_id', $jobtypeVal);
-            });
-        }
-        if (isset($qualificationVal) && $qualificationVal !== null) {
-            $dataFilter->Where(function ($query) use ($qualificationVal) {
-                $query->WhereIn('jobmanagers.job_qualification_id', $qualificationVal);
-            });
-        }
+
 
         if (isset($postwithin) && $postwithin !== null) {
             $dataFilter->Where(function ($query) use ($postwithin) {
@@ -985,9 +982,27 @@ class JobmanagerController extends Controller
             });
         }
 
-// dd( $dataFilter->toSQL());
 
+        
+
+        if (isset($functionalVal) && $functionalVal !== null) {
+            $dataFilter->Where(function ($query) use ($functionalVal) {
+                $query->WhereIn('jobmanagers.job_functional_role_id', $functionalVal);
+            });
+        }
+        
+        if (isset($qualificationVal) && $qualificationVal !== null) {
+            $dataFilter->Where(function ($query) use ($qualificationVal) {
+                $query->WhereIn('jobmanagers.job_qualification_id', $qualificationVal);
+            });
+        }
         $data = $dataFilter->paginate(25)->withQueryString();
+        // $data = $dataFilter->getBindings();
+        // $values = $dataFilter->toSql();
+
+        // print_r($data);
+        // print_r($data);
+
         // 2024-05-01 22:40:47
 
 

@@ -192,10 +192,10 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="count-job mb-35">
-                                            <span> Jobs found</span>
+                                            <span id="jobcount"> Jobs found ({{$data->count()}}) </span>
                                             <!-- Select job items start -->
                                             <div>
-                                                <form action="{{ route('job_listing') }}" method="GET"
+                                                <form action="{{ route('loadLoginPage') }}" method="GET"
                                                     class="form-inline">
 
                                                     <input type="text" name="searchkeyword"
@@ -207,7 +207,7 @@
                                                     @enderror
                                                     <button class="ml-2 form-control text-white"
                                                         style="background:#e35e25;border:0;">Search</button>
-                                                    <a href="{{ route('job_listing') }}"
+                                                    <a href="{{ route('loadLoginPage') }}"
                                                         class="ml-2 form-control text-white"
                                                         style="background:#e35e25;border:0;">Clear</a>
 
@@ -289,7 +289,7 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="single-wrap d-flex justify-content-center">
-                        
+                            {{ $data->links() }}
 
                         </div>
                     </div>
