@@ -121,28 +121,43 @@
                             </ul>
                             <div class="row">
 
-                                <div class="mr-1">
+                                <div class="col-md-6">
                                     {{-- <a href="#" class="btn btn-warning"></a> --}}
                                     @if ($isapplied)
-                                        <button class="bg-success btn" style="pointer-events: none" tabindex="-1"
+                                        <button class="bg-success btn w-100" style="pointer-events: none" tabindex="-1"
                                             aria-disabled="true">Applied</button>
                                     @else
-                                        <button type="button" class="btn" data-toggle="modal"
-                                            data-target="#myModal">
+                                        <button type="button" class="btn w-100" data-toggle="modal" data-target="#myModal">
                                             Apply Now
                                         </button>
                                     @endif
                                 </div>
-                                <div class="">
-                                    <form action="" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="job_id" value="{{ $data->id }}">
-                                        <button class="btn mr-2" >Save Job</button>
-                                    </form>
+                                <div class="col-md-6">
+                                    @if ($issaved)
+                                        <button class="bg-success btn w-100" style="pointer-events: none" tabindex="-1"
+                                            aria-disabled="true">Saved</button>
+                                    @else
+                                        <form action="{{ route('savejob', ['id' => $data->id]) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn w-100">Save Job</button>
+                                        </form>
+                                    @endif
                                     {{-- <a href="#" class="btn btn-warning mr-2">Save Job</a> --}}
                                 </div>
-                                <div class="text-center col-sm-12">
-                                    <a href="#" class="btn mt-2">Follow</a>
+                                <div class="text-center col-sm-12 mt-2">
+                                    @if (count($follow_companies) > 0 && in_array($data->company_id, $follow_companies))
+                                        <button class="bg-success btn w-100" style="pointer-events: none" tabindex="-1"
+                                            aria-disabled="true">Following</button>
+                                    @else
+                                        <form
+                                            action="{{ route('followjob', ['companyid' => $data->company_id, 'jobid' => $data->id]) }}"
+                                            method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn w-100">Follow</button>
+                                        </form>
+                                    @endif
+
+                                    {{-- <a href="#" class="btn mt-2">Follow</a> --}}
                                 </div>
 
                             </div>
@@ -211,7 +226,8 @@
                                                         <fieldset class="mb-3">
                                                             <div class="form-group ask_question">
                                                                 <div class="icheck-primary d-inline"><input type="radio"
-                                                                        id="radioPrimary3" name="ex1" checked="checked">
+                                                                        id="radioPrimary3" name="ex1"
+                                                                        checked="checked">
                                                                     <label for="radioPrimary3"> Yes </label>
                                                                 </div>
                                                                 <div class="icheck-primary d-inline"><input type="radio"

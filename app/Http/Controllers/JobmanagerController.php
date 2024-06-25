@@ -630,8 +630,9 @@ class JobmanagerController extends Controller
         return response()->json(['data' => $data], 200);
     }
 
-    public function joblisting(Request $request){
-        
+    public function joblisting(Request $request)
+    {
+
 
         $searchTerm = request('searchkeyword');
         //keyword in home page
@@ -815,9 +816,9 @@ class JobmanagerController extends Controller
         // $maxExp = request('maxexp');
 
 
-        $countStr = strlen($request->experiences)-1;
-        $minExp = substr($request->experiences, 0,1);
-        $maxExp = substr($request->experiences, $countStr,1);
+        $countStr = strlen($request->experiences) - 1;
+        $minExp = substr($request->experiences, 0, 1);
+        $maxExp = substr($request->experiences, $countStr, 1);
 
         // $industryVal = request('industryVal');
         $industryVal = request('industry');
@@ -858,7 +859,7 @@ class JobmanagerController extends Controller
             ->where('jobmanagers.status', 'Active')
             ->where('empcompaniesdetails.status', '1')
             ->orderBy('jobmanagers.created_at', 'DESC');
-          
+
         $datafilters = $dataFilter;
         $totalrecord = $datafilters->count();
 
@@ -929,7 +930,7 @@ class JobmanagerController extends Controller
         }
 
         //morethan 6 years experience
-        
+
 
         if (isset($minExp) && $minExp !== null) {
             $dataFilter->where(function ($query) use ($minExp) {
@@ -981,11 +982,10 @@ class JobmanagerController extends Controller
 
                 $query->whereDate('jobmanagers.created_at', $startDate);
                 $query->orWhereBetween('jobmanagers.created_at', [$startDate, $endDate]);
-
             });
         }
 
-// dd( $dataFilter->toSQL());
+        // dd( $dataFilter->toSQL());
 
         $data = $dataFilter->paginate(25)->withQueryString();
         // 2024-05-01 22:40:47
@@ -1002,7 +1002,6 @@ class JobmanagerController extends Controller
         // return view('job_listing', ['data' => $data, 'searchTerm' => $searchTerm]);
         // return response()->json(['data' => $data, 'datas' => $datas], 200);
         return response()->json(['data' => $data], 200);
-
     }
 
     public function searchjob(Request $request)
@@ -1471,11 +1470,33 @@ class JobmanagerController extends Controller
     public function showSingleJob($id)
     {
         $isapplied = false;
-        if (Auth::guard('jobseeker')->check() && DB::table('apply_jobs')->where([
-            'jsuser_id' => Auth::guard('jobseeker')->user()->id,
-            'job_id' => $id,
-        ])->exists()) {
-          $isapplied = true;
+        $issaved = false;
+        $checkjobseeker = Auth::guard('jobseeker')->check();
+        $follow_companies = [];
+        if ($checkjobseeker) {
+
+            $current_userid = Auth::guard('jobseeker')->user()->id;
+            if (DB::table('apply_jobs')->where([
+                'jsuser_id' => $current_userid,
+                'job_id' => $id,
+            ])->exists()) {
+                $isapplied = true;
+            }
+
+            if (DB::table('saved_jobs')->where([
+                'jsuser_id' => $current_userid,
+                'job_id' => $id,
+            ])->exists()) {
+                $issaved = true;
+            }
+
+            if (DB::table('followers')->where([
+                'user_id' => $current_userid,
+            ])->exists()) {
+                $follow_companies = DB::table('followers')->where([
+                    'user_id' => $current_userid,
+                ])->pluck('employer_id')->toArray();
+            }
         }
         $data = DB::table('jobmanagers')
             ->leftjoin('empcompaniesdetails', 'jobmanagers.company_id', 'empcompaniesdetails.id')
@@ -1536,7 +1557,7 @@ class JobmanagerController extends Controller
             ->first();
 
         // return response()->json(['data' => $data], 200);
-        return view('job_details', ['data' => $data, 'isapplied' => $isapplied]);
+        return view('job_details', ['data' => $data, 'isapplied' => $isapplied, 'issaved' => $issaved, 'follow_companies' => $follow_companies]);
     }
 
     public function showjobdetailOnly($id)

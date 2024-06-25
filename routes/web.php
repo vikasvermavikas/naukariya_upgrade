@@ -11,6 +11,7 @@ use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\JobseekerController;
 use App\Http\Controllers\IndustryController;
 use App\Http\Controllers\ApplyJobController;
+use App\Http\Controllers\SavedJobController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -98,4 +99,6 @@ Route::get('/get-locations/{search?}', [JobseekerController::class, 'getLocation
 // Jobseekers routes.
 Route::middleware('jobseeker')->group(function () {
     Route::post('/apply-job/{id}', [ApplyJobController::class, 'store'])->name('applyjob');
+    Route::post('/saved-job/{id}', [SavedJobController::class, 'store'])->name('savejob');
+    Route::post('/follow/{companyid}/{jobid}', [SavedJobController::class, 'follow'])->name('followjob');
 });
