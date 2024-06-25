@@ -858,7 +858,7 @@ class JobmanagerController extends Controller
             )
             ->where('jobmanagers.job_for', '!=', 'Consultant')
             ->where('jobmanagers.status', 'Active')
-            ->where('empcompaniesdetails.status', '1')
+            // ->where('empcompaniesdetails.status', '1')
             ->orderBy('jobmanagers.created_at', 'DESC');
           
         $datafilters = $dataFilter;
@@ -933,7 +933,7 @@ class JobmanagerController extends Controller
 
         if (isset($industryVal) && $industryVal !== null) {
             $dataFilter->where(function ($query) use ($industryVal) {
-                $query->whereIn('jobmanagers.job_industry_id', [$industryVal]);
+                $query->where('jobmanagers.job_industry_id', (int)$industryVal);
             });
         }
 
@@ -949,18 +949,18 @@ class JobmanagerController extends Controller
         //morethan 6 years experience
         
 
-        // if (isset($minExp) && isset($maxExp)) {
-        //     $dataFilter->Where(function ($query) use ($minExp) {
-        //         $query->Where('jobmanagers.main_exp', '>=', $minExp);
-        //         $query->Where('jobmanagers.max_exp', '<=', $maxExp);
-        //     });
-        // }
+        if (isset($minExp) && isset($maxExp)) {
+            $dataFilter->Where(function ($query) use ($minExp) {
+                $query->Where('jobmanagers.main_exp', '>=', (int)$minExp);
+            });
+        }
 
-        // if (isset($maxExp) && $maxExp !== null) {
-        //     $dataFilter->Where(function ($query) use ($maxExp) {
-               
-        //     });
-        // }
+        if (isset($maxExp) && $maxExp !== null) {
+            $dataFilter->Where(function ($query) use ($maxExp) {
+                    $query->Where('jobmanagers.max_exp', '<=', (int)$maxExp);
+
+            });
+        }
 
         $maxExperience = $request->experiences;
         if ($request->experiences == "6") {
