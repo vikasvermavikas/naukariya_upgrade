@@ -33,9 +33,7 @@ $(document).ready(function() {
         });
         // var queryString = `industry=${industry}`;
         var queryString = `industry=${industry}&jobTypes=${jobTypes.join(',')}&experiences=${experiences.join(',')}&postedWithin=${postedWithin.join(',')}`;
-
-
-
+        console.log(queryString);
         $.ajax({
             url: `/job_listing-data?${queryString}`,
             type: 'GET',
@@ -108,6 +106,7 @@ $(document).ready(function() {
             }
         });
     }
+
     $('#industries').on('change', fetchJobListings);
     $('.jobtype').on('change', fetchJobListings);
     $('.experience').on('change', fetchJobListings);

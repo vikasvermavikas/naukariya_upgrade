@@ -57,19 +57,23 @@
                                         <h4>Job Type</h4>
                                     </div>
                                     <label class="container">Full Time
-                                        <input type="checkbox" class="jobtype" id="full_time" name="fulltime" value="2">
+                                        <input type="checkbox" class="jobtype" id="full_time" name="fulltime"
+                                            value="2">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="container">Part Time
-                                        <input type="checkbox" class="jobtype" id="parttime" name="parttime" value="1">
+                                        <input type="checkbox" class="jobtype" id="parttime" name="parttime"
+                                            value="1">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="container">Internship
-                                        <input type="checkbox" class="jobtype" id="internship" name="internship" value="4">
+                                        <input type="checkbox" class="jobtype" id="internship" name="internship"
+                                            value="4">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="container">Freelancer
-                                        <input type="checkbox" class="jobtype" id="freelance" name="freelance" value="3">
+                                        <input type="checkbox" class="jobtype" id="freelance" name="freelance"
+                                            value="3">
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
@@ -95,19 +99,23 @@
                                         <h4>Experience</h4>
                                     </div>
                                     <label class="container">1-2 Years
-                                        <input type="checkbox" class="experience" id="experience" name="experience" value="1-2">
+                                        <input type="checkbox" class="experience" id="experience" name="experience"
+                                            value="1-2">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="container">2-3 Years
-                                        <input type="checkbox" class="experience" id="experience" name="experience" value="2-3">
+                                        <input type="checkbox" class="experience" id="experience" name="experience"
+                                            value="2-3">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="container">3-6 Years
-                                        <input type="checkbox" class="experience" id="experience" name="experience" value="3-6">
+                                        <input type="checkbox" class="experience" id="experience" name="experience"
+                                            value="3-6">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="container">6-more..
-                                        <input type="checkbox" class="experience" id="experience" name="experience" value="6">
+                                        <input type="checkbox" class="experience" id="experience" name="experience"
+                                            value="6">
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
@@ -125,30 +133,35 @@
                                         <span class="checkmark"></span>
                                     </label> --}}
                                     <label class="container">Today
-                                        <input type="radio" class="postedWithin" id="experience" name="postwithin" value="{{date('Y-m-d')}}">
+                                        <input type="radio" class="postedWithin" id="experience" name="postwithin"
+                                            value="{{ date('Y-m-d') }}">
                                         <span class="checkmark"></span>
                                     </label>
 
                                     @php
-                                    $twodate = \Carbon\Carbon::now()->subDays(2);
-                                    $threedate = \Carbon\Carbon::now()->subDays(3);
-                                    $fivedate = \Carbon\Carbon::now()->subDays(5);
-                                    $tendate = \Carbon\Carbon::now()->subDays(10);
+                                        $twodate = \Carbon\Carbon::now()->subDays(2);
+                                        $threedate = \Carbon\Carbon::now()->subDays(3);
+                                        $fivedate = \Carbon\Carbon::now()->subDays(5);
+                                        $tendate = \Carbon\Carbon::now()->subDays(10);
                                     @endphp
                                     <label class="container">Last 2 days
-                                        <input type="radio" class="postedWithin" id="experience" name="postwithin" value="{{date_format($twodate, 'Y-m-d')}}">
+                                        <input type="radio" class="postedWithin" id="experience" name="postwithin"
+                                            value="{{ date_format($twodate, 'Y-m-d') }}">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="container">Last 3 days
-                                        <input type="radio" class="postedWithin" id="experience" name="postwithin" value="{{date_format($threedate, 'Y-m-d')}}">
+                                        <input type="radio" class="postedWithin" id="experience" name="postwithin"
+                                            value="{{ date_format($threedate, 'Y-m-d') }}">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="container">Last 5 days
-                                        <input type="radio" class="postedWithin" id="experience" name="postwithin" value="{{date_format($fivedate, 'Y-m-d')}}">
+                                        <input type="radio" class="postedWithin" id="experience" name="postwithin"
+                                            value="{{ date_format($fivedate, 'Y-m-d') }}">
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="container">Last 10 days
-                                        <input type="radio" class="postedWithin" id="experience" name="postwithin" value="{{date_format($tendate, 'Y-m-d')}}">
+                                        <input type="radio" class="postedWithin" id="experience" name="postwithin"
+                                            value="{{ date_format($tendate, 'Y-m-d') }}">
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
@@ -192,7 +205,7 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="count-job mb-35">
-                                            <span id="jobcount"> Jobs found ({{$data->count()}}) </span>
+                                            <span id="jobcount"> Jobs found ({{ $data->count() }}) </span>
                                             <!-- Select job items start -->
                                             <div>
                                                 <form action="{{ route('loadLoginPage') }}" method="GET"
@@ -241,32 +254,33 @@
 
                                     @endphp
 
-                                <div class="joblists">
-                                    <div class="single-job-items mb-30">
-                                        <div class="job-items">
-                                            <div class="company-img">
-                                                <a href="{{ route('job_details', ['id' => $item->id]) }}"><img
-                                                        src="assets/img/icon/job-list1.png" alt=""></a>
-                                            </div>
-                                            <div class="job-tittle job-tittle2">
-                                                <a href="{{ route('job_details', ['id' => $item->id]) }}">
-                                                    <h4>{{ $item->title }}</h4>
-                                                </a>
-                                                <ul>
-                                                    <li>{{ $item->company_name }}</li>
-                                                    <li><i
-                                                            class="fas fa-map-marker-alt"></i>{{ $item->job_exp ? $item->job_exp : 'Not Defined' }}
-                                                    </li>
-                                                    <li>{{ $item->sal_disclosed == 'Yes' ? 'INR ' . $minsalary . ' - ' . $item->offered_sal_max : 'Not Disclosed' }}
-                                                    </li>
+                                    <div class="joblists">
+                                        <div class="single-job-items mb-30">
+                                            <div class="job-items">
+                                                <div class="company-img">
+                                                    <a href="{{ route('job_details', ['id' => $item->id]) }}"><img
+                                                            src="assets/img/icon/job-list1.png" alt=""></a>
+                                                </div>
+                                                <div class="job-tittle job-tittle2">
+                                                    <a href="{{ route('job_details', ['id' => $item->id]) }}">
+                                                        <h4>{{ $item->title }}</h4>
+                                                    </a>
+                                                    <ul>
+                                                        <li>{{ $item->company_name }}</li>
+                                                        <li><i
+                                                                class="fas fa-map-marker-alt"></i>{{ $item->job_exp ? $item->job_exp : 'Not Defined' }}
+                                                        </li>
+                                                        <li>{{ $item->sal_disclosed == 'Yes' ? 'INR ' . $minsalary . ' - ' . $item->offered_sal_max : 'Not Disclosed' }}
+                                                        </li>
 
-                                                </ul>
-                                                <span class="text-muted">Experience Required : {{ $exp_required }}</span>
+                                                    </ul>
+                                                    <span class="text-muted">Experience Required :
+                                                        {{ $exp_required }}</span>
+                                                </div>
                                             </div>
+
                                         </div>
-
                                     </div>
-                                </div>
                                 @empty
                                     <span class="text-danger text-center">No Jobs Found</span>
                                 @endforelse
