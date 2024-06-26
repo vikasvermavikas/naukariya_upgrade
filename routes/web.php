@@ -11,6 +11,9 @@ use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\JobseekerController;
 use App\Http\Controllers\IndustryController;
 use App\Http\Controllers\ApplyJobController;
+use App\Http\Controllers\SavedJobController;
+use App\Http\Controllers\StageRegistration;
+use App\Http\Controllers\DashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -97,5 +100,19 @@ Route::get('/get-locations/{search?}', [JobseekerController::class, 'getLocation
 
 // Jobseekers routes.
 Route::middleware('jobseeker')->group(function () {
+    Route::get('dashboard/jobseeker', [DashboardController::class, 'countAllDataForJobSeeker'])->name('AllDataForJobSeeker');
     Route::post('/apply-job/{id}', [ApplyJobController::class, 'store'])->name('applyjob');
+    Route::post('/saved-job/{id}', [SavedJobController::class, 'store'])->name('savejob');
+    Route::post('/follow/{companyid}/{jobid}', [SavedJobController::class, 'follow'])->name('followjob');
+    Route::get('/get-stage-registration', [StageRegistration::class, 'getStage'])->name('getStage');
 });
+
+
+//employer
+
+Route::group(['middleware' => 'employer'], function () {
+    // Route::get('employer/dashboard', [DashboardController::class, 'dashboardloadPage'])->route('dashboardLoadPage');
+    Route::get('get-subuser-activity', [DashboardController::class, 'CountSubuserActivity']);
+    Route::get('dashboard/employer', [DashboardController::class, 'countAllDataForJobEmployer'])->name('dashboardemployer');
+});
+

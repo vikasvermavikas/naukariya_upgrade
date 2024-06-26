@@ -154,7 +154,7 @@ class FrontuserloginController extends Controller
                             'created_at' => Carbon::now(),
                             'updated_at' => Carbon::now()
                         ]);
-                        return redirect()->route('job_listing');
+                        return redirect()->route('dashboardemployer');
                     } else {
                         $errors = 'Your account is not activated by admin. Please contact.';
                         //log mail table

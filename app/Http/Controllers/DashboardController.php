@@ -68,12 +68,32 @@ class DashboardController extends Controller
             $data['totalClient'] = ClientName::where('company_id',$loggedCompanyId)->where('created_by',$uid)
             ->count();
 
+            // dd($loggedUserId);
+
             if($loggedUserId == 2){
                 $data['consolidateData']=ConsolidateData::select('id')
                 ->count();
             }
 
-        return response()->json(['data' => $data], 200);
+
+
+            //subuser data count
+
+            $empID =Session::get('user')['id'];
+
+            $subUser =SubUser::leftjoin('trackers','trackers.added_by','sub_users.id')
+            ->select('sub_users.id','sub_users.fname','sub_users.lname','sub_users.email',DB::raw("count(trackers.id) as total"))
+            ->where('created_by',$empID)
+            ->groupBy('sub_users.id','sub_users.fname','sub_users.lname','sub_users.email')
+            ->get();
+
+
+        // return response()->json(['data' => $data], 200);
+
+        return view('employer.dashboard',[
+            'data' => $data,
+            'sub_user_data' => $subUser
+        ]);
     }
 
     public function countAllDataForJobSeeker()

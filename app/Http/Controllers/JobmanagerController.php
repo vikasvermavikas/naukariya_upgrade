@@ -630,8 +630,9 @@ class JobmanagerController extends Controller
         return response()->json(['data' => $data], 200);
     }
 
-    public function joblisting(Request $request){
-        
+    public function joblisting(Request $request)
+    {
+
 
         $searchTerm = request('searchkeyword');
         //keyword in home page
@@ -813,18 +814,16 @@ class JobmanagerController extends Controller
         // $minExp = request('minexp');
 
         // $maxExp = request('maxexp');
-        
+
         // $industryVal = request('industryVal');
         $industryVal = $request->industry;
 
-        $countStr = strlen($request->experiences)-1;
-        $minExp = substr($request->experiences, 0,1);
-        $maxExp = substr($request->experiences, $countStr,1);
-
-     
-
-
-
+        $countStr = strlen($request->experiences) - 1;
+        $minExp = substr($request->experiences, 0, 1);
+        $maxExp = substr($request->experiences, $countStr, 1);
+        // var_dump($minExp);
+        // var_dump($maxExp);
+        // die;
         $functionalVal = request('functionalVal');
         // $jobtypeVal = request('jobtypeVal');
         $qualificationVal = request('qualificationVal');
@@ -834,7 +833,7 @@ class JobmanagerController extends Controller
         $dataFilter = DB::table('jobmanagers')
             ->leftjoin('empcompaniesdetails', 'empcompaniesdetails.id', '=', 'jobmanagers.company_id')
             ->leftjoin('industries', 'industries.id', '=', 'jobmanagers.job_industry_id')
-            ->leftjoin('functional_roles', 'functional_roles.id', '=', 'jobmanagers.job_functional_role_id')
+            // ->leftjoin('functional_roles', 'functional_roles.id', '=', 'jobmanagers.job_functional_role_id')
             ->leftjoin('job_types', 'job_types.id', '=', 'jobmanagers.job_type_id')
             ->select(
                 'jobmanagers.id',
@@ -847,7 +846,7 @@ class JobmanagerController extends Controller
                 'jobmanagers.job_industry_id',
                 'jobmanagers.job_functional_role_id',
                 'industries.category_name',
-                'functional_roles.subcategory_name',
+                // 'functional_roles.subcategory_name',
                 'job_types.job_type',
                 'jobmanagers.job_type_id',
                 'jobmanagers.job_qualification_id',
@@ -858,9 +857,9 @@ class JobmanagerController extends Controller
             )
             ->where('jobmanagers.job_for', '!=', 'Consultant')
             ->where('jobmanagers.status', 'Active')
-            // ->where('empcompaniesdetails.status', '1')
+            ->where('empcompaniesdetails.status', '1')
             ->orderBy('jobmanagers.created_at', 'DESC');
-          
+
         $datafilters = $dataFilter;
 
         $totalrecord = $datafilters->count();
@@ -902,12 +901,12 @@ class JobmanagerController extends Controller
 
 
         //   print_r($datas);die;
-        $dataFilter->where('jobmanagers.job_exp', 'like', "%$location%");
+        // $dataFilter->where('jobmanagers.job_exp', 'like', "%$location%");
 
 
-        if (isset($location) && $location !== null) {
-            $dataFilter->where('jobmanagers.job_exp', 'like', "%$location%");
-        }
+        // if (isset($location) && $location !== null) {
+        //     $dataFilter->where('jobmanagers.job_exp', 'like', "%$location%");
+        // }
         // if (isset($experience) && $experience !== null) {
         //     $dataFilter->where(function ($query) use ($experience) {
         //         $query->Where('jobmanagers.max_exp', '<=', $experience);
@@ -920,20 +919,21 @@ class JobmanagerController extends Controller
         }
         //search from home end
         //salary checkbox
-        if (isset($minSalary) && $minSalary !== null) {
-            $dataFilter->where(function ($query) use ($minSalary) {
-                $query->Where('jobmanagers.offered_sal_min', '>=', $minSalary);
-            });
-        }
-        if (isset($maxSalary) && $maxSalary !== null) {
-            $dataFilter->where(function ($query) use ($maxSalary) {
-                $query->Where('jobmanagers.offered_sal_max', '<=', $maxSalary);
-            });
-        }
+        
+        // if (isset($minSalary) && $minSalary !== null) {
+        //     $dataFilter->where(function ($query) use ($minSalary) {
+        //         $query->Where('jobmanagers.offered_sal_min', '>=', $minSalary);
+        //     });
+        // }
+        // if (isset($maxSalary) && $maxSalary !== null) {
+        //     $dataFilter->where(function ($query) use ($maxSalary) {
+        //         $query->Where('jobmanagers.offered_sal_max', '<=', $maxSalary);
+        //     });
+        // }
 
         if (isset($industryVal) && $industryVal !== null) {
             $dataFilter->where(function ($query) use ($industryVal) {
-                $query->where('jobmanagers.job_industry_id', (int)$industryVal);
+                $query->where('jobmanagers.job_industry_id', $industryVal);
             });
         }
 
@@ -947,27 +947,27 @@ class JobmanagerController extends Controller
 
 
         //morethan 6 years experience
-        
 
-        if (isset($minExp) && isset($maxExp)) {
-            $dataFilter->Where(function ($query) use ($minExp) {
-                $query->Where('jobmanagers.main_exp', '>=', (int)$minExp);
+
+        if ($minExp && $maxExp) {
+            $dataFilter->Where(function ($query) use ($minExp, $maxExp) {
+                $query->Where('jobmanagers.main_exp', '>=',  (int)$minExp);
+                $query->Where('jobmanagers.max_exp', '<=', (int)$maxExp);
             });
         }
 
-        if (isset($maxExp) && $maxExp !== null) {
-            $dataFilter->Where(function ($query) use ($maxExp) {
-                    $query->Where('jobmanagers.max_exp', '<=', (int)$maxExp);
+        // if (isset($maxExp) && $maxExp !== null) {
+        //     $dataFilter->Where(function ($query) use ($maxExp) {
 
-            });
-        }
+        //     });
+        // }
 
-        $maxExperience = $request->experiences;
-        if ($request->experiences == "6") {
-            $dataFilter->where(function ($query) use ($maxExperience) {
-                $query->where('jobmanagers.max_exp', '>=', $maxExperience);
-            });
-        }
+        // $maxExperience = $request->experiences;
+        // if ($request->experiences == "6") {
+        //     $dataFilter->where(function ($query) use ($maxExperience) {
+        //         $query->where('jobmanagers.max_exp', '>=', $maxExperience);
+        //     });
+        // }
 
 
         if (isset($postwithin) && $postwithin !== null) {
@@ -978,24 +978,30 @@ class JobmanagerController extends Controller
 
                 $query->whereDate('jobmanagers.created_at', $startDate);
                 $query->orWhereBetween('jobmanagers.created_at', [$startDate, $endDate]);
-
             });
         }
 
+        // dd( $dataFilter->toSQL());
 
-        
 
-        if (isset($functionalVal) && $functionalVal !== null) {
-            $dataFilter->Where(function ($query) use ($functionalVal) {
-                $query->WhereIn('jobmanagers.job_functional_role_id', $functionalVal);
-            });
-        }
-        
-        if (isset($qualificationVal) && $qualificationVal !== null) {
-            $dataFilter->Where(function ($query) use ($qualificationVal) {
-                $query->WhereIn('jobmanagers.job_qualification_id', $qualificationVal);
-            });
-        }
+
+        // if (isset($functionalVal) && $functionalVal !== null) {
+        //     $dataFilter->Where(function ($query) use ($functionalVal) {
+        //         $query->WhereIn('jobmanagers.job_functional_role_id', $functionalVal);
+        //     });
+        // }
+
+        // if (isset($qualificationVal) && $qualificationVal !== null) {
+        //     $dataFilter->Where(function ($query) use ($qualificationVal) {
+        //         $query->WhereIn('jobmanagers.job_qualification_id', $qualificationVal);
+        //     });
+        // }
+        // echo "<pre>";
+        // var_dump($dataFilter->getBindings());
+        // echo "<br>";
+        // print_r($dataFilter->toSql());
+        // echo "</pre>";
+        // die;
         $data = $dataFilter->paginate(25)->withQueryString();
         // $data = $dataFilter->getBindings();
         // $values = $dataFilter->toSql();
@@ -1017,7 +1023,6 @@ class JobmanagerController extends Controller
         // return view('job_listing', ['data' => $data, 'searchTerm' => $searchTerm]);
         // return response()->json(['data' => $data, 'datas' => $datas], 200);
         return response()->json(['data' => $data], 200);
-
     }
 
     public function searchjob(Request $request)
@@ -1486,11 +1491,33 @@ class JobmanagerController extends Controller
     public function showSingleJob($id)
     {
         $isapplied = false;
-        if (Auth::guard('jobseeker')->check() && DB::table('apply_jobs')->where([
-            'jsuser_id' => Auth::guard('jobseeker')->user()->id,
-            'job_id' => $id,
-        ])->exists()) {
-          $isapplied = true;
+        $issaved = false;
+        $checkjobseeker = Auth::guard('jobseeker')->check();
+        $follow_companies = [];
+        if ($checkjobseeker) {
+
+            $current_userid = Auth::guard('jobseeker')->user()->id;
+            if (DB::table('apply_jobs')->where([
+                'jsuser_id' => $current_userid,
+                'job_id' => $id,
+            ])->exists()) {
+                $isapplied = true;
+            }
+
+            if (DB::table('saved_jobs')->where([
+                'jsuser_id' => $current_userid,
+                'job_id' => $id,
+            ])->exists()) {
+                $issaved = true;
+            }
+
+            if (DB::table('followers')->where([
+                'user_id' => $current_userid,
+            ])->exists()) {
+                $follow_companies = DB::table('followers')->where([
+                    'user_id' => $current_userid,
+                ])->pluck('employer_id')->toArray();
+            }
         }
         $data = DB::table('jobmanagers')
             ->leftjoin('empcompaniesdetails', 'jobmanagers.company_id', 'empcompaniesdetails.id')
@@ -1551,7 +1578,7 @@ class JobmanagerController extends Controller
             ->first();
 
         // return response()->json(['data' => $data], 200);
-        return view('job_details', ['data' => $data, 'isapplied' => $isapplied]);
+        return view('job_details', ['data' => $data, 'isapplied' => $isapplied, 'issaved' => $issaved, 'follow_companies' => $follow_companies]);
     }
 
     public function showjobdetailOnly($id)

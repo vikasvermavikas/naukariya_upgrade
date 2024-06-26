@@ -8,6 +8,7 @@ use App\Models\SavedJob;
 use App\Models\Follower;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
 class SavedJobController extends Controller
 {
@@ -37,12 +38,17 @@ class SavedJobController extends Controller
 
     public function store($id)
     {
-        $userid = Session::get('user')['id'];
-        $savedjob = new SavedJob();
-        $savedjob->jsuser_id = Session::get('user')['id'];
-        $savedjob->job_id = $id;
-        $savedjob->username = Session::get('user')['email'];
-        $savedjob->save();
+
+        if (Auth::guard('jobseeker')->check()) {
+            $userid = Auth::guard('jobseeker')->user()->id;
+            $savedjob = new SavedJob();
+            $savedjob->jsuser_id = $userid;
+            $savedjob->job_id = $id;
+            $savedjob->username = Auth::guard('jobseeker')->user()->email;
+            $savedjob->save();
+            return redirect()->back()->with(['message' => 'Job saved successfully']);
+        }
+        return redirect()->back()->withErrors(['message' => 'Please login first with jobseeker credentials.']);
     }
 
     public function checkUserSavedJob()
@@ -60,21 +66,24 @@ class SavedJobController extends Controller
 
     public function follow($comp_id, $job_id)
     {
-        $userid = Session::get('user')['id'];
-        $follow = new Follower();
-        $follow->user_id = $userid;
-        $follow->employer_id = $comp_id;
-        $follow->job_id = $job_id;
-        $follow->user_type = Session::get('user')['user_type'];
-        $followSuccess = $follow->save();
-        if ($followSuccess) {
-            return response()->json(['success' => 'Company followed successfully'], 200);
+        if (Auth::guard('jobseeker')->check()) {
+            $userid = Auth::guard('jobseeker')->user()->id;
+            $follow = new Follower();
+            $follow->user_id = $userid;
+            $follow->employer_id = $comp_id;
+            $follow->job_id = $job_id;
+            $follow->user_type = Auth::guard('jobseeker')->user()->user_type;
+            $followSuccess = $follow->save();
+            if ($followSuccess) {
+                return redirect()->back()->with(['message' => 'Company followed successfully']);
+            }
         }
-        return response()->json(['error' => 'Something went wrong'], 201);
+        return redirect()->back()->withErrors(['message' => 'Please login first with jobseeker credentials.']);
+        // return response()->json(['error' => 'Something went wrong'], 201);
     }
 
     public function checkfollow()
-    {
+    {   
         $userId = Session::get('user')['id'];
         $follow = Follower::select('id', 'employer_id')->where('user_id', $userId)->get();
 
