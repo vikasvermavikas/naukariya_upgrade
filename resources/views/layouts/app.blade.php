@@ -13,8 +13,8 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-    <link href="{{ asset('assests/css/bootstrap.min.css') }}" rel="stylesheet">
-    <script src="{{ asset('assests/js/bootstrap.bundle.min.js') }}"></script>
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     <!-- Scripts -->
     {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
 </head>
