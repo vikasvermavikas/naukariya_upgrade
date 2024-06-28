@@ -121,7 +121,7 @@
                             </ul>
                             <div class="row">
 
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     {{-- <a href="#" class="btn btn-warning"></a> --}}
                                     @if ($isapplied)
                                         <button class="bg-success btn w-100" style="pointer-events: none" tabindex="-1"
@@ -132,7 +132,7 @@
                                         </button>
                                     @endif
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12 mt-2">
                                     @if ($issaved)
                                         <button class="bg-success btn w-100" style="pointer-events: none" tabindex="-1"
                                             aria-disabled="true">Saved</button>

@@ -831,7 +831,7 @@ class JobmanagerController extends Controller
 
         //checkbox filter in browsejob end
         $dataFilter = DB::table('jobmanagers')
-            // ->leftjoin('empcompaniesdetails', 'empcompaniesdetails.id', '=', 'jobmanagers.company_id')
+            ->leftjoin('empcompaniesdetails', 'empcompaniesdetails.id', '=', 'jobmanagers.company_id')
             ->leftjoin('industries', 'industries.id', '=', 'jobmanagers.job_industry_id')
             // ->leftjoin('functional_roles', 'functional_roles.id', '=', 'jobmanagers.job_functional_role_id')
             ->leftjoin('job_types', 'job_types.id', '=', 'jobmanagers.job_type_id')
@@ -842,7 +842,7 @@ class JobmanagerController extends Controller
                 'jobmanagers.job_skills',
                 'jobmanagers.main_exp',
                 'jobmanagers.max_exp',
-                // 'empcompaniesdetails.company_name',
+                'empcompaniesdetails.company_name',
                 'jobmanagers.job_industry_id',
                 'jobmanagers.job_functional_role_id',
                 'industries.category_name',
