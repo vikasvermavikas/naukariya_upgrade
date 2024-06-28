@@ -8,8 +8,7 @@
                     <div class="col-lg-2 col-md-2">
                         <!-- Logo -->
                         <div class="logo">
-                            <a href={{ route('home') }}>
-                                <img src={{ asset('assets/images/naukriyan-logo.png') }}
+                            <a href={{ route('home') }}><img src={{ asset('assets/images/naukriyan-logo.png') }}
                                     alt="Naukriyan-Logo"></a>
                         </div>
                     </div>
@@ -19,23 +18,93 @@
                             <div class="main-menu">
                                 <nav class="d-none d-lg-block">
                                     <ul id="navigation">
-                                        <li><a href={{ route('home') }}>Home</a></li>
-                                        <li><a href={{ route('loadJoblistPage') }}>Find a Jobs </a></li>
-                                        <li><a href={{ route('about') }}>About</a></li>
-                                        <li><a href='#'>Page </a>
+                                        <li><a href={{ route('dashboardemployer') }}>Dashboard</a></li>
+                                        <li><a href='#'>Jobs </a>
                                             <ul class="submenu">
-                                                <li><a href={{ route('blog') }}>Blog</a></li>
-                                                <li><a href={{ route('single-blog') }}>Blog Details</a></li>
-                                                <li><a href={{ route('elements') }}>Elements</a></li>
-                                                {{-- <li><a href={{ route('job_details') }}>job Details</a></li> --}}
+                                                <li><a href="#">Jobs in Ahmedabad</a></li>
+                                                <li><a href="#">Jobs in Bangalore/Bangaluru</a></li>
+                                                <li><a href="#">Jobs in Chennai</a></li>
+                                                <li><a href="#">Jobs in Delhi/NCR</a></li>
+                                                <li><a href="#">Jobs in Hyderabad/Secunderabad</a></li>
+                                                <li><a href="#">Jobs in Kolkata</a></li>
+                                                <li><a href="#">Jobs in Mumbai (All Areas)</a></li>
+                                                <li><a href="#">Jobs in Pune</a></li>
+                                                <li><a href="#">Jobs in Delhi</a></li>
                                             </ul>
                                         </li>
-                                        <li><a href={{ route('contact') }}>Contact</a></li>
+
+                                        <li><a href={{ route('loadJoblistPage') }}>Blog</a></li>
+                                        <li><a href='#'>Career Services</a>
+                                            <ul class="submenu">
+                                                <li><a href={{ route('blog') }}>Post New JD(s)</a></li>
+                                                <li><a href={{ route('blog') }}>Manage JD(s)</a></li>
+                                            </ul>
+                                        </li>
+                                        <li> 
+                                            <a  href="#" data-toggle="dropdown" class="nav-link nav-link-label"><i class="fas fa-bell faa-ring animated"></i><span class="
+                                            badge
+                                            badge-pill
+                                            badge-default
+                                            badge-danger
+                                            badge-default
+                                            badge-up
+                                          ">0</span></a></li>
                                     </ul>
                                 </nav>
                             </div>
+                            <li  class="nav-item dropdown open">
+                                <a  href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
+                                    <img  src={{ asset('assets/images/naukriyan-logo.png') }} width="36" height="36" class="mini-photo rounded-circle"></a>
+                                    <ul  class="dropdown-menu user-menu">
+                                        <div  class="profile-highlight text-center">
+                                            <img  src={{ asset('assets/images/naukriyan-logo.png') }} width="36" height="36" class="mini-photo rounded-circle text-center">
+                                            <div  class="details text-center"><div  id="profile-name">
+                                               <small> Sahasha</small>
+                                            </div> 
+                                        <div  id="profile-footer text-center">
+                                            <small>sahasha@prakharsoftwares.com</small>
+                                        </div>
+                                    </div>
+                                </div> 
+                                <li  class="user-menu__item mt-2">
+                                    <a  href="#/editemployer" class="user-menu-link">
+                                        <div class="text-color"><i class="fas fa-user"></i> Edit profile</div>
+                                    </a>
+                                </li> 
+                                <li  class="user-menu__item mt-2">
+                                    <a  href="#/viewemployeeprofile" class="user-menu-link">
+                                        <div class="text-color"><i  class="fas fa-user-circle"></i> My profile</div>
+                                    </a>
+                                </li> 
+                                <li  class="user-menu__item mt-2">
+                                    <a  href="#/vieworganization" class="user-menu-link">
+                                        <div class="text-color"><i  class="fas fa-sitemap"></i> Organisation</div>
+                                    </a>
+                                </li> 
+                                <li  class="user-menu__item mt-2">
+                                    <a href="#/emp-inbox" class="user-menu-link">
+                                        <div class="text-color"><i  class="fas fa-inbox"></i> Inbox</div>
+                                    </a>
+                                </li>
+                                <li  class="user-menu__item mt-2">
+                                    <a  href="#/employer-changepassword" class="user-menu-link">
+                                        <div class="text-color"><i  class="fas fa-key"></i> Change password</div>
+                                    </a>
+                                </li>
+                                <li  class="user-menu__item mt-2">
+                                    <a  href="#" class="user-menu-link">
+                                        <div class="text-color"><i  class="fas fa-sign-out-alt"></i>   
+                                            <form id="logout-form" action="{{ route('jobseekerlogout') }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn head-btn2">Logout</button>
+                                        </form>
+                                    </div>
+                                    </a>
+                                </li>
+                            </ul>
+                            </li>
 
-                            <!-- Header-btn -->
+                            {{-- <!-- Header-btn -->
                             @if (Auth::guard('employer')->check() || Auth::guard('jobseeker')->check())
                                 <span>
                                     {{ Auth::guard('employer')->check() ? Auth::guard('employer')->user()->fname . ' ' . Auth::guard('employer')->user()->lname :  Auth::guard('jobseeker')->user()->fname . ' ' . Auth::guard('jobseeker')->user()->lname}}</span>
@@ -62,7 +131,10 @@
                                         </ul>
                                     </div>
                                 </div>
-                            @endif
+                            @endif --}}
+
+
+
 
                         </div>
                     </div>
@@ -136,39 +208,39 @@
                                         <div  class="profile-highlight text-center">
                                             <img  src={{ asset('assets/images/naukriyan-logo.png') }} width="36" height="36" class="mini-photo rounded-circle text-center">
                                             <div  class="details text-center"><div  id="profile-name">
-                                                Sahasha
+                                               <small> Sahasha</small>
                                             </div> 
                                         <div  id="profile-footer text-center">
-                                            sahasha@prakharsoftwares.com
+                                            <small>sahasha@prakharsoftwares.com</small>
                                         </div>
                                     </div>
                                 </div> 
-                                <li  class="user-menu__item">
+                                <li  class="user-menu__item mt-2">
                                     <a  href="#/editemployer" class="user-menu-link">
-                                        <div class="text-color"><i  class="fas fa-user-edit"></i> Edit profile</div>
+                                        <div class="text-color"><i class="fas fa-user"></i> Edit profile</div>
                                     </a>
                                 </li> 
-                                <li  class="user-menu__item">
+                                <li  class="user-menu__item mt-2">
                                     <a  href="#/viewemployeeprofile" class="user-menu-link">
                                         <div class="text-color"><i  class="fas fa-user-circle"></i> My profile</div>
                                     </a>
                                 </li> 
-                                <li  class="user-menu__item">
+                                <li  class="user-menu__item mt-2">
                                     <a  href="#/vieworganization" class="user-menu-link">
                                         <div class="text-color"><i  class="fas fa-sitemap"></i> Organisation</div>
                                     </a>
                                 </li> 
-                                <li  class="user-menu__item">
+                                <li  class="user-menu__item mt-2">
                                     <a href="#/emp-inbox" class="user-menu-link">
                                         <div class="text-color"><i  class="fas fa-inbox"></i> Inbox</div>
                                     </a>
                                 </li>
-                                <li  class="user-menu__item">
+                                <li  class="user-menu__item mt-2">
                                     <a  href="#/employer-changepassword" class="user-menu-link">
                                         <div class="text-color"><i  class="fas fa-key"></i> Change password</div>
                                     </a>
                                 </li>
-                                <li  class="user-menu__item">
+                                <li  class="user-menu__item mt-2">
                                     <a  href="#" class="user-menu-link">
                                         <div class="text-color"><i  class="fas fa-sign-out-alt"></i>   
                                             <form id="logout-form" action="{{ route('jobseekerlogout') }}" method="POST">
@@ -179,7 +251,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                            </li>
 
                             {{-- <!-- Header-btn -->
                             @if (Auth::guard('employer')->check() || Auth::guard('jobseeker')->check())

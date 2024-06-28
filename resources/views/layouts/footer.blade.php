@@ -7,9 +7,16 @@
                    <div class="single-footer-caption mb-50">
                      <div class="single-footer-caption mb-30">
                          <div class="footer-tittle">
-                             <h4>About Us</h4>
+                             <h4>CANDIDATE</h4>
                              <div class="footer-pera">
-                                 <p>With an objective to serve our society in terms of enhanced employment rate and better lifestyle to every individual of this nation, we are working efficiently with our clients who encompass both the corporate and government organizations. Prakhar Software Solutions Pvt. Ltd.</p>
+                                <ul>
+                                    <li><a href="#">Search Jobs</a></li>
+                                    <li><a href="#">My Account</a></li>
+                                    <li><a href="#">Find Employer</a></li>
+                                    <li><a href="#">Video Resumes</a></li>
+                                    <li><a href="#">Job Search Techniques</a></li>
+                                    <li><a href="#">Premium Services</a></li>
+                                </ul>
                             </div>
                          </div>
                      </div>
@@ -19,13 +26,14 @@
                 <div class="col-xl-3 col-lg-3 col-md-4 col-sm-5">
                     <div class="single-footer-caption mb-50">
                         <div class="footer-tittle">
-                            <h4>Contact Info</h4>
+                            <h4>EMPLOYER</h4>
                             <ul>
                                 <li>
-                                <p>Address :C – 11, LGF, Opp. State Bank of India, Malviya Nagar, New Delhi - 110017 , India</p>
+                                    <a href="#">Post jobs</a>
                                 </li>
-                                <li><a href="#">Phone : +8880 44338899</a></li>
-                                <li><a href="#">Email : info@colorlib.com</a></li>
+                                <li><a href="#">Search for right candidate</a></li>
+                                <li><a href="#">Customized Job questionnaires</a></li>
+                                <li><a href="#">Subscription</a></li>
                             </ul>
                         </div>
 
@@ -34,13 +42,15 @@
                 <div class="col-xl-3 col-lg-3 col-md-4 col-sm-5">
                     <div class="single-footer-caption mb-50">
                         <div class="footer-tittle">
-                            <h4>Important Link</h4>
+                            <h4>Quick Links</h4>
                             <ul>
-                                <li><a href="#"> View Project</a></li>
+                                <li><a href="#">About Us</a></li>
+                                <li><a href="#">Advertise with Us</a></li>
                                 <li><a href="#">Contact Us</a></li>
-                                <li><a href="#">Testimonial</a></li>
-                                <li><a href="#">Proparties</a></li>
-                                <li><a href="#">Support</a></li>
+                                <li><a href="#">Blog</a></li>
+                                <li><a href="#">Guidelines/FAQs</a></li>
+                                <li><a href="#">Terms & Conditions</a></li>
+                                <li><a href="#">Privacy policy</a></li>
                             </ul>
                         </div>
                     </div>
@@ -48,10 +58,10 @@
                 <div class="col-xl-3 col-lg-3 col-md-4 col-sm-5">
                     <div class="single-footer-caption mb-50">
                         <div class="footer-tittle">
-                            <h4>Newsletter</h4>
-                            <div class="footer-pera footer-pera2">
+                            <h4>NEWSLETTER</h4>
+                            {{-- <div class="footer-pera footer-pera2">
                              <p>Heaven fruitful doesn't over lesser in days. Appear creeping.</p>
-                         </div>
+                            </div> --}}
                          <!-- Form -->
                          <div class="footer-form" >
                              <div id="mc_embed_signup">
@@ -59,7 +69,7 @@
                                  method="get" class="subscribe_form relative mail_part">
                                      <input type="email" name="email" id="newsletter-form-email" placeholder="Email Address"
                                      class="placeholder hide-on-focus" onfocus="this.placeholder = ''"
-                                     onblur="this.placeholder = ' Email Address '">
+                                     onblur="this.placeholder = 'Email Address'">
                                      <div class="form-icon">
                                          <button type="submit" name="submit" id="newsletter-submit"
                                          class="email_icon newsletter-submit button-contactForm"><img src={{asset('assets/img/icon/form.png')}} alt=""></button>
@@ -108,10 +118,8 @@
             <div class="footer-border">
                  <div class="row d-flex justify-content-between align-items-center">
                      <div class="col-xl-10 col-lg-10 ">
-                         <div class="footer-copy-right">
-                             <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved BY Naukriyan.com</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                         <div class="footer-copy-right text-center">
+                             <p>© <script>document.write(new Date().getFullYear());</script> All Rights Reserved by Naukriyan. Design & Developed by Prakhar Software Solutions Pvt Ltd</p>
                          </div>
                      </div>
                      <div class="col-xl-2 col-lg-2">
