@@ -141,7 +141,7 @@ class JobseekerController extends Controller
 
                 Session::put('user', ['id' => $employer->id, 'fname' => $employer->fname, 'lname' =>  $employer->lname, 'email' => $employer->email, 'user_type' => 'Employer',  'profile_pic_thumb' => $getInfo->user['picture']]);
 
-                return redirect()->route('job_listing');
+                return redirect()->route('dashboardemployer');
             } else {
                 return redirect()->route('home');
             }

@@ -51,7 +51,7 @@
                             <hr class="hr1"><span class="text-white">Client</span></div>
                     </div>
                     <div class="col-sm-3">
-                        <div class="box bg-info py-4 text-center mt-3"><span class="text-white">{{ $data['consolidateData'] }}</span>
+                        <div class="box bg-info py-4 text-center mt-3"><span class="text-white">{{ isset($data['consolidateData']) ? $data['consolidateData'] : ''  }}</span>
                             <hr class="hr1"><span class="text-white">Consolidate Data</span></div>
                     </div>
                 </div>

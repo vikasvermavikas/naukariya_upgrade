@@ -1,4 +1,13 @@
 @extends('layouts.master', ['title' => 'Login'])
+@section('style')
+<style>
+
+    #rc-anchor-container {
+    max-width: 100%;
+    widows: 70%;
+    }
+</style>
+@endsection
 @section('content')
     <!-- ================ registration form section start ================= -->
     <section id="registration-form">
@@ -13,7 +22,6 @@
 
                     <div class="registration py-5">
                         @if (session()->has('error'))
-                            <span class="alert text-danger">{{ session()->get('error') }}</span>
                             <span class="alert text-danger">{{ session()->get('error') }}</span>
                         @endif
                         <form method="POST" action="{{ route('jobseekerlogin') }}" autocomplete="off">
@@ -42,7 +50,12 @@
                                     <span class="alert text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="g-recaptcha mt-4 ml-3" data-sitekey={{ config('services.recaptcha.key') }}>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="form-row row">
                                 <div class="checkbox col">
                                     <input type="checkbox" name="remember" id="remember"
@@ -54,11 +67,19 @@
                                     <a href="#" class="btn btn-warning">Forgot Password?</a>
                                 </div>
                             </div>
+                            <!-- Google Recaptcha -->
+
                             <div class="form-row submit-btn">
                                 <div class="input-data col">
                                     <div class="inner"></div>
                                     <input type="submit" value="Sign in">
                                 </div>
+                                {{-- <div class="d-grid">
+                                    <button class="g-recaptcha btn btn-primary btn-lg "
+                                            data-sitekey="{{ config('services.recaptcha_v3.siteKey') }}"
+                                            data-callback="onSubmit"
+                                            data-action="submitContact">Submit</button>
+                                </div> --}}
                             </div>
                             <div class="text-center">
                                 <p>OR</p>
@@ -68,7 +89,9 @@
                                             <img src='https://developers.google.com/identity/images/g-logo.png'>
                                         </div>
                                         <span class='text-container'>
-                                            <a href="{{route('sociallogin', ['provider' => 'google', 'userType' => 'Jobseeker'])}}">Sign in with Google</a>
+                                            <a
+                                                href="{{ route('sociallogin', ['provider' => 'google', 'userType' => 'Jobseeker']) }}">Sign
+                                                in with Google</a>
                                         </span>
                                     </div>
                                 </div>

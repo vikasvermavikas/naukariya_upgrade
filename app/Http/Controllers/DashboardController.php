@@ -18,14 +18,20 @@ use App\Models\ConsolidateData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function countAllDataForJobEmployer()
     {
-        $loggedUserId = Session::get('user')['id'];
-        $loggedUserType = Session::get('user')['user_type'];
-        $loggedCompanyId = Session::get('user')['company_id'];
+        // $loggedUserId = Session::get('user')['id'];
+        // $loggedUserType = Session::get('user')['user_type'];
+        // $loggedCompanyId = Session::get('user')['company_id'];
+        
+        $loggedUserId = Auth::guard('employer')->user()->id;
+        $loggedUserType = Auth::guard('employer')->user()->user_type;
+        $loggedCompanyId = Auth::guard('employer')->user()->company_id;
+
 
         $data['job_posted_by_me'] = Jobmanager::where('userid', $loggedUserId)->count();
 
@@ -50,7 +56,7 @@ class DashboardController extends Controller
             ->where('support_close_date', null)
             ->count();
 
-        $uid = Session::get('user')['id'];
+        $uid = $loggedUserId;
         $data['scheduled_interview'] = DB::table('apply_jobs')
             ->leftjoin('jobmanagers', 'jobmanagers.id', '=', 'apply_jobs.job_id')
             ->leftjoin('jobseekers', 'jobseekers.id', '=', 'apply_jobs.jsuser_id')
@@ -74,8 +80,6 @@ class DashboardController extends Controller
                 $data['consolidateData']=ConsolidateData::select('id')
                 ->count();
             }
-
-
 
             //subuser data count
 
