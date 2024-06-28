@@ -11,48 +11,48 @@
                             <hr class="hr1"> Active Jobs</div>
                     </div>
                     <div class="col-sm-3">
-                        <div class="box bg-primary py-4 text-center mt-3">{{$data['job_posted_by_me']}}
-                            <hr class="hr1">Job Posted by Me</div>
+                        <div class="box bg-primary py-4 text-center mt-3"><span class="text-white">{{$data['job_posted_by_me']}}</span>
+                            <hr class="hr1"><span class="text-white">Job Posted by Me</span></div>
                     </div>
                     <div class="col-sm-3">
-                        <div class="box bg-info py-4 text-center mt-3">0
-                            <hr class="hr1">View Resume</div>
+                        <div class="box bg-info py-4 text-center mt-3"><span class="text-white">0</span>
+                            <hr class="hr1"><span class="text-white">View Resume</span></div>
                     </div>
                     <div class="col-sm-3">
-                        <div class="box bg-dark py-4 text-center mt-3">{{  $data['scheduled_interview'] }}
-                            <hr class="hr1">Schedule Interview</div>
+                        <div class="box bg-dark py-4 text-center mt-3"><span class="text-white">{{  $data['scheduled_interview'] }}</span>
+                            <hr class="hr1"><span class="text-white">Schedule Interview</span></div>
                     </div>
                     <div class="col-sm-3">
-                        <div class="box bg-info py-4 text-center mt-3"> {{  $data['reports'] }}
-                            <hr class="hr1"> Reports</div>
+                        <div class="box bg-info py-4 text-center mt-3"><span class="text-white"> {{  $data['reports'] }}</span>
+                            <hr class="hr1"><span class="text-white">Reports</span></div>
                     </div>
                     <div class="col-sm-3">
-                        <div class="box bg-success py-4 text-center mt-3">{{  $data['package_subscription'] }}
-                            <hr class="hr1">Subscriptions</div>
+                        <div class="box bg-success py-4 text-center mt-3"><span class="text-white">{{  $data['package_subscription'] }}</span>
+                            <hr class="hr1"><span class="text-white">Subscriptions</span></div>
                     </div>
                     <div class="col-sm-3">
-                        <div class="box bg-dark py-4 text-center mt-3"> {{ $data['followers'] }}
-                            <hr class="hr1">Followers</div>
+                        <div class="box bg-dark py-4 text-center mt-3"><span class="text-white">{{ $data['followers'] }}</span>
+                            <hr class="hr1"><span class="text-white">Followers</span></div>
                     </div>
                     <div class="col-sm-3">
-                        <div class="box bg-primary py-4 text-center mt-3">{{ $data['helpdesk'] }}
-                            <hr class="hr1">Helpdesk</div>
+                        <div class="box bg-primary py-4 text-center mt-3"><span class="text-white">{{ $data['helpdesk'] }}</span>
+                            <hr class="hr1"><span class="text-white">Helpdesk</span></div>
                     </div>
                     <div class="col-sm-3">
-                        <div class="box bg-primary py-4 text-center mt-3">  {{ $data['totalTrackercandidate'] }}
-                            <hr class="hr1"> Tracker Candidate</div>
+                        <div class="box bg-primary py-4 text-center mt-3"><span class="text-white">{{ $data['totalTrackercandidate'] }}</span>
+                            <hr class="hr1"><span class="text-white">Tracker Candidate</span></div>
                     </div>
                     <div class="col-sm-3">
-                        <div class="box bg-dark py-4 text-center mt-3"> {{ $data['totalSubuser'] }}
-                            <hr class="hr1">Sub User</div>
+                        <div class="box bg-dark py-4 text-center mt-3"><span class="text-white">{{ $data['totalSubuser'] }}</span>
+                            <hr class="hr1"><span class="text-white">Sub User</span></div>
                     </div>
                     <div class="col-sm-3">
-                        <div class="box bg-success py-4 text-center mt-3"> {{ $data['totalClient'] }}
-                            <hr class="hr1">Client</div>
+                        <div class="box bg-success py-4 text-center mt-3"><span class="text-white">{{ $data['totalClient'] }}</span>
+                            <hr class="hr1"><span class="text-white">Client</span></div>
                     </div>
                     <div class="col-sm-3">
-                        <div class="box bg-info py-4 text-center mt-3"> {{ $data['consolidateData'] }}
-                            <hr class="hr1">Consolidate Data</div>
+                        <div class="box bg-info py-4 text-center mt-3"><span class="text-white">{{ $data['consolidateData'] }}</span>
+                            <hr class="hr1"><span class="text-white">Consolidate Data</span></div>
                     </div>
                 </div>
             </div>
@@ -90,10 +90,10 @@
                     @foreach($sub_user_data as $key => $value)
                         <div class="col-sm-3">
                            
-                            <div class="box bg-info py-4 text-center mt-3"> <i class="fa fa-user"></i> {{ $value->total }}
+                            <div class="box bg-info py-4 text-center mt-3"> <span class="text-white"><i class="fa fa-user"></i> {{ $value->total }}</span>
                                 <hr class="hr1">
                                 <p class="lead">
-                                    {{ $value->fname }} {{ $value->lname }}
+                                    <span class="text-white">{{ $value->fname }} {{ $value->lname }}</span>
                                   </p>
                             </div>
                         </div>

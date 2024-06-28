@@ -632,163 +632,230 @@ class JobmanagerController extends Controller
 
     public function joblisting(Request $request)
     {
+//keyword within browsejob
 
 
-        $searchTerm = request('searchkeyword');
-        //keyword in home page
-        $keywordhome = request('keyword');
-        $location = str_replace("Jobs-in-", "", request('location'));
-        $experience = request('experience');
-        $jobtype = request('jobtype');
-        //checkbox filter in browsejob start
-        $minSalary = request('minsalary');
-        $maxSalary = request('maxsalary');
-        $minExp = request('minexp');
-        $maxExp = request('maxexp');
-        $industryVal = request('industryVal');
-        // dd($industryVal);
-        $functionalVal = request('functionalVal');
-        $jobtypeVal = request('jobtypeVal');
-        $qualificationVal = request('qualificationVal');
+$searchTerm = request('searchkeyword');
+//keyword in home page
+$keywordhome = request('keyword');
+$location = str_replace("Jobs-in-", "", request('location'));
+$experience = request('experience');
+$jobtype = request('jobTypes');
 
-        //checkbox filter in browsejob end
-        $dataFilter = DB::table('jobmanagers')
-            ->leftjoin('empcompaniesdetails', 'empcompaniesdetails.id', '=', 'jobmanagers.company_id')
-            ->leftjoin('industries', 'industries.id', '=', 'jobmanagers.job_industry_id')
-            ->leftjoin('functional_roles', 'functional_roles.id', '=', 'jobmanagers.job_functional_role_id')
-            ->leftjoin('job_types', 'job_types.id', '=', 'jobmanagers.job_type_id')
-            ->select(
-                'jobmanagers.id',
-                'jobmanagers.title',
-                'jobmanagers.job_exp',
-                'jobmanagers.job_skills',
-                'jobmanagers.main_exp',
-                'jobmanagers.max_exp',
-                'empcompaniesdetails.company_name',
-                'jobmanagers.job_industry_id',
-                'jobmanagers.job_functional_role_id',
-                'industries.category_name',
-                'functional_roles.subcategory_name',
-                'job_types.job_type',
-                'jobmanagers.job_type_id',
-                'jobmanagers.job_qualification_id',
-                'jobmanagers.offered_sal_min',
-                'jobmanagers.offered_sal_max',
-                'jobmanagers.location',
-                'jobmanagers.sal_disclosed',
+//checkbox filter in browsejob start
+$minSalary = request('minsalary');
+$maxSalary = request('maxsalary');
+// $minExp = request('minexp');
 
-            )
-            ->where('jobmanagers.job_for', '!=', 'Consultant')
-            ->where('jobmanagers.status', 'Active')
-            ->where('empcompaniesdetails.status', '1')
-            ->orderBy('jobmanagers.created_at', 'DESC');
-        $datafilters = $dataFilter;
-        $totalrecord = $datafilters->count();
+// $maxExp = request('maxexp');
 
-        //search keyword within Browse jobs start
-        if (isset($searchTerm) && $searchTerm !== '') {
-            $dataFilter->where(function ($query) use ($searchTerm) {
-                $query->where('jobmanagers.title', 'like', "%$searchTerm%")
-                    ->orWhere('jobmanagers.responsibility', 'like', "%$searchTerm%")
-                    ->orWhere('jobmanagers.job_keywords', 'like', "%$searchTerm%")
-                    ->orWhere('jobmanagers.job_skills', 'like', "%$searchTerm%")
-                    ->orWhere('jobmanagers.job_preference', 'like', "%$searchTerm%")
-                    ->orWhere('jobmanagers.job_exp', 'like', "%$searchTerm%")
-                    ->orWhere('jobmanagers.job_for', 'like', "%$searchTerm%")
-                    ->orWhere('jobmanagers.main_exp', 'like', "%$searchTerm%");
-            });
-        }
-        //search keyword within Browse jobs end
+// $industryVal = request('industryVal');
+$industryVal = $request->industry;
 
-        //search from home start
-        if (isset($keywordhome) && $keywordhome !== '') {
-            $dataFilter->where(function ($query) use ($keywordhome) {
-                $query->where('jobmanagers.title', 'like', "%$keywordhome%")
-                    ->orWhere('jobmanagers.responsibility', 'like', "%$keywordhome%")
-                    ->orWhere('jobmanagers.job_keywords', 'like', "%$keywordhome%")
-                    ->orWhere('jobmanagers.job_skills', 'like', "%$keywordhome%")
-                    ->orWhere('jobmanagers.job_preference', 'like', "%$keywordhome%")
-                    ->orWhere('jobmanagers.job_exp', 'like', "%$keywordhome%")
-                    ->orWhere('jobmanagers.job_for', 'like', "%$keywordhome%")
-                    ->orWhere('jobmanagers.main_exp', 'like', "%$keywordhome%")
-                    ->orWhere('jobmanagers.max_exp', 'like', "%$keywordhome%")
-                    ->orWhere('empcompaniesdetails.company_name', 'like', "%$keywordhome%")
-                    ->orWhere('industries.category_name', 'like', "%$keywordhome%")
-                    ->orWhere('functional_roles.subcategory_name', 'like', "%$keywordhome%");
-            });
-        }
-        //   print_r($datas);die;
-        $dataFilter->where('jobmanagers.job_exp', 'like', "%$location%");
+$countStr = strlen($request->experiences) - 1;
+$minExp = substr($request->experiences, 0, 1);
+$maxExp = substr($request->experiences, $countStr, 1);
+// var_dump($minExp);
+// var_dump($maxExp);
+// die;
+$functionalVal = request('functionalVal');
+// $jobtypeVal = request('jobtypeVal');
+$qualificationVal = request('qualificationVal');
+$postwithin = $request->postedWithin;
 
+//checkbox filter in browsejob end
+$dataFilter = DB::table('jobmanagers')
+    ->leftjoin('empcompaniesdetails', 'empcompaniesdetails.id', '=', 'jobmanagers.company_id')
+    ->leftjoin('industries', 'industries.id', '=', 'jobmanagers.job_industry_id')
+    // ->leftjoin('functional_roles', 'functional_roles.id', '=', 'jobmanagers.job_functional_role_id')
+    ->leftjoin('job_types', 'job_types.id', '=', 'jobmanagers.job_type_id')
+    ->select(
+        'jobmanagers.id',
+        'jobmanagers.title',
+        'jobmanagers.job_exp',
+        'jobmanagers.job_skills',
+        'jobmanagers.main_exp',
+        'jobmanagers.max_exp',
+        'empcompaniesdetails.company_name',
+        'jobmanagers.job_industry_id',
+        'jobmanagers.job_functional_role_id',
+        'industries.category_name',
+        // 'functional_roles.subcategory_name',
+        'job_types.job_type',
+        'jobmanagers.job_type_id',
+        'jobmanagers.job_qualification_id',
+        'jobmanagers.offered_sal_min',
+        'jobmanagers.offered_sal_max',
+        'jobmanagers.location',
+        'jobmanagers.sal_disclosed',
+    )
+    ->where('jobmanagers.job_for', '!=', 'Consultant')
+    ->where('jobmanagers.status', 'Active')
+    ->where('empcompaniesdetails.status', '1')
+    ->orderBy('jobmanagers.created_at', 'DESC');
 
-        if (isset($location) && $location !== null) {
-            $dataFilter->where('jobmanagers.job_exp', 'like', "%$location%");
-        }
-        if (isset($experience) && $experience !== null) {
-            $dataFilter->where(function ($query) use ($experience) {
-                $query->Where('jobmanagers.max_exp', '<=', $experience);
-            });
-        }
-        if (isset($jobtype) && $jobtype !== null) {
-            $dataFilter->where(function ($query) use ($jobtype) {
-                $query->Where('jobmanagers.job_type_id', $jobtype);
-            });
-        }
-        //search from home end
-        //salary checkbox
-        if (isset($minSalary) && $minSalary !== null) {
-            $dataFilter->where(function ($query) use ($minSalary) {
-                $query->Where('jobmanagers.offered_sal_min', '>=', $minSalary);
-            });
-        }
-        if (isset($maxSalary) && $maxSalary !== null) {
-            $dataFilter->where(function ($query) use ($maxSalary) {
-                $query->Where('jobmanagers.offered_sal_max', '<=', $maxSalary);
-            });
-        }
-        if (isset($minExp) && $minExp !== null) {
-            $dataFilter->where(function ($query) use ($minExp) {
-                $query->Where('jobmanagers.main_exp', '>=', $minExp);
-            });
-        }
-        if (isset($maxExp) && $maxExp !== null) {
-            $dataFilter->where(function ($query) use ($maxExp) {
-                $query->Where('jobmanagers.max_exp', '<=', $maxExp);
-            });
-        }
-        if (isset($maxExp) && $maxExp !== null) {
-            $dataFilter->where(function ($query) use ($maxExp) {
-                $query->Where('jobmanagers.max_exp', '<=', $maxExp);
-            });
-        }
+$datafilters = $dataFilter;
+
+$totalrecord = $datafilters->count();
+
+//search keyword within Browse jobs start
+if (isset($searchTerm) && $searchTerm !== '') {
+    $dataFilter->where(function ($query) use ($searchTerm) {
+        $query->where('jobmanagers.title', 'like', "%$searchTerm%")
+            ->orWhere('jobmanagers.responsibility', 'like', "%$searchTerm%")
+            ->orWhere('jobmanagers.job_keywords', 'like', "%$searchTerm%")
+            ->orWhere('jobmanagers.job_skills', 'like', "%$searchTerm%")
+            ->orWhere('jobmanagers.job_preference', 'like', "%$searchTerm%")
+            ->orWhere('jobmanagers.job_exp', 'like', "%$searchTerm%")
+            ->orWhere('jobmanagers.job_for', 'like', "%$searchTerm%")
+            ->orWhere('jobmanagers.main_exp', 'like', "%$searchTerm%");
+    });
+}
+//search keyword within Browse jobs end
+
+//search from home start
+if (isset($keywordhome) && $keywordhome !== '') {
+    $dataFilter->where(function ($query) use ($keywordhome) {
+        $query->where('jobmanagers.title', 'like', "%$keywordhome%")
+            ->orWhere('jobmanagers.responsibility', 'like', "%$keywordhome%")
+            ->orWhere('jobmanagers.job_keywords', 'like', "%$keywordhome%")
+            ->orWhere('jobmanagers.job_skills', 'like', "%$keywordhome%")
+            ->orWhere('jobmanagers.job_preference', 'like', "%$keywordhome%")
+            ->orWhere('jobmanagers.job_exp', 'like', "%$keywordhome%")
+            ->orWhere('jobmanagers.job_for', 'like', "%$keywordhome%")
+            ->orWhere('jobmanagers.main_exp', 'like', "%$keywordhome%")
+            ->orWhere('jobmanagers.max_exp', 'like', "%$keywordhome%")
+            ->orWhere('empcompaniesdetails.company_name', 'like', "%$keywordhome%")
+            ->orWhere('industries.category_name', 'like', "%$keywordhome%")
+            ->orWhere('functional_roles.subcategory_name', 'like', "%$keywordhome%");
+    });
+}
 
 
 
-        if (isset($industryVal) && $industryVal !== null) {
-            $dataFilter->Where(function ($query) use ($industryVal) {
 
-                $query->WhereIn('jobmanagers.job_industry_id', [$industryVal]);
-            });
-        }
-        if (isset($functionalVal) && $functionalVal !== null) {
-            $dataFilter->Where(function ($query) use ($functionalVal) {
-                $query->WhereIn('jobmanagers.job_functional_role_id', $functionalVal);
-            });
-        }
-        if (isset($jobtypeVal) && $jobtypeVal !== null) {
-            $dataFilter->Where(function ($query) use ($jobtypeVal) {
-                $query->WhereIn('jobmanagers.job_type_id', $jobtypeVal);
-            });
-        }
-        if (isset($qualificationVal) && $qualificationVal !== null) {
-            $dataFilter->Where(function ($query) use ($qualificationVal) {
-                $query->WhereIn('jobmanagers.job_qualification_id', $qualificationVal);
-            });
-        }
+//   print_r($datas);die;
+$dataFilter->where('jobmanagers.job_exp', 'like', "%$location%");
 
-        $data = $dataFilter->paginate(25)->withQueryString();
-        // dd($data);
 
+if (isset($location) && $location !== null) {
+    $dataFilter->where('jobmanagers.job_exp', 'like', "%$location%");
+}
+// if (isset($experience) && $experience !== null) {
+//     $dataFilter->where(function ($query) use ($experience) {
+//         $query->Where('jobmanagers.max_exp', '<=', $experience);
+//     });
+// }
+if (isset($jobtype) && $jobtype !== null) {
+    $dataFilter->where(function ($query) use ($jobtype) {
+        $query->WhereIn('jobmanagers.job_type_id', [$jobtype]);
+    });
+}
+//search from home end
+//salary checkbox
+
+// if (isset($minSalary) && $minSalary !== null) {
+//     $dataFilter->where(function ($query) use ($minSalary) {
+//         $query->Where('jobmanagers.offered_sal_min', '>=', $minSalary);
+//     });
+// }
+// if (isset($maxSalary) && $maxSalary !== null) {
+//     $dataFilter->where(function ($query) use ($maxSalary) {
+//         $query->Where('jobmanagers.offered_sal_max', '<=', $maxSalary);
+//     });
+// }
+
+if (isset($industryVal) && $industryVal !== null) {
+    $dataFilter->where(function ($query) use ($industryVal) {
+        $query->where('jobmanagers.job_industry_id', $industryVal);
+    });
+}
+
+
+// if (isset($jobtypeVal) && $jobtypeVal !== null) {
+//     $dataFilter->Where(function ($query) use ($jobtypeVal) {
+//         $query->WhereIn('jobmanagers.job_type_id', $jobtypeVal);
+//     });
+// }
+
+
+
+//morethan 6 years experience
+
+
+if ($minExp && $maxExp) {
+    $dataFilter->Where(function ($query) use ($minExp, $maxExp) {
+        $query->Where('jobmanagers.main_exp', '>=',  (int)$minExp);
+        $query->Where('jobmanagers.max_exp', '<=', (int)$maxExp);
+    });
+}
+
+// if (isset($maxExp) && $maxExp !== null) {
+//     $dataFilter->Where(function ($query) use ($maxExp) {
+
+//     });
+// }
+
+$maxExperience = $request->experiences;
+if ($request->experiences == "6") {
+    $dataFilter->where(function ($query) use ($maxExperience) {
+        $query->where('jobmanagers.max_exp', '>=', $maxExperience);
+    });
+}
+
+
+if (isset($postwithin) && $postwithin !== null) {
+    $dataFilter->Where(function ($query) use ($postwithin) {
+
+        $startDate = date('Y-m-d 00:00:00', strtotime($postwithin));
+        $endDate = date('Y-m-d 23:59:59');
+
+        $query->whereDate('jobmanagers.created_at', $startDate);
+        $query->orWhereBetween('jobmanagers.created_at', [$startDate, $endDate]);
+    });
+}
+
+// dd( $dataFilter->toSQL());
+
+
+
+// if (isset($functionalVal) && $functionalVal !== null) {
+//     $dataFilter->Where(function ($query) use ($functionalVal) {
+//         $query->WhereIn('jobmanagers.job_functional_role_id', $functionalVal);
+//     });
+// }
+
+// if (isset($qualificationVal) && $qualificationVal !== null) {
+//     $dataFilter->Where(function ($query) use ($qualificationVal) {
+//         $query->WhereIn('jobmanagers.job_qualification_id', $qualificationVal);
+//     });
+// }
+// echo "<pre>";
+// var_dump($dataFilter->getBindings());
+// echo "<br>";
+// print_r($dataFilter->toSql());
+// echo "</pre>";
+// die;
+$data = $dataFilter->paginate(25)->withQueryString();
+// $data = $dataFilter->getBindings();
+// $values = $dataFilter->toSql();
+
+// print_r($data);
+// print_r($data);
+
+// 2024-05-01 22:40:47
+
+
+// 2024-05-01 22:35:15  539
+
+//2024-04-30 23:12:42 536
+
+
+// dd($data);
+// dd($data);
+
+
+    
         return view('job_listing', ['data' => $data, 'searchTerm' => $searchTerm]);
         // // return response()->json(['data' => $data, 'datas' => $datas], 200);
         // return response()->json(['data' => $data], 200);
@@ -798,7 +865,9 @@ class JobmanagerController extends Controller
 
 
     public function browsejob(Request $request)
-    {   //keyword within browsejob
+    {   
+        
+        //keyword within browsejob
 
 
         $searchTerm = request('searchkeyword');
@@ -901,12 +970,12 @@ class JobmanagerController extends Controller
 
 
         //   print_r($datas);die;
-        // $dataFilter->where('jobmanagers.job_exp', 'like', "%$location%");
+        $dataFilter->where('jobmanagers.job_exp', 'like', "%$location%");
 
 
-        // if (isset($location) && $location !== null) {
-        //     $dataFilter->where('jobmanagers.job_exp', 'like', "%$location%");
-        // }
+        if (isset($location) && $location !== null) {
+            $dataFilter->where('jobmanagers.job_exp', 'like', "%$location%");
+        }
         // if (isset($experience) && $experience !== null) {
         //     $dataFilter->where(function ($query) use ($experience) {
         //         $query->Where('jobmanagers.max_exp', '<=', $experience);
@@ -962,12 +1031,12 @@ class JobmanagerController extends Controller
         //     });
         // }
 
-        // $maxExperience = $request->experiences;
-        // if ($request->experiences == "6") {
-        //     $dataFilter->where(function ($query) use ($maxExperience) {
-        //         $query->where('jobmanagers.max_exp', '>=', $maxExperience);
-        //     });
-        // }
+        $maxExperience = $request->experiences;
+        if ($request->experiences == "6") {
+            $dataFilter->where(function ($query) use ($maxExperience) {
+                $query->where('jobmanagers.max_exp', '>=', $maxExperience);
+            });
+        }
 
 
         if (isset($postwithin) && $postwithin !== null) {

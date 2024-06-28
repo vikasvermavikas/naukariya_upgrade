@@ -166,7 +166,12 @@ class DashboardController extends Controller
 
         $data['recruiterMessages'] = MyInbox::where('receiver_email', $loggedUserEmail)->where('receiver_usertype', $loggedUserType)->where('read_status', '0')->count();
 
-        return response()->json(['data' => $data], 200);
+        // return response()->json(['data' => $data], 200);
+
+        return view('jobseeker.jobseekerDashboard', compact('data'));
+
+
+
     }
     public function CountSubuserActivity()
     {
