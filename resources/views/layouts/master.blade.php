@@ -24,7 +24,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/slick.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/nice-select.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-
+    <script async src="https://www.google.com/recaptcha/api.js">// Add recaptcha script
+    </script>
     @yield('style')
 
 </head>

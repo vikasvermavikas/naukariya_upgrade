@@ -252,6 +252,7 @@ class FrontJobseekerController extends Controller
                     Session::put('user', ['id' => $data->id, 'fname' => $data->fname, 'lname' => $data->lname, 'email' => $data->email, 'user_type' => $data->user_type, 'last_login' => $data->last_login, 'profile_pic_thumb' => $data->profile_pic_thumb]);
                     // return response()->json(['data' => $data, 'status' => 'success'], 200);
                     dd('Registered');
+                    return redirect()->route('loadJoblistPage');
                 } else {
                     // $errors = 'Your account is not activated by admin. Please contact.';
                     // //log mail table

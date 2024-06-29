@@ -41,7 +41,12 @@
                                     <span class="alert text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="g-recaptcha mt-4 ml-3" data-sitekey={{ config('services.recaptcha.key') }}>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="form-row row">
                                 <div class="checkbox col">
                                     <input type="checkbox" name="remember" id="remember"

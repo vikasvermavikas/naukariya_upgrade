@@ -41,5 +41,11 @@ return [
         'client_secret' => '0VZk5u9cVT2ljFN6',
         'redirect' => '/callback/linkedin',
     ],
+     // Configure Google ReCAPTCHA v3 key+secret
+
+    'recaptcha' => [
+        'key' => env('RECAPTCHA_SITE_KEY'),
+        'secret' => env('RECAPTCHA_SECRET_KEY'),
+    ]
 
 ];
