@@ -1,4 +1,4 @@
-@if(Auth::guard('jobseeker')->user())
+@if(Auth::guard('jobseeker')->check())
 <header>
     <!-- Header Start -->
     <div class="header-area header-transparrent">
