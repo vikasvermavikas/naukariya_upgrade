@@ -44,7 +44,7 @@
                     <div  class="card">
                         <div  class="card-header text-center">
                             <img  src="default_images/no_image_available.png" class="mini-photo rounded-circle avatar">
-                             <h3  class="mt-2">Rakesh Maurya</h3>
+                             <h3  class="mt-2">{{Auth::guard('jobseeker')->user()->fname." ". Auth::guard('jobseeker')->user()->lname}}</h3>
                         </div> 
                         <ul  class="list-group">
                             <li  class="list-group-item">

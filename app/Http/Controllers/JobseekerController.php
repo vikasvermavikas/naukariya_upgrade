@@ -101,11 +101,11 @@ class JobseekerController extends Controller
 
                 Session::put('user', ['id' => $jobseeker->id, 'fname' => $jobseeker->fname, 'lname' =>  $jobseeker->lname, 'email' => $jobseeker->email, 'user_type' => 'Jobseeker', 'last_login' => '23', 'profile_pic_thumb' => $getInfo->user['picture']]);
 
-                if ($user_exist == 1) {
-                    return redirect()->route('job_listing');
-                } else {
-                    return redirect()->route('job_listing');
-                }
+                return redirect()->route('AllDataForJobSeeker');
+                // if ($user_exist == 1) {
+                // } else {
+                //     return redirect()->route('AllDataForJobSeeker');
+                // }
             } else {
                 Session::flush();
 
