@@ -58,7 +58,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-tittle text-center">
-                            <span>FEATURED TOURS Packages</span>
+                            {{-- <span>FEATURED TOURS Packages</span> --}}
                             <h2>Browse Top Categories </h2>
                         </div>
                     </div>
@@ -158,7 +158,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="browse-btn2 text-center mt-50">
-                            <a href="job_listing.html" class="border-btn2">Browse All Sectors</a>
+                            <a href="{{route('loadJoblistPage')}}" class="border-btn2" target="_blank">Browse All Sectors</a>
                         </div>
                     </div>
                 </div>
@@ -172,9 +172,9 @@
                 <div class="row justify-content-center">
                     <div class="col-xl-10">
                         <div class="cv-caption text-center">
-                            <p class="pera1">FEATURED TOURS Packages</p>
+                            {{-- <p class="pera1">FEATURED TOURS Packages</p> --}}
                             <p class="pera2"> Make a Difference with Your Online Resume!</p>
-                            <a href="#" class="border-btn2 border-btn4">Upload your cv</a>
+                            <a href="{{ route('register') }}" class="border-btn2 border-btn4" target="_blank">Upload your cv</a>
                         </div>
                     </div>
                 </div>
@@ -188,7 +188,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-tittle text-center">
-                            <span>Recent Job</span>
+                            {{-- <span>Recent Job</span> --}}
                             <h2>Featured Jobs</h2>
                         </div>
                     </div>
@@ -199,7 +199,6 @@
 
                     <div class="col-xl-10">
                         <div class="container">
-
                             <!-- Nav tabs -->
                             <ul class="nav d-flex justify-content-center" role="tablist">
                                 <li class="nav-item border rounded">
@@ -347,7 +346,7 @@
                             </div>
                         </div>
                         <span class="d-flex justify-content-center">
-                            <a href="{{ route('job_listing') }}" class="btn btn-warning ">View All</a>
+                            <a href="{{ route('loadJoblistPage') }}" class="btn btn-warning" target="_blank">View All</a>
                         </span>
 
 
@@ -413,7 +412,7 @@
         </div>
         <!-- How  Apply Process End-->
         <!-- Testimonial Start -->
-        <div class="testimonial-area testimonial-padding">
+        {{-- <div class="testimonial-area testimonial-padding">
             <div class="container">
                 <!-- Testimonial contents -->
                 <div class="row d-flex justify-content-center">
@@ -483,7 +482,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- Testimonial End -->
         <!-- Support Company Start-->
         <div class="support-company-area support-padding fix">
@@ -526,7 +525,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-tittle text-center">
-                            <span>Our latest blog</span>
+                            {{-- <span>Our latest blog</span> --}}
                             <h2>Our recent news</h2>
                         </div>
                     </div>

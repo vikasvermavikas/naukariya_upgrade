@@ -102,8 +102,8 @@ class DashboardController extends Controller
 
     public function countAllDataForJobSeeker()
     {
-        $loggedUserId = Session::get('user')['id'];
-        $loggedUserType = Session::get('user')['user_type'];
+        $loggedUserId = Auth::guard('jobseeker')->user()->id;
+        $loggedUserType = Auth::guard('jobseeker')->user()->user_type;
 
         // COUNT APPLIED JOBS
         $data['applied_jobs'] = ApplyJob::where('jsuser_id', $loggedUserId)->count();
@@ -165,8 +165,10 @@ class DashboardController extends Controller
         }
 
         // COUNT RECUITER MESSAGES
-        $loggedUserType = Session::get('user')['user_type'];
-        $loggedUserEmail = Session::get('user')['email'];
+        // $loggedUserType = Session::get('user')['user_type'];
+        // $loggedUserEmail = Session::get('user')['email'];
+        $loggedUserEmail = Auth::guard('jobseeker')->user()->email;
+
 
         $data['recruiterMessages'] = MyInbox::where('receiver_email', $loggedUserEmail)->where('receiver_usertype', $loggedUserType)->where('read_status', '0')->count();
 

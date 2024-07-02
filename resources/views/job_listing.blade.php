@@ -49,6 +49,17 @@
                                         <option value="">Select Industry</option>
                                     </select>
                                 </div>
+                                <div class="small-section-tittle2 mt-4">
+                                    <h4>Skill</h4>
+                                </div>
+                                <div class="select-job-items2">
+                                    <select class="js-example-responsive" class="form-control" multiple="multiple" style="width:100%">
+                                        <option value="php">Skill</option>
+                                        <option value="Java">Java</option>
+                                        <option value="python">Python</option>
+                                    </select>
+
+                                </div>
                                 <!--  Select job items End-->
                                 <!-- select-Categories start -->
                                 <div class="select-Categories pt-80 pb-50">
@@ -239,52 +250,53 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Count of Job list End -->
-                                <!-- single-job-content -->
-                                @forelse ($data as $item)
-                                    @php
-                                        $minsalary = 0;
-                                        $exp_required = $item->main_exp . 'Yr - ' . $item->max_exp . ' Yr';
-                                        if ($item->offered_sal_min) {
-                                            $minsalary = $item->offered_sal_min;
-                                        }
-                                        if ($item->main_exp === '0' && $item->max_exp === '0') {
-                                            $exp_required = 'Fresher';
-                                        }
+                                <div id="defaultJobLists">
+                                    <!-- Count of Job list End -->
+                                    <!-- single-job-content -->
+                                    @forelse ($data as $item)
+                                        @php
+                                            $minsalary = 0;
+                                            $exp_required = $item->main_exp . 'Yr - ' . $item->max_exp . ' Yr';
+                                            if ($item->offered_sal_min) {
+                                                $minsalary = $item->offered_sal_min;
+                                            }
+                                            if ($item->main_exp === '0' && $item->max_exp === '0') {
+                                                $exp_required = 'Fresher';
+                                            }
 
-                                    @endphp
+                                        @endphp
 
-                                    <div class="joblists">
-                                        <div class="single-job-items mb-30">
-                                            <div class="job-items">
-                                                <div class="company-img">
-                                                    <a href="{{ route('job_details', ['id' => $item->id]) }}"><img
-                                                            src="assets/img/icon/job-list1.png" alt=""></a>
+                                        <div class="joblists">
+                                            <div class="single-job-items mb-30">
+                                                <div class="job-items">
+                                                    <div class="company-img">
+                                                        <a href="{{ route('job_details', ['id' => $item->id]) }}"><img
+                                                                src="assets/img/icon/job-list1.png" alt=""></a>
+                                                    </div>
+                                                    <div class="job-tittle job-tittle2">
+                                                        <a href="{{ route('job_details', ['id' => $item->id]) }}">
+                                                            <h4>{{ $item->title }}</h4>
+                                                        </a>
+                                                        <ul>
+                                                            <li>{{ $item->company_name }}</li>
+                                                            <li><i
+                                                                    class="fas fa-map-marker-alt"></i>{{ $item->job_exp ? $item->job_exp : 'Not Defined' }}
+                                                            </li>
+                                                            <li>{{ $item->sal_disclosed == 'Yes' ? 'INR ' . $minsalary . ' - ' . $item->offered_sal_max : 'Not Disclosed' }}
+                                                            </li>
+
+                                                        </ul>
+                                                        <span class="text-muted">Experience Required :
+                                                            {{ $exp_required }}</span>
+                                                    </div>
                                                 </div>
-                                                <div class="job-tittle job-tittle2">
-                                                    <a href="{{ route('job_details', ['id' => $item->id]) }}">
-                                                        <h4>{{ $item->title }}</h4>
-                                                    </a>
-                                                    <ul>
-                                                        <li>{{ $item->company_name }}</li>
-                                                        <li><i
-                                                                class="fas fa-map-marker-alt"></i>{{ $item->job_exp ? $item->job_exp : 'Not Defined' }}
-                                                        </li>
-                                                        <li>{{ $item->sal_disclosed == 'Yes' ? 'INR ' . $minsalary . ' - ' . $item->offered_sal_max : 'Not Disclosed' }}
-                                                        </li>
 
-                                                    </ul>
-                                                    <span class="text-muted">Experience Required :
-                                                        {{ $exp_required }}</span>
-                                                </div>
                                             </div>
-
                                         </div>
-                                    </div>
-                                @empty
-                                    <span class="text-danger text-center">No Jobs Found</span>
-                                @endforelse
-
+                                    @empty
+                                        <span class="text-danger text-center">No Jobs Found</span>
+                                    @endforelse
+                                </div>
                                 <div class="joblists1">
 
                                 </div>
@@ -298,27 +310,17 @@
         </div>
         <!-- Job List Area End -->
         <!--Pagination Start  -->
-        <div class="pagination-area pb-115 text-center" id="hidepagination">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="single-wrap d-flex justify-content-center" >
-                            {{ $data->links() }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="pagination-area pb-115 text-center">
             <div class="container">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="single-wrap d-flex justify-content-center" id="showpagination">
-                            <div id="pagination">
-                                <ul class="pagination">
-                                   
-                                </ul>
-                            </div>
+                <div class="row justify-content-center">
+                    <div class="text-center">
+                        <div class="single-wrap default_pagination">
+                            {{ $data->links() }}
+
+                        </div>
+                        <div class="single-wrap filter_pagination">
+
+
                         </div>
                     </div>
                 </div>
@@ -330,5 +332,6 @@
 @endsection
 
 @section('script')
+
     <script src="{{ asset('assests/js/custom_js/job-listing.js') }}"></script>
 @endsection
