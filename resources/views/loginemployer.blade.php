@@ -1,4 +1,4 @@
-@extends('layouts.master', ['title' => 'Login'])
+@extends('layouts.master', ['title' => 'Employer Login'])
 @section('content')
     <!-- ================ registration form section start ================= -->
     <section id="registration-form">
@@ -54,15 +54,16 @@
                                     <label for="">Remember Me</label>
                                 </div>
 
-                                <div class="input-data col">
-                                    <a href="#" class="btn btn-warning">Forgot Password?</a>
-                                </div>
+                               
                             </div>
                             <div class="form-row submit-btn">
                                 <div class="input-data col">
                                     <div class="inner"></div>
                                     <input type="submit" value="Sign in">
                                 </div>
+                            </div>
+                            <div class="input-data col">
+                                <a href="#" class="text-dark text-center">Forgot Password?</a>
                             </div>
                             <div class="text-center">
                                 <p>OR</p>

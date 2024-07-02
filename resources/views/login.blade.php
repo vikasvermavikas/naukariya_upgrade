@@ -63,9 +63,7 @@
                                     <label for="">Remember Me</label>
                                 </div>
 
-                                <div class="input-data col">
-                                    <a href="#" class="btn btn-warning">Forgot Password?</a>
-                                </div>
+                              
                             </div>
                             <!-- Google Recaptcha -->
 
@@ -80,6 +78,9 @@
                                             data-callback="onSubmit"
                                             data-action="submitContact">Submit</button>
                                 </div> --}}
+                            </div>
+                            <div class="input-data col">
+                                <a href="#" class="text-dark justify-content-center">Forgot Password?</a>
                             </div>
                             <div class="text-center">
                                 <p>OR</p>

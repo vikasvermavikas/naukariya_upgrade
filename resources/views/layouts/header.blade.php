@@ -44,15 +44,15 @@
                                             <li><a href={{ route('AllDataForJobSeeker') }}>Dashboard</a></li>
                                             <li><a href='#'>Jobs </a>
                                                 <ul class="submenu">
-                                                    <li><a href="#">Jobs in Ahmedabad</a></li>
-                                                    <li><a href="#">Jobs in Bangalore/Bangaluru</a></li>
-                                                    <li><a href="#">Jobs in Chennai</a></li>
-                                                    <li><a href="#">Jobs in Delhi/NCR</a></li>
-                                                    <li><a href="#">Jobs in Hyderabad/Secunderabad</a></li>
-                                                    <li><a href="#">Jobs in Kolkata</a></li>
-                                                    <li><a href="#">Jobs in Mumbai (All Areas)</a></li>
-                                                    <li><a href="#">Jobs in Pune</a></li>
-                                                    <li><a href="#">Jobs in Delhi</a></li>
+                                                    <li><a href="{{route('loadJoblistPage')}}?location=Jobs-in-Ahmedabad">Jobs in Ahmedabad</a></li>
+                                                    <li><a href="{{route('loadJoblistPage')}}?location=Jobs-in-Bangalore/Bengaluru">Jobs in Bangalore/Bangaluru</a></li>
+                                                    <li><a href="{{route('loadJoblistPage')}}?location=Jobs-in-Chennai">Jobs in Chennai</a></li>
+                                                    <li><a href="{{route('loadJoblistPage')}}?location=Jobs-in-Delhi">Jobs in Delhi</a></li>
+                                                    <li><a href="{{route('loadJoblistPage')}}?location=Jobs-in-Hyderabad/Secunderabad">Jobs in Hyderabad/Secunderabad</a></li>
+                                                    <li><a href="{{route('loadJoblistPage')}}?location=Jobs-in-Kolkata">Jobs in Kolkata</a></li>
+                                                    <li><a href="{{route('loadJoblistPage')}}?location=Jobs-in-Mumbai (All Areas)">Jobs in Mumbai (All Areas)</a></li>
+                                                    <li><a href="{{route('loadJoblistPage')}}?location=Jobs-in-Pune">Jobs in Pune</a></li>
+                                                    
                                                 </ul>
                                             </li>
 
@@ -431,7 +431,7 @@
                                     </div>
                                     <div class="header-btn d-none f-right d-lg-block">
                                         <div class="dropdown">
-                                            <a href="#" class="btn head-btn1 dropdown-toggle employer"
+                                            <a href="#" class="text-dark head-btn1 dropdown-toggle employer"
                                                 data-bs-toggle="dropdown" aria-expanded="false">
                                                 Employer
                                             </a>
