@@ -28,7 +28,7 @@
                         <div class="row">
                             <div class="col-xl-8">
                                 <!-- form -->
-                                <form action="{{ route('job_listing') }}" method="GET" class="search-box">
+                                <form action="{{ route('loadJoblistPage') }}" method="GET" class="search-box">
                                     <div class="input-form">
                                         <input type="text" name="searchkeyword" placeholder="Job Tittle or keyword" required>
                                     </div>
