@@ -1,7 +1,6 @@
 @extends('layouts.master', ['title' => 'Job Listing'])
 @section('content')
     <main>
-
         <!-- Hero Area Start-->
         <div class="slider-area ">
             <div class="single-slider section-overly slider-height2 d-flex align-items-center"
@@ -208,23 +207,24 @@
                                             <span id="jobcount"> Jobs found ({{ $data->count() }}) </span>
                                             <!-- Select job items start -->
                                             <div>
-                                                <form action="{{ route('loadLoginPage') }}" method="GET"
-                                                    class="form-inline">
+                                                {{-- <form action="{{ route('loadLoginPage') }}" method="GET" --}}
+                                                    {{-- class="form-inline"> --}}
 
-                                                    <input type="text" name="searchkeyword"
+                                                    <input type="text" name="searchkeyword" id="searchkeyword"
                                                         placeholder="Search by Keyword"
-                                                        value="{{ $searchTerm ? $searchTerm : '' }}" class="form-control"
-                                                        required>
-                                                    @error('searchkeyword')
+                                                        value="{{ $searchTerm ? $searchTerm : '' }}" 
+                                                        required autocomplete="off"/>
+                                                        <span onclick="fetchJobListings()"> <i class="fas fa-search text-color"></i></span>
+
+                                                    {{-- @error('searchkeyword')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
-                                                    <button class="ml-2 form-control text-white"
-                                                        style="background:#e35e25;border:0;">Search</button>
+                                                   
                                                     <a href="{{ route('loadLoginPage') }}"
                                                         class="ml-2 form-control text-white"
-                                                        style="background:#e35e25;border:0;">Clear</a>
+                                                        style="background:#e35e25;border:0;">Clear</a> --}}
 
-                                                </form>
+                                                {{-- </form> --}}
                                             </div>
                                             {{-- <div class="select-job-items">
                                                 <span>Sort by</span>
@@ -298,13 +298,27 @@
         </div>
         <!-- Job List Area End -->
         <!--Pagination Start  -->
+        <div class="pagination-area pb-115 text-center" id="hidepagination">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="single-wrap d-flex justify-content-center" >
+                            {{ $data->links() }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="pagination-area pb-115 text-center">
             <div class="container">
                 <div class="row">
                     <div class="col-xl-12">
-                        <div class="single-wrap d-flex justify-content-center">
-                            {{ $data->links() }}
-
+                        <div class="single-wrap d-flex justify-content-center" id="showpagination">
+                            <div id="pagination">
+                                <ul class="pagination">
+                                   
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>

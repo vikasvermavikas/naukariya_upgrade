@@ -1,3 +1,5 @@
+
+
 $(document).ready(function() {
     $.ajax({
         url: '/get-industry',
@@ -14,11 +16,12 @@ $(document).ready(function() {
     });
 });
 
-
+//pagination
 
 $(document).ready(function() {
     function fetchJobListings() {
         var industry = $('#industries').val();
+        var searchkeyword = $('#searchkeyword').val();
         var jobTypes = [];
         $('.jobtype:checked').each(function() {
             jobTypes.push($(this).val());
@@ -32,13 +35,17 @@ $(document).ready(function() {
             postedWithin.push($(this).val());
         });
         // var queryString = `industry=${industry}`;
-        var queryString = `industry=${industry}&jobTypes=${jobTypes.join(',')}&experiences=${experiences.join(',')}&postedWithin=${postedWithin.join(',')}`;
+        var queryString = `industry=${industry}&jobTypes=${jobTypes.join(',')}&experiences=${experiences.join(',')}&postedWithin=${postedWithin.join(',')}&searchkeyword=${searchkeyword}`;
         console.log(queryString);
         $.ajax({
             url: `/job_listing-data?${queryString}`,
             type: 'GET',
                 success: function(data) {
+
+                    console.log(data.data.links);
+
                     $('.joblists').hide();
+                    $('#hidepagination').hide();
                                 var html = '';
                                 var base_url = window.location.origin;
                                 var jobCount = data.data.data.length;
@@ -94,7 +101,7 @@ $(document).ready(function() {
                                         </div>`;
                                    
                                 });
-                                $('.joblists1').html(html);
+                                $('.joblists1').html(html);                            
                                 }else{
                                     $('.joblists1').html('Record not Found');
                                 }
@@ -111,6 +118,7 @@ $(document).ready(function() {
     $('.jobtype').on('change', fetchJobListings);
     $('.experience').on('change', fetchJobListings);
     $('.postedWithin').on('change', fetchJobListings);
+    $('#searchkeyword').on('change', fetchJobListings);
 
     // $('#postedWithin').click(function(){
     //     if(this.checked) {
@@ -118,3 +126,4 @@ $(document).ready(function() {
     //     }
     // } );
 });
+
