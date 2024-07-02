@@ -1,7 +1,6 @@
 @extends('layouts.master', ['title' => 'Job Listing'])
 @section('content')
     <main>
-
         <!-- Hero Area Start-->
         <div class="slider-area ">
             <div class="single-slider section-overly slider-height2 d-flex align-items-center"
@@ -49,6 +48,17 @@
                                     <select class="form-control" name="job_category" id="industries">
                                         <option value="">Select Industry</option>
                                     </select>
+                                </div>
+                                <div class="small-section-tittle2 mt-4">
+                                    <h4>Skill</h4>
+                                </div>
+                                <div class="select-job-items2">
+                                    <select class="js-example-responsive" class="form-control" multiple="multiple" style="width:100%">
+                                        <option value="php">Skill</option>
+                                        <option value="Java">Java</option>
+                                        <option value="python">Python</option>
+                                    </select>
+
                                 </div>
                                 <!--  Select job items End-->
                                 <!-- select-Categories start -->
@@ -208,23 +218,24 @@
                                             <span id="jobcount"> Jobs found ({{ $data->count() }}) </span>
                                             <!-- Select job items start -->
                                             <div>
-                                                <form action="{{ route('loadLoginPage') }}" method="GET"
-                                                    class="form-inline">
+                                                {{-- <form action="{{ route('loadLoginPage') }}" method="GET" --}}
+                                                    {{-- class="form-inline"> --}}
 
-                                                    <input type="text" name="searchkeyword"
+                                                    <input type="text" name="searchkeyword" id="searchkeyword"
                                                         placeholder="Search by Keyword"
-                                                        value="{{ $searchTerm ? $searchTerm : '' }}" class="form-control"
-                                                        required>
-                                                    @error('searchkeyword')
+                                                        value="{{ $searchTerm ? $searchTerm : '' }}" 
+                                                        required autocomplete="off"/>
+                                                        <span onclick="fetchJobListings()"> <i class="fas fa-search text-color"></i></span>
+
+                                                    {{-- @error('searchkeyword')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
-                                                    <button class="ml-2 form-control text-white"
-                                                        style="background:#e35e25;border:0;">Search</button>
+                                                   
                                                     <a href="{{ route('loadLoginPage') }}"
                                                         class="ml-2 form-control text-white"
-                                                        style="background:#e35e25;border:0;">Clear</a>
+                                                        style="background:#e35e25;border:0;">Clear</a> --}}
 
-                                                </form>
+                                                {{-- </form> --}}
                                             </div>
                                             {{-- <div class="select-job-items">
                                                 <span>Sort by</span>

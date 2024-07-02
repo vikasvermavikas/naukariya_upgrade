@@ -187,6 +187,13 @@
   color:#fff;
 }
 
+#searchkeyword{
+  height: 41px;
+border-radius: 2px;
+border: 1px solid;
+text-align-last: left;
+border: 1px solid #ced4da;
+}
 
 
 

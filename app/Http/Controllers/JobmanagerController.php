@@ -1071,7 +1071,7 @@ class JobmanagerController extends Controller
         // print_r($dataFilter->toSql());
         // echo "</pre>";
         // die;
-        $data = $dataFilter->paginate(25)->withQueryString();
+        $data = $dataFilter->paginate(15)->withQueryString();
         // $data = $dataFilter->getBindings();
         // $values = $dataFilter->toSql();
 

@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/slick.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/nice-select.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    //select2
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script async src="https://www.google.com/recaptcha/api.js">// Add recaptcha script
     </script>
     @yield('style')
@@ -85,6 +87,9 @@
     <!-- Jquery Plugins, main Jquery -->
     <script src={{ asset('assets/js/plugins.js') }}></script>
     <script src={{ asset('assets/js/main.js') }}></script>
+
+    {{-- select2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     @yield('script')
     
     <script>

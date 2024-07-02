@@ -20,6 +20,7 @@ $(document).ready(function () {
     function fetchJobListings(pageno = 1) {
         $('.joblists1').show();
         var industry = $('#industries').val();
+        var searchkeyword = $('#searchkeyword').val();
         var jobTypes = [];
         $('.jobtype:checked').each(function () {
             jobTypes.push($(this).val());
@@ -34,10 +35,10 @@ $(document).ready(function () {
         });
 
         // var queryString = `industry=${industry}`;
-        var queryString = `industry=${industry}&jobTypes=${jobTypes.join(',')}&experiences=${experiences.join(',')}&postedWithin=${postedWithin.join(',')}?page=${pageno}`;
+        var queryString = `industry=${industry}&jobTypes=${jobTypes.join(',')}&experiences=${experiences.join(',')}&postedWithin=${postedWithin.join(',')}&searchkeyword=${searchkeyword}&page=${pageno}`;
 
         // If all filters are removed then show default data.
-        if (industry == '' && jobTypes.join(',') == '' && experiences.join(',') == '' && postedWithin.join(',') == '') {
+        if (industry == '' && jobTypes.join(',') == '' && experiences.join(',') == '' && postedWithin.join(',') == '' && searchkeyword == '') {
             fetchDefaultData();
             console.log('hi');
             return false;
@@ -149,11 +150,13 @@ $(document).ready(function () {
     $('.jobtype').on('change', fetchJobListings);
     $('.experience').on('change', fetchJobListings);
     $('.postedWithin').on('change', fetchJobListings);
+    $('#searchkeyword').on('change', fetchJobListings);
 
 });
 function getFilterdata(pageno = 1) {
     $('.joblists1').show();
     var industry = $('#industries').val();
+    var searchkeyword = $('#searchkeyword').val();
     var jobTypes = [];
     $('.jobtype:checked').each(function () {
         jobTypes.push($(this).val());
@@ -168,10 +171,10 @@ function getFilterdata(pageno = 1) {
     });
 
     // var queryString = `industry=${industry}`;
-    var queryString = `industry=${industry}&jobTypes=${jobTypes.join(',')}&experiences=${experiences.join(',')}&postedWithin=${postedWithin.join(',')}&page=${pageno}`;
+    var queryString = `industry=${industry}&jobTypes=${jobTypes.join(',')}&experiences=${experiences.join(',')}&postedWithin=${postedWithin.join(',')}searchkeyword=${searchkeyword}&page=${pageno}`;
 
     // If all filters are removed then show default data.
-    if (industry == '' && jobTypes.join(',') == '' && experiences.join(',') == '' && postedWithin.join(',') == '') {
+    if (industry == '' && jobTypes.join(',') == '' && experiences.join(',') == '' && postedWithin.join(',') == '' && searchkeyword == '') {
         fetchDefaultData();
         return false;
     }
@@ -270,4 +273,9 @@ function getFilterdata(pageno = 1) {
     });
 
 }
+
+
+$(".js-example-responsive").select2({
+    width: 'resolve' // need to override the changed default
+});
 
