@@ -49,16 +49,13 @@
                                         <option value="">Select Industry</option>
                                     </select>
                                 </div>
-                                <div class="small-section-tittle2 mt-4">
+                                <div class="small-section-tittle2 pt-80">
                                     <h4>Skill</h4>
                                 </div>
                                 <div class="select-job-items2">
-                                    <select class="js-example-responsive" class="form-control" multiple="multiple" style="width:100%">
-                                        <option value="php">Skill</option>
-                                        <option value="Java">Java</option>
-                                        <option value="python">Python</option>
+                                    <select class="js-example-responsive form-control skill" name="skill[]" multiple="multiple" style="width:100%" id="skill" >
+                                        <option value="">Select Skill</option>
                                     </select>
-
                                 </div>
                                 <!--  Select job items End-->
                                 <!-- select-Categories start -->

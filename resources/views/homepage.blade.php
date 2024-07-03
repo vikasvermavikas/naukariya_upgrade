@@ -370,9 +370,6 @@
                         <span class="d-flex justify-content-center">
                             <a href="{{ route('job_listing') }}" class="btn btn-warning ">View All</a>
                         </span>
-
-
-
                     </div>
                 </div>
             </div>

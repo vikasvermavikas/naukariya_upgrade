@@ -20,6 +20,7 @@ use App\Mail\Deactivejobmanager;
 use App\Mail\Updatejobmanager;
 use App\Models\Notification;
 use App\Models\Jobseeker;
+use App\Models\JsSkill;
 use Illuminate\Support\Facades\Redirect;
 
 class JobmanagerController extends Controller
@@ -871,6 +872,8 @@ class JobmanagerController extends Controller
 
 
         $searchTerm = request('searchkeyword');
+        $skill = request('skill');
+
         //keyword in home page
         $keywordhome = request('keyword');
         $location = str_replace("Jobs-in-", "", request('location'));
@@ -1050,7 +1053,12 @@ class JobmanagerController extends Controller
             });
         }
 
-        // dd( $dataFilter->toSQL());
+        if (isset($skill) && $skill !== '') {
+            $dataFilter->where(function ($query) use ($skill) {
+                $query->where('jobmanagers.job_skills', 'like', "%$skill%");
+            });
+        }
+
 
 
 
@@ -2100,5 +2108,10 @@ class JobmanagerController extends Controller
 
         $data = $dataFilter->paginate(25);
         return response()->json(['data' => $data->withPath(route('loadJoblistPage')), 'totalrecord' => $totalrecord], 200);
+    }
+
+    public function getSkill(){
+        $data = JsSkill::select('id','skill')->get();
+        return response()->json(['data' => $data], 200);
     }
 }
