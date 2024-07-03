@@ -257,11 +257,11 @@
                                 <li class="nav-item dropdown open">
                                     <a href="#" data-toggle="dropdown" role="button" aria-expanded="false"
                                         class="nav-link dropdown-toggle">
-                                        <img src={{ asset('assets/images/naukriyan-logo.png') }} width="36"
+                                        <img src={{ asset('assets/images/default-image.png') }} width="36"
                                             height="36" class="mini-photo rounded-circle"></a>
                                     <ul class="dropdown-menu user-menu">
                                         <div class="profile-highlight text-center">
-                                            <img src={{ asset('assets/images/naukriyan-logo.png') }} width="36"
+                                            <img src={{ asset('assets/images/default-image.png') }} width="36"
                                                 height="36" class="mini-photo rounded-circle text-center">
                                             <div class="details text-center">
                                                 <div id="profile-name">

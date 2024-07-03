@@ -1,17 +1,22 @@
-$(document).ready(function() {
-    $("#location").on("keyup", function() {
-        var location = $(this).val();
+$(document).ready(function () {
+    $('.js-example-basic-single').select2();
+    // $("#location").on("focus", function() {
+    // var location = $(this).val();
+    function getLocations(search = '') {
         $.ajax({
-            url: "/get-locations/" + location + "",
+            url: "/get-locations/"+search,
             method: "GET",
             dataType: "json",
-            success: function(data) {
-                var html = "";
-                $.each(data, function(key, value) {
-                    html += "<option value='" + value.cities_name + "'>"+value.cities_name+"</option>";
+            success: function (data) {
+                var html = "<option value='' >Select Location</option>";
+                $.each(data, function (key, value) {
+                    html += "<option value='" + value.cities_name + "'>" + value.cities_name + "</option>";
                 })
-                $("#locationlist").html(html);
+                $("#location").html(html);
             }
         })
-    })
+    };
+    getLocations();
+  
+    // })
 })

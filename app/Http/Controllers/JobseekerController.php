@@ -548,7 +548,6 @@ class JobseekerController extends Controller
     }
     public function getLocations($search = '')
     {
-        // $cities = Cities::where('state_id', '<',  42)->groupBy('cities_name')->pluck('cities_name')->toArray();
         //  $master_location = DB::table('master_location')->pluck('location')->toArray();
         //$skills = JsSkill::pluck('skill')->toArray();
         // $companies = Empcompaniesdetail::pluck('company_name')->toArray();
@@ -558,13 +557,10 @@ class JobseekerController extends Controller
         // });
 
         // $demo = array_merge($cities);
-        $cities = '';
-        if ($search) {
-            $cities = Cities::select('cities_name')->where('cities_name', 'like', "%$search%")
-            ->offset(0)
-            ->limit(5)
-            ->get();
-        }
+
+        $cities = Cities::select('cities_name')->where('state_id', '<',  42)->groupBy('cities_name')->get();
+
+
         return $cities;
     }
 
