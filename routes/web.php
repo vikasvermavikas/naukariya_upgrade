@@ -97,6 +97,8 @@ Route::post('/jobseeker-logout', [UserprofileController::class, 'logout'])->name
 Route::get('/auth/redirect/{provider}/{userType}', [JobseekerController::class, 'redirect'])->name('sociallogin');
 Route::get('/callback/{provider}', [JobseekerController::class, 'callback'])->name('socialcallback');
 Route::get('/get-industry', [IndustryController::class, 'index'])->name('getIndustries');
+Route::get('/get-skill', [JobmanagerController::class, 'getSkill'])->name('getSkill');
+
 Route::get('/get-locations/{search?}', [JobseekerController::class, 'getLocations'])->name('get-locations');
 
 // Jobseekers routes.

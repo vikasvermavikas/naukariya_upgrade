@@ -14,6 +14,26 @@ $(document).ready(function () {
     });
 });
 
+$(document).ready(function () {
+    $.ajax({
+        url: '/get-skill',
+        method: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            // console.log(data);
+            var html = '<option value="">Select Skill</option>';
+            $.each(data.data, function (key, value) {
+                html += '<option value="' + value.skill + '">' + value.skill +
+                    '</option>';
+            });
+            $('#skill').html(html);
+        }
+    });
+});
+
+   
+
+
 
 $(document).ready(function () {
 
@@ -21,6 +41,14 @@ $(document).ready(function () {
         $('.joblists1').show();
         var industry = $('#industries').val();
         var searchkeyword = $('#searchkeyword').val();
+
+        // var skill = [];
+
+        var skill = $('#skill').val();
+
+        console.log(skill);
+
+
         var jobTypes = [];
         $('.jobtype:checked').each(function () {
             jobTypes.push($(this).val());
@@ -35,10 +63,10 @@ $(document).ready(function () {
         });
 
         // var queryString = `industry=${industry}`;
-        var queryString = `industry=${industry}&jobTypes=${jobTypes.join(',')}&experiences=${experiences.join(',')}&postedWithin=${postedWithin.join(',')}&searchkeyword=${searchkeyword}&page=${pageno}`;
+        var queryString = `industry=${industry}&jobTypes=${jobTypes.join(',')}&experiences=${experiences.join(',')}&postedWithin=${postedWithin.join(',')}&searchkeyword=${searchkeyword}&skill=${skill}&page=${pageno}`;
 
         // If all filters are removed then show default data.
-        if (industry == '' && jobTypes.join(',') == '' && experiences.join(',') == '' && postedWithin.join(',') == '' && searchkeyword == '') {
+        if (industry == '' && jobTypes.join(',') == '' && experiences.join(',') == '' && postedWithin.join(',') == '' && searchkeyword == '' && skill=='') {
             fetchDefaultData();
             console.log('hi');
             return false;
@@ -106,7 +134,6 @@ $(document).ready(function () {
 
                     });
                     $('.joblists1').html(html);
-
                     //         // start pagination
                     var pagination = '<nav><ul class="pagination">';
                     $.each(data.data.links, function (key, value) {
@@ -151,8 +178,10 @@ $(document).ready(function () {
     $('.experience').on('change', fetchJobListings);
     $('.postedWithin').on('change', fetchJobListings);
     $('#searchkeyword').on('change', fetchJobListings);
+    $('.skill').on('change', fetchJobListings);
 
 });
+
 function getFilterdata(pageno = 1) {
     $('.joblists1').show();
     var industry = $('#industries').val();
