@@ -1,4 +1,4 @@
-@extends('layouts.master', ['title' => 'Login'])
+@extends('layouts.master', ['title' => 'Jobseeker Login'])
 @section('style')
 <style>
 

@@ -21,13 +21,31 @@
             height: 100%;
             background: white;
         }
+
+        @media only screen and (min-width: 368px) and (max-width: 768px) {
+            .select2-container {
+                /* width: 100%; */
+            }
+        }
     </style>
 @endsection
 @section('content')
     <main>
-
         <!-- slider Area Start-->
         <div class="slider-area ">
+            <div class="container">
+
+                <div class="row">
+                    @if (session()->has('message'))
+                        <div class="alert alert-success alert-dismissible fade show w-100" role="alert">
+                            abra ka dabra
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
+                </div>
+            </div>
             <!-- Mobile Menu -->
             <div class="slider-active">
                 <div class="single-slider slider-height d-flex align-items-center"
@@ -73,13 +91,13 @@
         </div>
         <!-- slider Area End-->
         <!-- Our Services Start -->
-        <div class="our-services section-pad-t30">
+        <div class="our-services pt-4">
             <div class="container">
                 <!-- Section Tittle -->
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-tittle text-center">
-                            <span>FEATURED TOURS Packages</span>
+                            {{-- <span>FEATURED TOURS Packages</span> --}}
                             <h2>Browse Top Categories </h2>
                         </div>
                     </div>
@@ -187,13 +205,13 @@
         </div>
         <!-- Our Services End -->
         <!-- Online CV Area Start -->
-        <div class="online-cv cv-bg section-overly pt-90 pb-120"
+        <div class="online-cv cv-bg section-overly pt-90 pb-100"
             data-background={{ asset('assets/img/gallery/cv_bg.jpg') }}>
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xl-10">
                         <div class="cv-caption text-center">
-                            <p class="pera1">FEATURED TOURS Packages</p>
+                            {{-- <p class="pera1">FEATURED TOURS Packages</p> --}}
                             <p class="pera2"> Make a Difference with Your Online Resume!</p>
                             <a href="#" class="border-btn2 border-btn4">Upload your cv</a>
                         </div>
@@ -209,7 +227,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-tittle text-center">
-                            <span>Recent Job</span>
+                            {{-- <span>Recent Job</span> --}}
                             <h2>Featured Jobs</h2>
                         </div>
                     </div>
@@ -529,7 +547,7 @@
                             <img src={{ asset('assets/img/service/support-img.jpg') }} alt="">
                             <div class="support-img-cap text-center">
                                 <p>Since</p>
-                                <span>1994</span>
+                                <span>2015</span>
                             </div>
                         </div>
                     </div>
@@ -598,5 +616,12 @@
     </main>
 @endsection
 @section('script')
+
     <script src="{{ asset('assests/js/custom_js/homepage.js') }}"></script>
+    <script>
+
+        //  @if ($message = session('succes_message')) 
+    
+        // @endif 
+            </script>
 @endsection
