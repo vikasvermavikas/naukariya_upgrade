@@ -5,6 +5,22 @@
             background-color: #e35e25;
             color: white !important;
         }
+
+        .select2-selection__arrow {
+            top: 22px !important;
+        }
+
+        .select2-container--default .select2-selection--single {
+            /* height: 100%; */
+            border: none;
+            margin-top: 20px;
+        }
+
+        .select2-container {
+            /* width: 100%; */
+            height: 100%;
+            background: white;
+        }
     </style>
 @endsection
 @section('content')
@@ -28,16 +44,21 @@
                         <div class="row">
                             <div class="col-xl-8">
                                 <!-- form -->
-                                <form action="{{ route('job_listing') }}" method="GET" class="search-box">
+                                <form action="{{ route('loadJoblistPage') }}" method="GET" class="search-box">
                                     <div class="input-form">
-                                        <input type="text" name="searchkeyword" placeholder="Job Tittle or keyword" required>
+                                        <input type="text" name="searchkeyword" placeholder="Job Tittle or keyword"
+                                            required>
                                     </div>
                                     <div class="select-form">
                                         <div class="select-itms h-100">
-                                            <input class="form-control h-100 border-0" list="locationlist" name="location"
+                                            {{-- <input class="form-control h-100 border-0" list="locationlist" name="location"
                                                 id="location" placeholder="Enter location">
                                             <datalist id="locationlist" class="bg-white" role="listbox">
-                                            </datalist>
+                                            </datalist> --}}
+                                            <select class="js-example-basic-single form-control"
+                                                placeholder="Enter location" name="location" id="location">
+                                                <option value="">Select Location</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="search-form">
@@ -58,7 +79,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-tittle text-center">
-                            {{-- <span>FEATURED TOURS Packages</span> --}}
+                            <span>FEATURED TOURS Packages</span>
                             <h2>Browse Top Categories </h2>
                         </div>
                     </div>
@@ -158,7 +179,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="browse-btn2 text-center mt-50">
-                            <a href="{{route('loadJoblistPage')}}" class="border-btn2" target="_blank">Browse All Sectors</a>
+                            <a href="job_listing.html" class="border-btn2">Browse All Sectors</a>
                         </div>
                     </div>
                 </div>
@@ -172,9 +193,9 @@
                 <div class="row justify-content-center">
                     <div class="col-xl-10">
                         <div class="cv-caption text-center">
-                            {{-- <p class="pera1">FEATURED TOURS Packages</p> --}}
+                            <p class="pera1">FEATURED TOURS Packages</p>
                             <p class="pera2"> Make a Difference with Your Online Resume!</p>
-                            <a href="{{ route('register') }}" class="border-btn2 border-btn4" target="_blank">Upload your cv</a>
+                            <a href="#" class="border-btn2 border-btn4">Upload your cv</a>
                         </div>
                     </div>
                 </div>
@@ -188,7 +209,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-tittle text-center">
-                            {{-- <span>Recent Job</span> --}}
+                            <span>Recent Job</span>
                             <h2>Featured Jobs</h2>
                         </div>
                     </div>
@@ -199,6 +220,7 @@
 
                     <div class="col-xl-10">
                         <div class="container">
+
                             <!-- Nav tabs -->
                             <ul class="nav d-flex justify-content-center" role="tablist">
                                 <li class="nav-item border rounded">
@@ -346,7 +368,7 @@
                             </div>
                         </div>
                         <span class="d-flex justify-content-center">
-                            <a href="{{ route('loadJoblistPage') }}" class="btn btn-warning" target="_blank">View All</a>
+                            <a href="{{ route('job_listing') }}" class="btn btn-warning ">View All</a>
                         </span>
                     </div>
                 </div>
@@ -409,7 +431,7 @@
         </div>
         <!-- How  Apply Process End-->
         <!-- Testimonial Start -->
-        {{-- <div class="testimonial-area testimonial-padding">
+        <div class="testimonial-area testimonial-padding">
             <div class="container">
                 <!-- Testimonial contents -->
                 <div class="row d-flex justify-content-center">
@@ -479,7 +501,7 @@
                     </div>
                 </div>
             </div>
-        </div> --}}
+        </div>
         <!-- Testimonial End -->
         <!-- Support Company Start-->
         <div class="support-company-area support-padding fix">
@@ -522,7 +544,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-tittle text-center">
-                            {{-- <span>Our latest blog</span> --}}
+                            <span>Our latest blog</span>
                             <h2>Our recent news</h2>
                         </div>
                     </div>

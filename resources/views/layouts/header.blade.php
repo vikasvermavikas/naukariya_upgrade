@@ -115,12 +115,12 @@
                                 <li class="nav-item dropdown open">
                                     <a href="#" data-toggle="dropdown" role="button" aria-expanded="false"
                                         class="nav-link dropdown-toggle">
-                                        <img src={{ asset('assets/images/naukriyan-logo.png') }}
-                                            class="mini-photo img-responsive rounded-circle"></a>
+                                        <img src={{ asset('assets/images/default-image.png') }}
+                                            class="mini-photo img-responsive rounded-circle mx-auto" style="width: 45px;"></a>
                                     <ul class="dropdown-menu user-menu">
                                         <div class="profile-highlight text-center">
-                                            <img src={{ asset('assets/images/naukriyan-logo.png') }}
-                                                class="mini-photo img-responsive rounded-circle text-center">
+                                            <img src={{ asset('assets/images/default-image.png') }}
+                                                class="mini-photo img-responsive rounded-circle text-center" style="width: 50px;">
                                             <div class="details text-center">
                                                 <div id="profile-name">
                                                     <small>{{ Auth::guard('jobseeker')->user()->fname . ' ' . Auth::guard('jobseeker')->user()->lname }}
@@ -131,37 +131,17 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <li class="user-menu__item mt-2">
-                                            <a href="#/editemployer" class="user-menu-link">
-                                                <div class="text-color"><i class="fas fa-user"></i> Edit profile</div>
-                                            </a>
-                                        </li>
+                                       
                                         <li class="user-menu__item mt-2">
                                             <a href="#/viewemployeeprofile" class="user-menu-link">
                                                 <div class="text-color"><i class="fas fa-user-circle"></i> My profile
                                                 </div>
                                             </a>
                                         </li>
-                                        <li class="user-menu__item mt-2">
-                                            <a href="#/vieworganization" class="user-menu-link">
-                                                <div class="text-color"><i class="fas fa-sitemap"></i> Organisation
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li class="user-menu__item mt-2">
-                                            <a href="#/emp-inbox" class="user-menu-link">
-                                                <div class="text-color"><i class="fas fa-inbox"></i> Inbox</div>
-                                            </a>
-                                        </li>
-                                        <li class="user-menu__item mt-2">
-                                            <a href="#/employer-changepassword" class="user-menu-link">
-                                                <div class="text-color"><i class="fas fa-key"></i> Change password
-                                                </div>
-                                            </a>
-                                        </li>
+                                        
                                         <li class="user-menu__item mt-2">
                                             <a href="#" class="user-menu-link">
-                                                <div class="text-color"><i class="fas fa-sign-out-alt"></i>
+                                                <div class="text-color">
                                                     <form id="logout-form" action="{{ route('jobseekerlogout') }}"
                                                         method="POST">
                                                         @csrf
@@ -277,11 +257,11 @@
                                 <li class="nav-item dropdown open">
                                     <a href="#" data-toggle="dropdown" role="button" aria-expanded="false"
                                         class="nav-link dropdown-toggle">
-                                        <img src={{ asset('assets/images/naukriyan-logo.png') }} width="36"
+                                        <img src={{ asset('assets/images/default-image.png') }} width="36"
                                             height="36" class="mini-photo rounded-circle"></a>
                                     <ul class="dropdown-menu user-menu">
                                         <div class="profile-highlight text-center">
-                                            <img src={{ asset('assets/images/naukriyan-logo.png') }} width="36"
+                                            <img src={{ asset('assets/images/default-image.png') }} width="36"
                                                 height="36" class="mini-photo rounded-circle text-center">
                                             <div class="details text-center">
                                                 <div id="profile-name">
@@ -293,34 +273,14 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <li class="user-menu__item mt-2">
-                                            <a href="#/editemployer" class="user-menu-link">
-                                                <div class="text-color"><i class="fas fa-user"></i> Edit profile</div>
-                                            </a>
-                                        </li>
+                                     
                                         <li class="user-menu__item mt-2">
                                             <a href="#/viewemployeeprofile" class="user-menu-link">
                                                 <div class="text-color"><i class="fas fa-user-circle"></i> My profile
                                                 </div>
                                             </a>
                                         </li>
-                                        <li class="user-menu__item mt-2">
-                                            <a href="#/vieworganization" class="user-menu-link">
-                                                <div class="text-color"><i class="fas fa-sitemap"></i> Organisation
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li class="user-menu__item mt-2">
-                                            <a href="#/emp-inbox" class="user-menu-link">
-                                                <div class="text-color"><i class="fas fa-inbox"></i> Inbox</div>
-                                            </a>
-                                        </li>
-                                        <li class="user-menu__item mt-2">
-                                            <a href="#/employer-changepassword" class="user-menu-link">
-                                                <div class="text-color"><i class="fas fa-key"></i> Change password
-                                                </div>
-                                            </a>
-                                        </li>
+                                       
                                         <li class="user-menu__item mt-2">
                                             <a href="#" class="user-menu-link">
                                                 <div class="text-color"><i class="fas fa-sign-out-alt"></i>
