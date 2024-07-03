@@ -65,11 +65,15 @@
                          <!-- Form -->
                          <div class="footer-form" >
                              <div id="mc_embed_signup">
-                                 <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-                                 method="get" class="subscribe_form relative mail_part">
+                                 <form action="{{route('addNewsletter')}}"
+                                 method="POST" class="subscribe_form relative mail_part">
+                                 @csrf
                                      <input type="email" name="email" id="newsletter-form-email" placeholder="Email Address"
                                      class="placeholder hide-on-focus" onfocus="this.placeholder = ''"
-                                     onblur="this.placeholder = 'Email Address'">
+                                     onblur="this.placeholder = 'Email Address'" required>
+                                   @error('email')
+                                       <span class="text-danger">{{$message}}</span>
+                                   @enderror
                                      <div class="form-icon">
                                          <button type="submit" name="submit" id="newsletter-submit"
                                          class="email_icon newsletter-submit button-contactForm"><img src={{asset('assets/img/icon/form.png')}} alt=""></button>

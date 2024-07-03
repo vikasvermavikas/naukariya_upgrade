@@ -14,6 +14,7 @@ use App\Http\Controllers\ApplyJobController;
 use App\Http\Controllers\SavedJobController;
 use App\Http\Controllers\StageRegistration;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\NewsletterController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -82,6 +83,9 @@ Route::middleware(['guest:jobseeker', 'guest:employer'])->group(function () {
 
     //login employers
     Route::get('employerlogin', [FrontuserloginController::class, 'loadLoginPage'])->name('loadLoginPage');
+
+    Route::post('/add-newsletter', [NewsletterController::class, 'store'])->name('addNewsletter');
+
 });
 
 // jobseeker login

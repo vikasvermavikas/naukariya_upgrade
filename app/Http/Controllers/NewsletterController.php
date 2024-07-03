@@ -35,11 +35,11 @@ class NewsletterController extends Controller
         $this->validate(
             $request,
             [
-                'news_email' => 'required|unique:newsletters,email',
+                'email' => 'required|unique:newsletters,email',
             ],
             [
-                'news_email.required' => 'Email Cannot be empty!',
-                'news_email.unique' => 'Email is already registered',
+                'email.required' => 'Email Cannot be empty!',
+                'email.unique' => 'Email is already registered',
             ]
         );
 
@@ -50,8 +50,10 @@ class NewsletterController extends Controller
         }
 
         $news_letter = new Newsletter();
-        $news_letter->email = $request->news_email;
+        $news_letter->email = $request->email;
         $news_letter->user_type = $userType;
         $news_letter->save();
+
+        return redirect()->route('home')->with('message', 'Email registered successfully');
     }
 }
