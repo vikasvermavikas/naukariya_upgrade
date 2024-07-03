@@ -44,9 +44,19 @@ $(document).ready(function () {
 
         // var skill = [];
 
-        var skill = $('#skill').val();
 
-        console.log(skill);
+        var skill = $('#skill').val(); // Get and trim the value of the input field
+
+     
+        if(skill){
+            skill =  skill;
+        }else{
+            skill = '';
+        }
+        // var skill = $('#skill').val();
+        // if()
+
+        // console.log(skill);
 
 
         var jobTypes = [];
@@ -75,6 +85,8 @@ $(document).ready(function () {
             url: `/job_listing-data?${queryString}`,
             type: 'GET',
             success: function (data) {
+
+                // var data = JSON.parse(data);
                 $('.joblists').hide();
                 $(".default_pagination").hide();
 
@@ -184,6 +196,7 @@ $(document).ready(function () {
 
 function getFilterdata(pageno = 1) {
     $('.joblists1').show();
+    var skill = $('#skill').val();
     var industry = $('#industries').val();
     var searchkeyword = $('#searchkeyword').val();
     var jobTypes = [];
@@ -200,10 +213,10 @@ function getFilterdata(pageno = 1) {
     });
 
     // var queryString = `industry=${industry}`;
-    var queryString = `industry=${industry}&jobTypes=${jobTypes.join(',')}&experiences=${experiences.join(',')}&postedWithin=${postedWithin.join(',')}searchkeyword=${searchkeyword}&page=${pageno}`;
+    var queryString = `industry=${industry}&jobTypes=${jobTypes.join(',')}&experiences=${experiences.join(',')}&postedWithin=${postedWithin.join(',')}searchkeyword=${searchkeyword}&skill=${skill}&page=${pageno}`;
 
     // If all filters are removed then show default data.
-    if (industry == '' && jobTypes.join(',') == '' && experiences.join(',') == '' && postedWithin.join(',') == '' && searchkeyword == '') {
+    if (industry == '' && jobTypes.join(',') == '' && experiences.join(',') == '' && postedWithin.join(',') == '' && searchkeyword == '' && skill == '') {
         fetchDefaultData();
         return false;
     }
