@@ -43,7 +43,7 @@ class ContactUsController extends Controller
 
        return response()->json([
         'status' => 1,
-        'message' => 'Team will contact you soon'
+        'message' => 'Message send successfully, Team will contact you soon!'
        ]);
 
     }
