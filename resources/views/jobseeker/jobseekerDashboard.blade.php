@@ -7,47 +7,55 @@
                     <h1 class="text-center"><b>DASHBOARD</b></h1>
                     <div class="row mt-5">
                         <div class="col-sm-3">
-                            <a href="{{route('applyJobList')}}" target="_blank"> 
-                                <div class="box bg-success py-4 text-center mt-3"><span
+                            <a href="{{ route('applyJobList') }}" target="_blank">
+                                <div class="box bg-success py-4 text-center mt-3 rounded"><span
                                         class="text-white">{{ $data['applied_jobs'] }}</span>
-                                    <hr class="hr1"><span class="text-white">Applied Jobs</span>
+                                    <hr class="hr1">
+                                    <p class="lead"><span class="text-white"> Applied Jobs</span></p>
                                 </div>
                             </a>
 
                         </div>
                         <div class="col-sm-3">
-                            <div class="box bg-primary py-4 text-center mt-3"><span class="text-white">0</span>
-                                <hr class="hr1"><span class="text-white">Resume Format</span>
+                            <div class="box bg-primary py-4 text-center mt-3 rounded"><span class="text-white">0</span>
+                                <hr class="hr1">
+                                <p class="lead"><span class="text-white">Resume Format</span></p>
                             </div>
                         </div>
 
                         <div class="col-sm-3">
-                            <div class="box bg-dark py-4 text-center mt-3"><span
+                            <div class="box bg-dark py-4 text-center mt-3 rounded"><span
                                     class="text-white">{{ $data['recommended_jobs'] }}</span>
-                                <hr class="hr1"><span class="text-white">Recommended Jobs</span>
+                                <hr class="hr1">
+                                <p class="lead"><span class="text-white">Recommended Jobs</span></p>
                             </div>
                         </div>
                         <div class="col-sm-3">
-                            <div class="box bg-info py-4 text-center mt-3"><span class="text-white">
+                            <div class="box bg-info py-4 text-center mt-3 rounded"><span class="text-white">
                                     {{ $data['following'] }}</span>
-                                <hr class="hr1"><span class="text-white">Companies Following</span>
+                                <hr class="hr1">
+                                <p class="lead"><span class="text-white">Companies Following</span></p>
                             </div>
                         </div>
                         <div class="col-sm-3">
-                            <div class="box bg-success py-4 text-center mt-3"><span
+                            <div class="box bg-success py-4 text-center mt-3 rounded"><span
                                     class="text-white">{{ $data['saved_jobs'] }}</span>
-                                <hr class="hr1"><span class="text-white">Saved Jobs</span>
+                                <hr class="hr1">
+                                <p class="lead"><span class="text-white">Saved Jobs</span></p>
                             </div>
                         </div>
                         <div class="col-sm-3">
-                            <div class="box bg-success py-4 text-center mt-3"><span
+                            <div class="box bg-success py-4 text-center mt-3 rounded"><span
                                     class="text-white">{{ $data['recruiterMessages'] }}</span>
-                                <hr class="hr1"><span class="text-white">Recruiter Message</span>
+                                <hr class="hr1">
+                                <p class="lead"><span class="text-white">Recruiter Message</span></p>
                             </div>
                         </div>
                         <div class="col-sm-3">
-                            <div class="box bg-dark py-4 text-center mt-3"><span class="text-white"> 0</span>
-                                <hr class="hr1"><span class="text-white">Helpdesk</span>
+                            <div class="box bg-dark py-4 text-center mt-3 rounded"><span class="text-white"> 0</span>
+                                <hr class="hr1">
+                                <p class="lead"><span class="text-white">Helpdesk</span>
+                                </p>
                             </div>
                         </div>
 
