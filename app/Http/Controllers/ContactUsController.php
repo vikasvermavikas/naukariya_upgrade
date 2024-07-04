@@ -41,7 +41,10 @@ class ContactUsController extends Controller
         Mail::to($to)->send(new ContactUsMail($name, $mobile, $remarks, $email));
         Mail::to($email)->send(new ContactUsThanksMail($name));
 
-        return redirect()->back();
+       return response()->json([
+        'status' => 1,
+        'message' => 'Message send successfully, Team will contact you soon!'
+       ]);
 
     }
 }

@@ -875,7 +875,6 @@ class JobmanagerController extends Controller
 
         //keyword within browsejob
 
-
         $searchTerm = request('searchkeyword');
         $skill = request('skill');
 
@@ -1057,12 +1056,18 @@ class JobmanagerController extends Controller
                 $query->orWhereBetween('jobmanagers.created_at', [$startDate, $endDate]);
             });
         }
-
+       
+       
         if (isset($skill) && $skill !== '') {
-            $dataFilter->where(function ($query) use ($skill) {
-                $query->where('jobmanagers.job_skills', 'like', "%$skill%");
+            $skills = explode(",", $skill); // Split the $skill string into an array
+            $dataFilter->where(function ($query) use ($skills) {
+                foreach ($skills as $value) {
+                    $query->orWhere('jobmanagers.job_skills', 'like', "%$value%");
+                }
             });
         }
+
+       
 
 
 

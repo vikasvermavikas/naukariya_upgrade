@@ -114,6 +114,8 @@ Route::middleware('jobseeker')->group(function () {
     Route::post('/saved-job/{id}', [SavedJobController::class, 'store'])->name('savejob');
     Route::post('/follow/{companyid}/{jobid}', [SavedJobController::class, 'follow'])->name('followjob');
     Route::get('/get-stage-registration', [StageRegistration::class, 'getStage'])->name('getStage');
+    Route::get('/jobseeker-apply-job', [ApplyJobController::class, 'applyJobList'])->name('applyJobList');
+    
 });
 
 

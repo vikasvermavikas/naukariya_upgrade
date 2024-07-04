@@ -7,10 +7,13 @@
                     <h1 class="text-center"><b>DASHBOARD</b></h1>
                     <div class="row mt-5">
                         <div class="col-sm-3">
-                            <div class="box bg-success py-4 text-center mt-3"><span
-                                    class="text-white">{{ $data['applied_jobs'] }}</span>
-                                <hr class="hr1"><span class="text-white">Applied Jobs</span>
-                            </div>
+                            <a href="{{route('applyJobList')}}" target="_blank"> 
+                                <div class="box bg-success py-4 text-center mt-3"><span
+                                        class="text-white">{{ $data['applied_jobs'] }}</span>
+                                    <hr class="hr1"><span class="text-white">Applied Jobs</span>
+                                </div>
+                            </a>
+
                         </div>
                         <div class="col-sm-3">
                             <div class="box bg-primary py-4 text-center mt-3"><span class="text-white">0</span>

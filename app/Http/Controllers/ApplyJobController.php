@@ -42,9 +42,12 @@ class ApplyJobController extends Controller
         return response()->json([$data], 200);
     }
 
-    public function applyJobList()
+    public function applyJobList(Request $request)
     {
-        $uid = Session::get('user')['id'];
+        // $uid = Session::get('user')['id'];
+
+         $uid = Auth::guard('jobseeker')->user()->id;
+
         $data = DB::table('apply_jobs')
             ->leftjoin('jobmanagers', 'jobmanagers.id', '=', 'apply_jobs.job_id')
             ->leftjoin('empcompaniesdetails', 'empcompaniesdetails.id', '=', 'jobmanagers.company_id')
@@ -54,7 +57,11 @@ class ApplyJobController extends Controller
             ->orderBy('apply_jobs.created_at', 'DESC')
             ->get();
 
-        return response()->json(['data' => $data], 200);
+
+            return view('jobseeker.applied_jobs',[
+                'data' => $data,
+            ]);
+        // return response()->json(['data' => $data], 200);
     }
 
     public function store(Request $request, $id)
