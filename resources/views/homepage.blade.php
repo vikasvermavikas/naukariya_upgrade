@@ -106,55 +106,64 @@
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
                         <div class="single-services text-center mb-30">
                             <div class="services-ion">
-                                <span class="flaticon-tour"></span>
+                                {{-- <span class="flaticon-tour"></span> --}}
+                                <img src="{{ asset('assets/images/accounting.png') }}" style="width:30%" class="img-fluid">
                             </div>
-                            <div class="services-cap">
-                                <h5><a href="job_listing.html">Design & Creative</a></h5>
-                                <span>(653)</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
-                        <div class="single-services text-center mb-30">
-                            <div class="services-ion">
-                                <span class="flaticon-cms"></span>
-                            </div>
-                            <div class="services-cap">
-                                <h5><a href="job_listing.html">Design & Development</a></h5>
-                                <span>(658)</span>
+                            <div class="services-cap" id="accounts_count">
+                                <h5><a href="job_listing.html">Accounts</a></h5>
+                                <span></span>
                             </div>
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
                         <div class="single-services text-center mb-30">
                             <div class="services-ion">
-                                <span class="flaticon-report"></span>
+                                {{-- <span class="flaticon-cms"></span> --}}
+                                <img src="{{ asset('assets/images/agriculture.png') }}" style="width:30%" class="img-fluid">
+
                             </div>
-                            <div class="services-cap">
-                                <h5><a href="job_listing.html">Sales & Marketing</a></h5>
-                                <span>(658)</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
-                        <div class="single-services text-center mb-30">
-                            <div class="services-ion">
-                                <span class="flaticon-app"></span>
-                            </div>
-                            <div class="services-cap">
-                                <h5><a href="job_listing.html">Mobile Application</a></h5>
-                                <span>(658)</span>
+                            <div class="services-cap" id="agriculture_count">
+                                <h5><a href="job_listing.html">Agriculture</a></h5>
+                                <span></span>
                             </div>
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
                         <div class="single-services text-center mb-30">
                             <div class="services-ion">
-                                <span class="flaticon-helmet"></span>
+                                {{-- <span class="flaticon-report"></span> --}}
+                                <img src="{{ asset('assets/images/laboratory.png') }}" style="width:30%" class="img-fluid">
+
                             </div>
-                            <div class="services-cap">
-                                <h5><a href="job_listing.html">Construction</a></h5>
-                                <span>(658)</span>
+                            <div class="services-cap" id="chemicals_count">
+                                <h5><a href="job_listing.html">Chemicals</a></h5>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
+                        <div class="single-services text-center mb-30">
+                            <div class="services-ion">
+                                {{-- <span class="flaticon-app"></span> --}}
+                                <img src="{{ asset('assets/images/plugin.png') }}" style="width:30%" class="img-fluid">
+
+                            </div>
+                            <div class="services-cap" id="electricals_count">
+                                <h5><a href="job_listing.html">Electricals</a></h5>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
+                        <div class="single-services text-center mb-30">
+                            <div class="services-ion">
+                                {{-- <span class="flaticon-helmet"></span> --}}
+                                <img src="{{ asset('assets/images/hotel.png') }}" style="width:30%" class="img-fluid">
+
+                            </div>
+                            <div class="services-cap" id="hotels_count">
+                                <h5><a href="job_listing.html">Hotels</a></h5>
+                                <span></span>
                             </div>
                         </div>
                     </div>
@@ -162,32 +171,39 @@
                         <div class="single-services text-center mb-30">
                             <div class="services-ion">
                                 <span class="flaticon-high-tech"></span>
+                                {{-- <img src="{{asset('assets/images/agriculture.png')}}" style="width:30%" class="img-fluid"> --}}
+
                             </div>
-                            <div class="services-cap">
+                            <div class="services-cap" id="it_count">
                                 <h5><a href="job_listing.html">Information Technology</a></h5>
-                                <span>(658)</span>
+                                <span></span>
                             </div>
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
                         <div class="single-services text-center mb-30">
                             <div class="services-ion">
-                                <span class="flaticon-real-estate"></span>
+                                {{-- <span class="flaticon-real-estate"></span> --}}
+                                <img src="{{ asset('assets/images/balance.png') }}" style="width:30%" class="img-fluid">
+
                             </div>
-                            <div class="services-cap">
-                                <h5><a href="job_listing.html">Real Estate</a></h5>
-                                <span>(658)</span>
+                            <div class="services-cap" id="laws_count">
+                                <h5><a href="job_listing.html">Laws</a></h5>
+                                <span></span>
                             </div>
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
                         <div class="single-services text-center mb-30">
                             <div class="services-ion">
-                                <span class="flaticon-content"></span>
+                                {{-- <span class="flaticon-content"></span> --}}
+                                <img src="{{ asset('assets/images/recruitment.png') }}" style="width:30%"
+                                    class="img-fluid">
+
                             </div>
-                            <div class="services-cap">
-                                <h5><a href="job_listing.html">Content Writer</a></h5>
-                                <span>(658)</span>
+                            <div class="services-cap" id="recruitment_count">
+                                <h5><a href="job_listing.html">Recruitment</a></h5>
+                                <span></span>
                             </div>
                         </div>
                     </div>
@@ -197,7 +213,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="browse-btn2 text-center mt-50">
-                            <a href="job_listing.html" class="border-btn2">Browse All Sectors</a>
+                            <a href="{{route('loadJoblistPage')}}" class="border-btn2">Browse All Sectors</a>
                         </div>
                     </div>
                 </div>
@@ -213,7 +229,7 @@
                         <div class="cv-caption text-center">
                             {{-- <p class="pera1">FEATURED TOURS Packages</p> --}}
                             <p class="pera2"> Make a Difference with Your Online Resume!</p>
-                            <a href="#" class="border-btn2 border-btn4">Upload your cv</a>
+                            <a href="{{route('login')}}" class="border-btn2 border-btn4">Upload your cv</a>
                         </div>
                     </div>
                 </div>
@@ -386,7 +402,7 @@
                             </div>
                         </div>
                         <span class="d-flex justify-content-center">
-                            <a href="{{ route('job_listing') }}" class="btn btn-warning ">View All</a>
+                            <a href="{{ route('loadJoblistPage') }}" class="btn btn-warning ">View All</a>
                         </span>
                     </div>
                 </div>
@@ -449,7 +465,7 @@
         </div>
         <!-- How  Apply Process End-->
         <!-- Testimonial Start -->
-        <div class="testimonial-area testimonial-padding">
+        {{-- <div class="testimonial-area testimonial-padding">
             <div class="container">
                 <!-- Testimonial contents -->
                 <div class="row d-flex justify-content-center">
@@ -519,7 +535,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- Testimonial End -->
         <!-- Support Company Start-->
         <div class="support-company-area support-padding fix">
@@ -538,7 +554,7 @@
                                 <p>Mollit anim laborum.Duis aute irufg dhjkolohr in re voluptate velit esscillumlore eu
                                     quife nrulla parihatur. Excghcepteur signjnt occa cupidatat non inulpadeserunt mollit
                                     aboru. temnthp incididbnt ut labore mollit anim laborum suis aute.</p>
-                                <a href="about.html" class="btn post-btn">Post a job</a>
+                                <a href="{{route('loadLoginPage')}}" class="btn post-btn">Post a job</a>
                             </div>
                         </div>
                     </div>
@@ -616,12 +632,5 @@
     </main>
 @endsection
 @section('script')
-
     <script src="{{ asset('assests/js/custom_js/homepage.js') }}"></script>
-    <script>
-
-        //  @if ($message = session('succes_message')) 
-    
-        // @endif 
-            </script>
 @endsection

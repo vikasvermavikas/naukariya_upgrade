@@ -66,7 +66,7 @@
                          <div class="footer-form" >
                              <div id="mc_embed_signup">
                                  <form action="{{route('addNewsletter')}}"
-                                 method="POST" class="subscribe_form relative mail_part">
+                                 method="POST" id="newsletterform" class="subscribe_form relative mail_part">
                                  @csrf
                                      <input type="email" name="email" id="newsletter-form-email" placeholder="Email Address"
                                      class="placeholder hide-on-focus" onfocus="this.placeholder = ''"
@@ -74,10 +74,13 @@
                                    @error('email')
                                        <span class="text-danger">{{$message}}</span>
                                    @enderror
+                                  
                                      <div class="form-icon">
                                          <button type="submit" name="submit" id="newsletter-submit"
                                          class="email_icon newsletter-submit button-contactForm"><img src={{asset('assets/img/icon/form.png')}} alt=""></button>
                                      </div>
+                                     <span class="btn mt-4" id="unfollow">UnFollow</span><br>
+                                     <span id="email_error" class="text-danger"></span>
                                      <div class="mt-10 info"></div>
                                  </form>
                              </div>

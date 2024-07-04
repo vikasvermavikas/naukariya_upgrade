@@ -83,11 +83,13 @@ Route::middleware(['guest:jobseeker', 'guest:employer'])->group(function () {
 
     //login employers
     Route::get('employerlogin', [FrontuserloginController::class, 'loadLoginPage'])->name('loadLoginPage');
+    Route::get('get-categories-jobs', [JobmanagerController::class, 'get_categories_jobs'])->name('getCategoriesJobs');
 
-    Route::post('/add-newsletter', [NewsletterController::class, 'store'])->name('addNewsletter');
-
+    
 });
 
+Route::post('/add-newsletter', [NewsletterController::class, 'store'])->name('addNewsletter');
+Route::post('/unfollow-newsletter', [NewsletterController::class, 'destroy'])->name('unfollowNewsletter');
 // jobseeker login
 Route::post('jobseekerregister', [FrontJobseekerController::class, 'store'])->name('jobseekerregister');
 Route::get('/job_details/{id}', [JobmanagerController::class, 'showSingleJob'])->name('job_details');

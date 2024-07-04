@@ -94,6 +94,7 @@
 
     {{-- Sweetalert --}}
     <script src="{{ asset('assets/js/sweetalert.js') }}"></script>
+    <script src="{{ asset('assests/js/custom_js/footer.js') }}"></script>
 
     @yield('script')
     

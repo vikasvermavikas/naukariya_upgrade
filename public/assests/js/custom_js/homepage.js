@@ -1,10 +1,11 @@
 $(document).ready(function () {
     $('.js-example-basic-single').select2();
-    // $("#location").on("focus", function() {
-    // var location = $(this).val();
+    
+  
+
     function getLocations(search = '') {
         $.ajax({
-            url: "/get-locations/"+search,
+            url: "/get-locations/" + search,
             method: "GET",
             dataType: "json",
             success: function (data) {
@@ -16,13 +17,42 @@ $(document).ready(function () {
             }
         })
     };
+
+    Swal.fire({
+        position: "center",
+        imageUrl: "../../assets/images/naukriyan-logo.png",
+        customClass:{
+            image: 'img-fluid'
+        },
+        imageAlt: "Naukriyan",
+        title: "Welcome to Naukriyan",
+        showConfirmButton: true
+    });
+
+    function getCategoriesJobs(){
+        $.ajax({
+            url: "get-categories-jobs",
+            method: "GET",
+            dataType: "json",
+            success: function (data) {
+                $.each(data, function (key, value) {
+                   var html = "<h5><a href='/job-listing?industry="+value.industries+"'>"+value.category_name+"</a></h5><span>"+value.count+"</span>";
+                    $("#"+value.category).html(html);
+                });
+                // $("#accounts_count").text("("+data.accounts+")");
+                // $("#agriculture_count").text("("+data.agriculture+")");
+                // $("#chemicals_count").text("("+data.chemicals+")");
+                // $("#electricals_count").text("("+data.electricals+")");
+                // $("#hotels_count").text("("+data.hotel+")");
+                // $("#it_count").text("("+data.it+")");
+                // $("#laws_count").text("("+data.laws+")");
+                // $("#recruitment_count").text("("+data.recruitment+")");
+            }
+
+        });
+    }
+
+    // Call on load functions.
     getLocations();
-    
-    // Swal.fire({
-    //     title: 'Error!',
-    //     text: 'Do you want to continue',
-    //     icon: 'error',
-    //     confirmButtonText: 'Cool'
-    //   });
-    // })
+    getCategoriesJobs();
 })

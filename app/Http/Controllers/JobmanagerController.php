@@ -651,8 +651,11 @@ class JobmanagerController extends Controller
         // $maxExp = request('maxexp');
 
         // $industryVal = request('industryVal');
-        $industryVal = $request->industry;
-
+        $industryVal = [];
+        if(!empty($request->industry)){
+            $industryVal = explode(",", $request->industry);
+        }
+      
         $countStr = strlen($request->experiences) - 1;
         $minExp = substr($request->experiences, 0, 1);
         $maxExp = substr($request->experiences, $countStr, 1);
@@ -765,10 +768,10 @@ class JobmanagerController extends Controller
         //         $query->Where('jobmanagers.offered_sal_max', '<=', $maxSalary);
         //     });
         // }
-
-        if (isset($industryVal) && $industryVal !== null) {
+      
+        if (count($industryVal) > 0 ) {
             $dataFilter->where(function ($query) use ($industryVal) {
-                $query->where('jobmanagers.job_industry_id', $industryVal);
+                $query->whereIn('jobmanagers.job_industry_id', $industryVal);
             });
         }
 
@@ -841,9 +844,11 @@ class JobmanagerController extends Controller
         // $data = $dataFilter->getBindings();
         // $values = $dataFilter->toSql();
 
-        // print_r($data);
-        // print_r($data);
-
+        // echo "<pre>";
+        // var_dump($data);
+        // print_r($values);
+        // echo "</pre>";
+        // die();
         // 2024-05-01 22:40:47
 
 
@@ -2110,8 +2115,84 @@ class JobmanagerController extends Controller
         return response()->json(['data' => $data->withPath(route('loadJoblistPage')), 'totalrecord' => $totalrecord], 200);
     }
 
-    public function getSkill(){
-        $data = JsSkill::select('id','skill')->get();
+    public function getSkill()
+    {
+        $data = JsSkill::select('id', 'skill')->get();
         return response()->json(['data' => $data], 200);
+    }
+
+    public function get_categories_jobs()
+    {
+        // Set static industries id.
+        $account_parent_id = [2, 9];
+        $agriculture_parent_id = [4, 21, 22, 23];
+        $chemicals_parent_id = [13, 43, 44];
+        $electricals_parent_id = [18, 52];
+        $hotel_parent_id = [29];
+        $it_parent_id = [10, 32, 34, 35];
+        $laws_parent_id = [27, 31, 37, 41, 51];
+        $recruitment_parent_id = [49];
+
+        $accounts =  Jobmanager::whereIn('job_industry_id', $account_parent_id )->count();
+        $agriculture =  Jobmanager::whereIn('job_industry_id', $agriculture_parent_id )->count();
+        $chemicals =  Jobmanager::whereIn('job_industry_id', $chemicals_parent_id )->count();
+        $electricals =  Jobmanager::whereIn('job_industry_id', $electricals_parent_id )->count();
+        $hotel =  Jobmanager::whereIn('job_industry_id', $hotel_parent_id )->count();
+        $it =  Jobmanager::whereIn('job_industry_id', $it_parent_id )->count();
+        $laws =  Jobmanager::whereIn('job_industry_id', $laws_parent_id )->count();
+        $recruitment =  Jobmanager::whereIn('job_industry_id', $recruitment_parent_id )->count();
+
+        $data = [
+            [
+                'industries' => $account_parent_id,
+                'category' => 'accounts_count',
+                'count' => $accounts,
+                'category_name' => 'ACCOUNTS'
+            ],
+            [
+                'industries' => $agriculture_parent_id,
+                'category' => 'agriculture_count',
+                'count' => $agriculture,
+                'category_name' => 'AGRICULTURE'
+            ],
+            [
+                'industries' => $chemicals_parent_id,
+                'category' => 'chemicals_count',
+                'count' => $chemicals,
+                'category_name' => 'CHEMICALS'
+            ],
+            [
+                'industries' => $electricals_parent_id,
+                'category' => 'electricals_count',
+                'count' => $electricals,
+                'category_name' => 'ELECTRICALS'
+            ],
+            [
+                'industries' => $hotel_parent_id,
+                'category' => 'hotels_count',
+                'count' => $hotel,
+                'category_name' => 'HOTEL'
+            ],
+            [
+                'industries' => $it_parent_id,
+                'category' => 'it_count',
+                'count' => $it,
+                'category_name' => 'IT'
+            ],
+            [
+                'industries' => $laws_parent_id,
+                'category' => 'laws_count',
+                'count' => $laws,
+                'category_name' => 'LAWS'
+            ],
+            [
+                'industries' => $recruitment_parent_id,
+                'category' => 'recruitment_count',
+                'count' => $recruitment,
+                'category_name' => 'RECRUITMENT'
+            ],
+
+        ];
+        return response()->json($data, 200);
     }
 }
