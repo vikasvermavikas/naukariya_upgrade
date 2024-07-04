@@ -92,7 +92,9 @@ class SavedJobController extends Controller
 
     public function follow_list()
     {
-        $userId = Session::get('user')['id'];
+        // $userId = Session::get('user')['id'];
+
+        $userId = Auth::guard('jobseeker')->user()->id;
 
         $followlist = DB::table('followers')
             ->leftjoin('empcompaniesdetails', 'empcompaniesdetails.id', '=', 'followers.employer_id')
@@ -103,6 +105,11 @@ class SavedJobController extends Controller
 
         return response()->json([
             'data' => $followlist], 200);
+
+
+        // return view('jobseeker.company_following', )
+
+
     }
 
     public function unfollow_companies($job_id, $comp_id)
