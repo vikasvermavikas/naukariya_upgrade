@@ -15,7 +15,8 @@ class SavedJobController extends Controller
 
     public function index()
     {
-        $uid = Session::get('user')['id'];
+        // $uid = Session::get('user')['id'];
+        $uid = Auth::guard('jobseeker')->user()->id;
         $applyJobID = array();
         $applyJobs = ApplyJob::where('jsuser_id', $uid)->select('job_id')->get();
         foreach ($applyJobs as $applyJob) {
@@ -26,14 +27,20 @@ class SavedJobController extends Controller
             ->leftjoin('jobmanagers', 'jobmanagers.id', '=', 'saved_jobs.job_id')
             ->leftjoin('empcompaniesdetails', 'empcompaniesdetails.id', '=', 'jobmanagers.company_id')
             ->leftjoin('job_types', 'job_types.id', '=', 'jobmanagers.job_type_id')
-            ->select('saved_jobs.*', 'empcompaniesdetails.company_name', 'job_types.job_type', 'jobmanagers.*')
+            ->leftjoin('qualifications', 'qualifications.id', '=', 'jobmanagers.job_qualification_id')
+            ->select('saved_jobs.*', 'empcompaniesdetails.company_name', 'job_types.job_type', 'jobmanagers.*','qualifications.qualification',)
             ->where('jsuser_id', $uid)
             ->whereNotIn('job_id', $applyJobID)
             ->orWhere('job_id', 'saved_jobs.id')
             ->orderBy('saved_jobs.created_at', 'DESC')
             ->get();
 
-        return response()->json(['data' => $saved], 200);
+// dd( $saved);
+
+        return view('jobseeker.savejob', [
+            'data' => $saved
+        ]);
+        // return response()->json(['data' => $saved], 200);
     }
 
     public function store($id)
@@ -103,20 +110,29 @@ class SavedJobController extends Controller
             ->get();
         //$follow = Follower::select('id','employer_id')->where('user_id', $userId)->get();
 
-        return response()->json([
-            'data' => $followlist], 200);
+        // return response()->json([
+        //     'data' => $followlist], 200);
+
+        // dd($followlist);
 
 
-        // return view('jobseeker.company_following', )
+        return view('jobseeker.company_followings', [
+            'data' => $followlist
+        ]);
 
 
     }
 
     public function unfollow_companies($job_id, $comp_id)
     {
-        $userid = Session::get('user')['id'];
+        $userid = Auth::guard('jobseeker')->user()->id;
 
+        // $userid = Session::get('user')['id'];
+        //update status for the unfollow
+
+        $data = Follower::where('user_id', $userid)->update(['status' => 1]);
         $follower = Follower::where('user_id', $userid)->where('job_id', $job_id)->where('employer_id', $comp_id)->delete();
+        return redirect()->back()->with('success', 'You have unfollow the company');
     }
 
     public function follower_list()

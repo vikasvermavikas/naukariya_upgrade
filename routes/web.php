@@ -15,12 +15,16 @@ use App\Http\Controllers\SavedJobController;
 use App\Http\Controllers\StageRegistration;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NewsletterController;
+<<<<<<< HEAD
 use App\Http\Controllers\ClientNameController;
 use App\Http\Controllers\ConsolidateDataController;
 use App\Http\Controllers\SubuserController;
 use App\Http\Controllers\EmpTrackerDetailsController;
 use App\Http\Controllers\JobsectorController;
 use App\Http\Controllers\CitiesController;
+=======
+use App\Http\Controllers\SupportController;
+>>>>>>> ab3c28b20849cff5516c091208c62c7b8d034b45
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -120,6 +124,14 @@ Route::middleware('jobseeker')->group(function () {
     Route::get('/get-stage-registration', [StageRegistration::class, 'getStage'])->name('getStage');
     Route::get('/jobseeker-apply-job', [ApplyJobController::class, 'applyJobList'])->name('applyJobList');
     Route::get('/follow-list', [SavedJobController::class, 'follow_list'])->name('follow_list');
+<<<<<<< HEAD
+=======
+    Route::get('/unfollow-companies/{id}/{id2}', [SavedJobController::class, 'unfollow_companies'])->name('unfollow_companies');
+    Route::get('/get-saved-job', [SavedJobController::class, 'index'])->name('get-saved-job');
+    Route::post('/add-support', [SupportController::class, 'store_jobseeker'])->name('store_jobseeker');
+    Route::get('/supportlist', [SupportController::class, 'index'])->name('index');
+    
+>>>>>>> ab3c28b20849cff5516c091208c62c7b8d034b45
 });
 
 
