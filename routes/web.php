@@ -85,8 +85,6 @@ Route::middleware(['guest:jobseeker', 'guest:employer'])->group(function () {
     //login employers
     Route::get('employerlogin', [FrontuserloginController::class, 'loadLoginPage'])->name('loadLoginPage');
     Route::get('get-categories-jobs', [JobmanagerController::class, 'get_categories_jobs'])->name('getCategoriesJobs');
-
-    
 });
 
 Route::post('/add-newsletter', [NewsletterController::class, 'store'])->name('addNewsletter');
@@ -132,4 +130,3 @@ Route::group(['middleware' => 'employer'], function () {
     Route::get('get-subuser-activity', [DashboardController::class, 'CountSubuserActivity']);
     Route::get('dashboard/employer', [DashboardController::class, 'countAllDataForJobEmployer'])->name('dashboardemployer');
 });
-
