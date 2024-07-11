@@ -28,16 +28,21 @@
                             </div>
                         </div>
                         <div class="col-sm-3">
-                            <div class="box bg-info py-4 text-center mt-3"><span class="text-white">
-                                    {{ $data['following'] }}</span>
-                                <hr class="hr1"><span class="text-white">Companies Following</span>
-                            </div>
+                            <a href="{{route('follow_list')}}" target="_blank"> 
+                                <div class="box bg-info py-4 text-center mt-3"><span class="text-white">
+                                        {{ $data['following'] }}</span>
+                                    <hr class="hr1"><span class="text-white">Companies Following</span>
+                                </div>
+                            </a>
                         </div>
                         <div class="col-sm-3">
-                            <div class="box bg-success py-4 text-center mt-3"><span
-                                    class="text-white">{{ $data['saved_jobs'] }}</span>
-                                <hr class="hr1"><span class="text-white">Saved Jobs</span>
-                            </div>
+                            <a href="{{route('get-saved-job')}}" target="_blank"> 
+                                <div class="box bg-success py-4 text-center mt-3"><span
+                                        class="text-white">{{ $data['saved_jobs'] }}</span>
+                                    <hr class="hr1"><span class="text-white">Saved Jobs</span>
+                                </div>
+                            </a>
+
                         </div>
                         <div class="col-sm-3">
                             <div class="box bg-success py-4 text-center mt-3"><span

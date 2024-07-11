@@ -1,4 +1,4 @@
-@extends('layouts.master', ['title' => 'Jobseeker Dashboard'])
+@extends('layouts.master', ['title' => 'Apply Jobs'])
 @section('content')
 <section>
     <div id="breadcrumb">
@@ -40,9 +40,9 @@
                     </div>
 
                     <div class="col-sm-3 ml-auto">
-                        <div class="d-flex">
+                        {{-- <div class="d-flex">
                             <input style="border-radius:0;" name="q" type="text" id="txtgoingto" placeholder="Search Keyword" class="form-control mb-0 ui-autocomplete-input" autocomplete="off" v-model="search" /><i class="fa fa-search searchButton mt-3 ml-2"></i>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
