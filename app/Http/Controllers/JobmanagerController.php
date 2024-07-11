@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AllUser;
 use App\Models\JobSector;
+use App\Models\Qualification;
 use App\Mail\InterviewScheduled;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -22,6 +23,18 @@ use App\Models\Notification;
 use App\Models\Jobseeker;
 use App\Models\JsSkill;
 use Illuminate\Support\Facades\Redirect;
+use Throwable;
+use App\Models\Industry;
+use App\Models\FunctionalRole;
+use App\Models\States;
+use App\Models\JobPostAs;
+use App\Models\JobCategory;
+use App\Models\CareerLevel;
+use App\Models\JobType;
+use App\Models\JobShift;
+use App\Models\QuestionnarieName;
+
+
 
 class JobmanagerController extends Controller
 {
@@ -39,25 +52,29 @@ class JobmanagerController extends Controller
     public function count_applyjob($id)
     {
         $data = ApplyJob::where('job_id', $id)->count();
-        return response($data);
+        // return response($data);
+        return $data;
     }
 
     public function count_interview($id)
     {
         $data = ApplyJob::where('job_id', $id)->where('status', '2')->count();
-        return response($data);
+        // return response($data);
+        return $data;
     }
 
     public function count_shortlist($id)
     {
         $data = ApplyJob::where('job_id', $id)->where('status', '3')->count();
-        return response($data);
+        // return response($data);
+        return $data;
     }
 
     public function count_offer($id)
     {
         $data = ApplyJob::where('job_id', $id)->where('status', '5')->count();
-        return response($data);
+        // return response($data);
+        return $data;
     }
 
     public function count_save($id)
@@ -73,7 +90,9 @@ class JobmanagerController extends Controller
 
     public function jobapplication($id)
     {
-        $uid = Session::get('user')['id'];
+        // $uid = Session::get('user')['id'];
+        $uid = Auth::guard('employer')->user()->id;
+
         $jid = $id;
         $data = DB::table('apply_jobs')
             ->leftjoin('jobmanagers', 'jobmanagers.id', '=', 'apply_jobs.job_id')
@@ -84,12 +103,13 @@ class JobmanagerController extends Controller
             ->select('apply_jobs.*', 'jobmanagers.title as applied_for', 'js_resumes.resume', 'jobseekers.fname', 'jobseekers.lname', 'jobseekers.email', 'jobseekers.contact', 'jobseekers.designation', 'jobseekers.expected_salary', 'jobseekers.exp_year', 'jobseekers.exp_month', 'jobseekers.current_salary', 'jobseekers.expected_salary', 'jobseekers.notice_period', 'jobseekers.preferred_location')
             ->get();
 
-        return response()->json(['data' => $data], 200);
+        // return response()->json(['data' => $data], 200);
+        return view('employer.job_ats', ['data' => $data]);
     }
 
     public function getScheduledInterviewLists()
     {
-        $uid = Session::get('user')['id'];
+        $uid = Auth::guard('employer')->user()->id;
         $data = DB::table('apply_jobs')
             ->leftjoin('jobmanagers', 'jobmanagers.id', '=', 'apply_jobs.job_id')
             ->leftjoin('jobseekers', 'jobseekers.id', '=', 'apply_jobs.jsuser_id')
@@ -98,7 +118,9 @@ class JobmanagerController extends Controller
             ->select('apply_jobs.*', 'jobmanagers.title as applied_for', 'jobseekers.fname', 'jobseekers.lname', 'jobseekers.email', 'jobseekers.contact', 'jobseekers.designation', 'jobseekers.expected_salary', 'jobseekers.exp_year', 'jobseekers.exp_month', 'jobseekers.current_salary', 'jobseekers.expected_salary', 'jobseekers.notice_period', 'jobseekers.preferred_location')
             ->get();
 
-        return response()->json(['data' => $data], 200);
+        // return response()->json(['data' => $data], 200);
+        return view('employer.interview_list', ['data' => $data]);
+
     }
 
     public function interview_scheduled(Request $request)
@@ -130,7 +152,7 @@ class JobmanagerController extends Controller
             $getDetails = DB::table('apply_jobs')
                 ->leftjoin('jobmanagers', 'jobmanagers.id', '=', 'apply_jobs.job_id')
                 ->leftjoin('jobseekers', 'jobseekers.id', '=', 'apply_jobs.jsuser_id')
-                ->select('apply_jobs.application_id', 'jobseekers.fname', 'jobseekers.email', 'jobmanagers.title')
+                ->select('apply_jobs.application_id', 'jobseekers.fname', 'jobseekers.lname', 'jobseekers.email', 'jobmanagers.title')
                 ->where('apply_jobs.id', $id)
                 ->first();
 
@@ -179,11 +201,12 @@ class JobmanagerController extends Controller
             Mail::send('SendMail.interview-scheduled', ['jsdata' => $data], function ($message) use ($email) {
                 $message->to($email)
                     ->subject("Interview Scheduled");
-                //$message->from(env('MAIL_USERNAME'),"Naukriyan.com");
-                $message->from(env('TEST_USEREMAIL'), "Naukriyan.com");
+                $message->from(env('MAIL_USERNAME'), "Naukriyan.com");
+                // $message->from(env('TEST_USEREMAIL'), "Naukriyan.com");
             });
         }
-        return response()->json(['data' => $data1], 200);
+        // return response()->json(['data' => $data1], 200);
+        return redirect()->back()->with(['message' => 'Interview scheduled successfully for ' . $getDetails->fname . ' ' . $getDetails->lname . '']);
     }
 
     public function shortlist($id)
@@ -210,7 +233,7 @@ class JobmanagerController extends Controller
             $getDetails = DB::table('apply_jobs')
                 ->leftjoin('jobmanagers', 'jobmanagers.id', '=', 'apply_jobs.job_id')
                 ->leftjoin('jobseekers', 'jobseekers.id', '=', 'apply_jobs.jsuser_id')
-                ->select('apply_jobs.application_id', 'jobseekers.fname', 'jobseekers.email', 'jobmanagers.title')
+                ->select('apply_jobs.application_id', 'jobseekers.fname', 'jobseekers.lname', 'jobseekers.email', 'jobmanagers.title')
                 ->where('apply_jobs.id', $id)
                 ->first();
             //for employer
@@ -255,9 +278,11 @@ class JobmanagerController extends Controller
                 $message->to($email)
                     ->subject("Shortlisted");
                 //$message->from(env('MAIL_USERNAME'),"Naukriyan.com");
-                $message->from(env('TEST_USEREMAIL'), "Naukriyan.com");
+                $message->from(env('MAIL_USERNAME'), "Naukriyan.com");
             });
         }
+
+        return redirect()->back()->with(['message' => $getDetails->fname . ' ' . $getDetails->lname . ' Shortlisted successfully']);
     }
 
     public function reject($id)
@@ -282,7 +307,7 @@ class JobmanagerController extends Controller
             $getDetails = DB::table('apply_jobs')
                 ->leftjoin('jobmanagers', 'jobmanagers.id', '=', 'apply_jobs.job_id')
                 ->leftjoin('jobseekers', 'jobseekers.id', '=', 'apply_jobs.jsuser_id')
-                ->select('apply_jobs.application_id', 'jobseekers.fname', 'jobseekers.email', 'jobmanagers.title')
+                ->select('apply_jobs.application_id', 'jobseekers.fname', 'jobseekers.lname', 'jobseekers.email', 'jobmanagers.title')
                 ->where('apply_jobs.id', $id)
                 ->first();
             //for employer
@@ -326,10 +351,11 @@ class JobmanagerController extends Controller
             Mail::send('SendMail.rejected', ['jsdata' => $data], function ($message) use ($email) {
                 $message->to($email)
                     ->subject("Rejected");
-                //$message->from(env('MAIL_USERNAME'),"Naukriyan.com");
-                $message->from(env('TEST_USEREMAIL'), "Naukriyan.com");
+                $message->from(env('MAIL_USERNAME'), "Naukriyan.com");
+                // $message->from(env('TEST_USEREMAIL'), "Naukriyan.com");
             });
         }
+        return redirect()->back()->with(['message' => $getDetails->fname . ' ' . $getDetails->lname . ' Rejected successfully']);
     }
 
     public function offer($id)
@@ -354,7 +380,7 @@ class JobmanagerController extends Controller
             $getDetails = DB::table('apply_jobs')
                 ->leftjoin('jobmanagers', 'jobmanagers.id', '=', 'apply_jobs.job_id')
                 ->leftjoin('jobseekers', 'jobseekers.id', '=', 'apply_jobs.jsuser_id')
-                ->select('apply_jobs.application_id', 'jobseekers.fname', 'jobseekers.email', 'jobmanagers.title')
+                ->select('apply_jobs.application_id', 'jobseekers.fname', 'jobseekers.lname', 'jobseekers.email', 'jobmanagers.title')
                 ->where('apply_jobs.id', $id)
                 ->first();
             //for employer
@@ -398,10 +424,11 @@ class JobmanagerController extends Controller
             Mail::send('SendMail.offer-letter', ['jsdata' => $data], function ($message) use ($email) {
                 $message->to($email)
                     ->subject("Offer Letter");
-                //$message->from(env('MAIL_USERNAME'),"Naukriyan.com");
-                $message->from(env('TEST_USEREMAIL'), "Naukriyan.com");
+                $message->from(env('MAIL_USERNAME'), "Naukriyan.com");
+                // $message->from(env('TEST_USEREMAIL'), "Naukriyan.com");
             });
         }
+        return redirect()->back()->with(['message' => 'Offer mail sent successfully to ' . $getDetails->fname . ' ' . $getDetails->lname . '']);
     }
 
     public function hire($id)
@@ -422,6 +449,7 @@ class JobmanagerController extends Controller
             $notification->status = 6;
             $notification->save();
         }
+        return redirect()->back()->with(['message' => 'Applicant Hired successfully']);
     }
 
     public function save($id)
@@ -442,6 +470,7 @@ class JobmanagerController extends Controller
             $notification->status = 7;
             $notification->save();
         }
+        return redirect()->back()->with(['message' => 'Application saved successfully']);
     }
 
     public function userNotifications()
@@ -457,14 +486,17 @@ class JobmanagerController extends Controller
 
     public function sessionuser(Request $request)
     {
+        // Get only active jobs
         $status = $request->status;
         $keyword = $request->keyword;
-        $uid = Session::get('user')['id'];
+        // $uid = Session::get('user')['id'];
+        $uid = Auth::guard('employer')->user()->id;
         $data = DB::table('jobmanagers')
             ->leftjoin('job_categories', 'job_categories.id', 'jobmanagers.job_category_id')
             ->leftjoin('client_names', 'client_names.id', 'jobmanagers.client_id')
-            ->select('jobmanagers.id', 'jobmanagers.title', 'jobmanagers.description', 'jobmanagers.status', 'jobmanagers.last_apply_date',  'jobmanagers.created_at',  'jobmanagers.updated_at', 'job_categories.job_category', 'client_names.name')
+            ->select('jobmanagers.id', 'jobmanagers.title', 'jobmanagers.status', 'jobmanagers.last_apply_date',  'jobmanagers.created_at',  'jobmanagers.updated_at', 'job_categories.job_category', 'client_names.name')
             ->where('jobmanagers.userid', $uid)
+            ->where('jobmanagers.status', 'Active')
             ->orderBy('jobmanagers.created_at', 'DESC');
 
         if (isset($keyword) && $keyword !== '') {
@@ -477,8 +509,41 @@ class JobmanagerController extends Controller
 
 
         $data = $data->paginate(10);
+        foreach ($data as $value) {
+            $value->total_applications = $this->count_applyjob($value->id);
+            $value->shortlisted = $this->count_shortlist($value->id);
+            $value->interviewed = $this->count_interview($value->id);
+            $value->offers = $this->count_offer($value->id);
+        }
+        // die;
+        return view('employer.managejobs', ['data' => $data]);
+    }
+    public function posted_jobs(Request $request)
+    {
+        // Get only active jobs
+        $status = $request->status;
+        $keyword = $request->keyword;
+        // $uid = Session::get('user')['id'];
+        $uid = Auth::guard('employer')->user()->id;
+        $data = DB::table('jobmanagers')
+            ->leftjoin('job_categories', 'job_categories.id', 'jobmanagers.job_category_id')
+            ->leftjoin('client_names', 'client_names.id', 'jobmanagers.client_id')
+            ->select('jobmanagers.id', 'jobmanagers.title', 'jobmanagers.status', 'jobmanagers.last_apply_date',  'jobmanagers.created_at',  'jobmanagers.updated_at', 'job_categories.job_category', 'client_names.name')
+            ->where('jobmanagers.userid', $uid)
+            ->orderBy('jobmanagers.created_at', 'DESC');
 
-        return response()->json(['data' => $data], 200);
+        if (isset($keyword) && $keyword !== '') {
+            $data->where(function ($query) use ($keyword) {
+                $query->where('jobmanagers.title', 'like', "%$keyword%")
+                    ->orwhere('client_names.name', 'like', "%$keyword%")
+                    ->orWhere('jobmanagers.status', $keyword);
+            });
+        }
+
+
+        $data = $data->paginate(12)->withQueryString();
+        // die;
+        return view('employer.postedjobs', ['data' => $data, 'keyword' => $keyword]);
     }
     public function browsejobViewAll(Request $request)
     {   //keyword within browsejob
@@ -652,10 +717,10 @@ class JobmanagerController extends Controller
 
         // $industryVal = request('industryVal');
         $industryVal = [];
-        if(!empty($request->industry)){
+        if (!empty($request->industry)) {
             $industryVal = explode(",", $request->industry);
         }
-      
+
         $countStr = strlen($request->experiences) - 1;
         $minExp = substr($request->experiences, 0, 1);
         $maxExp = substr($request->experiences, $countStr, 1);
@@ -768,8 +833,8 @@ class JobmanagerController extends Controller
         //         $query->Where('jobmanagers.offered_sal_max', '<=', $maxSalary);
         //     });
         // }
-      
-        if (count($industryVal) > 0 ) {
+
+        if (count($industryVal) > 0) {
             $dataFilter->where(function ($query) use ($industryVal) {
                 $query->whereIn('jobmanagers.job_industry_id', $industryVal);
             });
@@ -1056,8 +1121,8 @@ class JobmanagerController extends Controller
                 $query->orWhereBetween('jobmanagers.created_at', [$startDate, $endDate]);
             });
         }
-       
-       
+
+
         if (isset($skill) && $skill !== '') {
             $skills = explode(",", $skill); // Split the $skill string into an array
             $dataFilter->where(function ($query) use ($skills) {
@@ -1067,7 +1132,7 @@ class JobmanagerController extends Controller
             });
         }
 
-       
+
 
 
 
@@ -1226,10 +1291,10 @@ class JobmanagerController extends Controller
     {
 
         $job = new Jobmanager();
-        $uid = Session::get('user')['id'];
-        $session_company_id = Session::get('user')['company_id'];
-        $members = implode(",", $request->job_benefits_id);
-        $job->job_benefits_id = $members;
+        $uid = Auth::guard('employer')->user()->id;
+        $session_company_id = Auth::guard('employer')->user()->company_id;
+        // $members = implode(",", $request->job_benefits_id);
+        // $job->job_benefits_id = $members;
         $job->title = $request->title;
         $job->job_category_id = $request->job_category_id;
         $job->job_type_id = $request->job_type_id;
@@ -1275,14 +1340,82 @@ class JobmanagerController extends Controller
         $job->job_questionnarie_id = $request->questionnarie_name;
         $job->userid = $uid;
         $job->start_apply_date = $request->start_apply_date;
-        $job->client_id = $request->client_name;
+        $job->client_id = $request->client_id;
         $job->save();
+
+        return redirect()->route('postedjobs')->with(['message' => 'Job Posted Successfully']);
     }
 
     public function edit($id)
     {
+        // $uid = Session::get('user')['id'];
+        // $companyId = Session::get('user')['company_id'];
+        $uid = Auth::guard('employer')->user()->id;
+        $companyId = Auth::guard('employer')->user()->company_id;
+
         $data = Jobmanager::find($id);
-        return response()->json(['data' => $data], 200);
+        $jobsector = JobSector::select('id', 'job_sector')->get();
+
+        $clients = ClientName::select('id', 'name')
+            ->where('created_by', $uid)
+            ->where('company_id', $companyId)
+            ->where('active', '1')
+            ->OrderBy('name', 'ASC')
+            ->get();
+
+        $industries = Industry::select('id', 'category_name')->orderBy('category_name', 'ASC')->get();
+
+        $functional_roles = FunctionalRole::select('functional_roles.id', 'functional_roles.subcategory_name')
+            ->orderBy('functional_roles.subcategory_name')
+            ->get();
+
+        $companies = DB::table('empcompaniesdetails')
+            ->select('empcompaniesdetails.id', 'empcompaniesdetails.company_name')->orderBy('id', 'desc')
+            ->get();
+
+        $states = States::select('id', 'states_name')
+            ->where('country_id', '101')->get();
+
+        $posted_type = JobPostAs::select('id', 'job_post_as')->get();
+
+        $jobcategory = JobCategory::select('id', 'job_category')->get();
+
+        $careerlevel = CareerLevel::select('id', 'career_level')->get();
+
+        $jobtypes = JobType::select('job_types.id', 'job_types.job_type')->get();
+
+        $jobshifts = JobShift::select('id', 'job_shift')->get();
+
+        $cities = DB::table('cities')->select('id', 'cities_name')
+            ->where('state_id', $data->job_state_id)
+            ->get();
+
+        $locationdata = DB::table('master_location')
+            ->select('state')
+            ->distinct('state')
+            ->get();
+
+
+        $locations = $locationdata->map(function ($data) {
+            $edu = DB::table('master_location')
+                ->select('master_location.id', 'master_location.location')
+                ->where('master_location.state', $data->state)->get();
+
+            $educations = ['location' => $edu];
+
+            $collection = collect($data)->merge($educations);
+
+            return $collection;
+        });
+
+        $qualifications = Qualification::select('qualifications.id', 'qualifications.qualification')->get();
+
+        $questions = QuestionnarieName::where('user_id', $uid)
+            ->where('status', '1')
+            ->get();
+
+
+        return view('employer.edit_posted_job', ['data' => $data, 'sector' => $jobsector, 'clients' => $clients, 'industries' => $industries, 'functional_roles' => $functional_roles, 'companies' => $companies, 'states' => $states, 'posted_type' => $posted_type, 'jobcategory' => $jobcategory, 'careerlevel' => $careerlevel, 'jobtypes' => $jobtypes, 'jobshifts' => $jobshifts, 'locations' => $locations, 'qualifications' => $qualifications, 'questions' => $questions,'cities' => $cities, 'id' => $id]);
     }
 
     public function update_front(Request $request, $id)
@@ -1337,6 +1470,8 @@ class JobmanagerController extends Controller
         $job->start_apply_date = $request->start_apply_date;
         $job->client_id = $request->client_id;
         $job->save();
+
+        return redirect()->route('postedjobs')->with(['message' => 'Job updated Successfully']);
     }
 
     public function update(Request $request, $id)
@@ -1700,6 +1835,8 @@ class JobmanagerController extends Controller
         $job = Jobmanager::find($id);
         $job->status = "Deactive";
         $job->save();
+
+        return redirect()->route('postedjobs')->with(['message' => 'Job Deactivated Successfully.']);
     }
 
     public function activeme($id)
@@ -1707,6 +1844,7 @@ class JobmanagerController extends Controller
         $job = Jobmanager::find($id);
         $job->status = "Active";
         $job->save();
+        return redirect()->route('postedjobs')->with(['message' => 'Job Activated Successfully.']);
     }
 
     public function filterjob(Request $request)
@@ -2138,14 +2276,14 @@ class JobmanagerController extends Controller
         $laws_parent_id = [27, 31, 37, 41, 51];
         $recruitment_parent_id = [49];
 
-        $accounts =  Jobmanager::whereIn('job_industry_id', $account_parent_id )->count();
-        $agriculture =  Jobmanager::whereIn('job_industry_id', $agriculture_parent_id )->count();
-        $chemicals =  Jobmanager::whereIn('job_industry_id', $chemicals_parent_id )->count();
-        $electricals =  Jobmanager::whereIn('job_industry_id', $electricals_parent_id )->count();
-        $hotel =  Jobmanager::whereIn('job_industry_id', $hotel_parent_id )->count();
-        $it =  Jobmanager::whereIn('job_industry_id', $it_parent_id )->count();
-        $laws =  Jobmanager::whereIn('job_industry_id', $laws_parent_id )->count();
-        $recruitment =  Jobmanager::whereIn('job_industry_id', $recruitment_parent_id )->count();
+        $accounts =  Jobmanager::whereIn('job_industry_id', $account_parent_id)->count();
+        $agriculture =  Jobmanager::whereIn('job_industry_id', $agriculture_parent_id)->count();
+        $chemicals =  Jobmanager::whereIn('job_industry_id', $chemicals_parent_id)->count();
+        $electricals =  Jobmanager::whereIn('job_industry_id', $electricals_parent_id)->count();
+        $hotel =  Jobmanager::whereIn('job_industry_id', $hotel_parent_id)->count();
+        $it =  Jobmanager::whereIn('job_industry_id', $it_parent_id)->count();
+        $laws =  Jobmanager::whereIn('job_industry_id', $laws_parent_id)->count();
+        $recruitment =  Jobmanager::whereIn('job_industry_id', $recruitment_parent_id)->count();
 
         $data = [
             [
@@ -2199,5 +2337,107 @@ class JobmanagerController extends Controller
 
         ];
         return response()->json($data, 200);
+    }
+
+    public function job_description($id)
+    {
+        try {
+            $job = Jobmanager::select(
+                'jobmanagers.id',
+                'jobmanagers.qualification_for_gov',
+                'jobmanagers.location',
+                'jobmanagers.department',
+                'jobmanagers.attachment',
+                'jobmanagers.company_id',
+                'jobmanagers.job_preference',
+                'jobmanagers.job_exp',
+                'jobmanagers.title',
+                'jobmanagers.responsibility',
+                'jobmanagers.job_skills',
+                'jobmanagers.job_address',
+                'jobmanagers.description',
+                'jobmanagers.offered_sal_min',
+                'jobmanagers.offered_sal_max',
+                'jobmanagers.main_exp',
+                'jobmanagers.max_exp',
+                'jobmanagers.job_vaccancy',
+                'job_shifts.job_shift',
+                'job_types.job_type',
+                'jobmanagers.government_apply_link',
+                'jobmanagers.start_apply_date',
+                'jobmanagers.last_apply_date',
+                'jobmanagers.sal_disclosed'
+            )->leftjoin('job_types', 'job_types.id', 'jobmanagers.job_type_id')
+                ->leftjoin('job_shifts', 'job_shifts.id', 'jobmanagers.job_shift_id')->findOrFail($id);
+            return view('employer.job_description', ['job' => $job]);
+        } catch (Throwable $e) {
+        }
+    }
+
+    public function add_job(){
+        $uid = Auth::guard('employer')->user()->id;
+        $companyId = Auth::guard('employer')->user()->company_id;
+
+        $jobsector = JobSector::select('id', 'job_sector')->get();
+
+        $clients = ClientName::select('id', 'name')
+            ->where('created_by', $uid)
+            ->where('company_id', $companyId)
+            ->where('active', '1')
+            ->OrderBy('name', 'ASC')
+            ->get();
+
+        $industries = Industry::select('id', 'category_name')->orderBy('category_name', 'ASC')->get();
+
+        $functional_roles = FunctionalRole::select('functional_roles.id', 'functional_roles.subcategory_name')
+            ->orderBy('functional_roles.subcategory_name')
+            ->get();
+
+        $companies = DB::table('empcompaniesdetails')
+            ->select('empcompaniesdetails.id', 'empcompaniesdetails.company_name')->orderBy('id', 'desc')
+            ->get();
+
+        $states = States::select('id', 'states_name')
+            ->where('country_id', '101')->get();
+
+        $posted_type = JobPostAs::select('id', 'job_post_as')->get();
+
+        $jobcategory = JobCategory::select('id', 'job_category')->get();
+
+        $careerlevel = CareerLevel::select('id', 'career_level')->get();
+
+        $jobtypes = JobType::select('job_types.id', 'job_types.job_type')->get();
+
+        $jobshifts = JobShift::select('id', 'job_shift')->get();
+
+        // $cities = DB::table('cities')->select('id', 'cities_name')
+        //     ->get();
+
+        $locationdata = DB::table('master_location')
+            ->select('state')
+            ->distinct('state')
+            ->get();
+
+
+        $locations = $locationdata->map(function ($data) {
+            $edu = DB::table('master_location')
+                ->select('master_location.id', 'master_location.location')
+                ->where('master_location.state', $data->state)->get();
+
+            $educations = ['location' => $edu];
+
+            $collection = collect($data)->merge($educations);
+
+            return $collection;
+        });
+
+        $qualifications = Qualification::select('qualifications.id', 'qualifications.qualification')->get();
+
+        $questions = QuestionnarieName::where('user_id', $uid)
+            ->where('status', '1')
+            ->get();
+
+
+        return view('employer.post_new_job', [ 'sector' => $jobsector, 'clients' => $clients, 'industries' => $industries, 'functional_roles' => $functional_roles, 'companies' => $companies, 'states' => $states, 'posted_type' => $posted_type, 'jobcategory' => $jobcategory, 'careerlevel' => $careerlevel, 'jobtypes' => $jobtypes, 'jobshifts' => $jobshifts, 'locations' => $locations, 'qualifications' => $qualifications, 'questions' => $questions]);
     }
 }

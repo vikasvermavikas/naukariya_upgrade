@@ -51,7 +51,7 @@
 <body>
     <nav>
         <center>
-            <img class="responsive" src="https://naukriyan.com/default_images/logo.png" alt="Naukriyan">
+            <img class="responsive" src="{{asset('assets/images/naukriyan-logo.png')}}" alt="Naukriyan">
         </center>
     </nav>
     <div class="container">
@@ -61,7 +61,7 @@
         <ul>
             <li>Username/Email - {{ $email }} </li>
             <li>Password - {{ $password }}</li>
-            <li>URL - <a href="https://naukriyan.com/#/subuser-login"> Click Here</a> </li>
+            <li>URL - <a href="https://naukriyan.com/subuser-login"> Click Here</a> </li>
         </ul>
         <p>For any issues related to the system you can send us an email at <a
                 href="mailto:info@naukriyan.com">info@naukriyan.com</a>

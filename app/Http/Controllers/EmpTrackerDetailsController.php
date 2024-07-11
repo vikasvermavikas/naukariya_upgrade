@@ -14,9 +14,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Auth;
 
 class EmpTrackerDetailsController extends Controller
 {
+    public $userid;
+    public $companyid;
+
+    public function __construct(){
+        $this->middleware(function ($request, $next) {
+            $this->userid = Auth::guard('employer')->user()->id;
+            $this->companyid = Auth::guard('employer')->user()->company_id;
+            return $next($request);
+        });
+    }
     public function index(Request $request)
     {
 
@@ -33,16 +44,17 @@ class EmpTrackerDetailsController extends Controller
         $applied_designation = $request->applied_designation;
         $current_designation = $request->current_designation;
         $view_per_page = $request->view_per_page ?? 50;
-
+       
         $userid = $request->userid;
+       
         // $keyword = $request->keyword;
         // $resume_upload = $request->resume_upload;
         // $uploaded = $resume_upload === 'yes';
         // $Notuploaded = $resume_upload === 'no';
 
         //  Session::set('keyword', $keyword);      
-        $EmpId = Session::get('user')['id'];
-        $CompId = Session::get('user')['company_id'];
+        $EmpId = $this->userid;
+        $CompId = $this->companyid;
 
 
         $request->skills ?  $request->session()->put('skills', $skills) :  $request->session()->put('skills', '');
@@ -55,6 +67,7 @@ class EmpTrackerDetailsController extends Controller
         $request->session()->put('to_date', $to_date);
         $request->session()->put('ug', $ug);
         $request->session()->put('pg', $pg);
+        $request->session()->put('userid', $userid);
 
         $education_data = TrackerEducation::select('id', 'tracker_candidate_id', 'graduation', 'graduation_year', 'post_graduation_year',  'post_graduation');
         if (isset($ug) && $ug != '') {
@@ -64,6 +77,8 @@ class EmpTrackerDetailsController extends Controller
             $education_data->Where('tracker_education.post_graduation', $pg);
         }
         $education_data = $education_data->get()->keyBy('tracker_candidate_id')->toArray();
+
+
 
         $data = Tracker::join('sub_users', 'sub_users.id', '=', 'trackers.added_by')
             ->select('trackers.*', 'sub_users.fname as sub_fname', 'sub_users.lname as sub_lname')
@@ -82,19 +97,6 @@ class EmpTrackerDetailsController extends Controller
                     });
             });
         }
-        // $data = Tracker::join('sub_users', 'sub_users.id', '=', 'trackers.added_by')
-        //     ->leftJoin('tracker_education', 'tracker_education.tracker_candidate_id', '=', 'trackers.id')
-        //     ->select('trackers.*', 'tracker_education.graduation', 'tracker_education.graduation_year', 'tracker_education.post_graduation_year',  'tracker_education.post_graduation', 'sub_users.fname as sub_fname', 'sub_users.lname as sub_lname')
-
-        //     // ->when($location, function ($q) use ($location) {
-        //     //     return $q->where(function ($q) use ($location) {
-        //     //         return $q->Where('current_location', 'like', "%$location%")
-        //     //             ->orWhere('preffered_location', 'like', "%$location%");
-        //     //     });
-        //     // })
-        //     ->orWhere('trackers.company_id', $CompId)
-        //     // ->Where('trackers.employer_id', $EmpId))
-        // ;
 
         if (isset($source) && $source != '') {
             $data->Where('reference', $source);
@@ -141,14 +143,6 @@ class EmpTrackerDetailsController extends Controller
             });
         }
 
-        // if (isset($uploaded) && $uploaded != '') {
-        //     $data->WhereNotNull('resume');
-        // }
-
-        // if (isset($Notuploaded) && $Notuploaded != '') {
-        //     $data->WhereNull('resume');
-        // }
-
         if (isset($from_date) && $from_date != '') {
             $data->whereDate('trackers.created_at', '>=', $from_date);
         }
@@ -160,55 +154,26 @@ class EmpTrackerDetailsController extends Controller
         if (isset($from_date) && isset($to_date)) {
             $data->whereBetween('trackers.created_at', [$from_date, $to_date]);
         }
-        //     if(($request->has('from_date') && $request->has('to_date'))){
-        //         $data->whereBetween(
-        //         array($request->from_date, $request->to_date));
-        // }
-
-
 
         if (isset($request->location) && $request->location != '') {
-            $data->Where('current_location', 'like', '%' . $location . '%')
-                ->orWhere('preffered_location', 'like', '%' . $location . '%');
+            $location = $request->location;
+            $data->where(function ($query) use ($location){
+                $query->where('current_location', 'like', '%' . $location . '%')
+                    ->orWhere('preffered_location', 'like', '%' . $location . '%');
+            });
+            // $data->Where('current_location', 'like', '%' . $location . '%')
+            //     ->orWhere('preffered_location', 'like', '%' . $location . '%');
         }
 
-        if (isset($userid) && $userid != '' && $userid != 'undefined') {
+        if (!empty($userid) && $userid != 'undefined') {
 
             $data->Where('added_by', $userid);
         }
-        // echo "<pre>";
-        // var_dump($data->toSql());
-        // echo "</pre>";
-        // die;
+       
         $trackerList = $data->orderBy('trackers.id', 'desc')->paginate($view_per_page);
-        // $trackerList = $data->orderBy('trackers.id', 'desc')->toSql();
 
-
-
-        // if (isset($keyword) && $keyword !== '') {
-
-        //     $data->where(function ($query) use ($keyword) {
-        //         $query->where('current_location', 'like', "%$keyword%")
-        //             ->orwhere('preffered_location', 'like', "%$keyword%")
-        //             ->orWhere('key_skills', 'like', "%$keyword%")
-        //             ->orwhere('reference', 'like', "%$keyword%")
-        //             ->orWhere('name', 'like', "%$keyword%")
-        //             ->orWhere('trackers.email', 'like', "%$keyword%")
-        //             ->orWhere('trackers.contact', $keyword)
-        //             ->orWhere('trackers.gender', $keyword)
-        //             ->orWhere('trackers.applied_designation', 'like', "%$keyword%")
-        //             ->orWhere('trackers.current_designation', 'like', "%$keyword%")
-        //             ->orWhere('experience', 'like', "%$keyword%")
-        //             ->orWhere('current_ctc', 'like', "%$keyword%")
-        //             ->orWhere('expected_ctc', 'like', "%$keyword%");
-        //     });
-        // }
-
-
-        // $trackerList = $data->paginate($view_per_page);
-
-
-        return response()->json(['data' => $trackerList, 'education_data' => $education_data], 200);
+        // return response()->json(['data' => $trackerList, 'education_data' => $education_data], 200);
+        return view('employer.tracker_list', ['data' => $trackerList, 'education_data' => $education_data, 'requestdata' => $request->all()]);
     }
 
     public function getUniqueSourceEmployer()
@@ -222,7 +187,8 @@ class EmpTrackerDetailsController extends Controller
     }
     public function exportTrackerDataEmployer(Request $request)
     {
-
+        ini_set('memory_limit', '512M');
+        ini_set('max_execution_time', '300'); // 5 minutes
         $past_experience = get_experience();
         // echo "<pre>";
         // var_dump($past_experience);
@@ -242,6 +208,7 @@ class EmpTrackerDetailsController extends Controller
         $experience = $request->session()->get('experience');
         $ug = $request->session()->get('ug');
         $pg = $request->session()->get('pg');
+        $userid = $request->session()->get('userid');
 
         // echo $keyskill;die;
 
@@ -303,15 +270,23 @@ class EmpTrackerDetailsController extends Controller
         // if ($current_location) {
         //     $list->where('trackers.current_location', 'like',  "%$current_location%");--this is also work
         // }
-    
+
         // if ($location) {
         //     $list->where('trackers.current_location', 'like',  "%$location%");
         // }
         if ($location) {
-            $list->Where('current_location', 'like', '%' . $location . '%')
-                ->orWhere('preffered_location', 'like', '%' . $location . '%');
+            $list->where(function ($query) use ($location) {
+                $query->where('current_location', 'like', '%' . $location . '%')
+                    ->orWhere('preffered_location', 'like', '%' . $location . '%');
+            });
+            // $list->Where('current_location', 'like', '%' . $location . '%')
+            //     ->orWhere('preffered_location', 'like', '%' . $location . '%');
         }
-        
+
+        if (!empty($userid) && $userid != 'undefined') {
+
+            $list->Where('added_by', $userid);
+        }
         $list =   $list->get();
         // echo "<pre>";
         // var_dump($list->toSql());
@@ -413,8 +388,11 @@ class EmpTrackerDetailsController extends Controller
             ];
         })->toArray();
 
+       
         # add headers for each column in the CSV download
-        array_unshift($list, array_keys($list[0]));
+        if (is_array($list) && count($list) > 0) {
+            array_unshift($list, array_keys($list[0]));
+        }
 
         $callback = function () use ($list) {
             $FH = fopen('php://output', 'w');
@@ -475,7 +453,9 @@ class EmpTrackerDetailsController extends Controller
         })->toArray();
 
         # add headers for each column in the CSV download
-        array_unshift($list, array_keys($list[0]));
+        if (is_array($list)){
+            array_unshift($list, array_keys($list[0]));
+        }
 
         $callback = function () use ($list) {
             $FH = fopen('php://output', 'w');

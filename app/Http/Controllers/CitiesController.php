@@ -18,7 +18,7 @@ class CitiesController extends Controller
         return response()->json(['data' => $data], 200);
     }
     public function getCityByState($id){
-        $data = DB::table('cities')
+        $data = DB::table('cities')->select('id', 'cities_name')
             ->where('state_id', $id)
             ->get();
 

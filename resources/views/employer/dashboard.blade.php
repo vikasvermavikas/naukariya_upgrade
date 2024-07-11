@@ -8,80 +8,104 @@
                     <div class="row mt-5">
 
                         <div class="col-sm-3">
-                            <div class="box rounded bg-success py-4 text-center mt-3"><span
-                                    class="text-white">{{ $data['active_jobs'] }}</span>
-                                <hr class="hr1"><p class="lead"><span class="text-white"> Active Jobs</span></p>
+                            <a href="{{ route('managejobs') }}">
+                                <div class="box rounded bg-success py-4 text-center mt-3"><span
+                                        class="text-white">{{ $data['active_jobs'] }}</span>
+                                    <hr class="hr1">
+                                    <p class="lead"><span class="text-white"> Active Jobs</span></p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-sm-3">
+                            <a href="{{route('postedjobs')}}">
+                                <div class="box rounded bg-primary py-4 text-center mt-3"><span
+                                        class="text-white">{{ $data['job_posted_by_me'] }}</span>
+                                    <hr class="hr1">
+                                    <p class="lead"><span class="text-white">Job Posted by Me</span></p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="box rounded bg-info py-4 text-center mt-3"><span class="text-white">0</span>
+                                <hr class="hr1">
+                                <p class="lead"><span class="text-white">View Resume</span></p>
                             </div>
                         </div>
                         <div class="col-sm-3">
-                            <div class="box rounded bg-primary py-4 text-center mt-3"><span
-                                    class="text-white">{{ $data['job_posted_by_me'] }}</span>
-                                <hr class="hr1"><p class="lead"><span class="text-white">Job Posted by Me</span></p>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="box rounded bg-info py-4 text-center mt-3"><span
-                                    class="text-white">0</span>
-                                <hr class="hr1"><p class="lead"><span class="text-white">View Resume</span></p>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="box rounded bg-dark py-4 text-center mt-3"><span
-                                    class="text-white">{{ $data['scheduled_interview'] }}</span>
-                                <hr class="hr1"><p class="lead"><span class="text-white">Schedule Interview</span></p>
-                            </div>
+                            <a href="{{route('interview_list')}}">
+                                <div class="box rounded bg-dark py-4 text-center mt-3"><span
+                                        class="text-white">{{ $data['scheduled_interview'] }}</span>
+                                    <hr class="hr1">
+                                    <p class="lead"><span class="text-white">Schedule Interview</span></p>
+                                </div>
+                            </a>
                         </div>
                         <div class="col-sm-3">
                             <div class="box rounded bg-info py-4 text-center mt-3"><span class="text-white">
                                     {{ $data['reports'] }}</span>
-                                <hr class="hr1"><p class="lead"><span class="text-white">Reports</span></p>
+                                <hr class="hr1">
+                                <p class="lead"><span class="text-white">Reports</span></p>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="box rounded bg-success py-4 text-center mt-3"><span
                                     class="text-white">{{ $data['package_subscription'] }}</span>
-                                <hr class="hr1"><p class="lead"><span class="text-white">Subscriptions</span></p>
+                                <hr class="hr1">
+                                <p class="lead"><span class="text-white">Subscriptions</span></p>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="box rounded bg-dark py-4 text-center mt-3"><span
                                     class="text-white">{{ $data['followers'] }}</span>
-                                <hr class="hr1"><p class="lead"><span class="text-white">Followers</span></p>
+                                <hr class="hr1">
+                                <p class="lead"><span class="text-white">Followers</span></p>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="box rounded bg-primary py-4 text-center mt-3"><span
                                     class="text-white">{{ $data['helpdesk'] }}</span>
-                                <hr class="hr1"><p class="lead"><span class="text-white">Helpdesk</span></p>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="box rounded bg-primary py-4 text-center mt-3"><span
-                                    class="text-white">{{ $data['totalTrackercandidate'] }}</span>
-                                <hr class="hr1"><p class="lead"><span class="text-white">Tracker Candidate</span></p>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="box rounded bg-dark py-4 text-center mt-3"><span
-                                    class="text-white">{{ $data['totalSubuser'] }}</span>
-                                <hr class="hr1"><p class="lead"><span class="text-white">Sub User</span></p>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="box rounded bg-success py-4 text-center mt-3"><span
-                                    class="text-white">{{ $data['totalClient'] }}</span>
-                                <hr class="hr1"><p class="lead"><span class="text-white">Client</span></p>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="box rounded bg-info py-4 text-center mt-3"><span
-                                    class="text-white">{{ isset($data['consolidateData']) ? $data['consolidateData'] : '' }}</span>
                                 <hr class="hr1">
-                                {{-- <span class="text-white">Consolidate Data</span> --}}
-                                <p class="lead">
-                                    <span class="text-white">Consilidate Data</span>
-                                </p>
+                                <p class="lead"><span class="text-white">Helpdesk</span></p>
                             </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <a href="{{ route('tracker-list') }}">
+                                <div class="box rounded bg-primary py-4 text-center mt-3"><span
+                                        class="text-white">{{ $data['totalTrackercandidate'] }}</span>
+                                    <hr class="hr1">
+                                    <p class="lead"><span class="text-white">Tracker Candidate</span></p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-sm-3">
+                            <a href="{{ route('get_subusers') }}">
+                                <div class="box rounded bg-dark py-4 text-center mt-3"><span
+                                        class="text-white">{{ $data['totalSubuser'] }}</span>
+                                    <hr class="hr1">
+                                    <p class="lead"><span class="text-white">Sub User</span></p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-sm-3">
+                            <a href="{{ route('get_clients') }}">
+                                <div class="box rounded bg-success py-4 text-center mt-3"><span
+                                        class="text-white">{{ $data['totalClient'] }}</span>
+                                    <hr class="hr1">
+                                    <p class="lead"><span class="text-white">Client</span></p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-sm-3">
+                            <a href="{{ route('get_consolidate_data') }}">
+                                <div class="box rounded bg-info py-4 text-center mt-3"><span
+                                        class="text-white">{{ isset($data['consolidateData']) ? $data['consolidateData'] : '' }}</span>
+                                    <hr class="hr1">
+                                    {{-- <span class="text-white">Consolidate Data</span> --}}
+                                    <p class="lead">
+                                        <span class="text-white">Consilidate Data</span>
+                                    </p>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -134,7 +158,7 @@
                                             class="fa fa-user"></i> {{ $value->total }}</span>
                                     <hr class="hr1">
                                     <p class="lead">
-                                        <span class="text-white">{{ $value->fname }} {{ $value->lname }}</span>
+                                      <a href="{{route('tracker-list').'?userid='.$value->id.''}}">  <span class="text-white">{{ $value->fname }} {{ $value->lname }}</span></a>
                                     </p>
                                 </div>
                             </div>

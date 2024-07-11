@@ -73,6 +73,7 @@ class FrontuserloginController extends Controller
         ]);
 
         $recaptcha_response = $request->input('g-recaptcha-response');
+    
         $user_type = $request->user_type;
         $loginroute = '';
         if ($user_type == 'Jobseeker') {

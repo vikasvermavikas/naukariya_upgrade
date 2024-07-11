@@ -44,15 +44,29 @@
                                             <li><a href={{ route('AllDataForJobSeeker') }}>Dashboard</a></li>
                                             <li><a href='#'>Jobs </a>
                                                 <ul class="submenu">
-                                                    <li><a href="{{route('loadJoblistPage')}}?location=Jobs-in-Ahmedabad">Jobs in Ahmedabad</a></li>
-                                                    <li><a href="{{route('loadJoblistPage')}}?location=Jobs-in-Bangalore/Bengaluru">Jobs in Bangalore/Bangaluru</a></li>
-                                                    <li><a href="{{route('loadJoblistPage')}}?location=Jobs-in-Chennai">Jobs in Chennai</a></li>
-                                                    <li><a href="{{route('loadJoblistPage')}}?location=Jobs-in-Delhi">Jobs in Delhi</a></li>
-                                                    <li><a href="{{route('loadJoblistPage')}}?location=Jobs-in-Hyderabad/Secunderabad">Jobs in Hyderabad/Secunderabad</a></li>
-                                                    <li><a href="{{route('loadJoblistPage')}}?location=Jobs-in-Kolkata">Jobs in Kolkata</a></li>
-                                                    <li><a href="{{route('loadJoblistPage')}}?location=Jobs-in-Mumbai (All Areas)">Jobs in Mumbai (All Areas)</a></li>
-                                                    <li><a href="{{route('loadJoblistPage')}}?location=Jobs-in-Pune">Jobs in Pune</a></li>
-                                                    
+                                                    <li><a
+                                                            href="{{ route('loadJoblistPage') }}?location=Jobs-in-Ahmedabad">Jobs
+                                                            in Ahmedabad</a></li>
+                                                    <li><a
+                                                            href="{{ route('loadJoblistPage') }}?location=Jobs-in-Bangalore/Bengaluru">Jobs
+                                                            in Bangalore/Bangaluru</a></li>
+                                                    <li><a
+                                                            href="{{ route('loadJoblistPage') }}?location=Jobs-in-Chennai">Jobs
+                                                            in Chennai</a></li>
+                                                    <li><a href="{{ route('loadJoblistPage') }}?location=Jobs-in-Delhi">Jobs
+                                                            in Delhi</a></li>
+                                                    <li><a
+                                                            href="{{ route('loadJoblistPage') }}?location=Jobs-in-Hyderabad/Secunderabad">Jobs
+                                                            in Hyderabad/Secunderabad</a></li>
+                                                    <li><a
+                                                            href="{{ route('loadJoblistPage') }}?location=Jobs-in-Kolkata">Jobs
+                                                            in Kolkata</a></li>
+                                                    <li><a
+                                                            href="{{ route('loadJoblistPage') }}?location=Jobs-in-Mumbai (All Areas)">Jobs
+                                                            in Mumbai (All Areas)</a></li>
+                                                    <li><a href="{{ route('loadJoblistPage') }}?location=Jobs-in-Pune">Jobs
+                                                            in Pune</a></li>
+
                                                 </ul>
                                             </li>
 
@@ -95,7 +109,7 @@
 
                                         </ul>
                                         </li>
-                                      
+
 
                                         <li>
                                             <a href="#" data-toggle="dropdown" class="nav-link nav-link-label"><i
@@ -116,11 +130,13 @@
                                     <a href="#" data-toggle="dropdown" role="button" aria-expanded="false"
                                         class="nav-link dropdown-toggle">
                                         <img src={{ asset('assets/images/default-image.png') }}
-                                            class="mini-photo img-responsive rounded-circle mx-auto" style="width: 45px;"></a>
+                                            class="mini-photo img-responsive rounded-circle mx-auto"
+                                            style="width: 45px;"></a>
                                     <ul class="dropdown-menu user-menu">
                                         <div class="profile-highlight text-center">
                                             <img src={{ asset('assets/images/default-image.png') }}
-                                                class="mini-photo img-responsive rounded-circle text-center" style="width: 50px;">
+                                                class="mini-photo img-responsive rounded-circle text-center"
+                                                style="width: 50px;">
                                             <div class="details text-center">
                                                 <div id="profile-name">
                                                     <small>{{ Auth::guard('jobseeker')->user()->fname . ' ' . Auth::guard('jobseeker')->user()->lname }}
@@ -131,14 +147,14 @@
                                                 </div>
                                             </div>
                                         </div>
-                                       
+
                                         <li class="user-menu__item mt-2">
                                             <a href="#/viewemployeeprofile" class="user-menu-link">
                                                 <div class="text-color"><i class="fas fa-user-circle"></i> My profile
                                                 </div>
                                             </a>
                                         </li>
-                                        
+
                                         <li class="user-menu__item mt-2">
                                             <a href="#" class="user-menu-link">
                                                 <div class="text-color">
@@ -220,11 +236,11 @@
                                             <li><a href={{ route('dashboardemployer') }}>Dashboard</a></li>
                                             <li><a href='#'>Employer </a>
                                                 <ul class="submenu">
-                                                    <li><a href={{ route('blog') }}>Client List</a></li>
-                                                    <li><a href={{ route('single-blog') }}>Post New Job</a></li>
-                                                    <li><a href={{ route('elements') }}>Manage Job</a></li>
+                                                    <li><a href={{ route('get_clients') }}>Client List</a></li>
+                                                    <li><a href={{ route('new_job_form') }}>Post New Job</a></li>
+                                                    <li><a href={{ route('managejobs') }}>Manage Job</a></li>
                                                     <li><a href={{ route('elements') }}>Questionnaries</a></li>
-                                                    <li><a href={{ route('elements') }}>Sub User</a></li>
+                                                    <li><a href={{ route('get_subusers') }}>Sub User</a></li>
                                                     <li><a href={{ route('elements') }}>Venues</a></li>
                                                     <li><a href={{ route('elements') }}>Tagged Candidates</a></li>
                                                 </ul>
@@ -234,8 +250,8 @@
                                             <li><a href={{ route('about') }}>Search Database</a></li>
                                             <li><a href='#'>Consultant </a>
                                                 <ul class="submenu">
-                                                    <li><a href={{ route('blog') }}>Post New JD(s)</a></li>
-                                                    <li><a href={{ route('blog') }}>Manage JD(s)</a></li>
+                                                    <li><a href={{ route('new_job_form') }}>Post New JD(s)</a></li>
+                                                    <li><a href={{ route('new_job_form') }}>Manage JD(s)</a></li>
                                                 </ul>
                                             </li>
                                             <li>
@@ -273,14 +289,14 @@
                                                 </div>
                                             </div>
                                         </div>
-                                     
+
                                         <li class="user-menu__item mt-2">
                                             <a href="#/viewemployeeprofile" class="user-menu-link">
                                                 <div class="text-color"><i class="fas fa-user-circle"></i> My profile
                                                 </div>
                                             </a>
                                         </li>
-                                       
+
                                         <li class="user-menu__item mt-2">
                                             <a href="#" class="user-menu-link">
                                                 <div class="text-color"><i class="fas fa-sign-out-alt"></i>

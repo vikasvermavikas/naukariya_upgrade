@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Session;
 use DB;
@@ -20,9 +20,11 @@ class Employeer
      */
     public function handle($request, Closure $next)
     {
-        $usertype = Session::get('user')['user_type'];
-        if ($usertype == 'Employer') {
-            return $next($request);
+        if (Auth::guard('employer')->check()) {
+            $usertype = Auth::guard('employer')->user()->user_type;
+            if ($usertype == 'Employer') {
+                return $next($request);
+            }
         }
         return redirect('/');
     }

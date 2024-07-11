@@ -15,6 +15,12 @@ use App\Http\Controllers\SavedJobController;
 use App\Http\Controllers\StageRegistration;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\ClientNameController;
+use App\Http\Controllers\ConsolidateDataController;
+use App\Http\Controllers\SubuserController;
+use App\Http\Controllers\EmpTrackerDetailsController;
+use App\Http\Controllers\JobsectorController;
+use App\Http\Controllers\CitiesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -114,14 +120,82 @@ Route::middleware('jobseeker')->group(function () {
     Route::get('/get-stage-registration', [StageRegistration::class, 'getStage'])->name('getStage');
     Route::get('/jobseeker-apply-job', [ApplyJobController::class, 'applyJobList'])->name('applyJobList');
     Route::get('/follow-list', [SavedJobController::class, 'follow_list'])->name('follow_list');
-    
 });
 
 
-//employer
+// Employer Routes.
 
 Route::group(['middleware' => 'employer'], function () {
     // Route::get('employer/dashboard', [DashboardController::class, 'dashboardloadPage'])->route('dashboardLoadPage');
     Route::get('get-subuser-activity', [DashboardController::class, 'CountSubuserActivity']);
     Route::get('dashboard/employer', [DashboardController::class, 'countAllDataForJobEmployer'])->name('dashboardemployer');
+    
+    
+    
+    Route::prefix('employer')->group(function () {
+        Route::get('/get-cities/data/{id}', [CitiesController::class, 'getCityByState'])->name('get_cities_by_state');
+
+        Route::get('/getjobsector', [JobsectorController::class, 'index'])->name('get_job_sector');
+
+        Route::controller(JobmanagerController::class)->group(function () {
+            Route::get('/managejobs', 'sessionuser')->name('managejobs');
+            Route::get('/jobDescription/{id}', 'job_description')->name('viewjobs');
+            Route::get('/ats/{id}', 'jobapplication')->name('job_ats');
+            Route::get('/posted-jobs', 'posted_jobs')->name('postedjobs');
+            Route::get('/deactive-jobme/{id}', 'deactiveme')->name('deactive_posted-job');
+            Route::get('/active-jobme/{id}', 'activeme')->name('active_posted-job');
+            Route::get('/editpostjoby/{id}', 'edit')->name('edit_posted_job');
+            Route::post('/update-jobs-front/{id}', 'update_front')->name('update_posted_job');
+            Route::get('/post-new-job', 'add_job')->name('new_job_form');
+            Route::post('/add-job-front', 'store_front')->name('store_new_job');
+            Route::get('/scheduled-interview', 'getScheduledInterviewLists')->name('interview_list');
+
+
+
+        });
+
+        // Route for tracker list block.
+        Route::controller(EmpTrackerDetailsController::class)->prefix('tracker')->group(function () {
+        Route::get('tracker-list','index')->name('tracker-list');
+        Route::get('/unique-source/tracker','getUniqueSourceEmployer')->name('get_tracker_source');
+        Route::get('/export/tracker/{trackerid?}', 'exportTrackerDataEmployer')->name('exportTracker');
+            
+        });
+
+
+        // Route for sub users block.
+        Route::prefix('subuser')->group(function () {
+            Route::get('/', [SubuserController::class, 'index'])->name('get_subusers');
+            Route::post('/add-subuser', [SubuserController::class, 'store'])->name('add_subuser');
+            Route::post('/update-subuser', [SubuserController::class, 'update'])->name('update_subuser');
+            Route::get('/active-subuser/{id}', [SubuserController::class, 'active'])->name('activate_subuser');
+            Route::get('/deactive-subuser/{id}', [SubuserController::class, 'deactive'])->name('deactivate_subuser');
+            Route::get('/get-single-subuserdata/{id}', [SubuserController::class, 'getsinglesubuser'])->name('get_single_subuserdata');
+        });
+
+        // Route for client block.
+        Route::get('/client', [ClientNameController::class, 'index'])->name('get_clients');
+        Route::post('/add-client', [ClientNameController::class, 'store'])->name('add_client');
+        Route::get('/get-clientdata/{id}', [ClientNameController::class, 'getsingleclient'])->name('get_single_client');
+        Route::post('/update-client', [ClientNameController::class, 'update'])->name('update_client');
+        Route::get('/active-client/{id}', [ClientNameController::class, 'active'])->name('activate_client');
+        Route::get('/deactive-client/{id}', [ClientNameController::class, 'deactive'])->name('deactivate_client');
+        
+        // Route for cosolidate data.
+        Route::prefix('consolidate')->group(function () {
+            Route::get('/bulk-data1', [ConsolidateDataController::class, 'index'])->name('get_consolidate_data');
+            Route::get('/getUniqueSource1', [ConsolidateDataController::class, 'getUniqueSource'])->name('get_unique_source');
+            Route::get('/export-data', [ConsolidateDataController::class, 'exportBulkData'])->name('export_consolidate_data');
+        });
+
+        // Routes for application block.
+        Route::prefix('application')->group(function () {
+            Route::get('/rejected/{id}', [JobmanagerController::class, 'reject'])->name('application_reject');
+            Route::get('/shortlisted/{id}', [JobmanagerController::class, 'shortlist'])->name('application_shortlist');
+            Route::get('/interview-scheduled', [JobmanagerController::class, 'interview_scheduled'])->name('application_interview_scheduled');
+            Route::get('/offer/{id}', [JobmanagerController::class, 'offer'])->name('application_offer');
+            Route::get('/hire/{id}', [JobmanagerController::class, 'hire'])->name('application_hire');
+            Route::get('/save/{id}', [JobmanagerController::class, 'save'])->name('application_save');
+        });
+    });
 });

@@ -96,6 +96,8 @@
     {{-- Sweetalert --}}
     <script src="{{ asset('assets/js/sweetalert.js') }}"></script>
     <script src="{{ asset('assests/js/custom_js/footer.js') }}"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.0/classic/ckeditor.js"></script>
+
 
     @yield('script')
     
@@ -105,6 +107,11 @@
             $('.show-employer').toggle();
         });
     }
+
+    // Code for showing tooltip.
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
     </script>
 </body>
 
