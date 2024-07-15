@@ -273,12 +273,30 @@
                                 <li class="nav-item dropdown open">
                                     <a href="#" data-toggle="dropdown" role="button" aria-expanded="false"
                                         class="nav-link dropdown-toggle">
-                                        <img src={{ asset('assets/images/default-image.png') }} width="36"
-                                            height="36" class="mini-photo rounded-circle"></a>
+                                        {{-- <img src={{ asset('assets/images/default-image.png') }} width="36"
+                                            height="36" class="mini-photo rounded-circle"> --}}
+                                            @if (Auth::guard('employer')->user()->profile_pic_thumb)
+                                                <img src="{{ asset('emp_profile_image/' . Auth::guard('employer')->user()->profile_pic_thumb . '') }}"
+                                                 class="mini-photo rounded-circle text-center" width="36" height="36">
+                                            @else
+                                                <img src="{{ asset('assets/images/default-image.png') }}"
+                                                 class="mini-photo rounded-circle text-center" width="36" height="36">
+                                            @endif
+                                        </a>
+                                            
                                     <ul class="dropdown-menu user-menu">
                                         <div class="profile-highlight text-center">
-                                            <img src={{ asset('assets/images/default-image.png') }} width="36"
-                                                height="36" class="mini-photo rounded-circle text-center">
+
+                                            {{-- <img src={{ asset('assets/images/default-image.png') }} width="36"
+                                                height="36" class="mini-photo rounded-circle text-center"> --}}
+                                            @if (Auth::guard('employer')->user()->profile_pic_thumb)
+                                                <img src="{{ asset('emp_profile_image/' . Auth::guard('employer')->user()->profile_pic_thumb . '') }}"
+                                                 class="mini-photo rounded-circle text-center" width="36" height="36">
+                                            @else
+                                                <img src="{{ asset('assets/images/default-image.png') }}"
+                                                 class="mini-photo rounded-circle text-center" width="36" height="36">
+                                            @endif
+
                                             <div class="details text-center">
                                                 <div id="profile-name">
                                                     <small>
@@ -291,7 +309,7 @@
                                         </div>
 
                                         <li class="user-menu__item mt-2">
-                                            <a href="#/viewemployeeprofile" class="user-menu-link">
+                                            <a href="{{route('employer_view_profile')}}" class="user-menu-link">
                                                 <div class="text-color"><i class="fas fa-user-circle"></i> My profile
                                                 </div>
                                             </a>

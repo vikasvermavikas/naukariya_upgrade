@@ -31,7 +31,8 @@ use Mail;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\File as FileValidator;
 
 class UserprofileController extends Controller
 {
@@ -58,11 +59,11 @@ class UserprofileController extends Controller
     }
 
     public function logout()
-    {   
-        if(Auth::guard('jobseeker')->check()){
+    {
+        if (Auth::guard('jobseeker')->check()) {
             Auth::guard('jobseeker')->logout();
         }
-        if(Auth::guard('employer')->check()){
+        if (Auth::guard('employer')->check()) {
             Auth::guard('employer')->logout();
         }
         Session::flush();
@@ -122,33 +123,37 @@ class UserprofileController extends Controller
     }
     public function update_personal_detail(Request $request)
     {
-      
-        $this->validate($request, [
-            'fname'    => 'required',
-            'lname'    => 'required',
-            'email'    => 'required',
-            'contact'    => 'required',
-            'dob'    => 'required',
-            'gender'    => 'required',
-            'candidate_type'    => 'required',
-            'preferred_location'    => 'required',
-        ],
-        ['fname.required' => 'First Name is Required', 
-        'lname.required' => 'Last Name is Required',
-        'email.required' => 'Email is required',
-        'contact.required' => 'Contact Number is required',
-        'dob.required' => 'Date of Birth is Required',
-        'gender.required' => 'Gender is Required',
-        'candidate_type.required' => 'Select Fresher or Experienced ?',
-        'preferred_location.required' => 'Preferred Location is Required'
-        ]);
+
+        $this->validate(
+            $request,
+            [
+                'fname'    => 'required',
+                'lname'    => 'required',
+                'email'    => 'required',
+                'contact'    => 'required',
+                'dob'    => 'required',
+                'gender'    => 'required',
+                'candidate_type'    => 'required',
+                'preferred_location'    => 'required',
+            ],
+            [
+                'fname.required' => 'First Name is Required',
+                'lname.required' => 'Last Name is Required',
+                'email.required' => 'Email is required',
+                'contact.required' => 'Contact Number is required',
+                'dob.required' => 'Date of Birth is Required',
+                'gender.required' => 'Gender is Required',
+                'candidate_type.required' => 'Select Fresher or Experienced ?',
+                'preferred_location.required' => 'Preferred Location is Required'
+            ]
+        );
         $id = Session::get('user')['id'];
         $js = Jobseeker::find($id);
 
-    
-        if($request->password != NULL &&  strlen($request->password) < 15){
+
+        if ($request->password != NULL &&  strlen($request->password) < 15) {
             $password = Hash::make($request->password);
-        }else{
+        } else {
             $password =  $js->password;
         }
 
@@ -175,27 +180,27 @@ class UserprofileController extends Controller
         $js->candidate_type = $request->candidate_type;
         $js->password = $password;
         $js->last_modified = Carbon::now();
-        
+
 
         $js->save();
-        $resumeData =[
-            'js_userid'=>$id,
-            'resume_video_link'=>$request->resume_video_link,
-            'linkedin_resume_link'=>$request->linkedin_resume_link
+        $resumeData = [
+            'js_userid' => $id,
+            'resume_video_link' => $request->resume_video_link,
+            'linkedin_resume_link' => $request->linkedin_resume_link
         ];
 
-        $resume =JsResume::UpdateOrCreate(['js_userid'=>$id],$resumeData);
+        $resume = JsResume::UpdateOrCreate(['js_userid' => $id], $resumeData);
     }
 
 
-        
+
 
 
     public function saveEducationalDetail(Request $request)
     {
         $this->validate($request, []);
         $uid = Session::get('user')['id'];
-        
+
         $js_education = new JsEducationalDetail();
         $js_education->js_userid = $uid;
         $js_education->education = $request->education;
@@ -348,7 +353,7 @@ class UserprofileController extends Controller
         $js_certificate->description = $request->description;
         $js_certificate->save();
 
-        
+
         $updateLastModifiedDate = Jobseeker::find($uid);
         $updateLastModifiedDate->last_modified = Carbon::now();
         $updateLastModifiedDate->save();
@@ -476,7 +481,7 @@ class UserprofileController extends Controller
     public function jobseeker_profile()
     {
         $id = Session::get('user')['id'];
-       
+
         $data = DB::table('jobseekers')
             ->leftjoin('js_educational_details', 'js_educational_details.js_userid', '=', 'jobseekers.id')
             ->leftjoin('js_professional_details', 'js_professional_details.js_userid', '=', 'jobseekers.id')
@@ -485,9 +490,22 @@ class UserprofileController extends Controller
             ->leftjoin('js_social_links', 'js_social_links.js_userid', '=', 'jobseekers.id')
             ->leftjoin('qualifications', 'qualifications.id', '=', 'js_educational_details.education')
             ->leftjoin('functional_roles', 'functional_roles.id', '=', 'js_professional_details.functional_role')
-            ->select('jobseekers.*', 'js_educational_details.*', 'js_professional_details.*',  
-            'js_certifications.*', 'js_social_links.*', 'qualifications.*', 'functional_roles.*','js_resumes.js_userid',
-            'js_resumes.resume','js_resumes.resume','js_resumes.resume_video_link','js_resumes.linkedin_resume_link','js_resumes.cover_letter','js_resumes.updated_at as resume_upload_date')
+            ->select(
+                'jobseekers.*',
+                'js_educational_details.*',
+                'js_professional_details.*',
+                'js_certifications.*',
+                'js_social_links.*',
+                'qualifications.*',
+                'functional_roles.*',
+                'js_resumes.js_userid',
+                'js_resumes.resume',
+                'js_resumes.resume',
+                'js_resumes.resume_video_link',
+                'js_resumes.linkedin_resume_link',
+                'js_resumes.cover_letter',
+                'js_resumes.updated_at as resume_upload_date'
+            )
             ->where('jobseekers.id', $id)
             ->first();
 
@@ -514,9 +532,32 @@ class UserprofileController extends Controller
 
         $data = DB::table('all_users')
             ->leftjoin('empcompaniesdetails', 'empcompaniesdetails.id', '=', 'all_users.company_id')
-            ->select('all_users.*', 'empcompaniesdetails.company_name', 'empcompaniesdetails.company_logo', 'empcompaniesdetails.cover_image', 'empcompaniesdetails.company_state as state', 'empcompaniesdetails.company_city as city', 'empcompaniesdetails.company_industry as com_industry', 'empcompaniesdetails.owner_name as owner_name', 'empcompaniesdetails.com_email as com_email', 'empcompaniesdetails.com_contact as com_contact', 'empcompaniesdetails.website as website', 
-            'empcompaniesdetails.tagline as tagline', 'empcompaniesdetails.no_of_employee as employee_no', 'empcompaniesdetails.company_capital as revenue', 'empcompaniesdetails.cin_no as cin_no', 'empcompaniesdetails.about as com_summary', 'empcompaniesdetails.address as address', 'empcompaniesdetails.establish_date as established_year', 'empcompaniesdetails.facebook_url as com_facebook', 'empcompaniesdetails.twitter_url as com_twitter', 'empcompaniesdetails.linkedin_url as com_linkedin', 
-            'empcompaniesdetails.additional as additional', 'empcompaniesdetails.company_country as country', 'empcompaniesdetails.company_video')
+            ->select(
+                'all_users.*',
+                'empcompaniesdetails.company_name',
+                'empcompaniesdetails.company_logo',
+                'empcompaniesdetails.cover_image',
+                'empcompaniesdetails.company_state as state',
+                'empcompaniesdetails.company_city as city',
+                'empcompaniesdetails.company_industry as com_industry',
+                'empcompaniesdetails.owner_name as owner_name',
+                'empcompaniesdetails.com_email as com_email',
+                'empcompaniesdetails.com_contact as com_contact',
+                'empcompaniesdetails.website as website',
+                'empcompaniesdetails.tagline as tagline',
+                'empcompaniesdetails.no_of_employee as employee_no',
+                'empcompaniesdetails.company_capital as revenue',
+                'empcompaniesdetails.cin_no as cin_no',
+                'empcompaniesdetails.about as com_summary',
+                'empcompaniesdetails.address as address',
+                'empcompaniesdetails.establish_date as established_year',
+                'empcompaniesdetails.facebook_url as com_facebook',
+                'empcompaniesdetails.twitter_url as com_twitter',
+                'empcompaniesdetails.linkedin_url as com_linkedin',
+                'empcompaniesdetails.additional as additional',
+                'empcompaniesdetails.company_country as country',
+                'empcompaniesdetails.company_video'
+            )
             ->where('all_users.id', $id)
             ->first();
 
@@ -525,21 +566,46 @@ class UserprofileController extends Controller
 
     public function update_employer_personaldetail(Request $request)
     {
+        $uid = Auth::guard('employer')->user()->id;
+
         $this->validate(
             $request,
             [
                 'fname'    => 'required|string',
                 'lname'    => 'required|string',
-                'email'    => 'required|email',
-                'contact'  => 'required|min:10|max:12',
+                'email'    => ['required', 'email', Rule::unique('all_users')->ignore($uid)],
+                'contact'  => 'required|numeric|min:10',
                 'gender'   => 'required',
-                'aadhar_no' => 'required|min:12|max:12',
-                'designation' => 'required|string'
+                'aadhar_no' => 'required|numeric|min:12',
+                'designation' => 'required|string',
+                'emp_image' => [FileValidator::image()
+                    ->min('1kb')
+                    ->max('1mb')
+                    ->dimensions(Rule::dimensions()->maxWidth(500)->maxHeight(500))]
             ]
         );
 
-        $uid = Session::get('user')['id'];
         $employerDetail = AllUser::where('id', $uid)->first();
+
+        // If user upload the image.
+
+        if (isset($request->emp_image)) {
+
+            // Get old image path.
+            $old_res = Auth::guard('employer')->user()->profile_pic_thumb;
+
+            $filename = time() . '.' . $request->emp_image->extension();
+            $path = public_path() . "/emp_profile_image/";
+
+            // Delete old image if exists.
+            if (isset($old_res)) {
+                File::delete($path . $old_res);
+            }
+
+            // Now move the image to destination.
+            $request->emp_image->move($path, $filename);
+            $employerDetail->profile_pic_thumb =  $filename;
+        }
 
 
         $employerDetail->fname = request('fname');
@@ -556,27 +622,27 @@ class UserprofileController extends Controller
         $employerDetail->twitter_url = request('twitter_url');
         $employerDetail->linkedin_url = request('linkedin_url');
         $employerDetail->save();
+
+        return redirect()->route('employer_edit_profile')->with(['success' => true, 'message' => 'Profile updated successfully.']);
     }
 
     public function EmployerProfileImageUpload(Request $request)
     {
         $id = Session::get('user')['id'];
-        $tracker =AllUser::find($id);
-        $old_res =$tracker->profile_pic_thumb;
-        if(isset($request->emp_image))
-        {  
-            $filename = time().'.'.$request->emp_image->extension();
+        $tracker = AllUser::find($id);
+        $old_res = $tracker->profile_pic_thumb;
+        if (isset($request->emp_image)) {
+            $filename = time() . '.' . $request->emp_image->extension();
 
-            $path=public_path() . "/emp_profile_image/";
-            if(isset($old_res))
-            {
-                File::delete($path.$old_res);
+            $path = public_path() . "/emp_profile_image/";
+            if (isset($old_res)) {
+                File::delete($path . $old_res);
             }
-            
+
             AllUser::where('id', $id)->update(['profile_pic_thumb' => $filename]);
 
-            
-            $upload = $request->emp_image->move($path,$filename);
+
+            $upload = $request->emp_image->move($path, $filename);
         }
     }
     public function EmployerLogoUpload(Request $request)
@@ -584,23 +650,21 @@ class UserprofileController extends Controller
         $id = Session::get('user')['id'];
         $com_id = Session::get('user')['company_id'];
         $res = Empcompaniesdetail::find($com_id);
-        $old_res =$res->company_logo;
+        $old_res = $res->company_logo;
 
-        if(isset($request->emp_logo))
-        {  
-            $filename = time().'.'.$request->emp_logo->extension();
+        if (isset($request->emp_logo)) {
+            $filename = time() . '.' . $request->emp_logo->extension();
 
-            $path=public_path() . "/company_logo/";
+            $path = public_path() . "/company_logo/";
 
-            if(isset($old_res))
-            {
-                File::delete($path.$old_res);
+            if (isset($old_res)) {
+                File::delete($path . $old_res);
             }
-            
+
             Empcompaniesdetail::where('emp_userid', $id)->update(['company_logo' => $filename]);
 
-            
-            $upload = $request->emp_logo->move($path,$filename);
+
+            $upload = $request->emp_logo->move($path, $filename);
         }
     }
     public function EmployerBannerUpload(Request $request)
@@ -608,45 +672,50 @@ class UserprofileController extends Controller
         $id = Session::get('user')['id'];
         $com_id = Session::get('user')['company_id'];
         $res = Empcompaniesdetail::find($com_id);
-        $old_res =$res->cover_image;
+        $old_res = $res->cover_image;
 
-        if(isset($request->emp_banner))
-        {  
-            $filename = time().'.'.$request->emp_banner->extension();
+        if (isset($request->emp_banner)) {
+            $filename = time() . '.' . $request->emp_banner->extension();
 
-            $path=public_path() . "/company_cover/";
+            $path = public_path() . "/company_cover/";
 
-            if(isset($old_res))
-            {
-                File::delete($path.$old_res);
+            if (isset($old_res)) {
+                File::delete($path . $old_res);
             }
-            
+
             Empcompaniesdetail::where('emp_userid', $id)->update(['cover_image' => $filename]);
 
-            
-            $upload = $request->emp_banner->move($path,$filename);
+
+            $upload = $request->emp_banner->move($path, $filename);
         }
     }
 
     public function update_employer_companydetail(Request $request)
     {
 
-        // dd($request->all());
-        // exit;
-
         $this->validate(
             $request,
             [
+                'emp_logo' => [FileValidator::image()
+                    ->min('1kb')
+                    ->max('1mb')
+                    ->dimensions(Rule::dimensions()->maxWidth(500)->maxHeight(500))],
+                'emp_banner' => [FileValidator::image()
+                    ->min('1kb')
+                    ->max('1mb')],
                 'company_name'    => 'required|string',
                 'com_industry'    => 'required',
                 'owner_name'    => 'required|string',
+                'tagline'    => 'required|string',
                 'com_email'    => 'required|email',
                 'com_contact'    => 'required|min:10|max:12',
-                'website'    => 'required',
-                // 'logo'        => 'required',
-                // 'banner'        => 'required',
                 'established_year'    => 'required',
                 'address'    => 'required',
+                'employee_no'    => 'required',
+                'website'    => 'required',
+                'country'    => 'required',
+                'state'    => 'required',
+                'city'    => 'required',
                 'cin_no'    => 'required',
 
 
@@ -660,38 +729,74 @@ class UserprofileController extends Controller
 
             ]
         );
-        $uid = Session::get('user')['id'];
-        $com_id = Session::get('user')['company_id'];
+        $uid = Auth::guard('employer')->user()->id;
+        $com_id = Auth::guard('employer')->user()->company_id;
         $emp_personal = Empcompaniesdetail::find($com_id);
-            // $url = $request->company_video;
-            // $get_url = parse_url($url);
-            // $youtube = parse_str($get_url['query'], $params);
-            //return $params['v'];
-            $emp_personal->company_name = $request->company_name;
-            $emp_personal->com_email = $request->com_email;
-            $emp_personal->com_contact = $request->com_contact;
-            $emp_personal->website = $request->website;
-            $emp_personal->no_of_employee = $request->employee_no;
-            $emp_personal->tagline = $request->tagline;
-            $emp_personal->establish_date = $request->established_year;
-            $emp_personal->address = $request->address;
-            $emp_personal->company_country = $request->country;
-            $emp_personal->company_state = $request->state;
-            $emp_personal->company_city = $request->city;
-            $emp_personal->company_industry = $request->com_industry;
-            $emp_personal->company_capital = $request->revenue;
-            $emp_personal->cin_no = $request->cin_no;
-            $emp_personal->facebook_url = $request->com_facebook;
-            $emp_personal->twitter_url = $request->com_twitter;
-            $emp_personal->owner_name = $request->owner_name;
-            $emp_personal->linkedin_url = $request->com_linkedin;
-            $emp_personal->about = $request->com_summary;
-            $emp_personal->additional = $request->additional;
-            $emp_personal->company_video = $request->company_video;
-            $emp_personal->emp_userid = $uid;
-            $emp_personal->save();
-        
-        
+
+        // If user upload company logo.
+        if ($request->emp_logo) {
+            // Get old company logo.
+            $old_res = $emp_personal->company_logo;
+
+            $filename = time() . '.' . $request->emp_logo->extension();
+
+            $path = public_path() . "/company_logo/";
+
+            if (isset($old_res)) {
+                File::delete($path . $old_res);
+            }
+
+            // Finally move the files.
+            $request->emp_logo->move($path, $filename);
+            $emp_personal->company_logo = $filename;
+        }
+
+        // If user upload company banner.
+        if ($request->emp_banner) {
+            $old_res = $emp_personal->cover_image;
+
+            if (isset($request->emp_banner)) {
+                $filename = time() . '.' . $request->emp_banner->extension();
+
+                $path = public_path() . "/company_cover/";
+
+                if (isset($old_res)) {
+                    File::delete($path . $old_res);
+                }
+
+                // Finally move the files.
+                $request->emp_banner->move($path, $filename);
+                $emp_personal->cover_image = $filename;
+            }
+        }
+        // $url = $request->company_video;
+        // $get_url = parse_url($url);
+        // $youtube = parse_str($get_url['query'], $params);
+        //return $params['v'];
+        $emp_personal->company_name = $request->company_name;
+        $emp_personal->com_email = $request->com_email;
+        $emp_personal->com_contact = $request->com_contact;
+        $emp_personal->website = $request->website;
+        $emp_personal->no_of_employee = $request->employee_no;
+        $emp_personal->tagline = $request->tagline;
+        $emp_personal->establish_date = $request->established_year;
+        $emp_personal->address = $request->address;
+        $emp_personal->company_country = $request->country;
+        $emp_personal->company_state = $request->state;
+        $emp_personal->company_city = $request->city;
+        $emp_personal->company_industry = $request->com_industry;
+        $emp_personal->company_capital = $request->revenue;
+        $emp_personal->cin_no = $request->cin_no;
+        $emp_personal->facebook_url = $request->com_facebook;
+        $emp_personal->twitter_url = $request->com_twitter;
+        $emp_personal->owner_name = $request->owner_name;
+        $emp_personal->linkedin_url = $request->com_linkedin;
+        $emp_personal->about = $request->com_summary;
+        $emp_personal->additional = $request->additional;
+        $emp_personal->company_video = $request->company_video;
+        $emp_personal->emp_userid = $uid;
+        $emp_personal->save();
+        return redirect()->route('employer_edit_profile')->with(['success' => true, 'message' => 'Company Profile updated successfully.']);
     }
 
 
@@ -726,7 +831,7 @@ class UserprofileController extends Controller
 
         $data = JsSkill::insert($data);
 
-        
+
         $updateLastModifiedDate = Jobseeker::find($uid);
         $updateLastModifiedDate->last_modified = Carbon::now();
         $updateLastModifiedDate->save();
@@ -751,7 +856,7 @@ class UserprofileController extends Controller
         $skillInfo = JsSkill::find($id);
         $skillInfo->delete($uid);
 
-       
+
         $updateLastModifiedDate = Jobseeker::find($uid);
         $updateLastModifiedDate->last_modified = Carbon::now();
         $updateLastModifiedDate->save();
@@ -801,7 +906,7 @@ class UserprofileController extends Controller
         $uid = Session::get('user')['id'];
         $delUserCertInfo = JsCertification::where('js_userid', $uid)->where('id', $id)->delete();
 
-        
+
         $updateLastModifiedDate = Jobseeker::find($uid);
         $updateLastModifiedDate->last_modified = Carbon::now();
         $updateLastModifiedDate->save();
@@ -928,8 +1033,9 @@ class UserprofileController extends Controller
             $message->from('info@naukriyan.com', "Naukriyan.com");
         });
     }
-    public function update_others_detail(Request $request){
-       
+    public function update_others_detail(Request $request)
+    {
+
         $uid = Session::get('user')['id'];
         $js = Jobseeker::where('id', $uid)->first();
         //save in jobseeker table
@@ -946,8 +1052,8 @@ class UserprofileController extends Controller
         $js->current_working_location = $request->current_working_location;
         $js->notice_period = $request->notice_period;
         $js->other_id_type = $request->other_id_type;
-         $js->id_number = $request->id_number;
-         $js->save();
+        $js->id_number = $request->id_number;
+        $js->save();
 
         $updateLastModifiedDate = Jobseeker::find($uid);
         $updateLastModifiedDate->last_modified = Carbon::now();
@@ -958,26 +1064,21 @@ class UserprofileController extends Controller
         $uid = Session::get('user')['id'];
         $com_id = Session::get('user')['company_id'];
         $emp_personal = Empcompaniesdetail::find($com_id);
-        if(isset($request->com_email))
-        {
+        if (isset($request->com_email)) {
             $emp_personal->com_email = $request->com_email;
             $emp_personal->emp_userid = $uid;
             $emp_personal->save();
         }
-        if(isset($request->com_contact))
-        {
+        if (isset($request->com_contact)) {
             $emp_personal->com_contact = $request->com_contact;
             $emp_personal->emp_userid = $uid;
             $emp_personal->save();
         }
-        if(isset($request->com_email) && isset($request->com_contact))
-        {
+        if (isset($request->com_email) && isset($request->com_contact)) {
             $emp_personal->com_contact = $request->com_contact;
             $emp_personal->com_email = $request->com_email;
             $emp_personal->emp_userid = $uid;
             $emp_personal->save();
         }
-        
     }
-    
 }

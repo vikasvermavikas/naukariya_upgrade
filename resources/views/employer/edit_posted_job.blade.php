@@ -4,6 +4,10 @@
         label {
             font-weight: bold;
         }
+        h3{
+            color : #e5500b;
+            font-weight: bold;
+        }
     </style>
 @endsection
 @section('content')
@@ -12,7 +16,7 @@
             <div class="col-md-12">
                 <h1>Edit Post Job</h1>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12 border my-2">
                 <form action="{{route('update_posted_job', ['id' => $id])}}" method="post">
                     @csrf
                     {{-- <legend>Job Post As</legend> --}}

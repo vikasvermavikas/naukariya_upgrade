@@ -17,7 +17,7 @@
                             </a>
                         </div>
                         <div class="col-sm-3">
-                            <a href="{{route('postedjobs')}}">
+                            <a href="{{ route('postedjobs') }}">
                                 <div class="box rounded bg-primary py-4 text-center mt-3"><span
                                         class="text-white">{{ $data['job_posted_by_me'] }}</span>
                                     <hr class="hr1">
@@ -32,7 +32,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3">
-                            <a href="{{route('interview_list')}}">
+                            <a href="{{ route('interview_list') }}">
                                 <div class="box rounded bg-dark py-4 text-center mt-3"><span
                                         class="text-white">{{ $data['scheduled_interview'] }}</span>
                                     <hr class="hr1">
@@ -55,18 +55,22 @@
                             </div>
                         </div>
                         <div class="col-sm-3">
-                            <div class="box rounded bg-dark py-4 text-center mt-3"><span
-                                    class="text-white">{{ $data['followers'] }}</span>
-                                <hr class="hr1">
-                                <p class="lead"><span class="text-white">Followers</span></p>
-                            </div>
+                            <a href="{{ route('employer_followers') }}">
+                                <div class="box rounded bg-dark py-4 text-center mt-3"><span
+                                        class="text-white">{{ $data['followers'] }}</span>
+                                    <hr class="hr1">
+                                    <p class="lead"><span class="text-white">Followers</span></p>
+                                </div>
+                            </a>
                         </div>
                         <div class="col-sm-3">
-                            <div class="box rounded bg-primary py-4 text-center mt-3"><span
-                                    class="text-white">{{ $data['helpdesk'] }}</span>
-                                <hr class="hr1">
-                                <p class="lead"><span class="text-white">Helpdesk</span></p>
-                            </div>
+                            <a href="{{ route('employer_support_list') }}">
+                                <div class="box rounded bg-primary py-4 text-center mt-3"><span
+                                        class="text-white">{{ $data['helpdesk'] }}</span>
+                                    <hr class="hr1">
+                                    <p class="lead"><span class="text-white">Helpdesk</span></p>
+                                </div>
+                            </a>
                         </div>
                         <div class="col-sm-3">
                             <a href="{{ route('tracker-list') }}">
@@ -111,32 +115,45 @@
                 </div>
 
                 <div class="col-sm-3 bg-light">
-                    <div class="user_photo m-auto text-center"><img src="{{ asset('assets/images/default-image.png') }}"
-                            class="img-circle mt-3" style="width: 48px;"></div>
+                    <div class="user_photo m-auto text-center">
+                        {{-- <img src="{{ asset('assets/images/default-image.png') }}"
+                            class="img-circle mt-3" style="width: 48px;"> --}}
+                        @if (Auth::guard('employer')->user()->profile_pic_thumb)
+                            <img src="{{ asset('emp_profile_image/' . Auth::guard('employer')->user()->profile_pic_thumb . '') }}"
+                                class="rounded-circle mt-3" style="width: 48px;">
+                        @else
+                            <img src="{{ asset('assets/images/default-image.png') }}" class="rounded-circle mt-3"
+                                style="width: 48px;">
+                        @endif
+                    </div>
                     <h4 class="text-center mt-3 text-dark">
                         {{ Auth::guard('employer')->check() ? Auth::guard('employer')->user()->fname . ' ' . Auth::guard('employer')->user()->lname : Auth::guard('jobseeker')->user()->fname . ' ' . Auth::guard('jobseeker')->user()->lname }}</span>
                     </h4>
                     <ul class="list-group user_profile">
-                        <li class="list-group-item "><a href="#" class="text-color"><i data-v-624b3b1f=""
-                                    class="fas fa-user-circle"></i> Edit Profile</a>
-                            <ul>
+                        <li class="list-group-item "><a href="{{ route('employer_edit_profile') }}" class="text-color"><i
+                                    data-v-624b3b1f="" class="fas fa-user-circle"></i> Edit Profile</a>
+                            {{-- <ul>
                                 <li class="list-group-item "><a href="#" class="text-color"><i data-v-624b3b1f=""
                                             class="fas fa-chevron-right"></i> Add Personal Details</a></li>
                                 <li class="list-group-item "><a href="#" class="text-color"><i data-v-624b3b1f=""
                                             class="fas fa-chevron-right"></i> Add Company Details</a></li>
-                            </ul>
+                            </ul> --}}
                         </li>
 
-                        <li class="list-group-item"><a href="#" class="text-color"><i data-v-624b3b1f=""
-                                    class="fas fa-user-circle"></i> My Profile</a></li>
-                        <li class="list-group-item"><a href="#" class="text-color"><i data-v-624b3b1f=""
-                                    class="fas fa-sitemap"></i> Organization</a></li>
-                        <li class="list-group-item"><a href="#" class="text-color"> <i data-v-624b3b1f=""
-                                    class="fas fa-inbox"></i> Inbox</a></li>
-                        <li class="list-group-item"><a href="#" class="text-color"> <i data-v-624b3b1f=""
-                                    class="fas fa-key"></i> Change Password</a></li>
-                        <li class="list-group-item"><a href="#" class="text-color"> <i data-v-624b3b1f=""
-                                    class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        <li class="list-group-item"><a href="{{ route('employer_view_profile') }}" class="text-color"><i
+                                    data-v-624b3b1f="" class="fas fa-user-circle"></i> My Profile</a></li>
+                        <li class="list-group-item"><a href="{{ route('employer_organisation') }}" class="text-color"><i
+                                    data-v-624b3b1f="" class="fas fa-sitemap"></i> Organization</a></li>
+                        {{-- <li class="list-group-item"><a href="#" class="text-color"> <i data-v-624b3b1f=""
+                                    class="fas fa-inbox"></i> Inbox</a></li> --}}
+                        <li class="list-group-item"><a href="{{ route('employer_change_password') }}"
+                                class="text-color"> <i data-v-624b3b1f="" class="fas fa-key"></i> Change Password</a>
+                        </li>
+                        <li class="list-group-item"><a href="#" id="logout" class="text-color"> <i
+                                    data-v-624b3b1f="" class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        <form id="logout-form" class="d-none" action="{{ route('jobseekerlogout') }}" method="POST">
+                            @csrf
+                        </form>
                     </ul>
 
                 </div>
@@ -158,22 +175,20 @@
                                             class="fa fa-user"></i> {{ $value->total }}</span>
                                     <hr class="hr1">
                                     <p class="lead">
-                                      <a href="{{route('tracker-list').'?userid='.$value->id.''}}">  <span class="text-white">{{ $value->fname }} {{ $value->lname }}</span></a>
+                                        <a href="{{ route('tracker-list') . '?userid=' . $value->id . '' }}"> <span
+                                                class="text-white">{{ $value->fname }} {{ $value->lname }}</span></a>
                                     </p>
                                 </div>
                             </div>
                         @endforeach
                     </div>
                 </div>
-                <div class="col-sm-9">
-                </div>
+
             </div>
-
-
-
         </div>
-
-
-
     </section>
+@endsection
+
+@section('script')
+    <script src="{{ asset('assets/js/employer-dashboard.js') }}"></script>
 @endsection

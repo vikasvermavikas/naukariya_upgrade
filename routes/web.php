@@ -15,16 +15,13 @@ use App\Http\Controllers\SavedJobController;
 use App\Http\Controllers\StageRegistration;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NewsletterController;
-<<<<<<< HEAD
 use App\Http\Controllers\ClientNameController;
 use App\Http\Controllers\ConsolidateDataController;
 use App\Http\Controllers\SubuserController;
 use App\Http\Controllers\EmpTrackerDetailsController;
 use App\Http\Controllers\JobsectorController;
 use App\Http\Controllers\CitiesController;
-=======
 use App\Http\Controllers\SupportController;
->>>>>>> ab3c28b20849cff5516c091208c62c7b8d034b45
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -123,17 +120,12 @@ Route::middleware('jobseeker')->group(function () {
     Route::post('/follow/{companyid}/{jobid}', [SavedJobController::class, 'follow'])->name('followjob');
     Route::get('/get-stage-registration', [StageRegistration::class, 'getStage'])->name('getStage');
     Route::get('/jobseeker-apply-job', [ApplyJobController::class, 'applyJobList'])->name('applyJobList');
-    Route::get('/follow-list', [SavedJobController::class, 'follow_list'])->name('follow_list');
-<<<<<<< HEAD
-=======
     Route::get('/unfollow-companies/{id}/{id2}', [SavedJobController::class, 'unfollow_companies'])->name('unfollow_companies');
     Route::get('/get-saved-job', [SavedJobController::class, 'index'])->name('get-saved-job');
     Route::post('/add-support', [SupportController::class, 'store_jobseeker'])->name('store_jobseeker');
     Route::get('/supportlist', [SupportController::class, 'index'])->name('index');
-    
->>>>>>> ab3c28b20849cff5516c091208c62c7b8d034b45
+    Route::get('/follow-list', [SavedJobController::class, 'follow_list'])->name('follow_list');
 });
-
 
 // Employer Routes.
 
@@ -141,13 +133,26 @@ Route::group(['middleware' => 'employer'], function () {
     // Route::get('employer/dashboard', [DashboardController::class, 'dashboardloadPage'])->route('dashboardLoadPage');
     Route::get('get-subuser-activity', [DashboardController::class, 'CountSubuserActivity']);
     Route::get('dashboard/employer', [DashboardController::class, 'countAllDataForJobEmployer'])->name('dashboardemployer');
-    
-    
-    
+
     Route::prefix('employer')->group(function () {
         Route::get('/get-cities/data/{id}', [CitiesController::class, 'getCityByState'])->name('get_cities_by_state');
+        Route::get('/followdetails', [SavedJobController::class, 'follower_list'])->name('employer_followers');
 
         Route::get('/getjobsector', [JobsectorController::class, 'index'])->name('get_job_sector');
+
+        // For change password.
+        Route::get('/changepassword', [FrontAllUserController::class, 'employer_change_password'])->name('employer_change_password');
+        Route::post('/update-password-employer', [FrontAllUserController::class, 'update_password'])->name('employer_update_password');
+
+        // For update profile information.
+        Route::get('edit-profile', [DashboardController::class, 'employer_profile'])->name('employer_edit_profile');
+        Route::get('view-employer-profile', [DashboardController::class, 'employer_profile_view'])->name('employer_view_profile');
+        Route::get('view-employer-organisation', [DashboardController::class, 'employer_organisation'])->name('employer_organisation');
+
+        Route::controller(UserprofileController::class)->group(function () {
+            Route::post('/add-personal-detail-employer', 'update_employer_personaldetail')->name('update_employer_personaldetail');
+            Route::post('/add-company-detail-employer', 'update_employer_companydetail')->name('update_employer_companydetail');
+        });
 
         Route::controller(JobmanagerController::class)->group(function () {
             Route::get('/managejobs', 'sessionuser')->name('managejobs');
@@ -161,17 +166,18 @@ Route::group(['middleware' => 'employer'], function () {
             Route::get('/post-new-job', 'add_job')->name('new_job_form');
             Route::post('/add-job-front', 'store_front')->name('store_new_job');
             Route::get('/scheduled-interview', 'getScheduledInterviewLists')->name('interview_list');
+        });
 
-
-
+        Route::controller(SupportController::class)->prefix('support')->group(function () {
+            Route::post('/add-support', 'store_employer')->name('employer_add_support');
+            Route::get('/', 'index')->name('employer_support_list');
         });
 
         // Route for tracker list block.
         Route::controller(EmpTrackerDetailsController::class)->prefix('tracker')->group(function () {
-        Route::get('tracker-list','index')->name('tracker-list');
-        Route::get('/unique-source/tracker','getUniqueSourceEmployer')->name('get_tracker_source');
-        Route::get('/export/tracker/{trackerid?}', 'exportTrackerDataEmployer')->name('exportTracker');
-            
+            Route::get('tracker-list', 'index')->name('tracker-list');
+            Route::get('/unique-source/tracker', 'getUniqueSourceEmployer')->name('get_tracker_source');
+            Route::get('/export/tracker/{trackerid?}', 'exportTrackerDataEmployer')->name('exportTracker');
         });
 
 
@@ -192,7 +198,7 @@ Route::group(['middleware' => 'employer'], function () {
         Route::post('/update-client', [ClientNameController::class, 'update'])->name('update_client');
         Route::get('/active-client/{id}', [ClientNameController::class, 'active'])->name('activate_client');
         Route::get('/deactive-client/{id}', [ClientNameController::class, 'deactive'])->name('deactivate_client');
-        
+
         // Route for cosolidate data.
         Route::prefix('consolidate')->group(function () {
             Route::get('/bulk-data1', [ConsolidateDataController::class, 'index'])->name('get_consolidate_data');

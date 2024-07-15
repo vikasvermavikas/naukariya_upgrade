@@ -1,4 +1,6 @@
-<?php /** @noinspection ALL */
+<?php
+
+/** @noinspection ALL */
 
 namespace App\Http\Controllers;
 
@@ -14,7 +16,11 @@ use App\Models\MyInbox;
 use App\Models\PackageSubscription;
 use App\Models\SavedJob;
 use App\Models\Support;
+use App\Models\Industry;
 use App\Models\ConsolidateData;
+use App\Models\States;
+use App\Models\FunctionalRole;
+use App\Models\Countries;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -27,7 +33,7 @@ class DashboardController extends Controller
         // $loggedUserId = Session::get('user')['id'];
         // $loggedUserType = Session::get('user')['user_type'];
         // $loggedCompanyId = Session::get('user')['company_id'];
-        
+
         $loggedUserId = Auth::guard('employer')->user()->id;
         $loggedUserType = Auth::guard('employer')->user()->user_type;
         $loggedCompanyId = Auth::guard('employer')->user()->company_id;
@@ -64,37 +70,37 @@ class DashboardController extends Controller
             ->where('apply_jobs.status', '2')
             ->select('apply_jobs.*', 'jobmanagers.title as applied_for', 'jobseekers.fname', 'jobseekers.lname', 'jobseekers.email', 'jobseekers.contact', 'jobseekers.designation', 'jobseekers.expected_salary', 'jobseekers.exp_year', 'jobseekers.exp_month', 'jobseekers.current_salary', 'jobseekers.expected_salary', 'jobseekers.notice_period', 'jobseekers.preferred_location')
             ->count();
-            
-        $data['totalTrackercandidate'] =Tracker::where('employer_id',$uid)
+
+        $data['totalTrackercandidate'] = Tracker::where('employer_id', $uid)
             ->count();
 
-            $data['totalSubuser'] = SubUser::where('created_by',$uid)
-            ->count();   
-            
-            $data['totalClient'] = ClientName::where('company_id',$loggedCompanyId)->where('created_by',$uid)
+        $data['totalSubuser'] = SubUser::where('created_by', $uid)
             ->count();
 
-            // dd($loggedUserId);
+        $data['totalClient'] = ClientName::where('company_id', $loggedCompanyId)->where('created_by', $uid)
+            ->count();
 
-            if($loggedUserId == 2){
-                $data['consolidateData']=ConsolidateData::select('id')
+        // dd($loggedUserId);
+
+        if ($loggedUserId == 2) {
+            $data['consolidateData'] = ConsolidateData::select('id')
                 ->count();
-            }
+        }
 
-            //subuser data count
+        //subuser data count
 
-            $empID =Session::get('user')['id'];
+        $empID = Session::get('user')['id'];
 
-            $subUser =SubUser::leftjoin('trackers','trackers.added_by','sub_users.id')
-            ->select('sub_users.id','sub_users.fname','sub_users.lname','sub_users.email',DB::raw("count(trackers.id) as total"))
-            ->where('created_by',$empID)
-            ->groupBy('sub_users.id','sub_users.fname','sub_users.lname','sub_users.email')
+        $subUser = SubUser::leftjoin('trackers', 'trackers.added_by', 'sub_users.id')
+            ->select('sub_users.id', 'sub_users.fname', 'sub_users.lname', 'sub_users.email', DB::raw("count(trackers.id) as total"))
+            ->where('created_by', $empID)
+            ->groupBy('sub_users.id', 'sub_users.fname', 'sub_users.lname', 'sub_users.email')
             ->get();
 
 
         // return response()->json(['data' => $data], 200);
 
-        return view('employer.dashboard',[
+        return view('employer.dashboard', [
             'data' => $data,
             'sub_user_data' => $subUser
         ]);
@@ -157,9 +163,7 @@ class DashboardController extends Controller
                 }
 
                 return $q;
-
             })->count();
-
         } else {
             $data['recommended_jobs'] = 0;
         }
@@ -175,28 +179,60 @@ class DashboardController extends Controller
         // return response()->json(['data' => $data], 200);
 
         return view('jobseeker.jobseekerDashboard', compact('data'));
-
-
-
     }
     public function CountSubuserActivity()
     {
-        $empID =Session::get('user')['id'];
-        $subUser =SubUser::leftjoin('trackers','trackers.added_by','sub_users.id')
-        ->select('sub_users.id','sub_users.fname','sub_users.lname','sub_users.email',DB::raw("count(trackers.id) as total"))
-        ->where('created_by',$empID)
-        ->groupBy('sub_users.id','sub_users.fname','sub_users.lname','sub_users.email')
-        ->get();
+        $empID = Session::get('user')['id'];
+        $subUser = SubUser::leftjoin('trackers', 'trackers.added_by', 'sub_users.id')
+            ->select('sub_users.id', 'sub_users.fname', 'sub_users.lname', 'sub_users.email', DB::raw("count(trackers.id) as total"))
+            ->where('created_by', $empID)
+            ->groupBy('sub_users.id', 'sub_users.fname', 'sub_users.lname', 'sub_users.email')
+            ->get();
 
         return response()->json(['data' => $subUser], 200);
     }
     public function CheckEmpProfileComplete()
     {
-        $empID =Session::get('user')['id'];
-        $company_id =Session::get('user')['company_id'];
-        $data = Empcompaniesdetail::join('all_users', 'all_users.company_id', 'empcompaniesdetails.id')->select('empcompaniesdetails.id','com_email','company_name','establish_date','website','cin_no','owner_name','com_contact','address', 'all_users.id as empid')
-        ->where('empcompaniesdetails.id',$company_id)->where('all_users.id',$empID)->first();
+        $empID = Session::get('user')['id'];
+        $company_id = Session::get('user')['company_id'];
+        $data = Empcompaniesdetail::join('all_users', 'all_users.company_id', 'empcompaniesdetails.id')->select('empcompaniesdetails.id', 'com_email', 'company_name', 'establish_date', 'website', 'cin_no', 'owner_name', 'com_contact', 'address', 'all_users.id as empid')
+            ->where('empcompaniesdetails.id', $company_id)->where('all_users.id', $empID)->first();
 
         return response()->json(['data' => $data], 200);
+    }
+
+    public function employer_profile()
+    {
+        $userid = Auth::guard('employer')->user()->id;
+        $industries = Industry::select('id', 'category_name')->orderBy('category_name', 'ASC')->get();
+        $companyDetails = DB::table('empcompaniesdetails')->where('emp_userid', $userid)->first();
+        $states = States::select('id', 'states_name')->where('country_id', '101')->get();
+        $countries = Countries::select('country_id', 'country_name')->get();
+        $functional_roles = FunctionalRole::select('id', 'subcategory_name')->orderBy('functional_roles.subcategory_name')->get();
+
+        $cities = [];
+        // $state_id = $request->state_id;
+        if ($companyDetails->company_state) {
+            $cities = DB::table('cities')
+                        ->select('id', 'cities_name')
+                        ->where('state_id', $companyDetails->company_state)
+                        ->get();
+        }
+
+        return view('employer.edit_profile', compact('industries', 'companyDetails', 'countries', 'states', 'functional_roles', 'cities'));
+    }
+
+    public function employer_profile_view(){
+        $id = Auth::guard('employer')->user()->id;
+        $active_jobs = Jobmanager::where('userid', $id)->where('status', 'Active')->count();
+        $followers = Follower::where('employer_id', $id)->where('status', '1')->count();
+        $total_jobs = Jobmanager::where('userid', $id)->count();
+        return view('employer.view_profile', compact('active_jobs', 'followers', 'total_jobs'));
+    }
+
+    public function employer_organisation(){
+        $id = Auth::guard('employer')->user()->id;
+        $company_details = Empcompaniesdetail::where('emp_userid', $id)->first();
+        return view('employer.view_organisation', compact('company_details'));
     }
 }

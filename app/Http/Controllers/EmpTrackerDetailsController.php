@@ -350,7 +350,8 @@ class EmpTrackerDetailsController extends Controller
                 'Current CTC' => $x->current_ctc ? $x->current_ctc : 'Not Available',
                 'Current Location' => $x->current_location ? $x->current_location : 'Not Available',
                 'Preffered Location' => $x->preffered_location ? $x->preffered_location : 'Not Available',
-
+                'HomeTown State' => $x->hometown_state ? $x->hometown_state : 'Not Available',
+                'HomeTown City' => $x->hometown_city ? $x->hometown_city : 'Not Available',
                 'Tenth Board Name' => $x->tenth_board_name ? $x->tenth_board_name :  'Not Available',
                 'Tenth Percentage' => $x->tenth_percentage ? $x->tenth_percentage :  'Not Available',
                 'Tenth Year' => $x->tenth_year ? $x->tenth_year : 'Not Available',

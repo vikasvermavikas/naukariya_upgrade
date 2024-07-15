@@ -8,44 +8,74 @@ use App\Models\Support;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
 class SupportController extends Controller
 {
+    public $userid;
+    public $companyid;
+    public $usertype;
 
-    public function index() {
-        $userid = Session::get('user')['id'];
-        $get_user = Session::get('user')['user_type'];
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->userid = Auth::guard('employer')->user()->id;
+            $this->companyid = Auth::guard('employer')->user()->company_id;
+            $this->usertype = Auth::guard('employer')->user()->user_type;
+            return $next($request);
+        });
+    }
+
+    public function index()
+    {
+        $userid = $this->userid;
+        $get_user = $this->usertype;
         $data = DB::table('supports')
-            ->orderBy('created_at','DESC')
+            ->orderBy('created_at', 'DESC')
             ->where('support_userid', $userid)
             ->where('support_usertype', $get_user)
             ->get();
-        return response()->json(['data'=>$data],200);
+        // return response()->json(['data'=>$data],200);
+        return view('employer.support', compact('data'));
     }
 
-    public function index_all() {
-        $data= DB::table('supports') //current table
-            ->orderBy('id','desc')
+    public function index_all()
+    {
+        $data = DB::table('supports') //current table
+            ->orderBy('id', 'desc')
             ->get();
-        return response()->json(['data'=>$data],200);
+        return response()->json(['data' => $data], 200);
     }
 
-    public function view($id) {
-        $data= DB::table('supports') //current table
+    public function view($id)
+    {
+        $data = DB::table('supports') //current table
             ->where('id', $id)
             ->first();
-        return response()->json(['data'=>$data],200);
+        return response()->json(['data' => $data], 200);
     }
 
-    public function store_employer(Request $request) {
-        $userid = Session::get('user')['id'];
-        $fname = Session::get('user')['fname'];
-        $lname = Session::get('user')['lname'];
-        $email = Session::get('user')['email'];
-        $get_user = Session::get('user')['user_type'];
-        $string = substr($get_user,0,3);
+    public function store_employer(Request $request)
+    {
+        $request->validate([
+            'support_subject' => 'required|size:20',
+            'support_comment' => 'required|size:100',
+        ]);
+
+        // $userid = Session::get('user')['id'];
+        // $fname = Session::get('user')['fname'];
+        // $lname = Session::get('user')['lname'];
+        // $email = Session::get('user')['email'];
+        // $get_user = Session::get('user')['user_type'];
+        
+        $userid = Auth::guard('employer')->user()->id;
+        $fname = Auth::guard('employer')->user()->fname;
+        $lname = Auth::guard('employer')->user()->lname;
+        $email = Auth::guard('employer')->user()->email;
+        $get_user = Auth::guard('employer')->user()->user_type;
+        $string = substr($get_user, 0, 3);
         $dt = time();
-        $support_id = "SUP/".$string."/".$userid."/".$dt;
+        $support_id = "SUP/" . $string . "/" . $userid . "/" . $dt;
         $support = new Support();
         $support->support_id = $support_id;
         $support->support_fname = $fname;
@@ -57,17 +87,20 @@ class SupportController extends Controller
         $support->support_userid = $userid;
         $support->support_usertype = $get_user;
         $support->save();
+
+        return redirect()->route('employer_support_list')->with(['message' => 'Message sent successfully']);
     }
 
-    public function store_jobseeker(Request $request) {
-        $userid=Session::get('user')['id'];
+    public function store_jobseeker(Request $request)
+    {
+        $userid = Session::get('user')['id'];
         $fname = Session::get('user')['fname'];
         $lname = Session::get('user')['lname'];
         $email = Session::get('user')['email'];
         $get_user = Session::get('user')['user_type'];
-        $string = substr($get_user,0,3);
+        $string = substr($get_user, 0, 3);
         $dt = time();
-        $support_id = "SUP/".$string."/".$userid."/".$dt;
+        $support_id = "SUP/" . $string . "/" . $userid . "/" . $dt;
         $support = new Support();
         $support->support_id = $support_id;
         $support->support_fname = $fname;
@@ -86,5 +119,4 @@ class SupportController extends Controller
 
         return response()->json(['data' => 'Something went wrong.'], 201);
     }
-
 }

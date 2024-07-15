@@ -15,12 +15,14 @@ use App\Models\FunctionalRole;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Image;
-use Auth;
 use Session;
 use DB;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 use Response;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Auth;
+
 
 class FrontAllUserController extends Controller
 {
@@ -224,12 +226,17 @@ class FrontAllUserController extends Controller
     public function update_password(Request $request)
     {
         $this->validate($request, [
-            'new_password' => 'min:6|required_with:confirm_password|same:confirm_password',
-            'confirm_password' => 'min:6'
+            'current_password' => ['required', function ($attribute, $value, $fail) {
+                if (!Hash::check($value, Auth::guard('employer')->user()->password)) {
+                    $fail('Old Password didn\'t match');
+                }
+            }],
+            'new_password' => ['required', 'required_with:confirm_password', 'same:confirm_password', Password::min(8), Password::min(8)->letters(), Password::min(8)->mixedCase(), Password::min(8)->numbers(), Password::min(8)->symbols()],
+            'confirm_password' => 'required|min:8'
         ]);
 
-        $id = Session::get('user')['id'];
-        $email = Session::get('user')['email'];
+        $id = Auth::guard('employer')->user()->id;
+        // $email = Auth::guard('employer')->user()->email;
         $change = AllUser::find($id);
 
         $change->password = Hash::make($request->confirm_password);
@@ -238,9 +245,15 @@ class FrontAllUserController extends Controller
         $saved = $change->save();
 
         if ($saved) {
-            return response()->json(['success' => 'Password Changed'], 200);
+            Auth::logoutOtherDevices($request->new_password);
+            // return response()->json(['success' => 'Password Changed'], 200);
+            return redirect()->route('employer_change_password')->with(['success' => 'Password Changed Successfully']);
         }
+        
+        return redirect()->route('employer_change_password')->with(['errorsuccess' => 'Something went wrong']);
+    }
 
-        return response()->json(['error' => 'Something went wrong'], 200);
+    public function employer_change_password(){
+        return view('employer.change_password');
     }
 }
