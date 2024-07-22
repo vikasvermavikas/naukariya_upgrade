@@ -23,7 +23,7 @@
                 <div class="blog_left_sidebar">
                     <article class="blog_item">
                         <div class="blog_item_img">
-                            <img class="card-img rounded-0" src="assets/img/blog/single_blog_1.png" alt="">
+                            <img class="card-img rounded-0" src="{{asset('assets/img/blog/single_blog_1.png')}}" alt="">
                             <a href="#" class="blog_item_date">
                                 <h3>15</h3>
                                 <p>Jan</p>
@@ -45,7 +45,7 @@
 
                     <article class="blog_item">
                         <div class="blog_item_img">
-                            <img class="card-img rounded-0" src="assets/img/blog/single_blog_2.png" alt="">
+                            <img class="card-img rounded-0" src="{{asset('assets/img/blog/single_blog_2.png')}}" alt="">
                             <a href="#" class="blog_item_date">
                                 <h3>15</h3>
                                 <p>Jan</p>
@@ -67,7 +67,7 @@
 
                     <article class="blog_item">
                         <div class="blog_item_img">
-                            <img class="card-img rounded-0" src="assets/img/blog/single_blog_3.png" alt="">
+                            <img class="card-img rounded-0" src="{{asset('assets/img/blog/single_blog_3.png')}}" alt="">
                             <a href="#" class="blog_item_date">
                                 <h3>15</h3>
                                 <p>Jan</p>
@@ -89,7 +89,7 @@
 
                     <article class="blog_item">
                         <div class="blog_item_img">
-                            <img class="card-img rounded-0" src="assets/img/blog/single_blog_4.png" alt="">
+                            <img class="card-img rounded-0" src="{{asset('assets/img/blog/single_blog_4.png')}}" alt="">
                             <a href="#" class="blog_item_date">
                                 <h3>15</h3>
                                 <p>Jan</p>
@@ -111,7 +111,7 @@
 
                     <article class="blog_item">
                         <div class="blog_item_img">
-                            <img class="card-img rounded-0" src="assets/img/blog/single_blog_5.png" alt="">
+                            <img class="card-img rounded-0" src="{{asset('assets/img/blog/single_blog_5.png')}}" alt="">
                             <a href="#" class="blog_item_date">
                                 <h3>15</h3>
                                 <p>Jan</p>
