@@ -239,7 +239,7 @@
                                                     <li><a href={{ route('get_clients') }}>Client List</a></li>
                                                     <li><a href={{ route('new_job_form') }}>Post New Job</a></li>
                                                     <li><a href={{ route('managejobs') }}>Manage Job</a></li>
-                                                    <li><a href={{ route('elements') }}>Questionnaries</a></li>
+                                                    <li><a href={{ route('questionnaires') }}>Questionnaries</a></li>
                                                     <li><a href={{ route('get_subusers') }}>Sub User</a></li>
                                                     <li><a href={{ route('elements') }}>Venues</a></li>
                                                     <li><a href={{ route('elements') }}>Tagged Candidates</a></li>
@@ -247,7 +247,7 @@
                                             </li>
 
                                             <li><a href={{ route('loadJoblistPage') }}>Packages</a></li>
-                                            <li><a href={{ route('about') }}>Search Database</a></li>
+                                            <li><a href={{ route('employer_search_resume') }}>Search Database</a></li>
                                             <li><a href='#'>Consultant </a>
                                                 <ul class="submenu">
                                                     <li><a href={{ route('new_job_form') }}>Post New JD(s)</a></li>
@@ -275,15 +275,17 @@
                                         class="nav-link dropdown-toggle">
                                         {{-- <img src={{ asset('assets/images/default-image.png') }} width="36"
                                             height="36" class="mini-photo rounded-circle"> --}}
-                                            @if (Auth::guard('employer')->user()->profile_pic_thumb)
-                                                <img src="{{ asset('emp_profile_image/' . Auth::guard('employer')->user()->profile_pic_thumb . '') }}"
-                                                 class="mini-photo rounded-circle text-center" width="36" height="36">
-                                            @else
-                                                <img src="{{ asset('assets/images/default-image.png') }}"
-                                                 class="mini-photo rounded-circle text-center" width="36" height="36">
-                                            @endif
-                                        </a>
-                                            
+                                        @if (Auth::guard('employer')->user()->profile_pic_thumb)
+                                            <img src="{{ asset('emp_profile_image/' . Auth::guard('employer')->user()->profile_pic_thumb . '') }}"
+                                                class="mini-photo rounded-circle text-center" width="36"
+                                                height="36">
+                                        @else
+                                            <img src="{{ asset('assets/images/default-image.png') }}"
+                                                class="mini-photo rounded-circle text-center" width="36"
+                                                height="36">
+                                        @endif
+                                    </a>
+
                                     <ul class="dropdown-menu user-menu">
                                         <div class="profile-highlight text-center">
 
@@ -291,10 +293,12 @@
                                                 height="36" class="mini-photo rounded-circle text-center"> --}}
                                             @if (Auth::guard('employer')->user()->profile_pic_thumb)
                                                 <img src="{{ asset('emp_profile_image/' . Auth::guard('employer')->user()->profile_pic_thumb . '') }}"
-                                                 class="mini-photo rounded-circle text-center" width="36" height="36">
+                                                    class="mini-photo rounded-circle text-center" width="36"
+                                                    height="36">
                                             @else
                                                 <img src="{{ asset('assets/images/default-image.png') }}"
-                                                 class="mini-photo rounded-circle text-center" width="36" height="36">
+                                                    class="mini-photo rounded-circle text-center" width="36"
+                                                    height="36">
                                             @endif
 
                                             <div class="details text-center">
@@ -309,7 +313,7 @@
                                         </div>
 
                                         <li class="user-menu__item mt-2">
-                                            <a href="{{route('employer_view_profile')}}" class="user-menu-link">
+                                            <a href="{{ route('employer_view_profile') }}" class="user-menu-link">
                                                 <div class="text-color"><i class="fas fa-user-circle"></i> My profile
                                                 </div>
                                             </a>

@@ -125,17 +125,19 @@ class QuestionnarieListController extends Controller
 
     public function getquestionnarie_question_emp()
     {
-        $uid = Session::get('user')['id'];
+        // $uid = Session::get('user')['id'];
+        $uid = Auth::guard('employer')->user()->id;
 
         //$admin_id=Auth::user()->id;
-        $data = DB::table('questionnarie_questions')
-            ->leftjoin('questions', 'questions.id', '=', 'questionnarie_questions.question_id')
-            ->leftjoin('questionnarie_names', 'questionnarie_names.id', '=', 'questionnarie_questions.questionnarie_id')
-            ->select('questionnarie_questions.id as questionnarie_questions_id', 'questionnarie_names.*', 'questions.*', 'questionnarie_questions.*')
-            ->where('questionnarie_questions.user_id', $uid)//for admin
-            ->get();
-        return response()->json(['data' =>
-            $data], 200);
+        // $data = DB::table('questionnarie_questions')
+        //     ->leftjoin('questions', 'questions.id', '=', 'questionnarie_questions.question_id')
+        //     ->leftjoin('questionnarie_names', 'questionnarie_names.id', '=', 'questionnarie_questions.questionnarie_id')
+        //     ->select('questionnarie_questions.id as questionnarie_questions_id', 'questionnarie_names.*', 'questions.*', 'questionnarie_questions.*')
+        //     ->where('questionnarie_questions.user_id', $uid)//for admin
+        //     ->get();
+        // return response()->json(['data' =>
+        //     $data], 200);
+        return view('employer.questionary_list');
     }
 
     public function searchquestionnarie_emp($questionnarie_id)

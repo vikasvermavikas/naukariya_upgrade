@@ -28,9 +28,9 @@ class EmpcompaniesdetailsController extends Controller
         $com_unq =array_unique($companies);
         $user_unq =array_unique($user_companies);
         $demo = array_merge($com_unq, $user_unq);
+        $demo = array_unique($demo);
 
-
-        return $demo;
+        // return $demo;
         // $companies = Empcompaniesdetail::pluck('company_name')->toArray();
         // $user_companies =JsProfessionalDetail::pluck('organisation')->toArray();
 
@@ -40,6 +40,7 @@ class EmpcompaniesdetailsController extends Controller
 
 
         // return $demo;
+        return response()->json(['data' => $demo], 200);
         
     }
     public function index()

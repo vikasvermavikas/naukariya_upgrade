@@ -13,7 +13,7 @@ use App\Models\ResumeTag;
 use App\Models\JsCertification;
 use App\Models\JsSkill;
 use App\Models\JsProfessionalDetail;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Response;
@@ -306,14 +306,16 @@ class viewresumeController extends Controller
 
     public function gettag()
     {
-        $data = Tag::all();
+        $data = Tag::select('id', 'tag')->get();
         return response()->json(['data' => $data], 200);
     }
 
     public function add_resume_tag(Request $request)
     {
+        $tagResumes = [] ;
         $tag_id = $request->tag_id;
-        $uid = Session::get('user')['id'];
+        // $uid = Session::get('user')['id'];
+        $uid = Auth::guard('employer')->user()->id;
         $candidate_arr = $request->jobseeker_id;
         foreach ($candidate_arr as $key => $value) {
             $tagResumes[] = array(
@@ -322,7 +324,7 @@ class viewresumeController extends Controller
                 'candidate_id' => $value
             );
         }
-
+        $resumeTag = '';
         foreach ($tagResumes as $resume) {
             $resumeTag = ResumeTag::create($resume);
         }
@@ -337,7 +339,8 @@ class viewresumeController extends Controller
     public function add_new_tag(Request $request)
     {
         $tag = $request->tag;
-        $uid = Session::get('user')['id'];
+        // $uid = Session::get('user')['id'];
+        $uid = Auth::guard('employer')->user()->id;
         $tg = new Tag();
         $tg->tag = $tag;
         $tg->user_id = $uid;
@@ -439,9 +442,36 @@ class viewresumeController extends Controller
     }
     public function getSkillInfo($jsid)
     {
-        $skills = JsSkill::where('js_userid', $jsid)->get();
+        $jsInfo = DB::table('jobseekers')
+        ->leftjoin('js_resumes', 'js_resumes.js_userid', '=', 'jobseekers.id')
+        ->select(
+            'jobseekers.*',
+            'js_resumes.resume',
+            'js_resumes.resume_video_link',
+            'js_resumes.linkedin_resume_link',
+            'js_resumes.updated_at as resume_upload_date'
+        )
+        ->where('jobseekers.id', $jsid)
+        ->first();
+        $skills = JsSkill::select('id', 'skill', 'expert_level')->where('js_userid', $jsid)->get();
+        
+        $educationalDetails = DB::table('js_educational_details')
+        ->leftjoin('qualifications', 'qualifications.id', 'js_educational_details.education')
+        ->select('qualifications.id', 'qualifications.qualification', 'js_educational_details.*')
+        ->where('js_educational_details.js_userid', $jsid)
+        ->get();
 
-        return response()->json(['data' => $skills, 'status' => 'success'], 200);
+        $userProfessionalDetails = DB::table('js_professional_details')
+        ->leftjoin('job_shifts', 'job_shifts.id', 'js_professional_details.job_shift')
+        ->leftjoin('job_types', 'job_types.id', 'js_professional_details.job_type')
+        ->leftjoin('industries', 'industries.id', 'js_professional_details.industry_name')
+        ->leftjoin('functional_roles', 'functional_roles.id', 'js_professional_details.functional_role')
+        ->select('js_professional_details.id', 'js_professional_details.responsibility', 'js_professional_details.designations', 'js_professional_details.from_date', 'js_professional_details.to_date', 'js_professional_details.organisation', 'job_shifts.job_shift', 'job_types.job_type', 'industries.category_name as industry_name', 'functional_roles.subcategory_name as functional_role')
+        ->where('js_professional_details.js_userid', $jsid)
+        ->get();
+
+        return view('employer.candidate_details', ['jsInfos' => $jsInfo, 'skillInfo' => $skills, 'educationalDetails' => $educationalDetails, 'professionDetails' => $userProfessionalDetails]);
+        // return response()->json(['data' => $skills, 'status' => 'success'], 200);
     }
     public function getEducationInfo($jsid)
     {
@@ -467,10 +497,10 @@ class viewresumeController extends Controller
     }
     public function ResumeViewSendMail(Request $request)
     {
-        $description = $request->params['description'];
-        //$from = $request->params['empEmail'];
-        $subject = $request->params['subject'];
-        $jobseeker_id = $request->params['jobseeker_id'];
+        $description = $request->description;
+        //$from = $request->empEmail;
+        $subject = $request->subject;
+        $jobseeker_id = $request->jobseeker_id;
         $candidate_arr = implode(",",$jobseeker_id);
         //array_shift($candidate_arr);
         $cand=explode(",",$candidate_arr);
@@ -488,6 +518,8 @@ class viewresumeController extends Controller
                 
             }
         }
+
+        return response()->json(['status' => 'Mail sent successfully'], 200);
         
     }
     

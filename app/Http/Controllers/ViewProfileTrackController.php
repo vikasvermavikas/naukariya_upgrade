@@ -100,6 +100,7 @@ class ViewProfileTrackController extends Controller
         $orderBy = request('');
         $skillarray = [];
         $skill = request('skill');
+      
         $getallskills = [];
         $experienceMin = request('min_exp');
         $experienceMax = request('max_exp');
@@ -157,14 +158,15 @@ class ViewProfileTrackController extends Controller
             );
 
         // code by vv For skills filter.
-        if (isset($skill) && $skill !== null) {
-            $skillarray = json_decode($skill); // Convert json from geting from multiselect.
+        if (!empty($skill) && count($skill) > 0) {
+            // $skillarray = json_decode($skill); // Convert json from geting from multiselect.
+            $skillarray = $skill; // Convert json from geting from multiselect.
             if (count($skillarray) > 0 && $skillarray) {
                 $jobseeker->join('js_skills', 'js_skills.js_userid', '=', 'jobseekers.id');
                 $getallskills = [];
                 // Add for multiple skills.
                 for ($i = 0; $i < count($skillarray); $i++) {
-                    $getallskills[] = $skillarray[$i]->name;    // Get skills ids.
+                    $getallskills[] = $skillarray[$i];    // Get skills.
                 }
                 $jobseeker->whereIn('js_skills.skill', $getallskills);  // Get skills by skill ids.
                 $jobseeker->addSelect('js_skills.skill');
@@ -193,7 +195,6 @@ class ViewProfileTrackController extends Controller
                 for ($i=0; $i < count($current_location); $i++) { 
                     $currentlocation[] = $current_location[$i]->location;
                 }
-                // $jobseeker->where('jobseekers.current_working_location', $current_location);
                 $jobseeker->whereIn('jobseekers.current_working_location', $currentlocation);
             }
             
@@ -315,34 +316,18 @@ class ViewProfileTrackController extends Controller
 
             $multipleProfessional = $multipleProfessional->get();
 
-            // old skill Code commented by vv.
-            // if (isset($skill) && $skill !== null) {
-            //     $multipleSkills = DB::table('js_skills')
-            //         ->where('js_userid', $item->js_id);
-            //     // $multipleSkills->where('skill',$skill);
-            //     $getallskills = [];
-            //     // Add for multiple skills.
-            //     $skillarray = json_decode($skill); // Convert json from geting from multiselect.
-            //     for ($i = 0; $i < count($skillarray); $i++) {
-            //         $getallskills[] = $skillarray[$i]->name;    // Get skills ids.
-            //     }
-            //     // $multipleSkills->whereIn('skill', explode(",", $skill));
-            //     $multipleSkills->whereIn('skill', $getallskills);  // Get skills by skill ids.
-            // }
-            // $multipleSkills = $multipleSkills->get();
-
             $multipleComments = DB::table('save_comments')
-                ->where('js_userid', $item->js_id)->where('emp_userid', 1)->get();
+                ->where('js_userid', $item->js_id)->get();
 
             $educations = ['educations' => $multipleEducations];
             $professional = ['professionals' => $multipleProfessional];
-            //  $skills = ['skills' => $multipleSkills];
+         
 
             $comments = ['comments' => $multipleComments];
 
             $collection1 = collect($item)->merge($professional);
             $collection2 = $collection1->merge($educations);
-            // $collection3 = $collection2->merge($skills);
+            
             $collection4 = $collection2->merge($comments);
 
             return $collection4;
@@ -356,10 +341,11 @@ class ViewProfileTrackController extends Controller
             $newCollection->forPage($currentPage, $prePage),
             $newCollection->count(),
             $prePage,
-            $currentPage
+            $currentPage,
         );
+   
+        return view('employer.resume_filter', ['category' => $category->withPath('/employer/resume/filter')->withQueryString()]);
 
-        return $category;
     }
 
     /* 

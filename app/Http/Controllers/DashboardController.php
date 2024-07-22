@@ -214,15 +214,16 @@ class DashboardController extends Controller
         // $state_id = $request->state_id;
         if ($companyDetails->company_state) {
             $cities = DB::table('cities')
-                        ->select('id', 'cities_name')
-                        ->where('state_id', $companyDetails->company_state)
-                        ->get();
+                ->select('id', 'cities_name')
+                ->where('state_id', $companyDetails->company_state)
+                ->get();
         }
 
         return view('employer.edit_profile', compact('industries', 'companyDetails', 'countries', 'states', 'functional_roles', 'cities'));
     }
 
-    public function employer_profile_view(){
+    public function employer_profile_view()
+    {
         $id = Auth::guard('employer')->user()->id;
         $active_jobs = Jobmanager::where('userid', $id)->where('status', 'Active')->count();
         $followers = Follower::where('employer_id', $id)->where('status', '1')->count();
@@ -230,9 +231,39 @@ class DashboardController extends Controller
         return view('employer.view_profile', compact('active_jobs', 'followers', 'total_jobs'));
     }
 
-    public function employer_organisation(){
+    public function employer_organisation()
+    {
         $id = Auth::guard('employer')->user()->id;
         $company_details = Empcompaniesdetail::where('emp_userid', $id)->first();
         return view('employer.view_organisation', compact('company_details'));
+    }
+
+    public function search_resume()
+    {
+        $skills = DB::select('select MAX(id) AS id, skill from js_skills GROUP BY skill');
+
+        $emp_id = Auth::guard('employer')->user()->id;
+        $savedSearches = DB::table('save_search_urls')
+            ->where('emp_id', $emp_id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $location_data = DB::table('master_location')
+            ->select('state')
+            ->distinct('state')
+            ->get();
+
+        $locations = $location_data->map(function ($data) {
+            $edu = DB::table('master_location')
+                ->select('master_location.id', 'master_location.location')
+                ->where('master_location.state', $data->state)->get();
+
+            $educations = ['location' => $edu];
+
+            $collection = collect($data)->merge($educations);
+            return $collection;
+        });
+        
+        return view('employer.search_resume', compact('skills', 'locations', 'savedSearches'));
     }
 }

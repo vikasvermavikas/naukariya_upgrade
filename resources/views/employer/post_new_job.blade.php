@@ -61,7 +61,7 @@
                                     @foreach ($clients as $client)
                                         <option value="{{ $client->id }}">{{ $client->name }}</option>
                                     @endforeach
-                                    <option value="add_client">Others</option>
+                                    {{-- <option value="add_client">Others</option> --}}
 
                                 </select>
                                 @error('client_id')

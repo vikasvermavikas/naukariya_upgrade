@@ -15,9 +15,10 @@ class FunctionalroleController extends Controller
 {
     public function index()
     {
-        $data = FunctionalRole::with(['jobmanagers' => function ($query) {
-            $query->select('jobmanagers.id', 'jobmanagers.job_functional_role_id')->where('jobmanagers.status', 'Active');
-        }])->select('functional_roles.id', 'functional_roles.subcategory_name')->orderBy('functional_roles.subcategory_name')->get();
+        $data = FunctionalRole::select('functional_roles.id', 'functional_roles.subcategory_name')->orderBy('functional_roles.subcategory_name')->get();
+        // $data = FunctionalRole::with(['jobmanagers' => function ($query) {
+        //     $query->select('jobmanagers.id', 'jobmanagers.job_functional_role_id')->where('jobmanagers.status', 'Active');
+        // }])->select('functional_roles.id', 'functional_roles.subcategory_name')->orderBy('functional_roles.subcategory_name')->get();
 
         return response()->json(['data' => $data], 200);
     }

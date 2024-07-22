@@ -51,7 +51,7 @@
                                     @foreach ($clients as $client)
                                         <option value="{{ $client->id }}" {{$data->client_id == $client->id ? 'selected' : ''}}>{{ $client->name }}</option>
                                     @endforeach
-                                    <option value="add_client">Others</option>
+                                    {{-- <option value="add_client">Others</option> --}}
 
                                 </select>
                             </div>

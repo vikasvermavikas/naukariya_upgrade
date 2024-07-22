@@ -1294,7 +1294,7 @@ class JobmanagerController extends Controller
                 'title' =>'required|max:255',
                 'job_category_id' =>'required',
                 'job_type_id' =>'required',
-                'client_id' =>'required',
+                'client_id' =>'required|integer',
                 'job_industry_id' =>'required',
                 'job_sector_id' =>'required',
                 'is_deleted' =>'required',

@@ -160,10 +160,9 @@ class SearchController extends Controller
     }
     public function AddSearchUrl(Request $request)
     {
-        
-        $name=$request->params['searchname'];
-        $url=$request->params['url'];
-        $uid =Session::get('user')['id'];
+        $name = $request->searchname;
+        $url = $request->url;
+        $uid = Session::get('user')['id'];
         $add = new SaveSearchUrl();
 
         $add->search_name = $name;
@@ -175,18 +174,15 @@ class SearchController extends Controller
             return response()->json(['status' => 'error', 'message' => 'Not Save'], 406);
         }
 
-        return response()->json(['status' => 'success', 'message' => 'URL saved successfully'], 201);
-
+        return response()->json(['status' => 'success', 'message' => 'URL saved successfully'], 200);
     }
 
     public function getAllSearchUrl()
     {
         $emp_id = Session::get('user')['id'];
         $getUrl = DB::table('save_search_urls')
-        ->where('emp_id', $emp_id)
-        ->get();
+            ->where('emp_id', $emp_id)
+            ->get();
         return response()->json(['data' => $getUrl], 200);
     }
-   
-
 }

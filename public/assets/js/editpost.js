@@ -44,5 +44,16 @@ $(document).ready(function () {
         });
     });
 
+    // $("#client_id").change(function() {
+    //     var clientid = this.value;
+    //     if (this.value == 'add_client') {
+    //         Swal.fire({
+    //             icon: "error",
+    //             title: "Oops...",
+    //             text: "Invalid Client ! Please select valid client or add a new client",
+    //             // footer: '<a href="#">Why do I have this issue?</a>'
+    //           });
+    //     }
+    // });
 
 });

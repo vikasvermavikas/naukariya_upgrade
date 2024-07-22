@@ -26,10 +26,13 @@
                             </a>
                         </div>
                         <div class="col-sm-3">
-                            <div class="box rounded bg-info py-4 text-center mt-3"><span class="text-white">0</span>
-                                <hr class="hr1">
-                                <p class="lead"><span class="text-white">View Resume</span></p>
-                            </div>
+                            
+                            <a href="{{route('resume_filter')}}">
+                                <div class="box rounded bg-info py-4 text-center mt-3"><span class="text-white">0</span>
+                                    <hr class="hr1">
+                                    <p class="lead"><span class="text-white">View Resume</span></p>
+                                </div>
+                            </a>
                         </div>
                         <div class="col-sm-3">
                             <a href="{{ route('interview_list') }}">

@@ -22,6 +22,15 @@ use App\Http\Controllers\EmpTrackerDetailsController;
 use App\Http\Controllers\JobsectorController;
 use App\Http\Controllers\CitiesController;
 use App\Http\Controllers\SupportController;
+use App\Http\Controllers\FunctionalroleController;
+use App\Http\Controllers\EmpcompaniesdetailsController;
+use App\Http\Controllers\QualificationController;
+use App\Http\Controllers\ViewProfileTrackController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\viewresumeController;
+use App\Http\Controllers\SaveCommentController;
+use App\Http\Controllers\QuestionnarieListController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -140,14 +149,51 @@ Route::group(['middleware' => 'employer'], function () {
 
         Route::get('/getjobsector', [JobsectorController::class, 'index'])->name('get_job_sector');
 
+        // Question controller.
+        Route::controller(QuestionnarieListController::class)->prefix('questionnaires')->group(function () {
+            Route::get('/', 'getquestionnarie_question_emp')->name('questionnaires');
+        });
+
+
+        // Resume filter controller.
+        Route::controller(viewresumeController::class)->prefix('tags')->group(function () {
+            Route::post('/add-new-tag', 'add_new_tag')->name('add_new_tag');
+            Route::get('/get-tag', 'gettag')->name('get_all_tags');
+            Route::post('/add-resume-tag', 'add_resume_tag');
+            Route::get('/export-resumes/{ids}', 'exportResumes');
+            Route::post('/send/bulk/mail', 'ResumeViewSendMail');
+            Route::get('/jobseeker/skill/info/{jsid}', 'getSkillInfo')->name('get_skill_info');
+        });
+        Route::controller(SaveCommentController::class)->prefix('comment')->group(function (){
+            Route::post('/save/comment/user', 'store');
+            Route::post('/resume-comments', 'get_resume_comments');
+        });
+
+        // Get qualifications by group.
+        Route::get('/qualification/name/group', [QualificationController::class, 'getQualificationByGroup'])->name('get_degrees_by_group');
+
+        // Functional roles.
+        Route::get('/get-functional-role', [FunctionalroleController::class, 'index'])->name('get_functional_role');
+
+        // Get companies list.
+        Route::get('/master/companies/list', [EmpcompaniesdetailsController::class, 'allCompaniesList'])->name('get_master_companies');
+
         // For change password.
         Route::get('/changepassword', [FrontAllUserController::class, 'employer_change_password'])->name('employer_change_password');
         Route::post('/update-password-employer', [FrontAllUserController::class, 'update_password'])->name('employer_update_password');
 
         // For update profile information.
         Route::get('edit-profile', [DashboardController::class, 'employer_profile'])->name('employer_edit_profile');
+        Route::get('search-resume', [DashboardController::class, 'search_resume'])->name('employer_search_resume');
         Route::get('view-employer-profile', [DashboardController::class, 'employer_profile_view'])->name('employer_view_profile');
         Route::get('view-employer-organisation', [DashboardController::class, 'employer_organisation'])->name('employer_organisation');
+
+        // For resume filer.
+        Route::get('/resume/filter', [ViewProfileTrackController::class, 'getResumeFilterDemo'])->name('resume_filter');
+
+        Route::controller(SearchController::class)->group(function () {
+            Route::post('/add/save/search', 'AddSearchUrl');
+        });
 
         Route::controller(UserprofileController::class)->group(function () {
             Route::post('/add-personal-detail-employer', 'update_employer_personaldetail')->name('update_employer_personaldetail');
