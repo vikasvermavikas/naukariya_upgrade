@@ -53,7 +53,7 @@
 
     @include('layouts.footer')
 
-  
+   
 
     <!-- All JS Custom Plugins Link Here here -->
     <script src={{ asset('assets/js/vendor/modernizr-3.5.0.min.js') }}></script>
@@ -101,6 +101,11 @@
 
     @yield('script')
     
+    <script>
+        const SITE_URL = "{{env('JS_WEB_URL')}}";
+        const PUBLIC_PATH = "{{env('JS_PUBLIC_URL')}}";
+    </script>
+
     <script>
         if ($(".employer")[0]){
         $('.employer').click(function() {

@@ -1,11 +1,9 @@
 $(document).ready(function () {
     $('.js-example-basic-single').select2();
     
-  
-
     function getLocations(search = '') {
         $.ajax({
-            url: "/get-locations/" + search,
+            url: SITE_URL+"/get-locations/" + search,
             method: "GET",
             dataType: "json",
             success: function (data) {
@@ -20,7 +18,7 @@ $(document).ready(function () {
 
     Swal.fire({
         position: "center",
-        imageUrl: "../../assets/images/naukriyan-logo.png",
+        imageUrl: PUBLIC_PATH+"/assets/images/naukriyan-logo.png",
         customClass:{
             image: 'img-fluid'
         },
