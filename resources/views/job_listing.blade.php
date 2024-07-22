@@ -4,7 +4,7 @@
         <!-- Hero Area Start-->
         <div class="slider-area ">
             <div class="single-slider section-overly slider-height2 d-flex align-items-center"
-                style="background-image : url('assets/img/hero/about.jpg')">
+                style="background-image : url({{asset('assets/img/hero/about.jpg')}})">
                 <div class="container">
                     <div class="row">
                         <div class="col-xl-12">
