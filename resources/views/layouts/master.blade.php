@@ -98,13 +98,14 @@
     <script src="{{ asset('assests/js/custom_js/footer.js') }}"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/36.0.0/classic/ckeditor.js"></script>
 
-
-    @yield('script')
-    
     <script>
         const SITE_URL = "{{env('JS_WEB_URL')}}";
         const PUBLIC_PATH = "{{env('JS_PUBLIC_URL')}}";
     </script>
+    
+    @yield('script')
+    
+    
 
     <script>
         if ($(".employer")[0]){

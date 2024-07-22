@@ -2,7 +2,7 @@ $(document).ready(function() {
     var urlParams = new URLSearchParams(window.location.search); // get query parameters.
 
     $.ajax({
-        url : '/employer/consolidate/getUniqueSource1',
+        url : SITE_URL+'/employer/consolidate/getUniqueSource1',
         type : 'GET',
         dataType: 'json',
         success : function(data) {

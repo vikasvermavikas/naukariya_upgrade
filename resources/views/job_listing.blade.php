@@ -268,7 +268,7 @@
                                                 <div class="job-items">
                                                     <div class="company-img">
                                                         <a href="{{ route('job_details', ['id' => $item->id]) }}"><img
-                                                                src="assets/img/icon/job-list1.png" alt=""></a>
+                                                                src={{asset("assets/img/icon/job-list1.png")}} alt=""></a>
                                                     </div>
                                                     <div class="job-tittle job-tittle2">
                                                         <a href="{{ route('job_details', ['id' => $item->id]) }}">

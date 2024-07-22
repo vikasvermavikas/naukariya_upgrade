@@ -3,7 +3,7 @@ $(document).ready(function() {
     var urlParams = new URLSearchParams(window.location.search); // get query parameters.
 
     $.ajax({
-        url : 'unique-source/tracker',
+        url : SITE_URL+'/employer/unique-source/tracker',
         type : 'GET',
         success : function(data) {
             var selectsource = '<option value="">Select Source</option>';

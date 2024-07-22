@@ -22,7 +22,7 @@ $(document).ready(function() {
     function get_functional_roles(){
         var functional_roles = '<option value="">Select Functional Role</option>';
         $.ajax({
-            url: 'get-functional-role',
+            url: SITE_URL+'/employer/get-functional-role',
             type: 'GET',
             success: function(data){
                 data.data.forEach(function(role){
@@ -38,7 +38,7 @@ $(document).ready(function() {
     function get_industries(){
         var industries = '<option value="">Select Industry</option>';
         $.ajax({
-            url: '../get-industry',
+            url: SITE_URL+'/get-industry',
             type: 'GET',
             success: function(data){
                 data.data.forEach(function(role){
@@ -52,7 +52,7 @@ $(document).ready(function() {
     function get_companies_list(){
         var companies = '<option value="">Select Company</option>';
         $.ajax({
-            url: 'master/companies/list',
+            url: SITE_URL+'/employer/master/companies/list',
             type: 'GET',
             success: function(data){
                 const companiesArray =  Object.values(data.data);
@@ -68,7 +68,7 @@ $(document).ready(function() {
     function get_degrees(){
         var degrees = '<option value="">Select Degree</option>';
         $.ajax({
-            url: 'qualification/name/group',
+            url: SITE_URL+'/employer/qualification/name/group',
             type: 'GET',
             success: function(data){
                 data.data.forEach(function(role){

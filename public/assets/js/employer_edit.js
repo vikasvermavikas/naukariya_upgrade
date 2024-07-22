@@ -3,7 +3,7 @@ $(document).ready(function() {
     $("#company_state").change(function () {
         var stateid = this.value;
         $.ajax({
-            url : '/employer/get-cities/data/'+stateid,
+            url : SITE_URL+'/employer/get-cities/data/'+stateid,
             type : 'GET',
             success : function(data) {
                 var html = '<option>Select City</option>';

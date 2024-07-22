@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $.ajax({
-        url: '/get-industry',
+        url: SITE_URL+'/get-industry',
         method: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -16,7 +16,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $.ajax({
-        url: '/get-skill',
+        url: SITE_URL+'/get-skill',
         method: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -82,7 +82,7 @@ $(document).ready(function () {
             return false;
         }
         $.ajax({
-            url: `/job_listing-data?${queryString}`,
+            url: SITE_URL+`/job_listing-data?${queryString}`,
             type: 'GET',
             success: function (data) {
 
@@ -124,7 +124,7 @@ $(document).ready(function () {
                                                 <div class="job-items mb-30">
                                             <div class="company-img">
                                                 <a href="${base_url}"><img
-                                                        src="assets/img/icon/job-list1.png" alt=""></a>
+                                                        src="${PUBLIC_PATH}/assets/img/icon/job-list1.png" alt=""></a>
                                             </div>
                                             <div class="job-tittle job-tittle2">
                                                 <a href="${base_url}">
@@ -221,7 +221,7 @@ function getFilterdata(pageno = 1) {
         return false;
     }
     $.ajax({
-        url: `/job_listing-data?${queryString}`,
+        url: SITE_URL+`/job_listing-data?${queryString}`,
         type: 'GET',
         success: function (data) {
             $('.joblists').hide();

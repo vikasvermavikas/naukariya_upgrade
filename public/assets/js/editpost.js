@@ -32,7 +32,7 @@ $(document).ready(function () {
     $("#job_state_id").change(function () {
         var stateid = this.value;
         $.ajax({
-            url : '/employer/get-cities/data/'+stateid,
+            url : SITE_URL+'/employer/get-cities/data/'+stateid,
             type : 'GET',
             success : function(data) {
                 var html = '<option>Select City</option>';

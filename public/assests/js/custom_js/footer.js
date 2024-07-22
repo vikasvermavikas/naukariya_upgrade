@@ -5,7 +5,7 @@ $(document).ready(function() {
         var email = $("#newsletter-form-email").val();
 
         $.ajax({
-            url : '/add-newsletter',
+            url : SITE_URL+'/add-newsletter',
             method : 'POST',
             dataType : "json",
             data : {
@@ -43,7 +43,7 @@ $(document).ready(function() {
 
     function UnFollow(email){
         $.ajax({
-            url : '/unfollow-newsletter',
+            url : SITE_URL+'/unfollow-newsletter',
             method : 'POST',
             dataType : "json",
             data : {

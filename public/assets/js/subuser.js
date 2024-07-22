@@ -12,7 +12,7 @@ $(document).ready(function () {
         modal.find('#subuserid').val(subuserid);
         var genderlist = ['Male', 'Female', 'Other']; //
         $.ajax({
-            url: "/employer/subuser/get-single-subuserdata/" + subuserid,
+            url: SITE_URL+"/employer/subuser/get-single-subuserdata/" + subuserid,
             type: "GET",
             success: function (data) {
                 modal.find('#updatefname').val(data.fname);

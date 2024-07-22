@@ -14,7 +14,7 @@ $(document).ready(function () {
         var token = $('meta[name="csrf-token"]').attr('content');
         const currentUrl = window.location.href;
         $.ajax({
-            url: '../add/save/search',
+            url: SITE_URL+'/employer/add/save/search',
             type: "POST",
             data: {
                 searchname: search_term,
@@ -74,7 +74,7 @@ $(document).ready(function () {
 
     function show_existing_tags() {
         $.ajax({
-            url: '../tags/get-tag',
+            url: SITE_URL+'/employer/tags/get-tag',
             type: "GET",
             dataType: "json",
             success: function (response) {
@@ -107,7 +107,7 @@ $(document).ready(function () {
         var token = $('meta[name="csrf-token"]').attr('content');
         if (tag_name) {
             $.ajax({
-                url: '../tags/add-new-tag',
+                url: SITE_URL+'/employer/tags/add-new-tag',
                 type: "POST",
                 data: {
                     tag: tag_name,
@@ -158,7 +158,7 @@ $(document).ready(function () {
         }
         var token = $('meta[name="csrf-token"]').attr('content');
         $.ajax({
-            url: '../tags/add-resume-tag',
+            url: SITE_URL+'/employer/tags/add-resume-tag',
             type: 'POST',
             data: {
                 jobseeker_id: jobseeker_id,
@@ -211,7 +211,8 @@ $(document).ready(function () {
             showConfirmButton: false,
             timer: 1500
         });
-        window.open("../tags/export-resumes/" + jobseeker_id, "_blank");
+        var redirecturl = SITE_URL+"/employer/tags/export-resumes/" + jobseeker_id;
+        window.open(redirecturl, "_blank");
     });
 
 
@@ -250,7 +251,7 @@ $(document).ready(function () {
         $(".disablemail").text("Sending...");
 
         $.ajax({
-            url: '../tags/send/bulk/mail',
+            url: SITE_URL+'/employer/tags/send/bulk/mail',
             type: 'POST',
             data: {
                 jobseeker_id: jobseeker_id,
@@ -284,7 +285,7 @@ $(document).ready(function () {
         var token = $('meta[name="csrf-token"]').attr('content');
 
         $.ajax({
-            url : '../comment/resume-comments',
+            url : SITE_URL+'/employer/comment/resume-comments',
             type : 'POST',
             data : {
                 js_id : user,
@@ -316,7 +317,7 @@ $(document).ready(function () {
         // If all required fields is given.
         if (commentarea && js_id) {
             $.ajax({
-                url: '../comment/save/comment/user',
+                url: SITE_URL+'/employer/comment/save/comment/user',
                 type: 'POST',
                 data: {
                     comment: commentarea,

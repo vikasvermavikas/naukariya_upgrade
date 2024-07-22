@@ -12,7 +12,7 @@ $(document).ready(function () {
         modal.find('#clientid').val(clientid);
 
         $.ajax({
-            url: "/employer/get-clientdata/" + clientid,
+            url: SITE_URL+"/employer/get-clientdata/" + clientid,
             type: "GET",
             success: function (data) {
                 modal.find('#updateclientname').val(data.name);
