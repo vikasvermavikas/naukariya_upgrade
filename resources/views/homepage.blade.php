@@ -5,6 +5,12 @@
             background-color: #e35e25;
             color: white !important;
         }
+        .nav-link.active:hover {
+            color: white !important;
+        }
+        .nav-link.active:not(:hover) {
+            color: white !important;
+        }
 
         .select2-selection__arrow {
             top: 22px !important;
@@ -26,6 +32,12 @@
             .select2-container {
                 /* width: 100%; */
             }
+        }
+
+        .image-class {
+            width: 114px;
+            /* height: 62px; */
+            border: 1px solid black;
         }
     </style>
 @endsection
@@ -110,7 +122,7 @@
                                 <img src="{{ asset('assets/images/accounting.png') }}" style="width:30%" class="img-fluid">
                             </div>
                             <div class="services-cap" id="accounts_count">
-                                <h5><a href="job_listing.html">Accounts</a></h5>
+                                <h5><a href="#">Accounts</a></h5>
                                 <span></span>
                             </div>
                         </div>
@@ -123,7 +135,7 @@
 
                             </div>
                             <div class="services-cap" id="agriculture_count">
-                                <h5><a href="job_listing.html">Agriculture</a></h5>
+                                <h5><a href="#">Agriculture</a></h5>
                                 <span></span>
                             </div>
                         </div>
@@ -136,7 +148,7 @@
 
                             </div>
                             <div class="services-cap" id="chemicals_count">
-                                <h5><a href="job_listing.html">Chemicals</a></h5>
+                                <h5><a href="#">Chemicals</a></h5>
                                 <span></span>
                             </div>
                         </div>
@@ -149,7 +161,7 @@
 
                             </div>
                             <div class="services-cap" id="electricals_count">
-                                <h5><a href="job_listing.html">Electricals</a></h5>
+                                <h5><a href="#">Electricals</a></h5>
                                 <span></span>
                             </div>
                         </div>
@@ -162,7 +174,7 @@
 
                             </div>
                             <div class="services-cap" id="hotels_count">
-                                <h5><a href="job_listing.html">Hotels</a></h5>
+                                <h5><a href="#">Hotels</a></h5>
                                 <span></span>
                             </div>
                         </div>
@@ -175,7 +187,7 @@
 
                             </div>
                             <div class="services-cap" id="it_count">
-                                <h5><a href="job_listing.html">Information Technology</a></h5>
+                                <h5><a href="#">Information Technology</a></h5>
                                 <span></span>
                             </div>
                         </div>
@@ -188,7 +200,7 @@
 
                             </div>
                             <div class="services-cap" id="laws_count">
-                                <h5><a href="job_listing.html">Laws</a></h5>
+                                <h5><a href="#">Laws</a></h5>
                                 <span></span>
                             </div>
                         </div>
@@ -202,7 +214,7 @@
 
                             </div>
                             <div class="services-cap" id="recruitment_count">
-                                <h5><a href="job_listing.html">Recruitment</a></h5>
+                                <h5><a href="#">Recruitment</a></h5>
                                 <span></span>
                             </div>
                         </div>
@@ -213,7 +225,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="browse-btn2 text-center mt-50">
-                            <a href="{{route('loadJoblistPage')}}" class="border-btn2">Browse All Sectors</a>
+                            <a href="{{ route('loadJoblistPage') }}" class="border-btn2">Browse All Sectors</a>
                         </div>
                     </div>
                 </div>
@@ -229,7 +241,7 @@
                         <div class="cv-caption text-center">
                             {{-- <p class="pera1">FEATURED TOURS Packages</p> --}}
                             <p class="pera2"> Make a Difference with Your Online Resume!</p>
-                            <a href="{{route('login')}}" class="border-btn2 border-btn4">Upload your cv</a>
+                            <a href="{{ route('login') }}" class="border-btn2 border-btn4">Upload your cv</a>
                         </div>
                     </div>
                 </div>
@@ -290,7 +302,8 @@
                                             <div class="job-items">
                                                 <div class="company-img">
                                                     <a href="{{ route('job_details', ['id' => $item->id]) }}"><img
-                                                            src={{asset("assets/img/icon/job-list1.png")}} alt=""></a>
+                                                            src={{ asset('assets/images/prakhar_logo.png') }}
+                                                            class="img-fluid image-class" alt=""></a>
                                                 </div>
                                                 <div class="job-tittle">
                                                     <a href="{{ route('job_details', ['id' => $item->id]) }}">
@@ -333,7 +346,8 @@
                                             <div class="job-items">
                                                 <div class="company-img">
                                                     <a href="{{ route('job_details', ['id' => $item->id]) }}"><img
-                                                            src={{asset("assets/img/icon/job-list2.png")}} alt=""></a>
+                                                        src={{ asset('assets/images/prakhar_logo.png') }}
+                                                        class="img-fluid image-class" alt=""></a>
                                                 </div>
                                                 <div class="job-tittle">
                                                     <a href="{{ route('job_details', ['id' => $item->id]) }}">
@@ -376,7 +390,8 @@
                                             <div class="job-items">
                                                 <div class="company-img">
                                                     <a href="{{ route('job_details', ['id' => $item->id]) }}"><img
-                                                            src={{asset("assets/img/icon/job-list4.png")}} alt=""></a>
+                                                        src={{ asset('assets/images/prakhar_logo.png') }}
+                                                        class="img-fluid image-class" alt=""></a>
                                                 </div>
                                                 <div class="job-tittle">
                                                     <a href="{{ route('job_details', ['id' => $item->id]) }}">
@@ -554,7 +569,7 @@
                                 <p>Mollit anim laborum.Duis aute irufg dhjkolohr in re voluptate velit esscillumlore eu
                                     quife nrulla parihatur. Excghcepteur signjnt occa cupidatat non inulpadeserunt mollit
                                     aboru. temnthp incididbnt ut labore mollit anim laborum suis aute.</p>
-                                <a href="{{route('loadLoginPage')}}" class="btn post-btn">Post a job</a>
+                                <a href="{{ route('loadLoginPage') }}" class="btn post-btn">Post a job</a>
                             </div>
                         </div>
                     </div>

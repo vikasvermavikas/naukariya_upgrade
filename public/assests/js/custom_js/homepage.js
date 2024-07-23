@@ -16,16 +16,18 @@ $(document).ready(function () {
         })
     };
 
-    Swal.fire({
-        position: "center",
-        imageUrl: PUBLIC_PATH+"/assets/images/naukriyan-logo.png",
-        customClass:{
-            image: 'img-fluid'
-        },
-        imageAlt: "Naukriyan",
-        title: "Welcome to Naukriyan",
-        showConfirmButton: true
-    });
+    // Welcome Alert.
+
+    // Swal.fire({
+    //     position: "center",
+    //     imageUrl: PUBLIC_PATH+"/assets/images/naukriyan-logo.png",
+    //     customClass:{
+    //         image: 'img-fluid'
+    //     },
+    //     imageAlt: "Naukriyan",
+    //     title: "Welcome to Naukriyan",
+    //     showConfirmButton: true
+    // });
 
     function getCategoriesJobs(){
         $.ajax({
@@ -34,7 +36,7 @@ $(document).ready(function () {
             dataType: "json",
             success: function (data) {
                 $.each(data, function (key, value) {
-                   var html = "<h5><a href='/job-listing?industry="+value.industries+"'>"+value.category_name+"</a></h5><span>"+value.count+"</span>";
+                   var html = "<h5><a href='"+SITE_URL+"/job-listing?industry="+value.industries+"'>"+value.category_name+"</a></h5><span>"+value.count+"</span>";
                     $("#"+value.category).html(html);
                 });
                 // $("#accounts_count").text("("+data.accounts+")");
