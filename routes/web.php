@@ -30,6 +30,8 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\viewresumeController;
 use App\Http\Controllers\SaveCommentController;
 use App\Http\Controllers\QuestionnarieListController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\VenuesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -149,9 +151,35 @@ Route::group(['middleware' => 'employer'], function () {
 
         Route::get('/getjobsector', [JobsectorController::class, 'index'])->name('get_job_sector');
 
+        // Venue Controller.
+        Route::controller(VenuesController::class)->prefix('venue')->group(function () {
+            Route::get('/', 'index')->name('venue_list');
+            Route::post('/add-venue', 'store')->name('add_venue');
+            Route::get('/get-venuedata/{id}', 'getsinglevenue');
+            Route::post('/update-venue/{id}', 'update');
+            Route::get('/deactive-venues/{id}', 'deactive');
+            Route::get('/venues/{id}', 'destroy');
+            Route::get('/active-venues/{id}', 'VenuesController@active');
+        
+        });
+
         // Question controller.
         Route::controller(QuestionnarieListController::class)->prefix('questionnaires')->group(function () {
-            Route::get('/', 'getquestionnarie_question_emp')->name('questionnaires');
+            Route::get('/list/{questionnarie_id?}', 'getquestionnarie_question_emp')->name('questionnaires');
+            Route::post('/questionnarie-name_emp', 'questionnarie_name_emp');
+            Route::get('/question-emp/{id}', 'destroy_emp');
+            Route::get('/add_question', 'add_question')->name('add_question');
+            Route::post('/add-questionnarie_emp/{name}/{question_id}', 'add_question_to_questionnarie_emp');
+            Route::post('/add-new-questionnarie_emp/{name}', 'add_new_questionnarie_name_emp');
+
+        });
+
+        Route::controller(QuestionController::class)->prefix('question')->group(function () {
+            Route::get('/question-emp', 'index_emp')->name('question_index_emp');
+
+            Route::post('/add-question-mcq-emp', 'store_mcq_emp')->name('store_mcq_emp');
+            Route::post('/add-question-yesno-emp', 'store_yesno_emp')->name('store_yesno_emp');
+            Route::post('/add-question-descriptive-emp', 'store_descriptive_emp')->name('store_descriptive_emp');
         });
 
 
@@ -164,7 +192,7 @@ Route::group(['middleware' => 'employer'], function () {
             Route::post('/send/bulk/mail', 'ResumeViewSendMail');
             Route::get('/jobseeker/skill/info/{jsid}', 'getSkillInfo')->name('get_skill_info');
         });
-        Route::controller(SaveCommentController::class)->prefix('comment')->group(function (){
+        Route::controller(SaveCommentController::class)->prefix('comment')->group(function () {
             Route::post('/save/comment/user', 'store');
             Route::post('/resume-comments', 'get_resume_comments');
         });

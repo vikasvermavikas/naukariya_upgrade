@@ -4,24 +4,37 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Venues;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Session;
 use DB;
 
 class VenuesController extends Controller
 {
-    public function index()   
+    public function index(Request $request)   
     {
-        $data = Venues::orderBy('created_at','desc')->get();  
-        return response()->json([
-            'data'=>$data
-        ],200);
+        $searchvalue = '';
+        $data = Venues::query();
+        if (isset($request['search'])) {
+            $searchvalue = $request['search'];
+            $data->orWhere('venue_name', 'like', '%' . $searchvalue . '%');
+            $data->orWhere('venue_address', 'like', '%' . $searchvalue . '%');
+            $data->orWhere('email', 'like', '%' . $searchvalue . '%');
+        }
+    
+       $data = $data->orderBy('created_at','desc')->paginate(10)->withQueryString();
+        return view('employer.venue_list', ['data' => $data, 'searchvalue' => $searchvalue]);
+
     }
 
     public function store(Request $request)   
     {
         $this->validate($request,[
-              // 'company_contact' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+              'venue_name' => 'required',
+              'venue_address' => 'required',
+              'contact_person' => 'required',
+              'contact_no' => 'required|numeric',
+              'contact_email' => 'required|email',
+              'instructions' => 'required',
         ]);
         
         $venues = New Venues();
@@ -31,10 +44,12 @@ class VenuesController extends Controller
         $venues->contact_no = $request->contact_no;
         $venues->email = $request->contact_email;
         $venues->instructions = $request->instructions;
-        $venues->add_by = $request->session()->get('user.id');
+        $venues->add_by = Auth::guard('employer')->user()->id;
         $venues->add_by_usertype = "Employer";
-        $venues->save();
-        return redirect()->back();
+        if ($venues->save())
+        {
+            return redirect()->route('venue_list')->with(['status' => true, 'message' => 'Venue Added Successfully']);
+        }
     }
 
     public function getsinglevenue($id)
@@ -46,33 +61,47 @@ class VenuesController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
-              // 'company_contact' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-        ]);
+            'venue_name' => 'required',
+            'venue_address' => 'required',
+            'contact_person' => 'required',
+            'contact_no' => 'required|numeric',
+            'contact_email' => 'required|email',
+            'instructions' => 'required',
+      ]);
+
         $venues = Venues::find($id);
         $venues->venue_name = $request->venue_name;
         $venues->venue_address = $request->venue_address;
         $venues->contact_person = $request->contact_person;
         $venues->contact_no = $request->contact_no;
-        $venues->email = $request->email;
+        $venues->email = $request->contact_email;
         $venues->instructions = $request->instructions;
-        $venues->save();
+        if ($venues->save())
+        {
+            return redirect()->route('venue_list')->with(['status' => true, 'message' => 'Venue Updated Successfully']);
+        }
     }
     public function deactive($id)
     {
         $package = Venues::find($id);
         $package->venue_status = "0";
         $package->save();
+        return response()->json(['status' => true], 200);
+
     }
     public function active($id)
     {
         $package = Venues::find($id);
         $package->venue_status = "1";
         $package->save();
+        return response()->json(['status' => true], 200);
+
     }
     public function destroy($id)
     {
         $package = Venues::find($id);
         $package->delete();
+        return response()->json(['status' => true], 200);
     }
 
     public function searchVenue($query = null) {

@@ -241,7 +241,7 @@
                                                     <li><a href={{ route('managejobs') }}>Manage Job</a></li>
                                                     <li><a href={{ route('questionnaires') }}>Questionnaries</a></li>
                                                     <li><a href={{ route('get_subusers') }}>Sub User</a></li>
-                                                    <li><a href={{ route('elements') }}>Venues</a></li>
+                                                    <li><a href={{ route('venue_list') }}>Venues</a></li>
                                                     <li><a href={{ route('elements') }}>Tagged Candidates</a></li>
                                                 </ul>
                                             </li>

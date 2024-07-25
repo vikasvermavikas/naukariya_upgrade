@@ -163,6 +163,10 @@ class QuestionController extends Controller
         $question->user_id = $emp_id;
         $question->save();
 
+        return redirect()->route('add_question')->with([
+            'success' => true,
+            'message' => 'Question added successfully'
+        ]);
     }
 
     public function store_yesno_emp(Request $request)
@@ -196,6 +200,10 @@ class QuestionController extends Controller
         $question->user_id = $emp_id;
         $question->save();
 
+        return redirect()->route('add_question')->with([
+            'success' => true,
+            'message' => 'Question added successfully'
+        ]);
     }
 
     public function store_descriptive_emp(Request $request)
@@ -228,11 +236,16 @@ class QuestionController extends Controller
         $question->user_id = $emp_id;
         $question->save();
 
+        return redirect()->route('add_question')->with([
+            'success' => true,
+            'message' => 'Question added successfully'
+        ]);
     }
 
     public function index_emp()
     {
-        $uid = Session::get('user')['id'];
+        // $uid = Session::get('user')['id'];
+        $uid = Auth::guard('employer')->user()->id;
         $data = DB::table('questions') //current table
         ->leftjoin('industries', 'industries.id', '=', 'questions.industry_id')//tablename,table.id,current table.field_name
         ->leftjoin('functional_roles', 'functional_roles.id', '=', 'questions.functionalrole_id')
@@ -241,8 +254,8 @@ class QuestionController extends Controller
             ->where('user_id', $uid)
             ->orderBy('id', 'desc')//use for displaying data in table i.e List.vue to remove same column name from two tables eg.active  id and name both shows for ind...roles...company
 
-            ->get();
-        return response()->json(['data' => $data], 200);
+            ->paginate(10);
+        return view('employer.view_question_emp', ['data' => $data]);
     }
 
     public function edit($id)
