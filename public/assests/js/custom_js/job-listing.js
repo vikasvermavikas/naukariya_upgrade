@@ -116,7 +116,8 @@ $(document).ready(function () {
                             exp_required = 'Fresher';
                         }
                         // let jobdetails = route('job_details', value.id);
-                        var base_url = window.location.origin + 'job_details/' + value.id;
+                        // var base_url = window.location.origin + 'job_details/' + value.id;
+                        var base_url = SITE_URL + '/job_details/' + value.id;
 
 
 

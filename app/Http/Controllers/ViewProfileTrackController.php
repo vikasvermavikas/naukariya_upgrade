@@ -96,7 +96,7 @@ class ViewProfileTrackController extends Controller
     }
     public function getResumeFilterDemo()
     {
-
+       
         $orderBy = request('');
         $skillarray = [];
         $skill = request('skill');
@@ -344,7 +344,7 @@ class ViewProfileTrackController extends Controller
             $currentPage,
         );
    
-        return view('employer.resume_filter', ['category' => $category->withPath('/employer/resume/filter')->withQueryString()]);
+        return view('employer.resume_filter', ['category' => $category->withPath(url('/employer/resume/filter'))->withQueryString()]);
 
     }
 

@@ -204,15 +204,17 @@ class DashboardController extends Controller
     public function employer_profile()
     {
         $userid = Auth::guard('employer')->user()->id;
+        $companyid = Auth::guard('employer')->user()->company_id;
         $industries = Industry::select('id', 'category_name')->orderBy('category_name', 'ASC')->get();
-        $companyDetails = DB::table('empcompaniesdetails')->where('emp_userid', $userid)->first();
+        // $companyDetails = DB::table('empcompaniesdetails')->where('emp_userid', $userid)->first();
+        $companyDetails = DB::table('empcompaniesdetails')->where('id', $companyid)->first();
         $states = States::select('id', 'states_name')->where('country_id', '101')->get();
         $countries = Countries::select('country_id', 'country_name')->get();
         $functional_roles = FunctionalRole::select('id', 'subcategory_name')->orderBy('functional_roles.subcategory_name')->get();
 
         $cities = [];
         // $state_id = $request->state_id;
-        if ($companyDetails->company_state) {
+        if (isset($companyDetails->company_state)) {
             $cities = DB::table('cities')
                 ->select('id', 'cities_name')
                 ->where('state_id', $companyDetails->company_state)
@@ -234,7 +236,9 @@ class DashboardController extends Controller
     public function employer_organisation()
     {
         $id = Auth::guard('employer')->user()->id;
-        $company_details = Empcompaniesdetail::where('emp_userid', $id)->first();
+        $companyid = Auth::guard('employer')->user()->company_id;
+        // $company_details = Empcompaniesdetail::where('emp_userid', $id)->first();
+        $company_details = Empcompaniesdetail::where('id', $companyid)->first();
         return view('employer.view_organisation', compact('company_details'));
     }
 

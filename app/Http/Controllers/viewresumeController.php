@@ -353,26 +353,34 @@ class viewresumeController extends Controller
         return response()->json(['status' => 'success', 'message' => 'Tag Created'], 201);
     }
 
-    public function tagresume()
+    public function tagresume(Request $request)
     {
-        $uid = Session::get('user')['id'];
+        // $uid = Session::get('user')['id'];
+        $uid = Auth::guard('employer')->user()->id;
         $data = DB::table('resume_tags')
             ->leftjoin('js_resumes', 'js_resumes.js_userid', '=', 'resume_tags.candidate_id')
             ->leftjoin('jobseekers', 'jobseekers.id', '=', 'resume_tags.candidate_id')
             ->leftjoin('tags', 'tags.id', '=', 'resume_tags.tag_id')
             ->select('jobseekers.id as js_id', 'jobseekers.fname', 'jobseekers.designation', 'js_resumes.resume_video_link', 'jobseekers.preferred_location', 'jobseekers.gender', 'js_resumes.resume', 'tags.tag')
-            ->where('resume_tags.user_id', $uid)
-            ->get();
+            ->where('resume_tags.user_id', $uid);
 
+          if (isset($request->tag))  
+        {
+            $data->where('resume_tags.tag_id', $request->tag);
+           
+        }
+      $data = $data->paginate(10)->withQueryString();
         // If you want to group by tags then enable this query.
-        //        $data = DB::table('resume_tags')
-        //                ->join('tags', 'tags.id', '=', 'resume_tags.tag_id')
-        //                ->select('tags.id', 'tags.tag', DB::raw('COUNT(*) AS total'))
-        //                ->where('resume_tags.user_id', $uid)
-        //                ->groupBy('tags.id', 'tags.tag')
-        //                ->get();
+            //    $data = DB::table('resume_tags')
+            //            ->join('tags', 'tags.id', '=', 'resume_tags.tag_id')
+            //            ->select('tags.id', 'tags.tag', DB::raw('COUNT(*) AS total'))
+            //            ->where('resume_tags.user_id', $uid)
+            //            ->groupBy('tags.id', 'tags.tag')
+            //            ->get();
 
-        return response()->json(['data' => $data], 200);
+        // return response()->json(['data' => $data], 200);
+
+        return view('employer.tagged_resumes',['data' => $data]);
     }
 
     public function searchtagresume($tagid)

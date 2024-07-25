@@ -151,6 +151,8 @@ Route::group(['middleware' => 'employer'], function () {
 
         Route::get('/getjobsector', [JobsectorController::class, 'index'])->name('get_job_sector');
 
+
+
         // Venue Controller.
         Route::controller(VenuesController::class)->prefix('venue')->group(function () {
             Route::get('/', 'index')->name('venue_list');
@@ -191,6 +193,8 @@ Route::group(['middleware' => 'employer'], function () {
             Route::get('/export-resumes/{ids}', 'exportResumes');
             Route::post('/send/bulk/mail', 'ResumeViewSendMail');
             Route::get('/jobseeker/skill/info/{jsid}', 'getSkillInfo')->name('get_skill_info');
+            Route::get('/gettagresume', 'tagresume')->name('get_tagged_resumes');
+
         });
         Route::controller(SaveCommentController::class)->prefix('comment')->group(function () {
             Route::post('/save/comment/user', 'store');

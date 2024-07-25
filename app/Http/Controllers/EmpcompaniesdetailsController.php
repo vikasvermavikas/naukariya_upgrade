@@ -21,12 +21,13 @@ use App\Models\JsProfessionalDetail;
 
 class EmpcompaniesdetailsController extends Controller
 {
-    public function allCompaniesList(){
+    public function allCompaniesList()
+    {
         $companies = Empcompaniesdetail::whereNotNull('company_name')->pluck('company_name')->toArray();
-        $user_companies =JsProfessionalDetail::whereNotNull('organisation')->pluck('organisation')->toArray();
+        $user_companies = JsProfessionalDetail::whereNotNull('organisation')->pluck('organisation')->toArray();
 
-        $com_unq =array_unique($companies);
-        $user_unq =array_unique($user_companies);
+        $com_unq = array_unique($companies);
+        $user_unq = array_unique($user_companies);
         $demo = array_merge($com_unq, $user_unq);
         $demo = array_unique($demo);
 
@@ -41,14 +42,13 @@ class EmpcompaniesdetailsController extends Controller
 
         // return $demo;
         return response()->json(['data' => $demo], 200);
-        
     }
     public function index()
     {
         $data = DB::table('empcompaniesdetails') //current table
-        ->leftjoin('industries', 'industries.id', '=', 'empcompaniesdetails.company_industry')//tablename,table.id,current table.field_name
-        ->select('empcompaniesdetails.id', 'empcompaniesdetails.company_name', 'empcompaniesdetails.com_contact', 'empcompaniesdetails.com_email', 'empcompaniesdetails.cin_no', 'empcompaniesdetails.no_of_employee', 'empcompaniesdetails.marked_top', 'empcompaniesdetails.marked_featured', 'industries.category_name', 'empcompaniesdetails.active')->orderBy('id', 'desc')//use for displaying data in table i.e List.vue to remove same column name from two tables eg.active  id and name both shows for ind...roles...company
-        ->get();
+            ->leftjoin('industries', 'industries.id', '=', 'empcompaniesdetails.company_industry') //tablename,table.id,current table.field_name
+            ->select('empcompaniesdetails.id', 'empcompaniesdetails.company_name', 'empcompaniesdetails.com_contact', 'empcompaniesdetails.com_email', 'empcompaniesdetails.cin_no', 'empcompaniesdetails.no_of_employee', 'empcompaniesdetails.marked_top', 'empcompaniesdetails.marked_featured', 'industries.category_name', 'empcompaniesdetails.active')->orderBy('id', 'desc') //use for displaying data in table i.e List.vue to remove same column name from two tables eg.active  id and name both shows for ind...roles...company
+            ->get();
         return response()->json(['data' => $data], 200);
     }
 
@@ -60,19 +60,19 @@ class EmpcompaniesdetailsController extends Controller
         $strpos = strpos($request->company_logo, ';');
         $sub = substr($request->company_logo, 0, $strpos);
         $ex = explode('/', $sub)[1];
-        $name = time() . "." . $ex;//request to insert in table field
+        $name = time() . "." . $ex; //request to insert in table field
         $img = Image::make($request->company_logo)->resize(370, 250);
         //$upload_path = public_path()."/company_logo/";
         $upload_path = public_path() . "/company_logo/";
-        $img->save($upload_path . $name);// move to folder
+        $img->save($upload_path . $name); // move to folder
 
         $strpos1 = strpos($request->cover_image, ';');
         $sub1 = substr($request->cover_image, 0, $strpos1);
         $ex1 = explode('/', $sub1)[1];
-        $name1 = time() . "." . $ex1;//request to insert in table field
+        $name1 = time() . "." . $ex1; //request to insert in table field
         $img1 = Image::make($request->cover_image)->resize(370, 250);
         $upload_path1 = public_path() . "/company_cover/";
-        $img1->save($upload_path1 . $name1);// move to folder
+        $img1->save($upload_path1 . $name1); // move to folder
 
         /* $strpos2 = strpos($request->company_video,';');
          $sub2 = substr($request->company_video,0,$strpos2);
@@ -113,7 +113,7 @@ class EmpcompaniesdetailsController extends Controller
         }
         //send sms
         $api_key = '35CD26D870005C';
-//$mobile = $myArray['mobile'];
+        //$mobile = $myArray['mobile'];
         $from = 'NAUKRY';
         $msg = "Hello " . $name . " ,
 Your Company Details Added Successfully.
@@ -123,7 +123,7 @@ Naukriyan.com";
         $sms_text = urlencode($msg);
 
 
-//Submit to server
+        //Submit to server
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "http://sms.sbcinfotech.com/app/smsapi/index.php");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -132,7 +132,7 @@ Naukriyan.com";
         $response = curl_exec($ch);
         curl_close($ch);
         echo $response;
-//sms close
+        //sms close
         $companies->save();
     }
 
@@ -162,7 +162,6 @@ Naukriyan.com";
             if (file_exists($image)) {
                 @unlink($image);
             }
-
         } else {
             $name = $companies->company_logo;
         }
@@ -326,7 +325,7 @@ Naukriyan.com";
        $response = curl_exec($ch);
        curl_close($ch);
        echo $response; */
-//sms close
+        //sms close
         $companies->save();
     }
 
@@ -437,8 +436,8 @@ Naukriyan.com";
     {
 
         $data = DB::table('empcompaniesdetails') //current table
-        ->leftjoin('industries', 'industries.id', '=', 'empcompaniesdetails.company_industry')//tablename,table.id,current table.field_name
-        ->select('empcompaniesdetails.id', 'empcompaniesdetails.company_name', 'industries.category_name', 'empcompaniesdetails.com_contact', 'empcompaniesdetails.com_email', 'empcompaniesdetails.cin_no', 'empcompaniesdetails.no_of_employee', 'empcompaniesdetails.marked_top', 'empcompaniesdetails.marked_featured', 'industries.category_name', 'empcompaniesdetails.active')->orderBy('id', 'desc'); //use for displaying data in table i.e List.vue to remove same column name from two tables eg.active  id and name both shows for ind...roles...company
+            ->leftjoin('industries', 'industries.id', '=', 'empcompaniesdetails.company_industry') //tablename,table.id,current table.field_name
+            ->select('empcompaniesdetails.id', 'empcompaniesdetails.company_name', 'industries.category_name', 'empcompaniesdetails.com_contact', 'empcompaniesdetails.com_email', 'empcompaniesdetails.cin_no', 'empcompaniesdetails.no_of_employee', 'empcompaniesdetails.marked_top', 'empcompaniesdetails.marked_featured', 'industries.category_name', 'empcompaniesdetails.active')->orderBy('id', 'desc'); //use for displaying data in table i.e List.vue to remove same column name from two tables eg.active  id and name both shows for ind...roles...company
 
         if (isset($request->industry_id) && $request->industry_id != '') {
             $data->Where('empcompaniesdetails.company_industry', $request->industry_id);
@@ -514,5 +513,4 @@ Naukriyan.com";
     {
         return Empcompaniesdetail::select('id', 'company_name')->where(['active' => 'Yes', 'status' => '1'])->orderBy('company_name', 'ASC')->get();
     }
-
 }
