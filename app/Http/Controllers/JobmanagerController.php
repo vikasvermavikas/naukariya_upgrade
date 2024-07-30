@@ -1299,84 +1299,90 @@ class JobmanagerController extends Controller
 
     public function store_front(Request $request)
     {   
-        $request->validate(
-            [
-                'title' =>'required|max:255',
-                'job_category_id' =>'required',
-                'job_type_id' =>'required',
-                'client_id' =>'required|integer',
-                'job_industry_id' =>'required',
-                'job_sector_id' =>'required',
-                'is_deleted' =>'required',
-                'job_address' =>'required|max:255',
-                'job_city_id' =>'required',
-                'job_state_id' =>'required',
-                'main_exp' =>'required',
-                'job_carreer_level' =>'required',
-                'job_role' =>'required',
-                'job_vaccancy' =>'required',
-                'job_posted_type_id' =>'required',
-                'job_functional_role_id' =>'required',
-                'job_for' =>'required',
-                'max_exp' =>'required',
-                'job_qualification_id' =>'required',
-            ]
-        );
-
-        $job = new Jobmanager();
-        $uid = Auth::guard('employer')->user()->id;
-        $session_company_id = Auth::guard('employer')->user()->company_id;
-        // $members = implode(",", $request->job_benefits_id);
-        // $job->job_benefits_id = $members;
-        $job->title = $request->title;
-        $job->job_category_id = $request->job_category_id;
-        $job->job_type_id = $request->job_type_id;
-        $job->company_id = $session_company_id;
-        $job->description = $request->description;
-        $job->responsibility = $request->responsibility;
-        $job->job_sector_id = $request->job_sector_id;
-        $job->meta_title = $request->meta_title;
-        $job->meta_keywords = $request->meta_keywords;
-        $job->meta_description = $request->meta_description;
-        // $job->meta_canonical = $request->meta_canonical;
-        $job->is_deleted = $request->is_deleted;
-        $job->job_address = $request->job_address;
-        $job->job_city_id = $request->job_city_id;
-        $job->job_state_id = $request->job_state_id;
-        $job->job_posted_type_id = $request->job_posted_type_id;
-        $job->last_apply_date = $request->last_apply_date;
-        $job->job_questionnarie_id = $request->job_questionnarie_id;
-        $job->job_keywords = $request->job_keywords;
-        $job->job_skills = $request->job_skills;
-        $job->job_preference = $request->job_preference;
-        $job->job_shift_id = $request->job_shift_id;
-        $job->job_role = $request->job_role;
-        $job->job_carreer_level = $request->job_carreer_level;
-        $job->grad_start_year = $request->grad_start_year;
-        $job->grad_end_year = $request->grad_end_year;
-        $job->job_vaccancy = $request->job_vaccancy;
-        $job->job_qualification_id = $request->job_qualification_id;
-        $job->job_exp = $request->job_exp;
-        $job->sal_disclosed = $request->sal_disclosed;
-        $job->offered_sal_min = $request->offered_sal_min;
-        $job->offered_sal_max = $request->offered_sal_max;
-        $job->job_industry_id = $request->job_industry_id;
-        $job->job_functional_role_id = $request->job_functional_role_id;
-        $job->job_position = $request->job_position;
-        $job->main_exp = $request->main_exp;
-        $job->max_exp = $request->max_exp;
-        $job->job_ctc = $request->job_ctc;
-        $job->job_for = $request->job_for;
-        $job->counstraint_payment = $request->counstraint_payment;
-        $job->reject_reason = $request->reject_reason;
-        $job->add_questionnarie = $request->questionnarie_add;
-        $job->job_questionnarie_id = $request->questionnarie_name;
-        $job->userid = $uid;
-        $job->start_apply_date = $request->start_apply_date;
-        $job->client_id = $request->client_id;
-        $job->save();
-
-        return redirect()->route('postedjobs')->with(['message' => 'Job Posted Successfully']);
+        try {
+            $request->validate(
+                [
+                    'title' =>'required|max:255',
+                    'job_category_id' =>'required',
+                    'job_type_id' =>'required',
+                    'client_id' =>'required|integer',
+                    'job_industry_id' =>'required',
+                    'job_sector_id' =>'required',
+                    // 'is_deleted' =>'required',
+                    'job_address' =>'required|max:255',
+                    'job_city_id' =>'required',
+                    'job_state_id' =>'required',
+                    'main_exp' =>'required',
+                    'job_carreer_level' =>'required',
+                    'job_role' =>'required',
+                    'job_vaccancy' =>'required',
+                    'job_posted_type_id' =>'required',
+                    'job_functional_role_id' =>'required',
+                    'job_for' =>'required',
+                    'max_exp' =>'required',
+                    'job_qualification_id' =>'required',
+                ]
+            );
+    
+            $job = new Jobmanager();
+            $uid = Auth::guard('employer')->user()->id;
+            $session_company_id = Auth::guard('employer')->user()->company_id;
+            // $members = implode(",", $request->job_benefits_id);
+            // $job->job_benefits_id = $members;
+            $job->title = $request->title;
+            $job->job_category_id = $request->job_category_id;
+            $job->job_type_id = $request->job_type_id;
+            $job->company_id = $session_company_id;
+            $job->description = $request->description;
+            $job->responsibility = $request->responsibility;
+            $job->job_sector_id = $request->job_sector_id;
+            $job->meta_title = $request->meta_title;
+            $job->meta_keywords = $request->meta_keywords;
+            $job->meta_description = $request->meta_description;
+            // $job->meta_canonical = $request->meta_canonical;
+            $job->is_deleted = $request->is_deleted;
+            $job->job_address = $request->job_address;
+            $job->job_city_id = $request->job_city_id;
+            $job->job_state_id = $request->job_state_id;
+            $job->job_posted_type_id = $request->job_posted_type_id;
+            $job->last_apply_date = $request->last_apply_date;
+            $job->job_questionnarie_id = $request->job_questionnarie_id;
+            $job->job_keywords = $request->job_keywords;
+            $job->job_skills = $request->job_skills;
+            $job->job_preference = $request->job_preference;
+            $job->job_shift_id = $request->job_shift_id;
+            $job->job_role = $request->job_role;
+            $job->job_carreer_level = $request->job_carreer_level;
+            $job->grad_start_year = $request->grad_start_year;
+            $job->grad_end_year = $request->grad_end_year;
+            $job->job_vaccancy = $request->job_vaccancy;
+            $job->job_qualification_id = $request->job_qualification_id;
+            $job->job_exp = $request->job_exp;
+            $job->sal_disclosed = $request->sal_disclosed;
+            $job->offered_sal_min = $request->offered_sal_min;
+            $job->offered_sal_max = $request->offered_sal_max;
+            $job->job_industry_id = $request->job_industry_id;
+            $job->job_functional_role_id = $request->job_functional_role_id;
+            $job->job_position = $request->job_position;
+            $job->main_exp = $request->main_exp;
+            $job->max_exp = $request->max_exp;
+            $job->job_ctc = $request->job_ctc;
+            $job->job_for = $request->job_for;
+            $job->counstraint_payment = $request->counstraint_payment;
+            $job->reject_reason = $request->reject_reason;
+            $job->add_questionnarie = $request->questionnarie_add;
+            $job->job_questionnarie_id = $request->questionnarie_name;
+            $job->userid = $uid;
+            $job->start_apply_date = $request->start_apply_date;
+            $job->client_id = $request->client_id;
+            $job->save();
+    
+            return redirect()->route('postedjobs')->with(['message' => 'Job Posted Successfully']);
+        }
+        catch (Throwable $e) {
+            print_r($e->getMessage());
+            die;
+        }
     }
 
     public function edit($id)
