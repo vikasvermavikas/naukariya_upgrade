@@ -2364,8 +2364,8 @@ hr {
 }
 
 .blog-h-padding {
-  padding-top: 190px;
-  padding-bottom: 170px
+  padding-top: 90px;
+  padding-bottom: 130px;
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
@@ -2403,7 +2403,7 @@ hr {
 
 @media only screen and (min-width: 1200px) and (max-width: 1600px) {
   .footer-padding {
-    padding-top: 170px;
+    padding-top: 79px;
     padding-bottom: 20px
   }
 }
@@ -5719,7 +5719,7 @@ del {
 
 @media only screen and (min-width: 1200px) and (max-width: 1600px) {
   .slider-height {
-    min-height: 700px
+    min-height: 484px
   }
 }
 
@@ -5763,7 +5763,7 @@ del {
 }
 
 .slider-area .hero__caption h1 {
-  font-size: 80px;
+  font-size: 49px;
   font-weight: 900;
   margin-bottom: 78px;
   color: #28395a;
@@ -7064,7 +7064,7 @@ form.search-box .search-form a {
 }
 
 .footer-wejed {
-  padding-top: 120px;
+  padding-top: 36px;
   padding-bottom: 40px
 }
 

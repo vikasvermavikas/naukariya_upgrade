@@ -28,7 +28,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/sweetalert2.min.css') }}">
 
-    <script async src="https://www.google.com/recaptcha/api.js">// Add recaptcha script
+    <script async src="https://www.google.com/recaptcha/api.js">
+        // Add recaptcha script
     </script>
     @yield('style')
 
@@ -53,7 +54,7 @@
 
     @include('layouts.footer')
 
-   
+
 
     <!-- All JS Custom Plugins Link Here here -->
     <script src={{ asset('assets/js/vendor/modernizr-3.5.0.min.js') }}></script>
@@ -77,7 +78,7 @@
     <!-- Scrollup, nice-select, sticky -->
     <script src={{ asset('assets/js/jquery.scrollUp.min.js') }}></script>
     <script src={{ asset('assets/js/jquery.nice-select.min.js') }}></script>
-    <script src={{ asset('assets/js/jquery.sticky.js') }}></script> 
+    <script src={{ asset('assets/js/jquery.sticky.js') }}></script>
 
     <!-- contact js -->
     <script src={{ asset('assets/js/contact.js') }}></script>
@@ -99,25 +100,31 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/36.0.0/classic/ckeditor.js"></script>
 
     <script>
-        const SITE_URL = "{{env('JS_WEB_URL')}}";
-        const PUBLIC_PATH = "{{env('JS_PUBLIC_URL')}}";
+        const SITE_URL = "{{ env('JS_WEB_URL') }}";
+        const PUBLIC_PATH = "{{ env('JS_PUBLIC_URL') }}";
     </script>
-    
+
     @yield('script')
-    
-    
-
     <script>
-        if ($(".employer")[0]){
-        $('.employer').click(function() {
-            $('.show-employer').toggle();
-        });
-    }
+        if ($(".employer")[0]) {
+            $('.employer').click(function() {
+                $('.show-employer').toggle();
+            });
+        }
 
-    // Code for showing tooltip.
+        // Code for showing tooltip.
         $(function() {
             $('[data-toggle="tooltip"]').tooltip()
         })
+
+        // footer js.
+        // $.ajax({
+        //     url: SITE_URL + '/get/sociallinks',
+        //     type: 'GET',
+        //     success: function(response) {
+        //         // $('.footer-script').html(response);
+        //     }
+        // });
     </script>
 </body>
 

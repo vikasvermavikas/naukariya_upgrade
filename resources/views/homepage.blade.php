@@ -5,9 +5,11 @@
             background-color: #e35e25;
             color: white !important;
         }
+
         .nav-link.active:hover {
             color: white !important;
         }
+
         .nav-link.active:not(:hover) {
             color: white !important;
         }
@@ -39,6 +41,32 @@
             /* height: 62px; */
             border: 1px solid black;
         }
+
+        #searchkeyword {
+            height: 64px;
+        }
+
+        #experienced_level {
+            height: 64px;
+            border: none;
+        }
+
+        #search_jobs {
+            padding: 33px 44px
+        }
+
+        .dropdown-menu.show {
+            width: auto !important;
+        }
+
+        #searchkeyword,
+        #experienced_level,
+        #location,
+        #search_jobs {
+            width: 115%;
+
+        }
+
     </style>
 @endsection
 @section('content')
@@ -74,26 +102,56 @@
                         <div class="row">
                             <div class="col-xl-8">
                                 <!-- form -->
-                                <form action="{{ route('loadJoblistPage') }}" method="GET" class="search-box">
-                                    <div class="input-form">
-                                        <input type="text" name="searchkeyword" placeholder="Job Tittle or keyword"
-                                            required>
-                                    </div>
-                                    <div class="select-form">
-                                        <div class="select-itms h-100">
+                                <form action="{{ route('loadJoblistPage') }}" method="GET" class="search-box shadow-none">
+                                    {{-- <div class="form-group">
+                                        <label for="input-datalist">Timezone</label>
+                                        <input type="text" class="form-control" placeholder="Timezone" list="list-timezone" id="input-datalist">
+                                    </div> --}}
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            {{-- <div class=""> --}}
+                                            <input type="text" class="border-0 form-control rounded" name="searchkeyword"
+                                                id="searchkeyword" placeholder="Job Tittle or skills"
+                                                data-prefetch="{{ route('getskillsoptions') }}" title="Skills"
+                                                data-toggle="tooltip" required>
+                                            {{-- </div> --}}
+                                        </div>
+                                        <div class="col-md-3">
+                                            <Select class="form-control rounded" title="Experience Level"
+                                                data-toggle="tooltip" name="experienced_level" id="experienced_level">
+                                                <option value="experienced" selected>Experienced</option>
+                                                <option value="fresher">Fresher</option>
+                                            </Select>
+                                            {{-- <div class=""> --}}
+                                            {{-- <input type="text" class="border-0" name="searchkeyword"  id="searchkeyword" placeholder="Job Tittle or skills" data-prefetch="{{route('getskillsoptions')}}"
+                                                required> --}}
+                                            {{-- </div> --}}
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{-- <div class="">
+                                            <div class=""> --}}
                                             {{-- <input class="form-control h-100 border-0" list="locationlist" name="location"
-                                                id="location" placeholder="Enter location">
-                                            <datalist id="locationlist" class="bg-white" role="listbox">
-                                            </datalist> --}}
-                                            <select class="js-example-basic-single form-control"
-                                                placeholder="Enter location" name="location" id="location">
+                                                    id="location" placeholder="Enter location">
+                                                <datalist id="locationlist" class="bg-white" role="listbox">
+                                                </datalist> --}}
+                                            <select class="js-example-basic-single form-control rounded"
+                                                placeholder="Enter location" name="location" title="locations"
+                                                data-toggle="tooltip" id="location">
                                                 <option value="">Select Location</option>
                                             </select>
+                                            {{-- </div>
+                                        </div> --}}
                                         </div>
+                                        <div class="col-md-3">
+
+                                            {{-- <div class=""> --}}
+                                            <button class=" btn rounded" id="search_jobs" type="submit">Find
+                                                job</button>
+                                            {{-- </div> --}}
+                                        </div>
+
                                     </div>
-                                    <div class="search-form">
-                                        <button class="form-control btn btn-warning h-100" type="submit">Find job</button>
-                                    </div>
+
                                 </form>
                             </div>
                         </div>
@@ -224,7 +282,7 @@
                 <!-- Section Button -->
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="browse-btn2 text-center mt-50">
+                        <div class="browse-btn2 text-center my-3">
                             <a href="{{ route('loadJoblistPage') }}" class="border-btn2">Browse All Sectors</a>
                         </div>
                     </div>
@@ -298,12 +356,18 @@
                                             }
 
                                         @endphp
-                                        <div class="single-job-items mb-30">
+                                        <div class="single-job-items mb-30 shadow-sm">
                                             <div class="job-items">
                                                 <div class="company-img">
-                                                    <a href="{{ route('job_details', ['id' => $item->id]) }}"><img
+                                                    <a href="{{ route('job_details', ['id' => $item->id]) }}">
+                                                        <img src={{ asset('company_logo/' . $item->company_logo . '') }}
+                                                            class="img-fluid image-class rounded p-1"
+                                                            alt="no-image-found">
+                                                        {{-- <img
                                                             src={{ asset('assets/images/prakhar_logo.png') }}
-                                                            class="img-fluid image-class" alt=""></a>
+                                                            class="img-fluid image-class" alt=""> --}}
+
+                                                    </a>
                                                 </div>
                                                 <div class="job-tittle">
                                                     <a href="{{ route('job_details', ['id' => $item->id]) }}">
@@ -342,12 +406,13 @@
                                             }
 
                                         @endphp
-                                        <div class="single-job-items mb-30">
+                                        <div class="single-job-items mb-30 shadow-sm">
                                             <div class="job-items">
                                                 <div class="company-img">
                                                     <a href="{{ route('job_details', ['id' => $item->id]) }}"><img
-                                                        src={{ asset('assets/images/prakhar_logo.png') }}
-                                                        class="img-fluid image-class" alt=""></a>
+                                                            src={{ asset('company_logo/' . $item->company_logo . '') }}
+                                                            class="img-fluid image-class rounded p-1"
+                                                            alt="no-image-found"></a>
                                                 </div>
                                                 <div class="job-tittle">
                                                     <a href="{{ route('job_details', ['id' => $item->id]) }}">
@@ -386,12 +451,13 @@
                                             }
 
                                         @endphp
-                                        <div class="single-job-items mb-30">
+                                        <div class="single-job-items mb-30 shadow-sm">
                                             <div class="job-items">
                                                 <div class="company-img">
                                                     <a href="{{ route('job_details', ['id' => $item->id]) }}"><img
-                                                        src={{ asset('assets/images/prakhar_logo.png') }}
-                                                        class="img-fluid image-class" alt=""></a>
+                                                            src={{ asset('company_logo/' . $item->company_logo . '') }}
+                                                            class="img-fluid image-class rounded p-1"
+                                                            alt="no-image-found"></a>
                                                 </div>
                                                 <div class="job-tittle">
                                                     <a href="{{ route('job_details', ['id' => $item->id]) }}">
@@ -425,7 +491,7 @@
         </section>
         <!-- Featured_job_end -->
         <!-- How  Apply Process Start-->
-        <div class="apply-process-area apply-bg pt-150 pb-150"
+        <div class="apply-process-area apply-bg pt-100 pb-90"
             data-background={{ asset('assets/img/gallery/how-applybg.png') }}>
             <div class="container">
                 <!-- Section Tittle -->
@@ -647,5 +713,6 @@
     </main>
 @endsection
 @section('script')
+    <script src="{{ asset('assets/js/bootstrap-autocomplete.js') }}"></script>
     <script src="{{ asset('assests/js/custom_js/homepage.js') }}"></script>
 @endsection

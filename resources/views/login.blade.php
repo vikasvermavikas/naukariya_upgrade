@@ -28,6 +28,9 @@
                             @csrf
                             <div class="d-none">
                                 <input type="hidden" name="user_type" value="Jobseeker">
+                                @if (isset($_GET['job']))
+                                <input type="hidden" name="jobid" value="{{$_GET['job']}}">
+                                @endif
                             </div>
                             <div class="form-row row">
                                 <div class="input-data">

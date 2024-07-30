@@ -126,7 +126,9 @@ class ProfileCompleteController extends Controller
         //assign personal for experience only 5 points end
                 
              }
-             $percentage = ($point*$maximumPoints)/100;
+            //  $percentage = ($point*$maximumPoints)/100;
+            $percentage = round(($point / $maximumPoints) * 100);
+
             
             return response()->json(['percentage' => $percentage], 200);
         

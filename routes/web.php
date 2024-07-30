@@ -32,6 +32,8 @@ use App\Http\Controllers\SaveCommentController;
 use App\Http\Controllers\QuestionnarieListController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\VenuesController;
+use App\Http\Controllers\WebsiteInfoController;
+use App\Http\Controllers\ProfileCompleteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -102,9 +104,15 @@ Route::middleware(['guest:jobseeker', 'guest:employer'])->group(function () {
     //login employers
     Route::get('employerlogin', [FrontuserloginController::class, 'loadLoginPage'])->name('loadLoginPage');
     Route::get('get-categories-jobs', [JobmanagerController::class, 'get_categories_jobs'])->name('getCategoriesJobs');
+
+    Route::get('/get-keywords', [JobseekerController::class, 'getKeywords'])->name('getskillsoptions');
+
+
 });
+Route::get('/get/sociallinks', [WebsiteInfoController::class, 'getPortalSocialLinks'])->name('sociallinks');
 
 Route::post('/add-newsletter', [NewsletterController::class, 'store'])->name('addNewsletter');
+Route::get('/unsubscribe-newsletter', [NewsletterController::class, 'unsubscribe'])->name('unsubscribe');
 Route::post('/unfollow-newsletter', [NewsletterController::class, 'destroy'])->name('unfollowNewsletter');
 // jobseeker login
 Route::post('jobseekerregister', [FrontJobseekerController::class, 'store'])->name('jobseekerregister');
@@ -124,11 +132,12 @@ Route::get('/get-skill', [JobmanagerController::class, 'getSkill'])->name('getSk
 Route::get('/get-locations/{search?}', [JobseekerController::class, 'getLocations'])->name('get-locations');
 
 // Jobseekers routes.
+Route::post('/apply-job/{id}', [ApplyJobController::class, 'store'])->name('applyjob');
+Route::post('/saved-job/{id}', [SavedJobController::class, 'store'])->name('savejob');
+Route::post('/follow/{companyid}/{jobid}', [SavedJobController::class, 'follow'])->name('followjob');
+
 Route::middleware('jobseeker')->group(function () {
     Route::get('dashboard/jobseeker', [DashboardController::class, 'countAllDataForJobSeeker'])->name('AllDataForJobSeeker');
-    Route::post('/apply-job/{id}', [ApplyJobController::class, 'store'])->name('applyjob');
-    Route::post('/saved-job/{id}', [SavedJobController::class, 'store'])->name('savejob');
-    Route::post('/follow/{companyid}/{jobid}', [SavedJobController::class, 'follow'])->name('followjob');
     Route::get('/get-stage-registration', [StageRegistration::class, 'getStage'])->name('getStage');
     Route::get('/jobseeker-apply-job', [ApplyJobController::class, 'applyJobList'])->name('applyJobList');
     Route::get('/unfollow-companies/{id}/{id2}', [SavedJobController::class, 'unfollow_companies'])->name('unfollow_companies');
@@ -136,6 +145,19 @@ Route::middleware('jobseeker')->group(function () {
     Route::post('/add-support', [SupportController::class, 'store_jobseeker'])->name('store_jobseeker');
     Route::get('/supportlist', [SupportController::class, 'index'])->name('index');
     Route::get('/follow-list', [SavedJobController::class, 'follow_list'])->name('follow_list');
+    
+    Route::prefix('jobseeker')->group(function () { 
+        Route::get('/profile/percentage', [ProfileCompleteController::class, 'ProfilePercentage']);
+
+        Route::controller(StageRegistration::class)->group(function (){
+            Route::get('/profile-stage', 'getPersnol')->name('profile-stages');
+            Route::post('/persnol-save', 'addPersnol');
+            Route::get('/skip-stage/{stage}', 'skipStage');
+            Route::post('/add-education-detail', 'addEducationDetail');
+
+        });
+     });
+
 });
 
 // Employer Routes.

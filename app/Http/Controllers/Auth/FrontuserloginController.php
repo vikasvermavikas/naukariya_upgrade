@@ -131,8 +131,13 @@ class FrontuserloginController extends Controller
                         ]);
     
                         // return response()->json(['data' => $data, 'status' => 'success'], 200);
-    
-                        return redirect()->route('AllDataForJobSeeker');
+                        if ($request->jobid){
+                            return redirect()->route('job_details', ['id' => $request->jobid]);
+                        }
+                        else {
+
+                            return redirect()->route('AllDataForJobSeeker');
+                        }
                     } else {
                         $errors = 'Your account is not activated by admin. Please contact.';
                         //log mail table

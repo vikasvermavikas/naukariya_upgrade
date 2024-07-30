@@ -66,6 +66,9 @@ class NewsletterController extends Controller
 
     public function destroy(Request $request)
     {
+        $this->validate($request, [
+            'email' => 'required|email|max:200'
+        ]);
 
         $user = Newsletter::where('email', $request->email)->first();
         if ($user) {
@@ -73,8 +76,12 @@ class NewsletterController extends Controller
             $record->status = 0;
             $record->save();
             $record->delete();
-            return response()->json(['success' => true, 'message' => 'User unfollow successfully.'], 200);
+            return redirect()->back()->with(['success' => true, 'message' => ''.$request->email.' unfollow successfully.'], 200);
         }
-        return response()->json(['success' => false, 'message' => 'Email not registered.'], 200);
+        return redirect()->back()->with(['error' => true, 'message' => ''.$request->email.' email not registered.'], 200);
+    }
+
+    public function unsubscribe(){
+        return view('public.unsubscribe');
     }
 }

@@ -10,7 +10,7 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="hero-cap text-center">
-                                <h2>UI/UX Designer</h2>
+                                <h2>{{ $data->title }}</h2>
                             </div>
                         </div>
                     </div>
@@ -69,8 +69,11 @@
                         <!-- job single End -->
 
                         <div class="job-post-details">
+                            <div class="mb-2">
+                               <span class="font-weight-bold">Skills :</span>  {{$data->job_skills}}
+                            </div>
                             <div class="post-details1 mb-50">
-
+                                <span class="font-weight-bold">Description :</span>
                                 {!! $data->description !!}
                             </div>
                             {{-- <div class="post-details2  mb-50">

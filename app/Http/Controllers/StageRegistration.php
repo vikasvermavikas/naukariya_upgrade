@@ -10,10 +10,14 @@ use App\Models\JsResume;
 use App\Models\JsCertification;
 use App\Models\JsSkill;
 use App\Models\Institute;
+use App\Models\Industry;
+use App\Models\FunctionalRole;
+use App\Models\Qualification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Session;
 use Illuminate\Support\Facades\Hash;
+use DB;
 
 class StageRegistration extends Controller
 {
@@ -24,7 +28,7 @@ class StageRegistration extends Controller
         // $uid = 1215;
         $update = 0;
         $create = 0;
-        if($request->professional_experience != 'fresher'){
+        if ($request->professional_experience != 'fresher') {
             for ($i = 0; $i < $request->total; $i++) {
 
                 if ($request->index[$i] != null) {
@@ -34,13 +38,13 @@ class StageRegistration extends Controller
                             'organisation' => $request->organization[$i],
                             'job_type' => $request->jobtype[$i],
                             'from_date' => $request->fromdate[$i],
-                            'to_date' => $request->currentlyWork == $i+1 ? NULL : $request->todate[$i],
+                            'to_date' => $request->currentlyWork == $i + 1 ? NULL : $request->todate[$i],
                             'salary' => $request->salary[$i],
                             'sal_confidential' => $request->sal_confidential[$i],
                             'responsibility' => $request->responsibility[$i],
                             'key_skill' => $request->key_skill[$i],
-                            'currently_work_here' => $request->currentlyWork == $i+1 ? 1 : NULL
-    
+                            'currently_work_here' => $request->currentlyWork == $i + 1 ? 1 : NULL
+
                         ]);
                     ++$update;
                 } else {
@@ -53,9 +57,9 @@ class StageRegistration extends Controller
                     // $js_professional->industry_name = $request->industry_name;
                     // $js_professional->functional_role = $request->functional_role;
                     $js_professional->from_date = $request->fromdate[$i];
-                    $js_professional->to_date = $request->currentlyWork == $i+1 ? NULL : $request->todate[$i];
+                    $js_professional->to_date = $request->currentlyWork == $i + 1 ? NULL : $request->todate[$i];
                     $js_professional->salary = $request->salary[$i];
-                    $js_professional->sal_confidential = !empty($request->sal_confidential[$i])?$request->sal_confidential[$i]:'0';
+                    $js_professional->sal_confidential = !empty($request->sal_confidential[$i]) ? $request->sal_confidential[$i] : '0';
                     $js_professional->responsibility = $request->responsibility[$i];
                     // $js_professional->key_skill = $request->key_skill[$i];
                     $js_professional->currently_work_here = $request->currentlyWork == $i ? 1 : NULL;
@@ -64,7 +68,7 @@ class StageRegistration extends Controller
                 }
             }
         }
-      
+
         if ($create > 0 || $update > 0 || $request->professional_experience == 'fresher') {
             $updateLastModifiedDate = Jobseeker::find($uid);
             $updateLastModifiedDate->professional_stage = $request->professional_experience;
@@ -120,7 +124,7 @@ class StageRegistration extends Controller
             $updateLastModifiedDate->save();
         }
         $stage = Jobseeker::select('stage')->where('id', $uid)->first();
-        
+
         return response()->json(['data' => $request->all(), 'stage' => $stage]);
     }
     public function addCertificate(Request $request)
@@ -173,14 +177,13 @@ class StageRegistration extends Controller
             return  $data[0]->certificate;
         } else {
             $data = JsCertification::where('js_userid', $uid)->get();
-            if(count($data) > 0 ){
-               
+            if (count($data) > 0) {
+
                 return  $data->all();
-            }else{
+            } else {
                 $data2[0]['certificate'] = 1;
                 return  $data2;
             }
-           
         }
     }
     public function deleteProfessionalDetail($id)
@@ -218,7 +221,7 @@ class StageRegistration extends Controller
 
             $a = JsSkill::create(
                 [
-                    'js_userid'=> $uid,
+                    'js_userid' => $uid,
                     'skill' => $req->skill[$i],
                     'expert_level' => (($i < count($req->expert_level)) && ($req->expert_level[$i] != "")) ? $req->expert_level[$i] : ""
                 ]
@@ -245,7 +248,8 @@ class StageRegistration extends Controller
     public function addEducationDetail(Request $req)
     {
 
-        $uid = Session::get('user')['id'];
+        // $uid = Session::get('user')['id'];
+        $uid = Auth::guard('jobseeker')->user()->id;
 
         for ($i = 0; $i < $req->total; $i++) {
 
@@ -329,28 +333,28 @@ class StageRegistration extends Controller
         JsResume::updateOrCreate(['js_userid' => $uid], $addressData);
 
         $stage = Jobseeker::select('stage')->where('id', $uid)->first();
-        
+
         return response()->json(['data' => $req->all(), 'stage' => $stage]);
         // return  $req->all();
     }
     public function addPersnol(Request $req)
     {
-        //dd($request->all());
-        $uid = Session::get('user')['id'];
-        // $uid = 1215;
-        if (is_array($req->preferred_loc)) {
 
-            $req->preferred_loc =  implode(',', $req->preferred_loc);
+        $uid = Auth::guard('jobseeker')->user()->id;
+        // $uid = 1215;
+        if (is_array($req->locationlist)) {
+
+            $req->locationlist =  implode(',', $req->locationlist);
         } else {
-            $req->preferred_loc = $req->preferred_loc;
+            $req->locationlist = $req->locationlist;
         }
 
-        if($req->password != NULL &&  strlen($req->password) < 15){
+        if ($req->password != NULL &&  strlen($req->password) < 15) {
             $password = Hash::make($req->password);
-        }else{
+        } else {
             $password =  $req->password;
         }
-        
+
         $personalData = [
             'fname' => $req->fname,
             'lname' => $req->lname,
@@ -362,7 +366,7 @@ class StageRegistration extends Controller
             'exp_month' => $req->exp_mon,
             'industry_id' => $req->job_industry_id,
             'functionalrole_id' => $req->job_functional_role_id,
-            'preferred_location' => $req->preferred_loc,
+            'preferred_location' => $req->locationlist,
             'linkedin' => $req->linkedin,
             'current_salary' => $req->curr_sal,
             'expected_salary' => $req->exp_sal,
@@ -371,16 +375,39 @@ class StageRegistration extends Controller
             'password' => $password,
         ];
 
-        $data = Jobseeker::where('id', $uid)->update($personalData);
-        return  $personalData;
+        // Upload resume.
+        if ($req->resume) {
+            // $uid = 1215;
+            $filename = time() . '.' . $req->resume->extension();
+            $path = public_path() . '/resume/';
+            $req->resume->move($path, $filename);
+            $addressData = [
+                'js_userid' => $uid,
+                'resume' => $filename,
+            ];
+
+            JsResume::updateOrCreate(['js_userid' => $uid], $addressData);
+        }
+
+        // Update image.
+        if ($req->image) {
+            $filename = time() . '.' . $req->image->extension();
+            $path = public_path() . '/jobseeker_profile_image/';
+            $req->image->move($path, $filename);
+            $personalData['profile_pic_thumb'] = $filename;
+        }
+
+
+        Jobseeker::where('id', $uid)->update($personalData);
+        return response()->json(['status' => true, 'message' => 'Profile details added successfully'], 200);
     }
     public function getPersnol(Request $req)
-    {  
-        
-        $user = Session::get('user');
-        $uid = Session::get('user')['id'];
-        // $uid = 1215;
+    {
 
+        // $user = Session::get('user');
+        // $uid = Session::get('user')['id'];
+        // $uid = 1215;
+        $uid = Auth::guard('jobseeker')->user()->id;
         $data = Jobseeker::where('id', $uid)->select(
             'fname',
             'lname',
@@ -400,8 +427,31 @@ class StageRegistration extends Controller
             'notice_period',
             'designation',
             'password'
-        )->get();
-        return  $data;
+        )->first();
+
+        $industries = Industry::select('id', 'category_name')->orderBy('category_name', 'ASC')->get();
+        $functional_roles = FunctionalRole::select('functional_roles.id', 'functional_roles.subcategory_name')->orderBy('functional_roles.subcategory_name')->get();
+        $location_data = DB::table('master_location')
+            ->select('state')
+            ->distinct('state')
+            ->get();
+
+        $locations = $location_data->map(function ($data) {
+            $edu = DB::table('master_location')
+                ->select('master_location.id', 'master_location.location')
+                ->where('master_location.state', $data->state)->get();
+
+            $educations = ['location' => $edu];
+
+            $collection = collect($data)->merge($educations);
+            return $collection;
+        });
+
+        $getresume = JsResume::select('resume')->where('js_userid', $uid)->first();
+        $qualifications = Qualification::All();
+        $educationDetails = JsEducationalDetail::where('js_userid', $uid)->first();
+
+        return view('jobseeker.profile-stage', ['data' => $data, 'industries' => $industries, 'functional_roles' => $functional_roles, 'locations' => $locations, 'getresume' => $getresume, 'qualifications' => $qualifications, 'educationDetails' => $educationDetails]);
     }
     public function resumeGet()
     {
@@ -413,7 +463,8 @@ class StageRegistration extends Controller
 
     public function skipStage($stage)
     {
-        $uid = Session::get('user')['id'];
+        // $uid = Session::get('user')['id'];
+        $uid = Auth::guard('jobseeker')->user()->id;
         // $uid = 1215;
 
         $checkStage = Jobseeker::where('id', $uid)->select('savestage')->get();
@@ -423,6 +474,7 @@ class StageRegistration extends Controller
         }
         $data = Jobseeker::where('id', $uid)->update(['stage' => ($stage + 1)]);
 
-        return $stage;
+        // return $stage;
+        return response()->json(['success' => true]);
     }
 }

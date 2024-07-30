@@ -1,10 +1,18 @@
 @extends('layouts.master', ['title' => 'Job Listing'])
+@section('style')
+    <style>
+        .image-class {
+            width: 114px;
+            border: 1px solid black;
+        }
+    </style>
+@endsection
 @section('content')
     <main>
         <!-- Hero Area Start-->
         <div class="slider-area ">
             <div class="single-slider section-overly slider-height2 d-flex align-items-center"
-                style="background-image : url({{asset('assets/img/hero/about.jpg')}})">
+                style="background-image : url({{ asset('assets/img/hero/about.jpg') }})">
                 <div class="container">
                     <div class="row">
                         <div class="col-xl-12">
@@ -53,7 +61,8 @@
                                     <h4>Skill</h4>
                                 </div>
                                 <div class="select-job-items2">
-                                    <select class="js-example-responsive form-control skill" name="skill[]" multiple="multiple" style="width:100%" id="skill" >
+                                    <select class="js-example-responsive form-control skill" name="skill[]"
+                                        multiple="multiple" style="width:100%" id="skill">
                                         <option value="">Select Skill</option>
                                     </select>
                                 </div>
@@ -216,15 +225,16 @@
                                             <!-- Select job items start -->
                                             <div>
                                                 {{-- <form action="{{ route('loadLoginPage') }}" method="GET" --}}
-                                                    {{-- class="form-inline"> --}}
+                                                {{-- class="form-inline"> --}}
 
-                                                    <input type="text" name="searchkeyword" id="searchkeyword"
-                                                        placeholder="Search by Keyword"
-                                                        value="{{ $searchTerm ? $searchTerm : '' }}" 
-                                                        required autocomplete="off"/>
-                                                        <span onclick="fetchJobListings()"> <i class="fas fa-search text-color"></i></span>
+                                                <input type="text" name="searchkeyword" id="searchkeyword"
+                                                    placeholder="Search by Keyword"
+                                                    value="{{ $searchTerm ? $searchTerm : '' }}" required
+                                                    autocomplete="off" />
+                                                <span onclick="fetchJobListings()"> <i
+                                                        class="fas fa-search text-color"></i></span>
 
-                                                    {{-- @error('searchkeyword')
+                                                {{-- @error('searchkeyword')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
                                                    
@@ -266,25 +276,39 @@
                                         <div class="joblists">
                                             <div class="single-job-items mb-30">
                                                 <div class="job-items">
-                                                    <div class="company-img">
-                                                        <a href="{{ route('job_details', ['id' => $item->id]) }}"><img
-                                                                src={{asset("assets/img/icon/job-list1.png")}} alt=""></a>
-                                                    </div>
-                                                    <div class="job-tittle job-tittle2">
-                                                        <a href="{{ route('job_details', ['id' => $item->id]) }}">
-                                                            <h4>{{ $item->title }}</h4>
-                                                        </a>
-                                                        <ul>
-                                                            <li>{{ $item->company_name }}</li>
-                                                            <li><i
-                                                                    class="fas fa-map-marker-alt"></i>{{ $item->job_exp ? $item->job_exp : 'Not Defined' }}
-                                                            </li>
-                                                            <li>{{ $item->sal_disclosed == 'Yes' ? 'INR ' . $minsalary . ' - ' . $item->offered_sal_max : 'Not Disclosed' }}
-                                                            </li>
+                                                    <div class="row">
+                                                        <div class="col-md-2 text-center">
 
-                                                        </ul>
-                                                        <span class="text-muted">Experience Required :
-                                                            {{ $exp_required }}</span>
+                                                            <div class="company-img mt-4">
+                                                                <a href="{{ route('job_details', ['id' => $item->id]) }}"><img
+                                                                        src={{ asset('company_logo/' . $item->company_logo . '') }}
+                                                                        alt="no-image-found"
+                                                                        class="img-fluid image-class rounded p-1"></a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-10">
+
+                                                            <div class="job-tittle job-tittle2">
+                                                                <a href="{{ route('job_details', ['id' => $item->id]) }}">
+                                                                    <h4>{{ $item->title }}</h4>
+                                                                </a>
+                                                                <ul>
+                                                                    <li>{{ $item->company_name }}</li>
+                                                                    <li><i
+                                                                            class="fas fa-map-marker-alt"></i>{{ $item->job_exp ? $item->job_exp : 'Not Defined' }}
+                                                                    </li>
+                                                                    <li><i class="fas fa-rupee-sign"
+                                                                            aria-hidden="true"></i>
+                                                                        {{ $item->sal_disclosed == 'Yes' ? round($minsalary / 100000, 2) . ' - ' . round($item->offered_sal_max / 100000, 2) . ' LPA' : 'Not Disclosed' }}
+                                                                    </li>
+
+                                                                </ul>
+                                                                <span class="text-muted"> Experience :
+                                                                    {{ $exp_required }}</span><br>
+                                                                <span class="text-muted">Skills :
+                                                                    {{ $item->job_skills }}</span>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
 
@@ -329,6 +353,5 @@
 @endsection
 
 @section('script')
-
     <script src="{{ asset('assests/js/custom_js/job-listing.js') }}"></script>
 @endsection

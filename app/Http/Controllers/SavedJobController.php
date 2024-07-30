@@ -48,7 +48,9 @@ class SavedJobController extends Controller
             $savedjob->save();
             return redirect()->back()->with(['message' => 'Job saved successfully']);
         }
-        return redirect()->back()->withErrors(['message' => 'Please login first with jobseeker credentials.']);
+        // return redirect()->back()->withErrors(['message' => 'Please login first with jobseeker credentials.']);
+        return redirect()->route('login', ['job' => $id])->with(['error' => 'You must be logged in to save a job']);
+
     }
 
     public function checkUserSavedJob()
@@ -78,7 +80,9 @@ class SavedJobController extends Controller
                 return redirect()->back()->with(['message' => 'Company followed successfully']);
             }
         }
-        return redirect()->back()->withErrors(['message' => 'Please login first with jobseeker credentials.']);
+        return redirect()->route('login', ['job' => $job_id])->with(['error' => 'You must be logged in to follow a job']);
+
+        // return redirect()->back()->withErrors(['message' => 'Please login first with jobseeker credentials.']);
         // return response()->json(['error' => 'Something went wrong'], 201);
     }
 

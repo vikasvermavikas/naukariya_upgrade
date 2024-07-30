@@ -79,18 +79,18 @@
                             <li class="list-group-item">
                                 <div id="profile-percentage">
                                     <div class="corner-div">
-                                        <small>Profile Complete - 36%</small> </br>
-                                        <small style="float: right;">Last Modified - 5 months ago</small></br>
+                                        <small>Profile Complete - <span id="profilepercentage"></span></small> </br>
+                                        <small style="float: right;">Last Modified - {{ \Carbon\Carbon::parse(Auth::guard('jobseeker')->user()->updated_at)->diffForhumans() }}</small></br>
                                         <div class="progress mb-1 mt-1">
-                                            <div class="progress-bar progress-bar-striped bg-warning" style="width: 36%;">
-                                                36%</div>
+                                            <div class="progress-bar progress-class progress-bar-striped">
+                                                </div>
                                         </div>
                                         <small>Complete your profile to get notified by Recruiters</small>
                                     </div>
                                 </div>
                             </li>
                             <li class="list-group-item">
-                                <a href="#/profile-stage" class="text-color"><i class="fas fa-user-circle"></i> Edit
+                                <a href="{{route('profile-stages')}}" class="text-color"><i class="fas fa-user-circle"></i> Edit
                                     Profile</a>
                             </li>
                         </ul>
@@ -102,4 +102,7 @@
 
 
     </section>
+@endsection
+@section('script')
+<script src="{{asset('assets/js/jobseeker_dashboard.js')}}"></script>
 @endsection

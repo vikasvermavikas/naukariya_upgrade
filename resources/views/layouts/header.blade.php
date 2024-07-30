@@ -32,7 +32,7 @@
                             <!-- Logo -->
                             <div class="logo">
                                 <a href={{ route('home') }}><img src={{ asset('assets/images/naukriyan-logo.png') }}
-                                        alt="Naukriyan-Logo"></a>
+                                        alt="Naukriyan-Logo" class=""></a>
                             </div>
                         </div>
                         <div class="col-lg-10 col-md-10">
@@ -129,47 +129,60 @@
                                 <li class="nav-item dropdown open">
                                     <a href="#" data-toggle="dropdown" role="button" aria-expanded="false"
                                         class="nav-link dropdown-toggle">
-                                        <img src={{ asset('assets/images/default-image.png') }}
-                                            class="mini-photo img-responsive rounded-circle mx-auto"
-                                            style="width: 45px;"></a>
-                                    <ul class="dropdown-menu user-menu">
-                                        <div class="profile-highlight text-center">
-                                            <img src={{ asset('assets/images/default-image.png') }}
-                                                class="mini-photo img-responsive rounded-circle text-center"
-                                                style="width: 50px;">
-                                            <div class="details text-center">
-                                                <div id="profile-name">
-                                                    <small>{{ Auth::guard('jobseeker')->user()->fname . ' ' . Auth::guard('jobseeker')->user()->lname }}
-                                                    </small>
-                                                </div>
-                                                <div id="profile-footer text-center">
-                                                    <small>{{ Auth::guard('jobseeker')->user()->email }}</small>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        @if (Auth::guard('jobseeker')->user()->profile_pic_thumb)
+                                            <img src={{ asset('jobseeker_profile_image/' . Auth::guard('jobseeker')->user()->profile_pic_thumb . '') }}
+                                                class="mini-photo img-fluid rounded-circle mx-auto"
+                                                style="width: 45px;">
+                                    </a>
+                                @else
+                                    <img src={{ asset('assets/images/default-image.png') }}
+                                        class="mini-photo img-fluid rounded-circle mx-auto" style="width: 45px;"></a>
+@endif
 
-                                        <li class="user-menu__item mt-2">
-                                            <a href="#/viewemployeeprofile" class="user-menu-link">
-                                                <div class="text-color"><i class="fas fa-user-circle"></i> My profile
-                                                </div>
-                                            </a>
-                                        </li>
+<ul class="dropdown-menu user-menu">
 
-                                        <li class="user-menu__item mt-2">
-                                            <a href="#" class="user-menu-link">
-                                                <div class="text-color">
-                                                    <form id="logout-form" action="{{ route('jobseekerlogout') }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        <button type="submit" class="btn head-btn2">Logout</button>
-                                                    </form>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
+    <div class="profile-highlight text-center">
 
-                                {{-- <!-- Header-btn -->
+        @if (Auth::guard('jobseeker')->user()->profile_pic_thumb)
+            <img src={{ asset('jobseeker_profile_image/' . Auth::guard('jobseeker')->user()->profile_pic_thumb . '') }}
+                class="mini-photo img-fluid rounded-circle text-center" style="width: 50px;">
+        @else
+            <img src={{ asset('assets/images/default-image.png') }}
+                class="mini-photo img-fluid rounded-circle text-center" style="width: 50px;">
+        @endif
+
+        <div class="details text-center">
+            <div id="profile-name">
+                <small>{{ Auth::guard('jobseeker')->user()->fname . ' ' . Auth::guard('jobseeker')->user()->lname }}
+                </small>
+            </div>
+            <div id="profile-footer text-center">
+                <small>{{ Auth::guard('jobseeker')->user()->email }}</small>
+            </div>
+        </div>
+    </div>
+
+    <li class="user-menu__item mt-2">
+        <a href="#/viewemployeeprofile" class="user-menu-link">
+            <div class="text-color"><i class="fas fa-user-circle"></i> My profile
+            </div>
+        </a>
+    </li>
+
+    <li class="user-menu__item mt-2">
+        <a href="#" class="user-menu-link">
+            <div class="text-color">
+                <form id="logout-form" action="{{ route('jobseekerlogout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn head-btn2">Logout</button>
+                </form>
+            </div>
+        </a>
+    </li>
+</ul>
+</li>
+
+{{-- <!-- Header-btn -->
                             @if (Auth::guard('employer')->check() || Auth::guard('jobseeker')->check())
                                 <span>
                                     {{ Auth::guard('employer')->check() ? Auth::guard('employer')->user()->fname . ' ' . Auth::guard('employer')->user()->lname :  Auth::guard('jobseeker')->user()->fname . ' ' . Auth::guard('jobseeker')->user()->lname}}</span>
@@ -201,64 +214,79 @@
 
 
 
-                            </div>
-                        </div>
-                        <!-- Mobile Menu -->
-                        <div class="col-12">
-                            <div class="mobile_menu d-block d-lg-none"></div>
+</div>
+</div>
+<!-- Mobile Menu -->
+<div class="col-12">
+    <div class="mobile_menu d-block d-lg-none"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+{{-- Warning Div --}}
+<!-- Header End -->
+</header>
+
+@if (get_profile_completion() != 100)
+    <div style="background:#EAEDFF;margin-bottom: -14px;">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            Your profile is {{ get_profile_completion() }}% complete, please complete your profile for apply job.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+@endif
+@elseif(Auth::guard('employer')->check())
+<header>
+    <!-- Header Start -->
+    <div class="header-area header-transparrent">
+        <div class="headder-top header-sticky">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-2 col-md-2">
+                        <!-- Logo -->
+                        <div class="logo">
+                            <a href={{ route('home') }}><img src={{ asset('assets/images/naukriyan-logo.png') }}
+                                class=""
+                                    alt="Naukriyan-Logo"></a>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <!-- Header End -->
-    </header>
-@elseif(Auth::guard('employer')->check())
-    <header>
-        <!-- Header Start -->
-        <div class="header-area header-transparrent">
-            <div class="headder-top header-sticky">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-2 col-md-2">
-                            <!-- Logo -->
-                            <div class="logo">
-                                <a href={{ route('home') }}><img src={{ asset('assets/images/naukriyan-logo.png') }}
-                                        alt="Naukriyan-Logo"></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-10 col-md-10">
-                            <div class="menu-wrapper">
-                                <!-- Main-menu -->
-                                <div class="main-menu">
-                                    <nav class="d-none d-lg-block">
-                                        <ul id="navigation">
-                                            <li><a href={{ route('dashboardemployer') }}>Dashboard</a></li>
-                                            <li><a href='#'>Employer </a>
-                                                <ul class="submenu">
-                                                    <li><a href={{ route('get_clients') }}>Client List</a></li>
-                                                    <li><a href={{ route('new_job_form') }}>Post New Job</a></li>
-                                                    <li><a href={{ route('managejobs') }}>Manage Job</a></li>
-                                                    <li><a href={{ route('questionnaires') }}>Questionnaries</a></li>
-                                                    <li><a href={{ route('get_subusers') }}>Sub User</a></li>
-                                                    <li><a href={{ route('venue_list') }}>Venues</a></li>
-                                                    <li><a href={{ route('get_tagged_resumes') }}>Tagged Candidates</a></li>
-                                                </ul>
-                                            </li>
+                    <div class="col-lg-10 col-md-10">
+                        <div class="menu-wrapper">
+                            <!-- Main-menu -->
+                            <div class="main-menu">
+                                <nav class="d-none d-lg-block">
+                                    <ul id="navigation">
+                                        <li><a href={{ route('dashboardemployer') }}>Dashboard</a></li>
+                                        <li><a href='#'>Employer </a>
+                                            <ul class="submenu">
+                                                <li><a href={{ route('get_clients') }}>Client List</a></li>
+                                                <li><a href={{ route('new_job_form') }}>Post New Job</a></li>
+                                                <li><a href={{ route('managejobs') }}>Manage Job</a></li>
+                                                <li><a href={{ route('questionnaires') }}>Questionnaries</a></li>
+                                                <li><a href={{ route('get_subusers') }}>Sub User</a></li>
+                                                <li><a href={{ route('venue_list') }}>Venues</a></li>
+                                                <li><a href={{ route('get_tagged_resumes') }}>Tagged Candidates</a>
+                                                </li>
+                                            </ul>
+                                        </li>
 
-                                            <li><a href={{ route('loadJoblistPage') }}>Packages</a></li>
-                                            <li><a href={{ route('employer_search_resume') }}>Search Database</a></li>
-                                            <li><a href='#'>Consultant </a>
-                                                <ul class="submenu">
-                                                    <li><a href={{ route('new_job_form') }}>Post New JD(s)</a></li>
-                                                    <li><a href={{ route('new_job_form') }}>Manage JD(s)</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <a href="#" data-toggle="dropdown"
-                                                    class="nav-link nav-link-label"><i
-                                                        class="fas fa-bell faa-ring animated"></i><span
-                                                        class="
+                                        <li><a href={{ route('loadJoblistPage') }}>Packages</a></li>
+                                        <li><a href={{ route('employer_search_resume') }}>Search Database</a></li>
+                                        <li><a href='#'>Consultant </a>
+                                            <ul class="submenu">
+                                                <li><a href={{ route('new_job_form') }}>Post New JD(s)</a></li>
+                                                <li><a href={{ route('new_job_form') }}>Manage JD(s)</a></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="#" data-toggle="dropdown"
+                                                class="nav-link nav-link-label"><i
+                                                    class="fas fa-bell faa-ring animated"></i><span
+                                                    class="
                                             badge
                                             badge-pill
                                             badge-default
@@ -266,15 +294,31 @@
                                             badge-default
                                             badge-up
                                           ">0</span></a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                                <li class="nav-item dropdown open">
-                                    <a href="#" data-toggle="dropdown" role="button" aria-expanded="false"
-                                        class="nav-link dropdown-toggle">
-                                        {{-- <img src={{ asset('assets/images/default-image.png') }} width="36"
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <li class="nav-item dropdown open">
+                                <a href="#" data-toggle="dropdown" role="button" aria-expanded="false"
+                                    class="nav-link dropdown-toggle">
+                                    {{-- <img src={{ asset('assets/images/default-image.png') }} width="36"
                                             height="36" class="mini-photo rounded-circle"> --}}
+                                    @if (Auth::guard('employer')->user()->profile_pic_thumb)
+                                        <img src="{{ asset('emp_profile_image/' . Auth::guard('employer')->user()->profile_pic_thumb . '') }}"
+                                            class="mini-photo rounded-circle text-center" width="36"
+                                            height="36">
+                                    @else
+                                        <img src="{{ asset('assets/images/default-image.png') }}"
+                                            class="mini-photo rounded-circle text-center" width="36"
+                                            height="36">
+                                    @endif
+                                </a>
+
+                                <ul class="dropdown-menu user-menu">
+                                    <div class="profile-highlight text-center">
+
+                                        {{-- <img src={{ asset('assets/images/default-image.png') }} width="36"
+                                                height="36" class="mini-photo rounded-circle text-center"> --}}
                                         @if (Auth::guard('employer')->user()->profile_pic_thumb)
                                             <img src="{{ asset('emp_profile_image/' . Auth::guard('employer')->user()->profile_pic_thumb . '') }}"
                                                 class="mini-photo rounded-circle text-center" width="36"
@@ -284,56 +328,40 @@
                                                 class="mini-photo rounded-circle text-center" width="36"
                                                 height="36">
                                         @endif
-                                    </a>
 
-                                    <ul class="dropdown-menu user-menu">
-                                        <div class="profile-highlight text-center">
-
-                                            {{-- <img src={{ asset('assets/images/default-image.png') }} width="36"
-                                                height="36" class="mini-photo rounded-circle text-center"> --}}
-                                            @if (Auth::guard('employer')->user()->profile_pic_thumb)
-                                                <img src="{{ asset('emp_profile_image/' . Auth::guard('employer')->user()->profile_pic_thumb . '') }}"
-                                                    class="mini-photo rounded-circle text-center" width="36"
-                                                    height="36">
-                                            @else
-                                                <img src="{{ asset('assets/images/default-image.png') }}"
-                                                    class="mini-photo rounded-circle text-center" width="36"
-                                                    height="36">
-                                            @endif
-
-                                            <div class="details text-center">
-                                                <div id="profile-name">
-                                                    <small>
-                                                        {{ Auth::guard('employer')->user()->fname . ' ' . Auth::guard('employer')->user()->lname }}</small>
-                                                </div>
-                                                <div id="profile-footer text-center">
-                                                    <small>{{ Auth::guard('employer')->user()->email }}</small>
-                                                </div>
+                                        <div class="details text-center">
+                                            <div id="profile-name">
+                                                <small>
+                                                    {{ Auth::guard('employer')->user()->fname . ' ' . Auth::guard('employer')->user()->lname }}</small>
+                                            </div>
+                                            <div id="profile-footer text-center">
+                                                <small>{{ Auth::guard('employer')->user()->email }}</small>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <li class="user-menu__item mt-2">
-                                            <a href="{{ route('employer_view_profile') }}" class="user-menu-link">
-                                                <div class="text-color"><i class="fas fa-user-circle"></i> My profile
-                                                </div>
-                                            </a>
-                                        </li>
+                                    <li class="user-menu__item mt-2">
+                                        <a href="{{ route('employer_view_profile') }}" class="user-menu-link">
+                                            <div class="text-color"><i class="fas fa-user-circle"></i> My profile
+                                            </div>
+                                        </a>
+                                    </li>
 
-                                        <li class="user-menu__item mt-2">
-                                            <a href="#" class="user-menu-link">
-                                                <div class="text-color"><i class="fas fa-sign-out-alt"></i>
-                                                    <form id="logout-form" action="{{ route('jobseekerlogout') }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        <button type="submit" class="btn head-btn2">Logout</button>
-                                                    </form>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
+                                    <li class="user-menu__item mt-2">
+                                        <a href="#" class="user-menu-link">
+                                            <div class="text-color"><i class="fas fa-sign-out-alt"></i>
+                                                <form id="logout-form" action="{{ route('jobseekerlogout') }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="btn head-btn2">Logout</button>
+                                                </form>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
 
-                                {{-- <!-- Header-btn -->
+                            {{-- <!-- Header-btn -->
                             @if (Auth::guard('employer')->check() || Auth::guard('jobseeker')->check())
                                 <span>
                                     {{ Auth::guard('employer')->check() ? Auth::guard('employer')->user()->fname . ' ' . Auth::guard('employer')->user()->lname :  Auth::guard('jobseeker')->user()->fname . ' ' . Auth::guard('jobseeker')->user()->lname}}</span>
@@ -365,95 +393,95 @@
 
 
 
-                            </div>
                         </div>
-                        <!-- Mobile Menu -->
-                        <div class="col-12">
-                            <div class="mobile_menu d-block d-lg-none"></div>
-                        </div>
+                    </div>
+                    <!-- Mobile Menu -->
+                    <div class="col-12">
+                        <div class="mobile_menu d-block d-lg-none"></div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Header End -->
-    </header>
+    </div>
+    <!-- Header End -->
+</header>
 @else
-    <header>
-        <!-- Header Start -->
-        <div class="header-area header-transparrent">
-            <div class="headder-top header-sticky">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-2 col-md-2">
-                            <!-- Logo -->
-                            <div class="logo">
-                                <a href={{ route('home') }}><img src={{ asset('assets/images/naukriyan-logo.png') }}
-                                        alt="Naukriyan-Logo"></a>
-                            </div>
+<header>
+    <!-- Header Start -->
+    <div class="header-area header-transparrent">
+        <div class="headder-top header-sticky">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-2 col-md-2">
+                        <!-- Logo -->
+                        <div class="logo">
+                            <a href={{ route('home') }}><img src={{ asset('assets/images/naukriyan-logo.png') }}
+                                    class="" alt="Naukriyan-Logo"></a>
                         </div>
-                        <div class="col-lg-10 col-md-10">
-                            <div class="menu-wrapper">
-                                <!-- Main-menu -->
-                                <div class="main-menu">
-                                    <nav class="d-none d-lg-block">
-                                        <ul id="navigation">
-                                            <li><a href={{ route('home') }}>Home</a></li>
-                                            <li><a href={{ route('loadJoblistPage') }}>Find a Jobs </a></li>
-                                            <li><a href={{ route('about') }}>About</a></li>
-                                            <li><a href='#'>Page </a>
-                                                <ul class="submenu">
-                                                    <li><a href={{ route('blog') }}>Blog</a></li>
-                                                    <li><a href={{ route('single-blog') }}>Blog Details</a></li>
-                                                    <li><a href={{ route('elements') }}>Elements</a></li>
-                                                    {{-- <li><a href={{ route('job_details') }}>job Details</a></li> --}}
-                                                </ul>
-                                            </li>
-                                            <li><a href={{ route('contact') }}>Contact</a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-
-                                <!-- Header-btn -->
-                                @if (Auth::guard('employer')->check() || Auth::guard('jobseeker')->check())
-                                    <span>
-                                        {{ Auth::guard('employer')->check() ? Auth::guard('employer')->user()->fname . ' ' . Auth::guard('employer')->user()->lname : Auth::guard('jobseeker')->user()->fname . ' ' . Auth::guard('jobseeker')->user()->lname }}</span>
-
-                                    <form id="logout-form" action="{{ route('jobseekerlogout') }}" method="POST">
-                                        @csrf
-                                        <button type="submit" class="btn head-btn2">Logout</button>
-                                    </form>
-                                @else
-                                    <div class="header-btn d-none f-right d-lg-block">
-                                        <a href={{ route('register') }} class="btn head-btn1">Register</a>
-                                        <a href={{ route('login') }} class="btn head-btn1">Login</a>
-                                    </div>
-                                    <div class="header-btn d-none f-right d-lg-block">
-                                        <div class="dropdown">
-                                            <a href="#" class="text-dark head-btn1 dropdown-toggle employer"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                Employer
-                                            </a>
-                                            <ul class="dropdown-menu show-employer">
-                                                <li><a class="dropdown-item" href="{{ route('loadLoginPage') }}">Sign
-                                                        In</a></li>
-                                                <li><a class="dropdown-item"
-                                                        href="{{ route('employer-register') }}">Sign Up</a></li>
+                    </div>
+                    <div class="col-lg-10 col-md-10">
+                        <div class="menu-wrapper">
+                            <!-- Main-menu -->
+                            <div class="main-menu">
+                                <nav class="d-none d-lg-block">
+                                    <ul id="navigation">
+                                        <li><a href={{ route('home') }}>Home</a></li>
+                                        <li><a href={{ route('loadJoblistPage') }}>Find a Jobs </a></li>
+                                        <li><a href={{ route('about') }}>About</a></li>
+                                        <li><a href='#'>Page </a>
+                                            <ul class="submenu">
+                                                <li><a href={{ route('blog') }}>Blog</a></li>
+                                                <li><a href={{ route('single-blog') }}>Blog Details</a></li>
+                                                <li><a href={{ route('elements') }}>Elements</a></li>
+                                                {{-- <li><a href={{ route('job_details') }}>job Details</a></li> --}}
                                             </ul>
-                                        </div>
-                                    </div>
-                                @endif
-
+                                        </li>
+                                        <li><a href={{ route('contact') }}>Contact</a></li>
+                                    </ul>
+                                </nav>
                             </div>
+
+                            <!-- Header-btn -->
+                            @if (Auth::guard('employer')->check() || Auth::guard('jobseeker')->check())
+                                <span>
+                                    {{ Auth::guard('employer')->check() ? Auth::guard('employer')->user()->fname . ' ' . Auth::guard('employer')->user()->lname : Auth::guard('jobseeker')->user()->fname . ' ' . Auth::guard('jobseeker')->user()->lname }}</span>
+
+                                <form id="logout-form" action="{{ route('jobseekerlogout') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn head-btn2">Logout</button>
+                                </form>
+                            @else
+                                <div class="header-btn d-none f-right d-lg-block">
+                                    <a href={{ route('register') }} class="btn head-btn1">Register</a>
+                                    <a href={{ route('login') }} class="btn head-btn1">Login</a>
+                                </div>
+                                <div class="header-btn d-none f-right d-lg-block">
+                                    <div class="dropdown">
+                                        <a href="#" class="text-dark head-btn1 dropdown-toggle employer"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            Employer
+                                        </a>
+                                        <ul class="dropdown-menu show-employer">
+                                            <li><a class="dropdown-item" href="{{ route('loadLoginPage') }}">Sign
+                                                    In</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('employer-register') }}">Sign
+                                                    Up</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            @endif
+
                         </div>
-                        <!-- Mobile Menu -->
-                        <div class="col-12">
-                            <div class="mobile_menu d-block d-lg-none"></div>
-                        </div>
+                    </div>
+                    <!-- Mobile Menu -->
+                    <div class="col-12">
+                        <div class="mobile_menu d-block d-lg-none"></div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Header End -->
-    </header>
+    </div>
+    <!-- Header End -->
+</header>
 
 @endif

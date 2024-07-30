@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $.ajax({
-        url: SITE_URL+'/get-industry',
+        url: SITE_URL + '/get-industry',
         method: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -16,7 +16,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $.ajax({
-        url: SITE_URL+'/get-skill',
+        url: SITE_URL + '/get-skill',
         method: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -31,7 +31,7 @@ $(document).ready(function () {
     });
 });
 
-   
+
 
 
 
@@ -47,10 +47,10 @@ $(document).ready(function () {
 
         var skill = $('#skill').val(); // Get and trim the value of the input field
 
-     
-        if(skill){
-            skill =  skill;
-        }else{
+
+        if (skill) {
+            skill = skill;
+        } else {
             skill = '';
         }
         // var skill = $('#skill').val();
@@ -76,13 +76,13 @@ $(document).ready(function () {
         var queryString = `industry=${industry}&jobTypes=${jobTypes.join(',')}&experiences=${experiences.join(',')}&postedWithin=${postedWithin.join(',')}&searchkeyword=${searchkeyword}&skill=${skill}&page=${pageno}`;
 
         // If all filters are removed then show default data.
-        if (industry == '' && jobTypes.join(',') == '' && experiences.join(',') == '' && postedWithin.join(',') == '' && searchkeyword == '' && skill=='') {
+        if (industry == '' && jobTypes.join(',') == '' && experiences.join(',') == '' && postedWithin.join(',') == '' && searchkeyword == '' && skill == '') {
             fetchDefaultData();
             console.log('hi');
             return false;
         }
         $.ajax({
-            url: SITE_URL+`/job_listing-data?${queryString}`,
+            url: SITE_URL + `/job_listing-data?${queryString}`,
             type: 'GET',
             success: function (data) {
 
@@ -104,7 +104,7 @@ $(document).ready(function () {
 
 
                         //  console.log(value.id);
-                        $minsalary = 0;
+                        var minsalary = 0;
                         var exp_required;
                         var main_exp = value.main_exp == null ? '' : value.main_exp;
 
@@ -123,11 +123,16 @@ $(document).ready(function () {
 
                         html += `<div class="single-job-items mb-30">
                                                 <div class="job-items mb-30">
-                                            <div class="company-img">
-                                                <a href="${base_url}"><img
-                                                        src="${PUBLIC_PATH}/assets/img/icon/job-list1.png" alt=""></a>
-                                            </div>
-                                            <div class="job-tittle job-tittle2">
+                                                <div class="row">
+                                                    <div class="col-md-2">
+
+                                                    <div class="company-img mt-4">
+                                                        <a href="${base_url}"><img
+                                                                src="${PUBLIC_PATH}/company_logo/${value.company_logo}" class="img-fluid image-class rounded p-1" alt="no-image-found"></a>
+                                                    </div>
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                       <div class="job-tittle job-tittle2">
                                                 <a href="${base_url}">
                                                     <h4>${value.title}</h4>
                                                 </a>
@@ -136,12 +141,17 @@ $(document).ready(function () {
                                                     <li><i
                                                             class="fas fa-map-marker-alt"></i>${value.location ? value.location : 'Not Defined'}
                                                     </li>
-                                                    <li>${value.sal_disclosed == 'Yes' ? 'INR ' + $minsalary + ' - ' + value.offered_sal_max : 'Not Disclosed'}
+                                                    <li><i class="fas fa-rupee-sign"
+                                                                            aria-hidden="true"></i> ${value.sal_disclosed == 'Yes' ? 'INR ' + (parseInt(minsalary) / 100000).toFixed(2) + ' - ' + (parseInt(value.offered_sal_max) / 100000 ).toFixed(2) +' LPA' : 'Not Disclosed'}
                                                     </li>
 
                                                 </ul>
-                                                <span class="text-muted">Experience Required : ${exp_required}</span>
+                                                <span class="text-muted">Experience : ${exp_required}</span><br>
+                                                <span class="text-muted">Skills :${value.job_skills}</span>
                                             </div>
+                                                    </div>
+                                                </div>
+                                         
                                         </div>
                                         </div>`;
 
@@ -222,7 +232,7 @@ function getFilterdata(pageno = 1) {
         return false;
     }
     $.ajax({
-        url: SITE_URL+`/job_listing-data?${queryString}`,
+        url: SITE_URL + `/job_listing-data?${queryString}`,
         type: 'GET',
         success: function (data) {
             $('.joblists').hide();

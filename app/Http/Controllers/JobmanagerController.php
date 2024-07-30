@@ -720,7 +720,9 @@ class JobmanagerController extends Controller
         if (!empty($request->industry)) {
             $industryVal = explode(",", $request->industry);
         }
+        $experiencelevel = request('experienced_level');
 
+        $countStr = strlen($request->experiences) - 1;
         $countStr = strlen($request->experiences) - 1;
         $minExp = substr($request->experiences, 0, 1);
         $maxExp = substr($request->experiences, $countStr, 1);
@@ -746,6 +748,7 @@ class JobmanagerController extends Controller
                 'jobmanagers.main_exp',
                 'jobmanagers.max_exp',
                 'empcompaniesdetails.company_name',
+                'empcompaniesdetails.company_logo',
                 'jobmanagers.job_industry_id',
                 'jobmanagers.job_functional_role_id',
                 'industries.category_name',
@@ -781,7 +784,15 @@ class JobmanagerController extends Controller
             });
         }
         //search keyword within Browse jobs end
-
+        if ($experiencelevel == 'experienced'){
+            $dataFilter->where('jobmanagers.main_exp', '>', 0);
+        }
+        elseif ($experiencelevel == 'fresher'){
+            $dataFilter->where(function ($query) use ($keywordhome) {
+                $query->where('jobmanagers.main_exp', '=', 0);
+                $query->orWhere('jobmanagers.main_exp', '<', 1);
+            });
+        }
         //search from home start
         if (isset($keywordhome) && $keywordhome !== '') {
             $dataFilter->where(function ($query) use ($keywordhome) {
@@ -799,8 +810,6 @@ class JobmanagerController extends Controller
                     ->orWhere('functional_roles.subcategory_name', 'like', "%$keywordhome%");
             });
         }
-
-
 
 
         //   print_r($datas);die;
@@ -984,6 +993,7 @@ class JobmanagerController extends Controller
                 'jobmanagers.main_exp',
                 'jobmanagers.max_exp',
                 'empcompaniesdetails.company_name',
+                'empcompaniesdetails.company_logo',
                 'jobmanagers.job_industry_id',
                 'jobmanagers.job_functional_role_id',
                 'industries.category_name',

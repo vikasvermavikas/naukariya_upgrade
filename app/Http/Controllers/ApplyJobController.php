@@ -67,17 +67,22 @@ class ApplyJobController extends Controller
     public function store(Request $request, $id)
     {
         $this->validate($request, []);
+        if (Auth::guard('jobseeker')->check()){
+            // $userid = Session::get('user')['id'];
+            $userid = Auth::guard('jobseeker')->user()->id;
+            $application_id = "NKR/" . $userid . "/" . $id;
+            $applyjob = new ApplyJob();
+            $applyjob->jsuser_id = $userid;
+            $applyjob->job_id = $id;
+            $applyjob->application_id = $application_id;
+            $applyjob->username = Auth::guard('jobseeker')->user()->email;
+            $applyjob->save();
+            return redirect()->back()->with(['message' => 'Job successfully applied']);
+        }
+        else {
+            return redirect()->route('login', ['job' => $id])->with(['error' => 'You must be logged in to apply for a job']);
+        }
 
-        // $userid = Session::get('user')['id'];
-        $userid = Auth::guard('jobseeker')->user()->id;
-        $application_id = "NKR/" . $userid . "/" . $id;
-        $applyjob = new ApplyJob();
-        $applyjob->jsuser_id = $userid;
-        $applyjob->job_id = $id;
-        $applyjob->application_id = $application_id;
-        $applyjob->username = Auth::guard('jobseeker')->user()->email;
-        $applyjob->save();
        
-        return redirect()->back()->with(['message' => 'Job successfully applied']);
     }
 }

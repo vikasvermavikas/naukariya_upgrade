@@ -8,8 +8,11 @@
                     <form action="{{ route('jobseekerregister') }}" method="post" enctype="multipart/form-data" autocomplete="off">
                         @csrf
                         
+                        <div class="col-md-12">
+                            <h3 style="color:#e35e25;">Jobseeker Registration</h3>
+                        </div>
                         <div class="form-row row">
-                            <div class="input-data col">
+                            <div class="input-data col mt-3">
                                 <input type="text" name="firstname">
                                 <div class="underline"></div>
                                 <label for="">First Name</label>
@@ -17,7 +20,7 @@
                                         <small class="text-danger"> {{$message }}</small>
                                 @enderror
                             </div>
-                            <div class="input-data col">
+                            <div class="input-data col mt-3">
                                 <input type="text" name="lastname">
                                 <div class="underline"></div>
                                 <label for="">Last Name</label>
@@ -27,7 +30,7 @@
                             </div>
                         </div>
                         <div class="form-row row mt-2">
-                            <div class="input-data col">
+                            <div class="input-data col mt-3">
                                 <input type="text" name="email">
                                 <div class="underline"></div>
                                 <label for="">Email Address</label>
@@ -35,8 +38,8 @@
                                     <small class="text-danger"> {{$message }}</small>
                                 @enderror
                             </div>
-                            <div class="input-data col">
-                                <input type="text" name="mobile" >
+                            <div class="input-data col mt-3">
+                                <input type="text" name="mobile" maxlength="10" pattern="[789][0-9]{9}">
                                 <div class="underline"></div>
                                 <label for="">Contact No.</label>
                                 @error('mobile')
@@ -45,7 +48,7 @@
                             </div>
                         </div>
                         <div class="form-row row">
-                            <div class="input-data col">
+                            <div class="input-data col mt-3">
                                 <input type="password" name="password">
                                 <div class="underline"></div>
                                 <label for="">Password</label>
@@ -53,7 +56,7 @@
                                     <small class="text-danger"> {{$message }}</small>
                                 @enderror
                             </div>
-                            <div class="input-data col">
+                            <div class="input-data col mt-3">
                                 <input type="password" name="password_confirmation">
                                 <div class="underline"></div>
                                 <label for="">Confirm Password</label>
@@ -64,7 +67,7 @@
                         </div>
 
                         <div class="form-row row">
-                            <div class="input-data col">
+                            <div class="input-data col mt-3">
                                 <select class="form-select" name="gender" required>
                                     <option>Gender</option>
                                     <option>Male</option>
@@ -76,7 +79,7 @@
                                 @enderror
                             </div>
 
-                            <div class="input-data col">
+                            <div class="input-data col mt-3">
                                 <select class="form-select" name="candidate_type">
                                     <option>I am a</option>
                                     <option>Fresher</option>
@@ -90,15 +93,15 @@
 
                         </div>
                         <div class="form-row row">
-                            <div class="input-data col">
-                                <input type="file" name="resume">
+                            <div class="input-data col mt-3">
+                                <input type="file"  name="resume" accept=".docx,.pdf" title="Upload Resume" data-toggle="tooltip">
                                 <div class="underline"></div>
-                                <label for=""></label>
+                                <label for="resume" class="my-3">Resume</label>
                                 @error('resume')
                                     <small class="text-danger"> {{$message }}</small>
                                 @enderror
                             </div>
-                            {{-- <div class="input-data col">
+                            {{-- <div class="input-data col mt-3">
                                 <input type="text" required>
                                 <div class="underline"></div>
                                 <label for="">Enter Captcha</label>

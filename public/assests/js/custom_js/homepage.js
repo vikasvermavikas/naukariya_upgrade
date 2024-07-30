@@ -1,3 +1,7 @@
+document.addEventListener('DOMContentLoaded', e => {
+    $('#searchkeyword').autocomplete()
+
+}, false);
 $(document).ready(function () {
     $('.js-example-basic-single').select2();
     
