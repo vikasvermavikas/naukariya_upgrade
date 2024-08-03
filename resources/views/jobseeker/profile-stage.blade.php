@@ -1168,7 +1168,7 @@
                                                     </label>
                                                     <input type="text" placeholder="Add Skills (comma seperated)"
                                                         name="skill" id="skills" data-role="tagsinput"
-                                                        value="{{ $skillsDetails->skills }}" required />
+                                                        value="{{ isset($skillsDetails->skills) ? $skillsDetails->skills : '' }}" required />
                                                     <small id="skillstab-error" class="text-danger"></small>
                                                 </div>
                                             </div>
