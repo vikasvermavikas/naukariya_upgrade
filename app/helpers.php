@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 function get_experience()
 {
@@ -33,7 +34,7 @@ if (!function_exists('get_profile_completion')) {
     {
         $maximumPoints  = 100;
         $point = 0;
-        $id = auth()->guard('jobseeker')->user()->id;
+        $id = Auth::guard('jobseeker')->user()->id;
         $data = DB::table('jobseekers')
             ->leftjoin('js_educational_details', 'js_educational_details.js_userid', '=', 'jobseekers.id')
             ->leftjoin('js_professional_details', 'js_professional_details.js_userid', '=', 'jobseekers.id')

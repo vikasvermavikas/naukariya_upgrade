@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class JsEducationalDetail extends Model
 {
-    protected $fillable = ['js_userid', 'degree_name', 'course_type', 'percentage_grade','passing_year', 'institute_name', 'institute_location'];
+    protected $fillable = ['js_userid', 'degree_name', 'course_type', 'percentage_grade','passing_year', 'institute_name', 'institute_location', 'education'];
     
     
     public function jobSeekers() {

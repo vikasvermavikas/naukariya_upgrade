@@ -2,8 +2,43 @@
 @section('style')
     {{-- <link rel="stylesheet" href="{{asset('assets/css/jobseeker/fontawesome.css')}}" --}}
 
+    <link href="{{ asset('assets/css/tagsinput.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{ asset('assets/css/jobseeker.css') }}">
+    <style>
+        /* .bootstrap-tagsinput .badge {
+            margin-right: 10px;
+        } */
+
+        li.active .profileclass {
+            border: none;
+            width: 57px;
+            border-radius: 22%;
+            height: 51px;
+            background: #e35e25;
+            padding: 15px;
+            color: white;
+        }
+        li .profileclass {
+            border: none;
+            width: 57px;
+            border-radius: 22%;
+            height: 51px;
+            background: lightgrey;
+            padding: 15px;
+            color: white;
+        }
+        /* .preferlocation .select2-search__field{
+            border : none;
+        } */
+        .select2-container--default .select2-selection--multiple {
+            margin-top: 8px; 
+        }
+        .select2-container .select2-selection--multiple {
+            min-height: 46px;
+        }
+    </style>
 @endsection
+
 @section('content')
     <div class="container-fluid wrapper_parent">
         <div class="row">
@@ -14,11 +49,11 @@
                         <!-- Inside the Ms Form all the field forms   -->
                         <!-- progressbar -->
                         <ul id="progressbar">
-                            <li class="active" id="account"><strong>Profile</strong></li>
-                            <li id="personal"><strong>Education</strong></li>
-                            <li id="payment"><strong>Professional</strong></li>
-                            <li id="confirm"><strong>Skills</strong></li>
-                            <li id="certificate"><strong>Certificate </strong></li>
+                            <li class="active"><i class="fas fa-user profileclass"></i><br><strong>Profile </strong></li>
+                            <li id="educationid"><i class="fas fa-university profileclass"></i><br><strong>Education</strong></li>
+                            <li id="professionalid"><i class="fas fa-briefcase profileclass"></i><br><strong>Professional</strong></li>
+                            <li id="skillid"><i class="fas fa-cog profileclass"></i><br><strong>Skills</strong></li>
+                            <li id="certificateid"><i class="fas fa-certificate profileclass"></i><br><strong>Certificate </strong></li>
                         </ul>
 
 
@@ -111,7 +146,7 @@
                                                 <div class="vd-wrapper">
                                                     <input name="date" placeholder="YYYY-MM-DD" type="date"
                                                         aria-readonly="true" class="tab1" data-id="date_error"
-                                                        id="date" value="{{ $data->dob }}" required>
+                                                        value="{{ $data->dob }}" required>
                                                     <small id="date_error" class="text-danger"></small>
 
                                                 </div>
@@ -193,7 +228,7 @@
                                                 <small id="functional_error" class="text-danger"></small>
                                             </div>
 
-                                            <div class="col-sm-2 currentsal">
+                                            <div class="col-sm-4 currentsal">
 
                                                 <label class="col-form-label w-100"><span style="color: red;">*</span> Cur
                                                     Salary(LPA) </label>
@@ -205,7 +240,7 @@
 
                                             <!-- Expected Salary -->
 
-                                            <div class="col-sm-2 currentsal">
+                                            <div class="col-sm-4 currentsal">
                                                 <label class="col-form-label w-100"><span style="color: red;">*</span> Exp
                                                     Salary(LPA) </label>
                                                 <input type="number" name="exp_sal" placeholder="Expe Salary"
@@ -244,10 +279,27 @@
                                                 </div>
 
                                             </div>
-                                            <div class="col-sm-4">
+                                            <div class="col-md-4">
+                                                    <label> <span style="color: red;">*</span> Preferred Location </label>
+                                                    <select class="location-multiple form-control" name="locationlist[]"
+                                                        multiple="multiple">
+                                                        @foreach ($locations as $location)
+                                                            <optgroup label="{{ $location['state'] }}">
+
+                                                                @for ($i = 0; $i < count($location['location']); $i++)
+                                                                    <option value="{{ $location['location'][$i]->location }}"
+                                                                        {{ in_array($location['location'][$i]->location, explode(',', $data->preferred_location)) ? 'selected' : '' }}>
+                                                                        {{ $location['location'][$i]->location }}
+                                                                    </option>
+                                                                @endfor
+                                                            </optgroup>
+                                                    @endforeach
+                                                    </select>
+                                            </div>
+                                            {{-- <div class="col-sm-4 preferlocation">
 
                                                 <label> <span style="color: red;">*</span> Preferred Location </label>
-                                                <select class="location-multiple" name="locationlist[]"
+                                                <select class="form-control location-multiple" name="locationlist[]"
                                                     multiple="multiple" value="{{ $data->preferred_location }}" required>
                                                     @foreach ($locations as $location)
                                                         <optgroup label="{{ $location['state'] }}">
@@ -263,8 +315,32 @@
                                                 </select>
                                                 <small id="Loaction_error" class="text-danger"></small>
 
+                                            </div> --}}
+                                            {{-- <div class="col-md-4">
+                                                <select class="form-multi-select" id="ms1" multiple data-coreui-search="true">
+                                                    <option value="0">Angular</option>
+                                                    <option value="1">Bootstrap</option>
+                                                    <option value="2">React.js</option>
+                                                    <option value="3">Vue.js</option>
+                                                    <optgroup label="backend">
+                                                      <option value="4">Django</option>
+                                                      <option value="5">Laravel</option>
+                                                      <option value="6">Node.js</option>
+                                                    </optgroup>
+                                                  </select>
                                             </div>
-                                            <div class="col-sm-3 resume">
+                                            --}}
+                                            <div class="col-sm-4">
+                                                <label for="linkedin" class="col-form-label">Linkedin Profile Link</label>
+                                                <input type="text" name="linkedin" placeholder="Enter Linkedin Link"
+                                                    id="linkdln" class="linkdln-1" value="{{ $data->linkedin }}">
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label for="password" class="col-form-label">Password</label>
+                                                <input type="password" minlength="8" name="password"
+                                                    placeholder="Enter your password" autocomplete="">
+                                            </div>
+                                            <div class="col-sm-4 resume">
 
                                                 <label for="resume" class="col-form-label">
                                                     <span style="color: red;"> * </span>Resume</label>
@@ -288,27 +364,17 @@
                                                 <span>
                                                     @if ($getresume->resume)
                                                         <a href="{{ asset('resume/' . $getresume->resume) }}"
-                                                            class="btn btn-primary">
+                                                            class="btn">
                                                             <i class="fas fa-download"></i>
                                                             Download Resume</a>
                                                     @endif
 
                                                 </span>
                                             </div>
-                                            <div class="col-sm-3">
-                                                <label for="linkedin" class="col-form-label">Linkedin Profile Link</label>
-                                                <input type="text" name="linkedin" placeholder="Enter Linkedin Link"
-                                                    id="linkdln" class="linkdln-1" value="{{ $data->linkedin }}">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <label for="password" class="col-form-label">Password</label>
-                                                <input type="password" minlength="8" name="password"
-                                                    placeholder="Enter your password">
-                                            </div>
                                         </div>
                                     </div>
-                                    {{-- <button type="button" class="btn btn-primary mt-4">Save</button> --}}
-                                    <button type="submit" class="btn btn-primary mt-4 ml-5" id="home-next">Save &
+                                    {{-- <button type="button" class="btn mt-4">Save</button> --}}
+                                    <button type="submit" class="btn mt-4 ml-5" id="home-next">Save &
                                         Next</button>
                                 </fieldset>
                             </form>
@@ -316,9 +382,11 @@
 
                             <!-- fieldsets 2 -->
                             <fieldset class="tab" id="field-2">
-                                <h1>Education</h1>
+                                <h1>Education Details</h1>
                                 <div class="card-outer">
-                                    <form class="form" id="education_form" method="POST">
+                                    <form class="form" id="education_form" enctype="multipart/form-data"
+                                        method="POST">
+                                        @csrf
                                         <div class="container" style="width: 100%; height: auto;">
                                             <div class="row">
                                                 <div class="col-12">
@@ -327,99 +395,433 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="container fieldSet-2" style="height: auto; width: 100%;">
-                                            <div class="row">
-                                                <div class="col">
 
-                                                    <label>
-                                                        <span style="color: red;"> *</span>
-                                                        Qualification
-                                                    </label>
+                                        <div class="row">
+                                            {{-- 10th Details --}}
+                                            <div class="col-md-12">
+                                                <h3 class="float-left" style="color:#E35E25;"><u>10th Details</u></h3><br>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="container fieldSet-2" style="height: auto; width: 100%;">
+                                                    <div class="row">
+                                                        <div class="col">
 
-                                                    <select class="tab2 form-control" data-id="qualification-error"
-                                                        id="qualification" name="degree" required>
-                                                        <option value="">Select Qualification</option>
-                                                        @foreach ($qualifications as $qualification)
-                                                            <option value="{{ $qualification->qualification }}"
-                                                                {{ isset($educationDetails->degree_name) &&  $educationDetails->degree_name == $qualification->qualification ? 'selected' : '' }}>
-                                                                {{ $qualification->qualification }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    <small id="qualification-error" class="text-danger"></small>
+                                                            <label>
+                                                                <span style="color: red;"> *</span>
+                                                                Qualification
+                                                            </label>
+
+                                                            <select class="tab2 form-control degrees"
+                                                                data-id="qualification-error" name="degree[]">
+                                                                <option value="10th">10th</option>
+                                                            </select>
+
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>
+                                                                <span style="color: red;"> *</span>
+                                                                Course type
+                                                            </label>
+                                                            <select class="form-control tab2 course_types"
+                                                                name="course_type[]" data-id="course-error" required>
+                                                                <option value="">Select Course Type</option>
+                                                                <option value="Full Time"
+                                                                    {{ isset($highschool->course_type) && $highschool->course_type == 'Full Time' ? 'selected' : '' }}>
+                                                                    Full Time</option>
+                                                                <option value="Part Time"
+                                                                    {{ isset($highschool->course_type) && $highschool->course_type == 'Part Time' ? 'selected' : '' }}>
+                                                                    Part Time</option>
+                                                                <option value="Distance Learning Program"
+                                                                    {{ isset($highschool->course_type) && $highschool->course_type == 'Distance Learning Program' ? 'selected' : '' }}>
+                                                                    Distance Learning Program
+                                                                </option>
+                                                            </select>
+
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>
+                                                                <span style="color: red;"> *</span>
+                                                                Percentage(%)
+                                                            </label>
+                                                            <input type="number" min="1" step="0.01"
+                                                                max="100" class="tab2 percentages"
+                                                                data-id="Percentage-error"
+                                                                placeholder="Enter Percentage %" name="percentage[]"
+                                                                value="{{ isset($highschool->percentage_grade) ? $highschool->percentage_grade : '' }}"
+                                                                required>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="container" style= "height: auto; width: 100%;">
+
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <label>
+                                                                <span style="color: red;"> *</span>Passing year
+                                                            </label>
+                                                            <input type="number" name="pass_year[]"
+                                                                placeholder="Select year" min="{{ date('Y') - 20 }}"
+                                                                max="{{ date('Y') }}" data-id="Syear-error"
+                                                                class="tab2 pass_years"
+                                                                value="{{ isset($highschool->passing_year) ? $highschool->passing_year : '' }}" />
+                                                            <small id="Syear-error" class="text-danger"></small>
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>
+                                                                <span style="color: red;">
+                                                                    *</span>University/College/Institute
+                                                            </label>
+                                                            <input type="text"
+                                                                placeholder="University/College/Institute Name"
+                                                                class="tab2" name="ins_name[]" data-id="college-error"
+                                                                value="{{ isset($highschool->institute_name) ? $highschool->institute_name : '' }}"
+                                                                required />
+                                                            <small id="college-error" class="text-danger"></small>
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>
+                                                                <span style="color: red;"> *</span>Institute Location
+                                                            </label>
+                                                            <input type="text" placeholder="Enter Loaction"
+                                                                class="tab2" data-id="loaction-error" name="ins_loc[]"
+                                                                value="{{ isset($highschool->institute_location) ? $highschool->institute_location : '' }}"
+                                                                required />
+                                                            <small id="loaction-error" class="text-danger"></small>
+                                                        </div>
+
+                                                    </div>
+
 
                                                 </div>
-                                                <div class="col">
-                                                    <label>
-                                                        <span style="color: red;"> *</span>
-                                                        Course type
-                                                    </label>
-                                                    <select class="form-control tab2" name="course_type"
-                                                        data-id="course-error" id="course" required>
-                                                        <option value="">Select Course Type</option>
-                                                        <option value="Full Time"
-                                                            {{ isset($educationDetails->course_type) &&  $educationDetails->course_type == 'Full Time' ? 'selected' : '' }}>
-                                                            Full Time</option>
-                                                        <option value="Part Time"
-                                                            {{isset($educationDetails->course_type) &&  $educationDetails->course_type == 'Part Time' ? 'selected' : '' }}>
-                                                            Part Time</option>
-                                                        <option value="Distance Learning Program"
-                                                            {{ isset($educationDetails->course_type) &&  $educationDetails->course_type == 'Distance Learning Program' ? 'selected' : '' }}>
-                                                            Distance Learning Program
-                                                        </option>
-                                                    </select>
-                                                    <small id="course-error" class="text-danger"></small>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <hr style="border-bottom: 1px solid black">
+                                            </div>
+                                            {{-- 12th Details --}}
+                                            <div class="col-md-12">
+                                                <h3 class="float-left" style="color:#E35E25;"><u>12th Details</u></h3><br>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="container fieldSet-2" style="height: auto; width: 100%;">
+                                                    <div class="row">
+                                                        <div class="col">
+
+                                                            <label>
+                                                                <span style="color: red;"> *</span>
+                                                                Qualification
+                                                            </label>
+
+                                                            <select class="tab2 form-control degrees"
+                                                                data-id="qualification-error" name="degree[]" required>
+                                                                <option value="12th"> 12th</option>
+                                                            </select>
+                                                            <small id="qualification-error" class="text-danger"></small>
+
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>
+                                                                <span style="color: red;"> *</span>
+                                                                Course type
+                                                            </label>
+                                                            <select class="form-control tab2 course_types"
+                                                                name="course_type[]" data-id="course-error">
+                                                                <option value="">Select Course Type</option>
+                                                                <option value="Full Time"
+                                                                    {{ isset($secondayschool->course_type) && $secondayschool->course_type == 'Full Time' ? 'selected' : '' }}>
+                                                                    Full Time</option>
+                                                                <option value="Part Time"
+                                                                    {{ isset($secondayschool->course_type) && $secondayschool->course_type == 'Part Time' ? 'selected' : '' }}>
+                                                                    Part Time</option>
+                                                                <option value="Distance Learning Program"
+                                                                    {{ isset($secondayschool->course_type) && $secondayschool->course_type == 'Distance Learning Program' ? 'selected' : '' }}>
+                                                                    Distance Learning Program
+                                                                </option>
+                                                            </select>
+                                                            <small id="course-error" class="text-danger"></small>
+
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>
+                                                                <span style="color: red;"> *</span>
+                                                                Percentage(%)
+                                                            </label>
+                                                            <input type="number" min="1" step="0.01"
+                                                                max="100" class="tab2 percentages"
+                                                                data-id="Percentage-error"
+                                                                placeholder="Enter Percentage %" name="percentage[]"
+                                                                value="{{ isset($secondayschool->percentage_grade) ? $secondayschool->percentage_grade : '' }}">
+                                                            <small id="Percentage-error" class="text-danger"></small>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="container" style= "height: auto; width: 100%;">
+
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <label>
+                                                                <span style="color: red;"> *</span>Passing year
+                                                            </label>
+                                                            <input type="number" name="pass_year[]"
+                                                                placeholder="Select year" min="{{ date('Y') - 20 }}"
+                                                                max="{{ date('Y') }}" data-id="Syear-error"
+                                                                class="tab2 pass_years"
+                                                                value="{{ isset($secondayschool->passing_year) ? $secondayschool->passing_year : '' }}" />
+                                                            <small id="Syear-error" class="text-danger"></small>
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>
+                                                                <span style="color: red;">
+                                                                    *</span>University/College/Institute
+                                                            </label>
+                                                            <input type="text"
+                                                                placeholder="University/College/Institute Name"
+                                                                class="tab2" name="ins_name[]" data-id="college-error"
+                                                                value="{{ isset($secondayschool->institute_name) ? $secondayschool->institute_name : '' }}" />
+                                                            <small id="college-error" class="text-danger"></small>
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>
+                                                                <span style="color: red;"> *</span>Institute Location
+                                                            </label>
+                                                            <input type="text" placeholder="Enter Loaction"
+                                                                class="tab2" data-id="loaction-error" name="ins_loc[]"
+                                                                value="{{ isset($secondayschool->institute_location) ? $secondayschool->institute_location : '' }}" />
+                                                            <small id="loaction-error" class="text-danger"></small>
+                                                        </div>
+
+                                                    </div>
+
 
                                                 </div>
-                                                <div class="col">
-                                                    <label>
-                                                        <span style="color: red;"> *</span>
-                                                        Percentage(%)
-                                                    </label>
-                                                    <input type="number" min="1" step="0.01" class="tab2"
-                                                        data-id="Percentage-error" id="Percentage"
-                                                        placeholder="Enter Percentage %" name="percentage" value="{{isset($educationDetails->percentage_grade) ? $educationDetails->percentage_grade : ''}}" required>
-                                                    <small id="Percentage-error" class="text-danger"></small>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <hr style="border-bottom: 1px solid black">
+                                            </div>
+                                            {{-- Graduation Details --}}
+                                            <div class="col-md-12">
+                                                <h3 class="float-left" style="color:#E35E25;"><u>Graduation Details</u>
+                                                </h3><br>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="container fieldSet-2" style="height: auto; width: 100%;">
+                                                    <div class="row">
+                                                        <div class="col">
+
+                                                            <label>
+                                                                <span style="color: red;"> *</span>
+                                                                Qualification
+                                                            </label>
+
+                                                            <select class="tab2 form-control degrees"
+                                                                data-id="qualification-error" name="degree[]" required>
+                                                                <option value="">Select Qualification</option>
+                                                                @foreach ($graduations as $qualification)
+                                                                    <option value="{{ $qualification->qualification }}"
+                                                                        {{ isset($graduationdetails->degree_name) && $graduationdetails->degree_name == $qualification->qualification ? 'selected' : '' }}>
+                                                                        {{ $qualification->qualification }}</option>
+                                                                @endforeach
+                                                                <option value="Any Graduate">Any Graduate</option>
+                                                                <option value="Any Diploma">Any Diploma</option>
+                                                            </select>
+                                                            <small id="qualification-error" class="text-danger"></small>
+
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>
+                                                                <span style="color: red;"> *</span>
+                                                                Course type
+                                                            </label>
+                                                            <select class="form-control tab2 course_types"
+                                                                name="course_type[]" data-id="course-error">
+                                                                <option value="" disabled>Select Course Type</option>
+                                                                <option value="Full Time"
+                                                                    {{ isset($graduationdetails->course_type) && $graduationdetails->course_type == 'Full Time' ? 'selected' : '' }}>
+                                                                    Full Time</option>
+                                                                <option value="Part Time"
+                                                                    {{ isset($graduationdetails->course_type) && $graduationdetails->course_type == 'Part Time' ? 'selected' : '' }}>
+                                                                    Part Time</option>
+                                                                <option value="Distance Learning Program"
+                                                                    {{ isset($graduationdetails->course_type) && $graduationdetails->course_type == 'Distance Learning Program' ? 'selected' : '' }}>
+                                                                    Distance Learning Program
+                                                                </option>
+                                                            </select>
+                                                            <small id="course-error" class="text-danger"></small>
+
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>
+                                                                <span style="color: red;"> *</span>
+                                                                Percentage(%)
+                                                            </label>
+                                                            <input type="number" min="1" step="0.01"
+                                                                max="100" class="tab2 percentages"
+                                                                data-id="Percentage-error"
+                                                                placeholder="Enter Percentage %" name="percentage[]"
+                                                                value="{{ isset($graduationdetails->percentage_grade) ? $graduationdetails->percentage_grade : '' }}">
+                                                            <small id="Percentage-error" class="text-danger"></small>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="container" style= "height: auto; width: 100%;">
+
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <label>
+                                                                <span style="color: red;"> *</span>Passing year
+                                                            </label>
+                                                            <input type="number" name="pass_year[]"
+                                                                placeholder="Select year" min="{{ date('Y') - 20 }}"
+                                                                max="{{ date('Y') }}" data-id="Syear-error"
+                                                                class="tab2 pass_years"
+                                                                value="{{ isset($graduationdetails->passing_year) ? $graduationdetails->passing_year : '' }}" />
+                                                            <small id="Syear-error" class="text-danger"></small>
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>
+                                                                <span style="color: red;">
+                                                                    *</span>University/College/Institute
+                                                            </label>
+                                                            <input type="text"
+                                                                placeholder="University/College/Institute Name"
+                                                                class="tab2" name="ins_name[]" data-id="college-error"
+                                                                value="{{ isset($graduationdetails->institute_name) ? $graduationdetails->institute_name : '' }}" />
+                                                            <small id="college-error" class="text-danger"></small>
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>
+                                                                <span style="color: red;"> *</span>Institute Location
+                                                            </label>
+                                                            <input type="text" placeholder="Enter Loaction"
+                                                                class="tab2" data-id="loaction-error" name="ins_loc[]"
+                                                                value="{{ isset($graduationdetails->institute_location) ? $graduationdetails->institute_location : '' }}" />
+                                                            <small id="loaction-error" class="text-danger"></small>
+                                                        </div>
+
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <hr style="border-bottom: 1px solid black">
+                                            </div>
+                                            {{-- Post Graduation Details --}}
+                                            <div class="col-md-12">
+                                                <h3 class="float-left" style="color:#E35E25;"><u>Post Graduation
+                                                        Details</u></h3><br>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="container fieldSet-2" style="height: auto; width: 100%;">
+                                                    <div class="row">
+                                                        <div class="col">
+
+                                                            <label>
+                                                                <span style="color: red;"> *</span>
+                                                                Qualification
+                                                            </label>
+
+                                                            <select class="tab2 form-control degrees"
+                                                                data-id="qualification-error" name="degree[]">
+                                                                <option value="">Select Qualification</option>
+                                                                @foreach ($postgraduations as $qualification)
+                                                                    <option
+                                                                        value="{{ trim($qualification->qualification) }}"
+                                                                        {{ isset($postgraduationDetails->degree_name) && trim($postgraduationDetails->degree_name) == trim($qualification->qualification) ? 'selected' : '' }}>
+                                                                        {{ $qualification->qualification }}</option>
+                                                                @endforeach
+                                                                <option value="Any Post Graduate ">Any Post Graduate
+                                                                </option>
+                                                                <option value="Any P hD">Any PHD</option>
+                                                            </select>
+                                                            <small id="qualification-error" class="text-danger"></small>
+
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>
+                                                                <span style="color: red;"> *</span>
+                                                                Course type
+                                                            </label>
+                                                            <select class="form-control tab2 course_types"
+                                                                name="course_type[]" data-id="course-error">
+                                                                <option value="" disabled>Select Course Type</option>
+                                                                <option value="Full Time"
+                                                                    {{ isset($postgraduationDetails->course_type) && $postgraduationDetails->course_type == 'Full Time' ? 'selected' : '' }}>
+                                                                    Full Time</option>
+                                                                <option value="Part Time"
+                                                                    {{ isset($postgraduationDetails->course_type) && $postgraduationDetails->course_type == 'Part Time' ? 'selected' : '' }}>
+                                                                    Part Time</option>
+                                                                <option value="Distance Learning Program"
+                                                                    {{ isset($postgraduationDetails->course_type) && $postgraduationDetails->course_type == 'Distance Learning Program' ? 'selected' : '' }}>
+                                                                    Distance Learning Program
+                                                                </option>
+                                                            </select>
+                                                            <small id="course-error" class="text-danger"></small>
+
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>
+                                                                <span style="color: red;"> *</span>
+                                                                Percentage(%)
+                                                            </label>
+                                                            <input type="number" min="1" step="0.01"
+                                                                max="100" class="tab2 percentages"
+                                                                data-id="Percentage-error"
+                                                                placeholder="Enter Percentage %" name="percentage[]"
+                                                                value="{{ isset($postgraduationDetails->percentage_grade) ? $postgraduationDetails->percentage_grade : '' }}">
+                                                            <small id="Percentage-error" class="text-danger"></small>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="container" style= "height: auto; width: 100%;">
+
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <label>
+                                                                <span style="color: red;"> *</span>Passing year
+                                                            </label>
+                                                            <input type="number" name="pass_year[]"
+                                                                placeholder="Select year" min="{{ date('Y') - 20 }}"
+                                                                max="{{ date('Y') }}" data-id="Syear-error"
+                                                                class="tab2 pass_years"
+                                                                value="{{ isset($postgraduationDetails->passing_year) ? $postgraduationDetails->passing_year : '' }}" />
+                                                            <small id="Syear-error" class="text-danger"></small>
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>
+                                                                <span style="color: red;">
+                                                                    *</span>University/College/Institute
+                                                            </label>
+                                                            <input type="text"
+                                                                placeholder="University/College/Institute Name"
+                                                                class="tab2" name="ins_name[]" data-id="college-error"
+                                                                value="{{ isset($postgraduationDetails->institute_name) ? $postgraduationDetails->institute_name : '' }}" />
+                                                            <small id="college-error" class="text-danger"></small>
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>
+                                                                <span style="color: red;"> *</span>Institute Location
+                                                            </label>
+                                                            <input type="text" placeholder="Enter Loaction"
+                                                                class="tab2" data-id="loaction-error" name="ins_loc[]"
+                                                                value="{{ isset($postgraduationDetails->institute_location) ? $postgraduationDetails->institute_location : '' }}" />
+                                                            <small id="loaction-error" class="text-danger"></small>
+                                                        </div>
+
+                                                    </div>
+
 
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="container" style= "height: auto; width: 100%;">
 
-                                            <div class="row">
-                                                <div class="col">
-                                                    <label>
-                                                        <span style="color: red;"> *</span>Passing year
-                                                    </label>
-                                                    <input type="number" name="pass_year" placeholder="Select year"
-                                                        min="{{ date('Y') - 20 }}" max="{{ date('Y') }}"
-                                                        data-id="Syear-error" id="syear" class="tab2"  value="{{ isset($educationDetails->passing_year) ? $educationDetails->passing_year : ''}}"/>
-                                                    <small id="Syear-error" class="text-danger"></small>
-                                                </div>
-                                                <div class="col">
-                                                    <label>
-                                                        <span style="color: red;"> *</span>University/College/Institute
-                                                    </label>
-                                                    <input type="text" placeholder="University/College/Institute Name"
-                                                        class="tab2" name="ins_name" data-id="college-error"
-                                                        id="college" value="{{ isset($educationDetails->institute_name) ?  $educationDetails->institute_name : ''}}" required />
-                                                    <small id="college-error" class="text-danger"></small>
-                                                </div>
-                                                <div class="col">
-                                                    <label>
-                                                        <span style="color: red;"> *</span>Institute Loaction
-                                                    </label>
-                                                    <input type="text" placeholder="Enter Loaction" class="tab2"
-                                                        data-id="loaction-error" name="ins_loc" id="loaction" value="{{isset($educationDetails->institute_location) ? $educationDetails->institute_location : ''}}"
-                                                        required />
-                                                    <small id="loaction-error" class="text-danger"></small>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                        <button type="button" class="btn btn-primary mt-4"
-                                            id="home-prev">Previous</button>
-                                        <button type="submit" class="btn btn-primary mt-4 ml-5 " id="home-next-2">Save &
+                                        <button type="button" class="btn mt-4" id="home-prev">Previous</button>
+                                        <button type="submit" class="btn mt-4 ml-5 " id="home-next-2">Save &
                                             Next</button>
                                     </form>
                                 </div>
@@ -430,140 +832,316 @@
 
                             <fieldset id="field-3" class="tab">
                                 <h1>Professional</h1>
-                                <div class="card-outer">
-                                    <div class="container" style="height: auto; width: 100%;">
-                                        <div class="row">
+                                <form action="" method="POST" class="form" id="professionalForm">
+                                    @csrf
+                                    <div class="pro_main_node">
+                                        <div class="container" style="height: auto; width: 100%;">
+                                            <div class="row">
 
-                                            <div class="col"
-                                                style="display: flex; justify-content: center; align-items: center;">
-                                                <div style="display: flex; gap: 10px;">
-                                                    <label>
-                                                        Select Item:-
-                                                    </label>
+                                                <div class="col"
+                                                    style="display: flex; justify-content: center; align-items: center;">
+                                                    <div style="display: flex; gap: 10px;">
+                                                        <label>
+                                                            Select One:-
+                                                        </label>
+                                                        <label style="display: flex; gap: 10px">
+                                                            <input type="radio" name="professional_experience"
+                                                                style="margin-top: 7px;" data-id="inernship-error"
+                                                                value="internship"
+                                                                {{ $data->professional_stage == 'internship' ? 'checked' : '' }}
+                                                                required>
+                                                            Internship
+                                                            <small id="inernship-error" class="text-danger"></small>
+                                                        </label>
+                                                        <label style="display: flex; gap: 10px">
+                                                            <input type="radio" name="professional_experience"
+                                                                data-id="fresher-error" id="fresher" value="fresher"
+                                                                {{ $data->professional_stage == 'fresher' ? 'checked' : '' }}
+                                                                required>
+                                                            Fresher
+                                                            <small id="fresher-error" class="text-danger"></small>
+                                                        </label>
+                                                        <label style="display: flex; gap: 10px">
+                                                            <input type="radio" name="professional_experience"
+                                                                data-id="experi-error" id="experience"
+                                                                value="experienced"
+                                                                {{ $data->professional_stage == 'experienced' ? 'checked' : '' }}
+                                                                required>
+                                                            Experienced
+                                                            <small id="experi-error" class="text-danger"></small>
+                                                        </label>
 
 
-
-                                                    <label style="display: flex; gap: 10px">
-                                                        <input type="radio" name="exp" style="margin-top: 7px;"
-                                                            class="tab3" data-id="inernship-error" id="internship">
-                                                        Internship
-                                                        <small id="inernship-error" class="text-danger"></small>
-                                                    </label>
-                                                    <label style="display: flex; gap: 10px">
-                                                        <input type="radio" name="exp" class="tab3"
-                                                            data-id="fresher-error" id="fresher">
-                                                        Fresher
-                                                        <small id="fresher-error" class="text-danger"></small>
-                                                    </label>
-                                                    <label style="display: flex; gap: 10px">
-                                                        <input type="radio" name="exp" data-id="experi-error"
-                                                            id="experience">
-                                                        Experienced
-                                                        <small id="experi-error" class="text-danger"></small>
-                                                    </label>
-
-
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="container" style= "width: 100%;">
-                                        <div class="row">
-                                            <div class="col">
-                                                <label>
-                                                    <span style="color: red;">*</span>
-                                                    Designation
-                                                </label>
-                                                <input type="text" placeholder="Enter Designation"
-                                                    data-id="designation-error" id="designation" class="tab3" />
-                                                <small id="designation-error" class="text-danger"></small>
-                                            </div>
-                                            <div class="col">
-                                                <label>
-                                                    <span style="color: red;">*</span>
-                                                    Organization Name
-                                                </label>
-                                                <input type="text" placeholder="Enter Organization"
-                                                    data-id="Organization-error" id="Organization" class="tab3" />
-                                                <small id="Organization-error" class="text-danger"></small>
-                                            </div>
-                                            <div class="col">
-                                                <label>
-                                                    <span style="color: red;">*</span>
-                                                    Job Type
-                                                </label>
-                                                <input type="text" placeholder="Enter Job Type" class="tab3"
-                                                    id="job" data-id="job-error" />
-                                                <small id="job-error" class="text-danger"></small>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col">
-
-
-                                                <label><span style="color: red;">*</span> From:</label>
-                                                <input type="date" class="tab3" id="date"
-                                                    data-id="date-error">
-                                                <small id="date-error" class="text-danger"></small>
-
-                                            </div>
-                                            <div class="col">
-                                                <label><span style="color: red;">*</span> To:</label>
-                                                <input type="date" data-id="date2-error" id="todate"
-                                                    class="tab3">
-                                                <small id="date2-error" class="text-danger"></small>
-
-                                            </div>
-                                            <div class="col">
-                                                <label>
-                                                    <span style="color: red;">*</span>
-
-                                                    Salary(LPA)
-
-
-                                                </label>
-                                                <input type="number" placeholder="Enter Salary" id="salary"
-                                                    data-id="salary-error" class="tab3" />
-                                                <small id="salary-error" class="text-danger"></small>
-
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="container" style= "width: 100%;">
-                                        <div class="row">
-                                            <div class="col" style="max-width: 33.5%;">
-                                                <label>
-                                                    <span style="color: red;">*</span>
-
-                                                    Key Skills
-                                                </label>
-                                                <input type="text" placeholder="Enter Key Skills"
-                                                    data-id="skills-error" class="tab3" id="skills" />
-                                                <small id="skills-error" class="text-danger"></small>
-                                            </div>
-                                            <div class="col" style="max-width: 33.5%">
-                                                <label>
-                                                    <span style="color: red;">*</span>
-
-                                                    Responsibility
-                                                </label>
-                                                <input type="text" placeholder="Enter Responsibility"
-                                                    data-id="responsblity-error" class="tab3" id="Responsibility" />
-                                                <small id="responsblity-error" class="text-danger"></small>
-                                            </div>
 
                                         </div>
+                                        @forelse ($professionalDetails as $professional)
+                                            <div class="card-outer pro_child_node">
+                                                <input type="hidden" name="professional_id[]"
+                                                    class="removedprofessional" value="{{ $professional->id }}">
+                                                <div class="container" style= "width: 100%;">
+                                                    <div class="row">
+                                                        <div class="col-sm-12 col-md-4">
+                                                            <label>
+                                                                <span style="color: red;">*</span>
+                                                                Designation
+                                                            </label>
+                                                            <input type="text" placeholder="Enter Designation"
+                                                                data-id="designation-error" name="designation[]"
+                                                                class="tab3" value="{{ $professional->designations }}"
+                                                                required />
+                                                            <small id="designation-error" class="text-danger"></small>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-4">
+                                                            <label>
+                                                                <span style="color: red;">*</span>
+                                                                Organization Name
+                                                            </label>
+                                                            <input type="text" placeholder="Enter Organization"
+                                                                data-id="Organization-error"
+                                                                value="{{ $professional->organisation }}"
+                                                                name="organization[]" class="tab3" required />
+                                                            <small id="Organization-error" class="text-danger"></small>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-4">
+                                                            <label>
+                                                                <span style="color: red;">*</span>
+                                                                Job Type
+                                                            </label>
+                                                            {{-- <input type="text" placeholder="Enter Job Type" class="tab3"
+                                                        id="job" data-id="job-error" /> --}}
+                                                            <select class="form-control" name="jobtype[]" required>
+                                                                <option value="">Select Job Type</option>
+                                                                <option value="1"
+                                                                    {{ $professional->job_type == '1' ? 'selected' : '' }}>
+                                                                    Part Time</option>
+                                                                <option value="2"
+                                                                    {{ $professional->job_type == '2' ? 'selected' : '' }}>
+                                                                    Full Time</option>
+                                                                <option value="3"
+                                                                    {{ $professional->job_type == '3' ? 'selected' : '' }}>
+                                                                    Freelancer</option>
+                                                                <option value="4"
+                                                                    {{ $professional->job_type == '4' ? 'selected' : '' }}>
+                                                                    Internship</option>
+                                                                <option value="5"
+                                                                    {{ $professional->job_type == '5' ? 'selected' : '' }}>
+                                                                    Consultant</option>
+                                                                <option value="6"
+                                                                    {{ $professional->job_type == '6' ? 'selected' : '' }}>
+                                                                    Contractual</option>
+                                                            </select>
+                                                            <small id="job-error" class="text-danger"></small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-sm-12 col-md-4">
+                                                            <label><span style="color: red;">*</span> From:</label>
+                                                            <input type="date" class="tab3" name="fromdate[]"
+                                                                data-id="date-error"
+                                                                value="{{ $professional->from_date }}"
+                                                                max="{{ date('Y-m-d', time()) }}" required>
+                                                            <small id="date-error" class="text-danger"></small>
+
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-4">
+                                                            <label class="d-flex" style="margin-bottom: -8px;">
+                                                                <span class="ml-5">To:</span>
+                                                                <input type="checkbox" name="currentlyWork[]"
+                                                                    class="tab3 ml-5 mr-1 currentwork"
+                                                                    style="width: 12px;"
+                                                                    {{ $professional->currently_work_here ? 'checked' : '' }}>
+                                                                <span class="small">Currently Working</span>
+                                                            </label>
+                                                            <input type="date" data-id="date2-error" name="todate[]"
+                                                                class="tab3 pro_todate" max="{{ date('Y-m-d', time()) }}"
+                                                                value="{{ $professional->currently_work_here ? '' : $professional->to_date }}"
+                                                                {{ $professional->currently_work_here ? 'disabled' : '' }}
+                                                                required>
+                                                            <small id="date2-error" class="text-danger"></small>
+
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-4">
+                                                            <label>
+                                                                <span style="color: red;">*</span>
+
+                                                                Salary(LPA)
+
+
+                                                            </label>
+                                                            <input type="number" placeholder="Enter Salary"
+                                                                name="salary[]" data-id="salary-error" class="tab3"
+                                                                value="{{ $professional->salary }}" required />
+                                                            <small id="salary-error" class="text-danger"></small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="container" style= "width: 100%;">
+                                                    <div class="row">
+                                                        <div class="col" style="max-width: 33.5%;">
+                                                            <label>
+                                                                <span style="color: red;">*</span>
+
+                                                                Key Skills
+                                                            </label>
+                                                            <input type="text"
+                                                                placeholder="Enter Key Skills (comma separated)"
+                                                                data-id="skills-error" name="key_skills[]" class="tab3"
+                                                                value="{{ $professional->key_skill }}" required />
+                                                            <small id="skills-error" class="text-danger"></small>
+                                                        </div>
+                                                        <div class="col" style="max-width: 33.5%">
+                                                            <label>
+                                                                <span style="color: red;">*</span>
+
+                                                                Responsibility
+                                                            </label>
+                                                            <input type="text" placeholder="Enter Responsibility"
+                                                                data-id="responsblity-error" name="responsibility[]"
+                                                                class="tab3"
+                                                                value="{{ $professional->responsibility }}" required />
+                                                            <small id="responsblity-error" class="text-danger"></small>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                @if ($loop->iteration > 1)
+                                                    <div class='col-md-12 mb-5'><button
+                                                            class='btn float-right proremove'>Remove</button></div>
+                                                @endif
+                                            </div>
+                                        @empty
+
+                                            <div class="card-outer pro_child_node">
+                                                <input type="hidden" name="professional_id[]"
+                                                    class="removedprofessional">
+                                                <div class="container" style= "width: 100%;">
+                                                    <div class="row">
+                                                        <div class="col-sm-12 col-md-4">
+                                                            <label>
+                                                                <span style="color: red;">*</span>
+                                                                Designation
+                                                            </label>
+                                                            <input type="text" placeholder="Enter Designation"
+                                                                data-id="designation-error" name="designation[]"
+                                                                class="tab3" required />
+                                                            <small id="designation-error" class="text-danger"></small>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-4">
+                                                            <label>
+                                                                <span style="color: red;">*</span>
+                                                                Organization Name
+                                                            </label>
+                                                            <input type="text" placeholder="Enter Organization"
+                                                                data-id="Organization-error" name="organization[]"
+                                                                class="tab3" required />
+                                                            <small id="Organization-error" class="text-danger"></small>
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-4">
+                                                            <label>
+                                                                <span style="color: red;">*</span>
+                                                                Job Type
+                                                            </label>
+                                                            {{-- <input type="text" placeholder="Enter Job Type" class="tab3"
+                                                        id="job" data-id="job-error" /> --}}
+                                                            <select class="form-control" name="jobtype[]" required>
+                                                                <option value="">Select Job Type</option>
+                                                                <option value="1">Part Time</option>
+                                                                <option value="2">Full Time</option>
+                                                                <option value="3">Freelancer</option>
+                                                                <option value="4">Internship</option>
+                                                                <option value="5">Consultant</option>
+                                                                <option value="6">Contractual</option>
+                                                            </select>
+                                                            <small id="job-error" class="text-danger"></small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-sm-12 col-md-4">
+                                                            <label><span style="color: red;">*</span> From:</label>
+                                                            <input type="date" class="tab3" name="fromdate[]"
+                                                                data-id="date-error" required>
+                                                            <small id="date-error" class="text-danger"></small>
+
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-4">
+                                                            <label class="d-flex" style="margin-bottom: -8px;">
+                                                                <span class="ml-5">To:</span>
+                                                                <input type="checkbox" name="currentlyWork[]"
+                                                                    class="tab3 ml-5 mr-1 currentwork"
+                                                                    style="width: 12px;">
+                                                                <span class="small">Currently Working</span>
+                                                            </label>
+                                                            <input type="date" data-id="date2-error" name="todate[]"
+                                                                class="tab3 pro_todate" required>
+                                                            <small id="date2-error" class="text-danger"></small>
+
+                                                        </div>
+                                                        <div class="col-sm-12 col-md-4">
+                                                            <label>
+                                                                <span style="color: red;">*</span>
+
+                                                                Salary(LPA)
+
+
+                                                            </label>
+                                                            <input type="number" placeholder="Enter Salary"
+                                                                name="salary[]" id="salary" data-id="salary-error"
+                                                                class="tab3" required />
+                                                            <small id="salary-error" class="text-danger"></small>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="container" style= "width: 100%;">
+                                                    <div class="row">
+                                                        <div class="col" style="max-width: 33.5%;">
+                                                            <label>
+                                                                <span style="color: red;">*</span>
+
+                                                                Key Skills
+                                                            </label>
+                                                            <input type="text"
+                                                                placeholder="Enter Key Skills (comma separated)"
+                                                                data-id="skills-error" name="key_skills[]" class="tab3"
+                                                                required />
+                                                            <small id="skills-error" class="text-danger"></small>
+                                                        </div>
+                                                        <div class="col" style="max-width: 33.5%">
+                                                            <label>
+                                                                <span style="color: red;">*</span>
+
+                                                                Responsibility
+                                                            </label>
+                                                            <input type="text" placeholder="Enter Responsibility"
+                                                                data-id="responsblity-error" name="responsibility[]"
+                                                                class="tab3" id="Responsibility" required />
+                                                            <small id="responsblity-error" class="text-danger"></small>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        @endforelse
                                     </div>
 
-                                </div>
-                                <button type="button" class="btn btn-primary mt-4" id="Third-prev">Previous</button>
-                                <button type="button" class="btn btn-primary mt-4 ml-5 " id="Third-next">Next</button>
+                                    <button type="button" class="btn mt-4" id="Third-prev">Previous</button>
+                                    <button type="button" class="btn mt-4" id="addExperience">Add More</button>
+                                    <button type="submit" class="btn mt-4" id="Third-next">Save & Next</button>
+
+                                </form>
                             </fieldset>
 
                             <!-- field set-4 -->
@@ -579,143 +1157,287 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="container"
-                                        style="height: auto; width: 100%; display: flex; align-items: center;justify-content: center;">
-                                        <div class="row" style="width: 50%;">
-                                            <div class="col">
-                                                <label>
-                                                    Add Skills
-                                                </label>
-                                                <input type="text" placeholder="Add Skills" id="skills" />
-                                                <small id="skillstab-error" class="text-danger"></small>
+                                    <form class="add_skill_form" method="post">
+                                        @csrf
+                                        <div class="container"
+                                            style="height: auto; width: 100%; display: flex; align-items: center;justify-content: center;">
+                                            <div class="row" style="width: 50%;">
+                                                <div class="col">
+                                                    <label>
+                                                        Add Skills
+                                                    </label>
+                                                    <input type="text" placeholder="Add Skills (comma seperated)"
+                                                        name="skill" id="skills" data-role="tagsinput"
+                                                        value="{{ $skillsDetails->skills }}" required />
+                                                    <small id="skillstab-error" class="text-danger"></small>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-
+                                        <button type="button" class="btn mt-4" id="Fourth-prev">Previous</button>
+                                        <button type="submit" class="btn mt-4 ml-5 " id="Fourth-next">Save &
+                                            Next</button>
+                                    </form>
                                 </div>
 
-
-
-
-                                <button type="button" class="btn btn-primary mt-4" id="Fourth-prev">Previous</button>
-                                <button type="button" class="btn btn-primary mt-4 ml-5 " id="Fourth-next">Next</button>
                             </fieldset>
 
                             <!-- Field-set 5 -->
 
                             <fieldset id="field-5" class="tab">
-                                <form action="">
+                                <form id="certificate_form" action="" method="POST" class="form">
+                                    @csrf
+
                                     <h1>Certificate</h1>
-                                    <div class="card-outer">
-                                        <div class="container" style="width: 100%; height: auto;">
-                                            <div class="row">
-                                                <div class="col">
-                                                    <h2 class="steps">Step 5-5</h2>
+                                    <div class="container" style="width: 100%; height: auto;">
+                                        <div class="row">
+                                            <div class="col">
+                                                <h2 class="steps">Step 5-5</h2>
 
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="container" style=" width: 100%; height: auto;">
-                                            <div class="row">
-                                                <div class="col">
-                                                    <label>
-                                                        <span style="color: red;">*</span>
-                                                        Course Name
-                                                    </label>
-                                                    <input type="text" placeholder="Enter Course Name"
-                                                        data-id="CourseName-error" id="CourseName" class="tab5" />
-                                                    <small id="CourseName-error" class="text-danger"></small>
-
-                                                </div>
-                                                <div class="col">
-                                                    <label>
-                                                        <span style="color: red;">*</span>
-                                                        Institute Name
-                                                    </label>
-                                                    <input type="text" placeholder="Enter Institute Name"
-                                                        data-id="institute-error" id="institute-name" class="tab5" />
-                                                    <small id="institute-error" class="text-danger"></small>
-
-                                                </div>
-                                                <div class="col">
-                                                    <label>
-                                                        <span style="color: red;">*</span>
-                                                        Certificate licence
-                                                    </label>
-                                                    <input type="text" placeholder="Enter Certificate licence"
-                                                        data-id="certificate-licence-error" class="tab5"
-                                                        id="certificate licence" />
-                                                    <small id="certificate-licence-error" class="text-danger"></small>
-
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="container" style=" width: 100%; height: auto;">
-                                            <div class="row">
-                                                <div class="col" style="max-width: 33.5%;">
-                                                    <label>
-                                                        <span style="color: red;">*</span>
-                                                        Certification Type
-                                                    </label>
-
-                                                    <input type="text" class="tab5"
-                                                        data-id="certification-type-error" id="certificate type">
-
-                                                    <small id="certification-type-error" class="text-danger"></small>
-
-
-
-                                                </div>
-                                                <div class="col" style="max-width: 80%;">
-                                                    <label for="start-date">
-                                                        <span style="color: red;">*</span>
-                                                        Time Period
-                                                    </label>
-                                                    <br>
-
-                                                    <div style="display: flex; gap:15px;">
-
-
-
-                                                        <input type="date" name="start-date" required class="tab5"
-                                                            data-id="time-error" id="time">
-                                                        <small id="time-error" class="text-danger"></small>
-
-
-
-                                                        <input type="date" name="end-date" required class="tab5"
-                                                            data-id="endtime-error" id="end time">
-                                                        <small id="endtime-error" class="text-danger"></small>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="container" style= "height: auto; width: 100%;">
-                                            <div class="row">
-                                                <div class="col" style="max-width: 33.5%;">
-                                                    <label>
-                                                        Certificate Link(optional)
-                                                    </label>
-                                                    <input type="text" placeholder="Enter Certificate Link" />
-                                                </div>
-                                                <div class="col" style="max-width: 35%;">
-                                                    <label>
-                                                        Description(Optional)
-                                                    </label>
-                                                    <textarea style="height:2.5em;"> Some Text...</textarea>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="parent_certificate_card">
+                                        @forelse ($certificationDetails as $certificate)
+                                            <div class="card-outer child_certificate_card">
+                                                <div class="d-none">
+                                                    <input type="hidden" class="certificateid" name="certificateid[]"
+                                                        value="{{ $certificate->id }}">
+                                                </div>
+                                                <div class="container" style=" width: 100%; height: auto;">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <label>
+                                                                <span style="color: red;">*</span>
+                                                                Course Name
+                                                            </label>
+                                                            <input type="text" placeholder="Enter Course Name"
+                                                                data-id="CourseName-error" name="courseName[]"
+                                                                class="tab5" value="{{ $certificate->course }}"
+                                                                required />
+                                                            <small id="CourseName-error" class="text-danger"></small>
 
-                                    <button type="button" class="btn btn-primary mt-4 ml-5"
-                                        id="Fifth-prev">Previous</button>
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>
+                                                                <span style="color: red;">*</span>
+                                                                Institute Name
+                                                            </label>
+                                                            <input type="text" placeholder="Enter Institute Name"
+                                                                data-id="institute-error" name="instituteName[]"
+                                                                class="tab5"
+                                                                value="{{ $certificate->certificate_institute_name }}"
+                                                                required />
+                                                            <small id="institute-error" class="text-danger"></small>
 
-                                    <button type="button" class="btn btn-primary mt-4 ml-5 "
-                                        id="Submit">Submit</button>
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>
+                                                                <span style="color: red;">*</span>
+                                                                Certificate licence
+                                                            </label>
+                                                            <input type="text" placeholder="Enter Certificate licence"
+                                                                data-id="certificate-licence-error"
+                                                                value="{{ $certificate->grade }}" name="score[]"
+                                                                class="tab5" />
+                                                            <small id="certificate-licence-error"
+                                                                class="text-danger"></small>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="container" style=" width: 100%; height: auto;">
+                                                    <div class="row">
+                                                        <div class="col" style="max-width: 33.5%;">
+                                                            <label>
+                                                                <span style="color: red;">*</span>
+                                                                Certification Type
+                                                            </label>
+
+                                                            <select name="certficationtype[]" class="form-control tab5"
+                                                                data-id="certification-type-error" required>
+                                                                <option value="" selected>Select Type</option>
+                                                                <option value="1"
+                                                                    {{ $certificate->certification_type == '1' ? 'selected' : '' }}>
+                                                                    Offline</option>
+                                                                <option value="2"
+                                                                    {{ $certificate->certification_type == '2' ? 'selected' : '' }}>
+                                                                    Online</option>
+                                                            </select>
+                                                            <small id="certification-type-error"
+                                                                class="text-danger"></small>
+
+
+
+                                                        </div>
+                                                        <div class="col" style="max-width: 80%;">
+                                                            <label for="start-date">
+                                                                <span style="color: red;">*</span>
+                                                                Time Period
+                                                            </label>
+                                                            <br>
+
+                                                            <div style="display: flex; gap:15px;">
+
+
+
+                                                                <input type="month" name="fromdate[]" class="tab5"
+                                                                    data-id="time-error"
+                                                                    value="{{ $certificate->cert_from_date }}"
+                                                                    max="{{ date('Y-m') }}" required>
+                                                                <small id="time-error" class="text-danger"></small>
+
+                                                                <input type="month" name="todate[]" class="tab5"
+                                                                    data-id="endtime-error" max="{{ date('Y-m') }}"
+                                                                    value="{{ $certificate->cert_to_date }}" required>
+                                                                <small id="endtime-error" class="text-danger"></small>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="container" style= "height: auto; width: 100%;">
+                                                    <div class="row">
+                                                        <div class="col" style="max-width: 33.5%;">
+                                                            <label>
+                                                                Certificate Link(optional)
+                                                            </label>
+                                                            <input type="text" name="certificate_link[]"
+                                                                class="tab5"
+                                                                value="{{ $certificate->certificate_link }}"
+                                                                placeholder="Enter Certificate Link" />
+                                                        </div>
+                                                        <div class="col" style="max-width: 35%;">
+                                                            <label>
+                                                                Description(Optional)
+                                                            </label>
+                                                            <textarea style="height:2.5em;" name="description[]" class="tab5 textarea" placeholder="Some Text..."> {{ $certificate->description }} </textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                @if ($loop->iteration > 1)
+                                                    <div class="col-md-12 mb-5"><button
+                                                            class="btn float-right certremove">Remove</button></div>
+                                                @endif
+                                            </div>
+                                        @empty
+                                            <div class="card-outer child_certificate_card">
+                                                <div class="d-none">
+                                                    <input type="hidden" class="certificateid" name="certificateid[]">
+                                                </div>
+                                                <div class="container" style=" width: 100%; height: auto;">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <label>
+                                                                <span style="color: red;">*</span>
+                                                                Course Name
+                                                            </label>
+                                                            <input type="text" placeholder="Enter Course Name"
+                                                                data-id="CourseName-error" name="courseName[]"
+                                                                class="tab5" required />
+                                                            <small id="CourseName-error" class="text-danger"></small>
+
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>
+                                                                <span style="color: red;">*</span>
+                                                                Institute Name
+                                                            </label>
+                                                            <input type="text" placeholder="Enter Institute Name"
+                                                                data-id="institute-error" name="instituteName[]"
+                                                                class="tab5" required />
+                                                            <small id="institute-error" class="text-danger"></small>
+
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>
+                                                                <span style="color: red;">*</span>
+                                                                Certificate licence
+                                                            </label>
+                                                            <input type="text"
+                                                                placeholder="Enter Certificate licence"
+                                                                data-id="certificate-licence-error" name="score[]"
+                                                                class="tab5" />
+                                                            <small id="certificate-licence-error"
+                                                                class="text-danger"></small>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="container" style=" width: 100%; height: auto;">
+                                                    <div class="row">
+                                                        <div class="col" style="max-width: 33.5%;">
+                                                            <label>
+                                                                <span style="color: red;">*</span>
+                                                                Certification Type
+                                                            </label>
+
+                                                            <select name="certficationtype[]" id="certificate type"
+                                                                class="form-control tab5"
+                                                                data-id="certification-type-error" required>
+                                                                <option value="" selected>Select Type</option>
+                                                                <option value="1">Offline</option>
+                                                                <option value="2">Online</option>
+                                                            </select>
+                                                            <small id="certification-type-error"
+                                                                class="text-danger"></small>
+
+
+
+                                                        </div>
+                                                        <div class="col" style="max-width: 80%;">
+                                                            <label for="start-date">
+                                                                <span style="color: red;">*</span>
+                                                                Time Period
+                                                            </label>
+                                                            <br>
+
+                                                            <div style="display: flex; gap:15px;">
+
+
+
+                                                                <input type="month" name="fromdate[]" required
+                                                                    class="tab5" data-id="time-error" required>
+                                                                <small id="time-error" class="text-danger"></small>
+
+                                                                <input type="month" name="todate[]" required
+                                                                    class="tab5" data-id="endtime-error" required>
+                                                                <small id="endtime-error" class="text-danger"></small>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="container" style= "height: auto; width: 100%;">
+                                                    <div class="row">
+                                                        <div class="col" style="max-width: 33.5%;">
+                                                            <label>
+                                                                Certificate Link(optional)
+                                                            </label>
+                                                            <input type="text" name="certificate_link[]"
+                                                                class="tab5" placeholder="Enter Certificate Link" />
+                                                        </div>
+                                                        <div class="col" style="max-width: 35%;">
+                                                            <label>
+                                                                Description(Optional)
+                                                            </label>
+                                                            <textarea style="height:2.5em;" name="description[]" class="tab5 textarea" placeholder="Some Text..."> </textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforelse
+
+                                    </div>
+
+                                    <button type="button" class="btn mt-4" id="Fifth-prev">Previous</button>
+                                    <button type="button" class="btn mt-4" id="addCertificate">Add More</button>
+
+                                    <button type="submit" class="btn mt-4 " id="Submit">Submit</button>
                                 </form>
                             </fieldset>
 
@@ -727,573 +1449,13 @@
     </div>
 @endsection
 @section('script')
+    <script src="{{ asset('assets/js/profile-stage.js') }}"></script>
+    <script src="{{ asset('assets/js/tagsinput.js') }}"></script>
     <script>
-        // Validation
-        $(document).ready(function() {
-            $('.location-multiple').select2();
-
-            var abc = 0;
-            var bcd = [];
-
-            // first name
-
-            $('#fname').keypress(function(e) {
-                var regex = new RegExp("^[a-zA-Z]+$");
-                var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
-                if (regex.test(str)) {
-                    $('#fname_error').html('');
-                    return true;
-                } else {
-                    e.preventDefault();
-                    $('#fname_error').html('please enter only character');
-                    return false;
-                }
+        $(document).ready(function () {
+            $('.location-multiple').select2({
+        width: 'resolve' // need to override the changed default
+    });
             });
-
-            // last name
-
-
-            $('#lname').keypress(function(e) {
-                var regex = new RegExp("^[a-zA-Z]+$");
-                var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
-                if (regex.test(str)) {
-                    $('#lname_error').html('');
-                    return true;
-                } else {
-                    e.preventDefault();
-                    $('#lname_error').html('please enter only character');
-                    return false;
-                }
-            });
-
-            // email  
-
-            $(document).ready(function() {
-                $('#email').on('input', function() {
-                    var email = $(this).val();
-                    var regex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
-
-                    if (regex.test(email)) {
-                        $('#email_error').html('');
-                    } else {
-                        $('#email_error').html('Please enter a valid email');
-                    }
-                });
-            });
-
-
-            // contact
-
-            $('#phone').keypress(function(e) {
-                if (String.fromCharCode(e.keyCode).match(/[^0-9]/g)) {
-                    $('#phone_error').html('Please enter only digits.');
-                    return false;
-
-                } else {
-                    $('#phone_error').html('');
-
-                }
-                if ($(this).val().length >= 10) {
-                    $('#phone_error').html('');
-                    return false;
-                }
-            });
-
-            // Designation
-            $('#Designation').keypress(function(e) {
-                var regex = new RegExp("^[a-zA-Z]+$");
-                var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
-                if (regex.test(str)) {
-                    $('#Designation_error').html('');
-                    return true;
-                } else {
-                    e.preventDefault();
-                    $('#Designation_error').html('please enter only character');
-                    return false;
-                }
-            });
-
-            // prefered loaction
-
-            $('#Loaction').keypress(function(e) {
-                var regex = new RegExp("^[a-zA-Z]+$");
-                var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
-                if (regex.test(str)) {
-                    $('#Loaction_error').html('');
-                    return true;
-                } else {
-                    e.preventDefault();
-                    $('#Loaction_error').html('please enter only character');
-                    return false;
-                }
-            });
-
-
-
-
-            // Education validation for character
-
-            // Qualification
-
-            $('#qualification').keypress(function(e) {
-                var regex = new RegExp("^[a-zA-Z]+$");
-                var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
-                if (regex.test(str)) {
-                    $('#qualification-error').html('');
-                    return true;
-                } else {
-                    e.preventDefault();
-                    $('#qualification-error').html('please enter only character');
-                    return false;
-                }
-            });
-
-            // course
-
-
-            $('#course').keypress(function(e) {
-                var regex = new RegExp("^[a-zA-Z]+$");
-                var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
-                if (regex.test(str)) {
-                    $('#course-error').html('');
-                    return true;
-                } else {
-                    e.preventDefault();
-                    $('#course-error').html('please enter only character');
-                    return false;
-                }
-            });
-
-            // passsing year
-            $('#syear').keypress(function(e) {
-                if (String.fromCharCode(e.keyCode).match(/[^0-9]/g)) {
-                    $('#Syear-error').html('Please enter only digits.');
-                    return false;
-
-                } else {
-                    $('#Syear-error').html('');
-
-                }
-                if ($(this).val().length >= 4) {
-                    $('#Syear-error').html('');
-                    return false;
-                }
-            });
-
-            // university
-            $('#college').keypress(function(e) {
-                var regex = new RegExp("^[a-zA-Z]+$");
-                var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
-                if (regex.test(str)) {
-                    $('#college-error').html('');
-                    return true;
-                } else {
-                    e.preventDefault();
-                    $('#college-error').html('please enter only character');
-                    return false;
-                }
-            });
-
-            // Institute loaction
-
-            $('#loaction').keypress(function(e) {
-                var regex = new RegExp("^[a-zA-Z]+$");
-                var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
-                if (regex.test(str)) {
-                    $('#loaction-error').html('');
-                    return true;
-                } else {
-                    e.preventDefault();
-                    $('#loaction-error').html('please enter only character');
-                    return false;
-                }
-            });
-
-            // profssional Fieldset
-
-            // Designation
-
-
-            $('#designation').keypress(function(e) {
-                var regex = new RegExp("^[a-zA-Z]+$");
-                var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
-                if (regex.test(str)) {
-                    $('#designation-error').html('');
-                    return true;
-                } else {
-                    e.preventDefault();
-                    $('#designation-error').html('please enter only character');
-                    return false;
-                }
-            });
-
-            // Organization Name
-            $('#Organization').keypress(function(e) {
-                var regex = new RegExp("^[a-zA-Z]+$");
-                var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
-                if (regex.test(str)) {
-                    $('#Organization-error').html('');
-                    return true;
-                } else {
-                    e.preventDefault();
-                    $('#Organization-error').html('please enter only character');
-                    return false;
-                }
-            });
-
-            // Job type
-            $('#job').keypress(function(e) {
-                var regex = new RegExp("^[a-zA-Z]+$");
-                var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
-                if (regex.test(str)) {
-                    $('#job-error').html('');
-                    return true;
-                } else {
-                    e.preventDefault();
-                    $('#job-error').html('please enter only character');
-                    return false;
-                }
-            });
-
-
-            // salary LPA
-
-            $('#salary').keypress(function(e) {
-                if (String.fromCharCode(e.keyCode).match(/[^0-9]/g)) {
-                    $('#Syear-error').html('Please enter only digits.');
-                    return false;
-
-                } else {
-                    $('#salary-error').html('');
-
-                }
-                if ($(this).val().length >= 7) {
-                    $('#salary-error').html('');
-                    return false;
-                }
-            });
-            // key skills professional
-
-            $('#skills').keypress(function(e) {
-                var regex = new RegExp("^[a-zA-Z]+$");
-                var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
-                if (regex.test(str)) {
-                    $('#skills-error').html('');
-                    return true;
-                } else {
-                    e.preventDefault();
-                    $('#skills-error').html('please enter only character');
-                    return false;
-                }
-            });
-            // Responsblity
-
-            $('#Responsibility').keypress(function(e) {
-                var regex = new RegExp("^[a-zA-Z]+$");
-                var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
-                if (regex.test(str)) {
-                    $('#responsblity-error').html('');
-                    return true;
-                } else {
-                    e.preventDefault();
-                    $('#responsblity-error').html('please enter only character');
-                    return false;
-                }
-            });
-
-
-            // Certificate inputs fields validation
-
-            // Certificate Course name
-
-            $('#CourseName').keypress(function(e) {
-                var regex = new RegExp("^[a-zA-Z]+$");
-                var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
-                if (regex.test(str)) {
-                    $('#CourseName-error').html('');
-                    return true;
-                } else {
-                    e.preventDefault();
-                    $('#CourseName-error').html('please enter only character');
-                    return false;
-                }
-            });
-
-            // Certificate Institute name
-
-            $('#institute-name').keypress(function(e) {
-                var regex = new RegExp("^[a-zA-Z]+$");
-                var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
-                if (regex.test(str)) {
-                    $('#institute-error').html('');
-                    return true;
-                } else {
-                    e.preventDefault();
-                    $('#institute-error').html('please enter only character');
-                    return false;
-                }
-            });
-
-
-            // $('#home-next').click(function() {
-            $("form#msform").submit(function(e) {
-                e.preventDefault();
-                var formData = new FormData(this);
-                bcd = [];
-
-                // Server side validation.
-                $(".tab1").each(function(index) {
-
-                    if ($(this).val() == "") {
-                        var error = $(this).data('id');
-                        var id = $(this).attr('id');
-                        var classes = $(this).attr('class');
-                        //  alert(error)
-                        $('#' + error).html('Please fill ' + id);
-
-                        abc = 0;
-
-                        bcd.push(abc);
-                    } else {
-                        var id = $(this).attr('id');
-                        //  alert(id)
-                        var error = $(this).data('id');
-                        $('#' + error).html('');
-                        abc = 1;
-                        bcd.push(abc);
-
-                    }
-                });
-
-                if ($.inArray(0, bcd) > -1) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: "Please fill all required fields",
-                    });
-                } else {
-
-                    // Submit profile form.
-                    $.ajax({
-                        url: SITE_URL + "/jobseeker/persnol-save",
-                        type: "POST",
-                        data: formData,
-                        success: function(response) {
-                            if (response.status) {
-
-                                // Update stage.
-                                $.ajax({
-                                    url: SITE_URL + "/jobseeker/skip-stage/1",
-                                    type: 'GET',
-                                    success: function(response) {
-
-                                    }
-                                });
-
-                                Swal.fire({
-                                    icon: "success",
-                                    title: "Thank you!",
-                                    text: "Your profile updated successfully",
-                                });
-                            }
-                            // // Reset the form
-                            $('#field-2').show();
-                            $('#field-1').hide();
-                            $('#personal').addClass('active');
-                        },
-                        cache: false,
-                        contentType: false,
-                        processData: false
-
-                    });
-
-
-                }
-
-            })
-
-            // Home previous button
-
-            $('#home-prev').click(function() {
-                $('#field-2').hide();
-                $('#field-1').show();
-                $('#personal').removeClass('active')
-
-            })
-
-            // Education next btn
-
-            var abc = 0;
-            var bcd = [];
-
-            // $("#home-next-2").click(function() {
-            $("form#education_form").submit(function(e) {
-                e.preventDefault();
-                bcd = []
-                $(".tab2").each(function(index) {
-
-                    if ($(this).val() == "") {
-                        var error = $(this).data('id');
-                        var id = $(this).attr('id');
-                        var classes = $(this).attr('class');
-                        // alert(classes)
-                        // alert(id)
-                        $('#' + error).html('Please fill ' + id);
-                        abc = 0;
-                        bcd.push(abc);
-                    } else {
-                        $('#' + error).html('');
-                        var error = $(this).data('id');
-                        $('#' + error).html('');
-                        abc = 1;
-                        bcd.push(abc);
-
-
-                    }
-                });
-
-                if ($.inArray(0, bcd) > -1) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: "Please fill all required fields",
-                    });
-                } else {
-
-                    $.ajax({
-                        url: SITE_URL + "/jobseeker/add-education-detail",
-                        type: "POST",
-                        data: new FormData(this),
-                        success: function(response) {
-                            if (response.status) {
-
-                            }
-                        }
-                    });
-
-                    // $('#field-3').show();
-                    // $('#field-2').hide();
-                    // $('#payment').addClass('active');
-
-                }
-
-            })
-
-            // Third Section nextbtn  ;
-
-            var abc = 0;
-            var bcd = [];
-            $("#Third-next").click(function() {
-                bcd = []
-                $(".tab3").each(function(index) {
-
-                    if ($(this).val() == "") {
-                        var error = $(this).data('id');
-                        var id = $(this).attr('id');
-                        var classes = $(this).attr('class');
-                        // alert(classes)
-                        $('#' + error).html('Please fill ' + id);
-                        abc = 0;
-                        bcd.push(abc);
-                    } else {
-                        $('#' + error).html('');
-                        var error = $(this).data('id');
-                        $('#' + error).html('');
-                        abc = 1;
-                        bcd.push(abc);
-
-
-                    }
-                });
-
-                if ($.inArray(0, bcd) > -1) {
-                    alert('please fill all values')
-                } else {
-
-                    $('#field-4').show();
-                    $('#field-3').hide();
-                    $('#confirm').addClass('active');
-
-                }
-
-            });
-
-            $('#Third-prev').click(function() {
-                $('#field-2').show();
-                $('#field-3').hide();
-                $('#payment').removeClass('active');
-
-
-            })
-
-            $("#Fourth-next").click(function() {
-                let skill = $("#skills").val();
-                let error = ("#skillstab-error");
-                if (skill == "") {
-                    error.text("enter a skill")
-
-                } else {
-                    $('#field-5').show();
-                    $('#field-4').hide();
-                    $('#certificate').addClass('active');
-
-                }
-
-            });
-
-            // fourth prev;
-
-            $('#Fourth-prev').click(function() {
-                $('#field-3 ').show();
-                $('#field-4').hide();
-                $('#confirm').removeClass('active')
-
-            });
-
-            $('#Fifth-prev').click(function() {
-                $('#field-4 ').show();
-                $('#field-5').hide();
-                $('#certificate').removeClass('active')
-
-            })
-
-            // subit btn
-
-            var abc = 0;
-            var bcd = [];
-            $("#Submit").click(function() {
-                bcd = []
-                $(".tab5").each(function(index) {
-
-                    if ($(this).val() == "") {
-                        var error = $(this).data('id');
-                        var id = $(this).attr('id');
-                        var classes = $(this).attr('class');
-                        // alert(classes)
-                        $('#' + error).html('Please fill ' + id);
-                        abc = 0;
-                        bcd.push(abc);
-                    } else {
-                        $('#' + error).html('');
-                        var error = $(this).data('id');
-                        $('#' + error).html('');
-                        abc = 1;
-                        bcd.push(abc);
-
-
-                    }
-                });
-                console.log(bcd)
-                if ($.inArray(0, bcd) > -1) {
-                    alert('please fill all values')
-                } else {
-
-                    alert("submit succcessfully Thankyou")
-
-                }
-
-            });
-
-        });
     </script>
 @endsection

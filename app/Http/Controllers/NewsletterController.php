@@ -67,13 +67,15 @@ class NewsletterController extends Controller
     public function destroy(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|email|max:200'
+            'email' => 'required|email|max:200',
+            'reason' => 'required|string'
         ]);
 
         $user = Newsletter::where('email', $request->email)->first();
         if ($user) {
             $record = Newsletter::find($user->id);
             $record->status = 0;
+            $record->reason = $request->reason;
             $record->save();
             $record->delete();
             return redirect()->back()->with(['success' => true, 'message' => ''.$request->email.' unfollow successfully.'], 200);

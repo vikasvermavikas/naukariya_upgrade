@@ -285,7 +285,7 @@ position: relative;
 }
 
 #msform input,
-#msform textarea {
+#msform .textarea {
     padding: 8px 28px 8px 15px;
     border: 1px solid #ccc;
     border-radius: 5px;

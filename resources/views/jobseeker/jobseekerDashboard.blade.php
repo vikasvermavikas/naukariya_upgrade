@@ -31,7 +31,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3">
-                            <a href="{{route('follow_list')}}" target="_blank"> 
+                            <a href="{{ route('follow_list') }}" target="_blank">
                                 <div class="box bg-info py-4 text-center mt-3"><span class="text-white">
                                         {{ $data['following'] }}</span>
                                     <hr class="hr1"><span class="text-white">Companies Following</span>
@@ -39,7 +39,7 @@
                             </a>
                         </div>
                         <div class="col-sm-3">
-                            <a href="{{route('get-saved-job')}}" target="_blank"> 
+                            <a href="{{ route('get-saved-job') }}" target="_blank">
                                 <div class="box bg-success py-4 text-center mt-3"><span
                                         class="text-white">{{ $data['saved_jobs'] }}</span>
                                     <hr class="hr1"><span class="text-white">Saved Jobs</span>
@@ -69,8 +69,13 @@
 
                     <div class="card">
                         <div class="card-header text-center">
-                            <img src={{ asset('assets/images/default-image.png') }} class="mini-photo rounded-circle avatar"
-                                style="width:50px;">
+                            @if (Auth::guard('jobseeker')->user()->profile_pic_thumb)
+                                <img src={{ asset('jobseeker_profile_image/' . Auth::guard('jobseeker')->user()->profile_pic_thumb . '') }}
+                                    class="mini-photo img-fluid rounded-circle" style="width: 50px;">
+                            @else
+                                <img src={{ asset('assets/images/default-image.png') }}
+                                    class="mini-photo rounded-circle avatar" style="width:50px;">
+                            @endif
                             <h3 class="mt-2">
                                 {{ Auth::guard('jobseeker')->user()->fname . ' ' . Auth::guard('jobseeker')->user()->lname }}
                             </h3>
@@ -80,17 +85,19 @@
                                 <div id="profile-percentage">
                                     <div class="corner-div">
                                         <small>Profile Complete - <span id="profilepercentage"></span></small> </br>
-                                        <small style="float: right;">Last Modified - {{ \Carbon\Carbon::parse(Auth::guard('jobseeker')->user()->updated_at)->diffForhumans() }}</small></br>
+                                        <small style="float: right;">Last Modified -
+                                            {{ \Carbon\Carbon::parse(Auth::guard('jobseeker')->user()->updated_at)->diffForhumans() }}</small></br>
                                         <div class="progress mb-1 mt-1">
                                             <div class="progress-bar progress-class progress-bar-striped">
-                                                </div>
+                                            </div>
                                         </div>
                                         <small>Complete your profile to get notified by Recruiters</small>
                                     </div>
                                 </div>
                             </li>
                             <li class="list-group-item">
-                                <a href="{{route('profile-stages')}}" class="text-color"><i class="fas fa-user-circle"></i> Edit
+                                <a href="{{ route('profile-stages') }}" class="text-color"><i
+                                        class="fas fa-user-circle"></i> Edit
                                     Profile</a>
                             </li>
                         </ul>
@@ -104,5 +111,5 @@
     </section>
 @endsection
 @section('script')
-<script src="{{asset('assets/js/jobseeker_dashboard.js')}}"></script>
+    <script src="{{ asset('assets/js/jobseeker_dashboard.js') }}"></script>
 @endsection

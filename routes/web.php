@@ -154,6 +154,11 @@ Route::middleware('jobseeker')->group(function () {
             Route::post('/persnol-save', 'addPersnol');
             Route::get('/skip-stage/{stage}', 'skipStage');
             Route::post('/add-education-detail', 'addEducationDetail');
+            Route::post('/add-professional-detail-stage', 'addProfessionalDetail');
+            Route::post('/add-skill-detail', 'addSkillDetail');
+            Route::post('/add-certification-detail-stage', 'addCertificationDetail');
+
+
 
         });
      });

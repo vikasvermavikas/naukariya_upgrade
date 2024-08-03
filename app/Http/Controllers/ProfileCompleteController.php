@@ -8,13 +8,15 @@ use DB;
 use App\Models\Jobmanager;
 use App\Models\Top3VideoResumes;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileCompleteController extends Controller
 {
     public function ProfilePercentage(){
         $maximumPoints  = 100;
         $point = 0; 
-        $id = Session::get('user')['id'];
+        // $id = Session::get('user')['id'];
+        $id = Auth::guard('jobseeker')->user()->id;
         $data = DB::table('jobseekers')
             ->leftjoin('js_educational_details', 'js_educational_details.js_userid', '=', 'jobseekers.id')
             ->leftjoin('js_professional_details', 'js_professional_details.js_userid', '=', 'jobseekers.id')
