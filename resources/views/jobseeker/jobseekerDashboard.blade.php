@@ -1,4 +1,15 @@
 @extends('layouts.master', ['title' => 'Jobseeker Dashboard'])
+@section('style')
+    <style>
+        @media (min-width:1025px) {
+
+            /* big landscape tablets, laptops, and desktops */
+            .companyfollowing {
+                margin-bottom: -16px;
+            }
+        }
+    </style>
+@endsection
 @section('content')
     <section id="registration-form">
         <div class="container py-5">
@@ -16,7 +27,7 @@
                             </a>
 
                         </div>
-                        <div class="col-sm-3">
+                        {{-- <div class="col-sm-3">
                             <div class="box bg-primary py-4 text-center mt-3 rounded"><span class="text-white">0</span>
                                 <hr class="hr1">
                                 <p class="lead"><span class="text-white">Resume Format</span></p>
@@ -29,37 +40,42 @@
                                 <hr class="hr1">
                                 <p class="lead"><span class="text-white">Recommended Jobs</span></p>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-sm-3">
                             <a href="{{ route('follow_list') }}" target="_blank">
-                                <div class="box bg-info py-4 text-center mt-3"><span class="text-white">
+                                <div class="box bg-info py-4 text-center mt-3 rounded"><span class="text-white">
                                         {{ $data['following'] }}</span>
-                                    <hr class="hr1"><span class="text-white">Companies Following</span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-sm-3">
-                            <a href="{{ route('get-saved-job') }}" target="_blank">
-                                <div class="box bg-success py-4 text-center mt-3"><span
-                                        class="text-white">{{ $data['saved_jobs'] }}</span>
-                                    <hr class="hr1"><span class="text-white">Saved Jobs</span>
+                                    <hr class="hr1">
+                                    <p class="lead companyfollowing"><span class="text-white">Companies Following</span></p>
                                 </div>
                             </a>
 
                         </div>
                         <div class="col-sm-3">
+                            <a href="{{ route('get-saved-job') }}" target="_blank">
+                                <div class="box bg-success py-4 text-center mt-3 rounded"><span
+                                        class="text-white">{{ $data['saved_jobs'] }}</span>
+                                    <hr class="hr1">
+                                    <p class="lead"><span class="text-white">Saved Jobs</span></p>
+                                </div>
+                            </a>
+
+                        </div>
+                        {{-- <div class="col-sm-3">
                             <div class="box bg-success py-4 text-center mt-3 rounded"><span
                                     class="text-white">{{ $data['recruiterMessages'] }}</span>
                                 <hr class="hr1">
                                 <p class="lead"><span class="text-white">Recruiter Message</span></p>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-sm-3">
-                            <div class="box bg-dark py-4 text-center mt-3 rounded"><span class="text-white"> 0</span>
+                            <a href="{{ route('jobseeker_support_list') }}" target="_blank">
+                            <div class="box bg-dark py-4 text-center mt-3 rounded"><span class="text-white"> {{ $data['helpdesk'] }}</span>
                                 <hr class="hr1">
                                 <p class="lead"><span class="text-white">Helpdesk</span>
                                 </p>
                             </div>
+                            </a>
                         </div>
 
                     </div>

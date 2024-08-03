@@ -140,15 +140,18 @@ Route::middleware('jobseeker')->group(function () {
     Route::get('dashboard/jobseeker', [DashboardController::class, 'countAllDataForJobSeeker'])->name('AllDataForJobSeeker');
     Route::get('/get-stage-registration', [StageRegistration::class, 'getStage'])->name('getStage');
     Route::get('/jobseeker-apply-job', [ApplyJobController::class, 'applyJobList'])->name('applyJobList');
-    Route::get('/unfollow-companies/{id}/{id2}', [SavedJobController::class, 'unfollow_companies'])->name('unfollow_companies');
-    Route::get('/get-saved-job', [SavedJobController::class, 'index'])->name('get-saved-job');
-    Route::post('/add-support', [SupportController::class, 'store_jobseeker'])->name('store_jobseeker');
-    Route::get('/supportlist', [SupportController::class, 'index'])->name('index');
-    Route::get('/follow-list', [SavedJobController::class, 'follow_list'])->name('follow_list');
     
     Route::prefix('jobseeker')->group(function () { 
         Route::get('/profile/percentage', [ProfileCompleteController::class, 'ProfilePercentage']);
+        Route::get('/supportlist', [SupportController::class, 'index'])->name('jobseeker_support_list');
+        Route::post('/add-support', [SupportController::class, 'store_jobseeker'])->name('store_jobseeker_support');
 
+        Route::controller(SavedJobController::class)->group(function () {
+            Route::get('/follow-list', 'follow_list')->name('follow_list');
+            Route::get('/get-saved-job', 'index')->name('get-saved-job');
+            Route::get('/unfollow-companies/{id}/{id2}', 'unfollow_companies')->name('unfollow_companies');
+        });
+        
         Route::controller(StageRegistration::class)->group(function (){
             Route::get('/profile-stage', 'getPersnol')->name('profile-stages');
             Route::post('/persnol-save', 'addPersnol');
@@ -164,6 +167,8 @@ Route::middleware('jobseeker')->group(function () {
      });
 
 });
+
+// Routes for authenticating only.
 
 // Employer Routes.
 

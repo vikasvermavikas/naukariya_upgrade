@@ -68,16 +68,21 @@ class ApplyJobController extends Controller
     {
         $this->validate($request, []);
         if (Auth::guard('jobseeker')->check()){
-            // $userid = Session::get('user')['id'];
-            $userid = Auth::guard('jobseeker')->user()->id;
-            $application_id = "NKR/" . $userid . "/" . $id;
-            $applyjob = new ApplyJob();
-            $applyjob->jsuser_id = $userid;
-            $applyjob->job_id = $id;
-            $applyjob->application_id = $application_id;
-            $applyjob->username = Auth::guard('jobseeker')->user()->email;
-            $applyjob->save();
-            return redirect()->back()->with(['message' => 'Job successfully applied']);
+
+            // If user has completed his profile.
+            if (Auth::guard('jobseeker')->user()->savestage == 6){
+                $userid = Auth::guard('jobseeker')->user()->id;
+                $application_id = "NKR/" . $userid . "/" . $id;
+                $applyjob = new ApplyJob();
+                $applyjob->jsuser_id = $userid;
+                $applyjob->job_id = $id;
+                $applyjob->application_id = $application_id;
+                $applyjob->username = Auth::guard('jobseeker')->user()->email;
+                $applyjob->save();
+                return redirect()->back()->with(['success' => true , 'message' => 'Job successfully applied']);
+            }
+            return redirect()->back()->with(['error' => true, 'message' => 'Please complete your profile first']);
+
         }
         else {
             return redirect()->route('login', ['job' => $id])->with(['error' => 'You must be logged in to apply for a job']);

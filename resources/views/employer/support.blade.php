@@ -17,6 +17,15 @@
                     </button>
                   </div>
                 @endif
+                @if(session()->has('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{session()->get('errormessage')}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                @endif
+
             </div>
             <div class="col-md-12">
                 <div class="table-responsive">
@@ -60,7 +69,7 @@
 
                             @empty
                                 <tr>
-                                    <td class="text-danger text-danger" colspan="6">No Record Found</td>
+                                    <td class="text-danger text-center" colspan="6">No Record Found</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -80,7 +89,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="{{route('employer_add_support')}}" method="post">
+                            <form action="{{Auth::guard('employer')->check() ? route('employer_add_support') : route('store_jobseeker_support')}}" method="post">
                                 @csrf
                                 <div class="row">
                                     <div class="col-sm-12">

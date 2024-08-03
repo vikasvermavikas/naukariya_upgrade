@@ -19,15 +19,25 @@ class SupportController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            $this->userid = Auth::guard('employer')->user()->id;
-            $this->companyid = Auth::guard('employer')->user()->company_id;
-            $this->usertype = Auth::guard('employer')->user()->user_type;
+     
+            if (Auth::guard('employer')->check() ){
+
+                $this->userid = Auth::guard('employer')->user()->id;
+                $this->usertype = Auth::guard('employer')->user()->user_type;
+            }
+            if (Auth::guard('jobseeker')->check() ){
+    
+                $this->userid = Auth::guard('jobseeker')->user()->id;
+                $this->usertype = Auth::guard('jobseeker')->user()->user_type;
+            }
+
             return $next($request);
         });
     }
 
     public function index()
     {
+     
         $userid = $this->userid;
         $get_user = $this->usertype;
         $data = DB::table('supports')
@@ -93,11 +103,11 @@ class SupportController extends Controller
 
     public function store_jobseeker(Request $request)
     {
-        $userid = Session::get('user')['id'];
-        $fname = Session::get('user')['fname'];
-        $lname = Session::get('user')['lname'];
-        $email = Session::get('user')['email'];
-        $get_user = Session::get('user')['user_type'];
+        $userid = Auth::guard('jobseeker')->user()->id;
+        $fname = Auth::guard('jobseeker')->user()->fname;
+        $lname = Auth::guard('jobseeker')->user()->lname;
+        $email = Auth::guard('jobseeker')->user()->email;
+        $get_user = Auth::guard('jobseeker')->user()->user_type;
         $string = substr($get_user, 0, 3);
         $dt = time();
         $support_id = "SUP/" . $string . "/" . $userid . "/" . $dt;
@@ -114,9 +124,13 @@ class SupportController extends Controller
         $helpdeskStore = $support->save();
 
         if ($helpdeskStore) {
-            return response()->json(['data' => 'Helpdesk send successfully'], 200);
+            // return response()->json(['data' => 'Helpdesk send successfully'], 200);
+        return redirect()->route('jobseeker_support_list')->with(['success' => true, 'message' => 'Message sent successfully']);
+
         }
 
-        return response()->json(['data' => 'Something went wrong.'], 201);
+        // return response()->json(['data' => 'Something went wrong.'], 201);
+        return redirect()->route('jobseeker_support_list')->with(['error' => true, 'errormessage' => 'Message sent successfully']);
+
     }
 }

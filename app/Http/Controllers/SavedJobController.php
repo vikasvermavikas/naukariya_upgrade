@@ -15,7 +15,8 @@ class SavedJobController extends Controller
 
     public function index()
     {
-        $uid = Session::get('user')['id'];
+        // $uid = Session::get('user')['id'];
+        $uid = Auth::guard('jobseeker')->user()->id;
         $applyJobID = array();
         $applyJobs = ApplyJob::where('jsuser_id', $uid)->select('job_id')->get();
         foreach ($applyJobs as $applyJob) {
@@ -33,7 +34,8 @@ class SavedJobController extends Controller
             ->orderBy('saved_jobs.created_at', 'DESC')
             ->get();
 
-        return response()->json(['data' => $saved], 200);
+        // return response()->json(['data' => $saved], 200);
+        return view('jobseeker.savejob', ['data' => $saved]);
     }
 
     public function store($id)
@@ -104,23 +106,28 @@ class SavedJobController extends Controller
             ->leftjoin('empcompaniesdetails', 'empcompaniesdetails.id', '=', 'followers.employer_id')
             ->select('followers.*', 'empcompaniesdetails.*')
             ->where('user_id', $userId)
-            ->get();
+            ->paginate(10);
         //$follow = Follower::select('id','employer_id')->where('user_id', $userId)->get();
 
-        return response()->json([
-            'data' => $followlist], 200);
+        // return response()->json([
+        //     'data' => $followlist], 200);
 
 
-        // return view('jobseeker.company_following', )
+        return view('jobseeker.company_followings', ['data' => $followlist]);
 
 
     }
 
     public function unfollow_companies($job_id, $comp_id)
     {
-        $userid = Session::get('user')['id'];
-
+        // $userid = Session::get('user')['id'];
+        $userid = Auth::guard('jobseeker')->user()->id;
+        
         $follower = Follower::where('user_id', $userid)->where('job_id', $job_id)->where('employer_id', $comp_id)->delete();
+        if ($follower){
+            return redirect()->back()->with(['success' => true, 'message' => 'Company unfollowed successfully.']);
+        }
+        return redirect()->back()->with(['error' => true,'message' => 'Failed to unfollow company']);
     }
 
     public function follower_list()

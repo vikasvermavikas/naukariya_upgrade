@@ -176,6 +176,10 @@ class DashboardController extends Controller
 
         $data['recruiterMessages'] = MyInbox::where('receiver_email', $loggedUserEmail)->where('receiver_usertype', $loggedUserType)->where('read_status', '0')->count();
 
+        $data['helpdesk'] = Support::where('support_userid', $loggedUserId)
+        ->where('support_usertype', $loggedUserType)
+        ->where('support_close_date', null)
+        ->count();
         // return response()->json(['data' => $data], 200);
 
         return view('jobseeker.jobseekerDashboard', compact('data'));
