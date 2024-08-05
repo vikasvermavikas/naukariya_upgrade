@@ -8,6 +8,19 @@ $(document).ready(function () {
 
     var abc = 0;
     var bcd = [];
+    // Change image.
+    $('#cam').click(function () {
+        $('#file-input').on('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    $('.profileimage').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    });
 
     // first name
 
@@ -74,18 +87,18 @@ $(document).ready(function () {
     });
 
     // Designation
-    $('#Designation').keypress(function (e) {
-        var regex = new RegExp("^[a-zA-Z]+$");
-        var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
-        if (regex.test(str)) {
-            $('#Designation_error').html('');
-            return true;
-        } else {
-            e.preventDefault();
-            $('#Designation_error').html('please enter only character');
-            return false;
-        }
-    });
+    // $('#Designation').keypress(function (e) {
+    //     var regex = new RegExp("^[a-zA-Z]+$");
+    //     var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+    //     if (regex.test(str)) {
+    //         $('#Designation_error').html('');
+    //         return true;
+    //     } else {
+    //         e.preventDefault();
+    //         $('#Designation_error').html('please enter only character');
+    //         return false;
+    //     }
+    // });
 
     // prefered loaction
 

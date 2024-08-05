@@ -148,6 +148,7 @@ Route::middleware('jobseeker')->group(function () {
         Route::get('/supportlist', [SupportController::class, 'index'])->name('jobseeker_support_list');
         Route::post('/add-support', [SupportController::class, 'store_jobseeker'])->name('store_jobseeker_support');
         Route::get('/my-profile', [UserprofileController::class, 'jobseeker_profile'])->name('jobseekerProfile');
+        Route::get('/get-user-skill', [UserprofileController::class, 'getUserSkill']);
 
 
         Route::controller(SavedJobController::class)->group(function () {
@@ -164,8 +165,8 @@ Route::middleware('jobseeker')->group(function () {
             Route::post('/add-professional-detail-stage', 'addProfessionalDetail');
             Route::post('/add-skill-detail', 'addSkillDetail');
             Route::post('/add-certification-detail-stage', 'addCertificationDetail');
-
-
+            Route::get('/get-certification-detail', 'getCertificationDetail');
+            Route::get('/get-education-detail', 'getEducationDetail');
 
         });
      });

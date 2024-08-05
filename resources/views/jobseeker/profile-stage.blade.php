@@ -36,6 +36,9 @@
         .select2-container .select2-selection--multiple {
             min-height: 46px;
         }
+        .bootstrap-tagsinput .badge {
+            margin-right: 2px;
+        }
     </style>
 @endsection
 
@@ -72,7 +75,7 @@
                                                         style="display: flex; justify-content: center; align-items: center;">
                                                         @if ($data->profile_pic_thumb)
                                                             <img src="{{ asset('jobseeker_profile_image/' . $data->profile_pic_thumb . '') }}"
-                                                                class="img-fluid rounded w-50" alt="">
+                                                                class="img-fluid rounded w-50 profileimage" alt="">
                                                         @else
                                                             <img id="previewImg"
                                                                 src="https://i.pinimg.com/736x/aa/c9/4e/aac94e41310947cbcd5f38a41ccc0132.jpg"
@@ -526,7 +529,7 @@
                                                             </label>
                                                             <select class="form-control tab2 course_types"
                                                                 name="course_type[]" data-id="course-error">
-                                                                <option value="">Select Course Type</option>
+                                                                <option value="" disabled>Select Course Type</option>
                                                                 <option value="Full Time"
                                                                     {{ isset($secondayschool->course_type) && $secondayschool->course_type == 'Full Time' ? 'selected' : '' }}>
                                                                     Full Time</option>

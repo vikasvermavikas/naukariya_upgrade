@@ -115,7 +115,7 @@ class StageRegistration extends Controller
         $create = 0;
 
         // Delete records of certification.
-        if ($request->removedids[0]){
+        if ($request->removedids[0]) {
             JsCertification::whereIn('id', explode(',', $request->removedids[0]))->delete();
         }
 
@@ -159,8 +159,7 @@ class StageRegistration extends Controller
         // $stage = Jobseeker::select('stage')->where('id', $uid)->first();
 
         // return response()->json(['data' => $request->all(), 'stage' => $stage]);
-        return response()->json(['success' => true,'message' => 'Certification details updated successfully.']);
-
+        return response()->json(['success' => true, 'message' => 'Certification details updated successfully.']);
     }
     public function addCertificate(Request $request)
     {
@@ -203,23 +202,18 @@ class StageRegistration extends Controller
     public function getCertificationDetail()
     {
         // $uid = 1215;
-        $uid = Session::get('user')['id'];
+        // $uid = Session::get('user')['id'];
+        $uid = Auth::guard('jobseeker')->user()->id;
 
         $count = JsCertification::where('certificate', 1)->where('js_userid', $uid)->get();
-        // return ;
+        // // return ;
         if (count($count) > 0) {
             $data = JsCertification::select('certificate')->where('js_userid', $uid)->where('certificate', 1)->get();
-            return  $data[0]->certificate;
         } else {
-            $data = JsCertification::where('js_userid', $uid)->get();
-            if (count($data) > 0) {
-
-                return  $data->all();
-            } else {
-                $data2[0]['certificate'] = 1;
-                return  $data2;
-            }
+            $data = JsCertification::select('id', 'certification_type', 'certificate_institute_name', 'course', 'cert_to_date', 'cert_from_date')->where('js_userid', $uid)->get();
         }
+
+        return response()->json(['data' => $data], 200);
     }
     public function deleteProfessionalDetail($id)
     {
@@ -246,7 +240,7 @@ class StageRegistration extends Controller
 
     public function addSkillDetail(Request $req)
     {
-        
+
         // $uid = Session::get('user')['id'];
         // $uid = 1215;
         try {
@@ -254,9 +248,9 @@ class StageRegistration extends Controller
             $data = JsSkill::where('js_userid', $uid)->delete();
             if ($req->skill) {
                 $skills = explode(",", $req->skill);
-             
+
                 for ($i = 0; $i < count($skills); $i++) {
-        
+
                     $a = JsSkill::create(
                         [
                             'js_userid' => $uid,
@@ -267,9 +261,8 @@ class StageRegistration extends Controller
                 }
             }
             return response()->json(['success' => true, 'message' => 'Skills updated successfully.'], 200);
-        }
-        catch (throwable $e) {
-            return response()->json(['success' => false,'message' => $e->getMessage()], 200);
+        } catch (throwable $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 200);
         }
     }
 
@@ -281,10 +274,10 @@ class StageRegistration extends Controller
 
     public function getEducationDetail()
     {
-        $uid = Session::get('user')['id'];
+        $uid = Auth::guard('jobseeker')->user()->id;
 
-        $data = JsEducationalDetail::where('js_userid', $uid)->get();
-        return  $data->all();
+        $data = JsEducationalDetail::select('id', 'passing_year', 'degree_name', 'institute_name', 'course_type')->where('js_userid', $uid)->get();
+        return  response()->json(['success' => true, 'data' => $data], 200);
     }
 
     public function addEducationDetail(Request $req)
@@ -295,23 +288,26 @@ class StageRegistration extends Controller
 
         for ($i = 0; $i < count($req->degree); $i++) {
 
-            $a = JsEducationalDetail::updateOrCreate(
-                [
-                    'js_userid' => $uid,
-                    // 'id' => (isset($req->index[$i])) ? $req->index[$i] : "",
-                    'education' => $i + 1,
-                ],
-                [
-                    'degree_name' => $req->degree[$i],
-                    'course_type' => (($i < count($req->course_type)) && ($req->course_type[$i] != "")) ? $req->course_type[$i] : "",
-                    'percentage_grade' => $req->percentage[$i],
-                    'passing_year' => $req->pass_year[$i],
-                    'institute_name' => $req->ins_name[$i],
-                    'institute_location' => $req->ins_loc[$i],
-                    'education' => $i + 1,
+            if ($req->percentage[$i]){
 
-                ]
-            );
+                $a = JsEducationalDetail::updateOrCreate(
+                    [
+                        'js_userid' => $uid,
+                        // 'id' => (isset($req->index[$i])) ? $req->index[$i] : "",
+                        'education' => $i + 1,
+                    ],
+                    [
+                        'degree_name' => $req->degree[$i],
+                        'course_type' => (($i < count($req->course_type)) && ($req->course_type[$i] != "")) ? $req->course_type[$i] : "",
+                        'percentage_grade' => $req->percentage[$i],
+                        'passing_year' => $req->pass_year[$i],
+                        'institute_name' => $req->ins_name[$i],
+                        'institute_location' => $req->ins_loc[$i],
+                        'education' => $i + 1,
+    
+                    ]
+                );
+            }
             // $ins = Institute::firstOrCreate(['institute_name' => $req->ins_name[$i]]);
         }
         return response()->json(['success' => true, 'message' => 'Education Details updated successfully']);
@@ -473,7 +469,7 @@ class StageRegistration extends Controller
             'designation',
             'password'
         )->first();
-     
+
         $industries = Industry::select('id', 'category_name')->orderBy('category_name', 'ASC')->get();
         $functional_roles = FunctionalRole::select('functional_roles.id', 'functional_roles.subcategory_name')->orderBy('functional_roles.subcategory_name')->get();
         $location_data = DB::table('master_location')
@@ -515,7 +511,7 @@ class StageRegistration extends Controller
         $professionalDetails = JsProfessionalDetail::where('js_userid', $uid)->get();
         $certificationDetails = JsCertification::where('js_userid', $uid)->get();
         $skillsDetails = JsSkill::select(DB::raw('GROUP_CONCAT(skill) as skills'))->where('js_userid', $uid)->groupBy('js_userid')->first();
-       
+
         return view('jobseeker.profile-stage', ['data' => $data, 'industries' => $industries, 'functional_roles' => $functional_roles, 'locations' => $locations, 'getresume' => $getresume, 'graduations' => $graduations, 'postgraduations' => $postgraduations, 'highschool' => $highschool, 'secondayschool' => $secondayschool, 'graduationdetails' => $graduationdetails, 'postgraduationDetails' => $postgraduationDetails, 'professionalDetails' => $professionalDetails, 'certificationDetails' => $certificationDetails, 'skillsDetails' => $skillsDetails]);
     }
     public function resumeGet()
@@ -536,8 +532,7 @@ class StageRegistration extends Controller
         // return $checkStage[0]->savestage;
         if ($checkStage[0]->savestage <= $stage) {
             $data = Jobseeker::where('id', $uid)->update(['savestage' => ($stage + 1)]);
-        }
-        else {
+        } else {
             $data = Jobseeker::where('id', $uid)->update(['stage' => ($stage + 1)]);
         }
 

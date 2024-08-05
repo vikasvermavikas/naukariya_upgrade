@@ -484,40 +484,40 @@ class UserprofileController extends Controller
         $id = Auth::guard('jobseeker')->user()->id;
 
         $data = DB::table('jobseekers')
-            ->leftjoin('js_educational_details', 'js_educational_details.js_userid', '=', 'jobseekers.id')
-            ->leftjoin('js_professional_details', 'js_professional_details.js_userid', '=', 'jobseekers.id')
             ->leftjoin('js_resumes', 'js_resumes.js_userid', '=', 'jobseekers.id')
-            ->leftjoin('js_certifications', 'js_certifications.js_userid', '=', 'jobseekers.id')
-            ->leftjoin('js_social_links', 'js_social_links.js_userid', '=', 'jobseekers.id')
-            ->leftjoin('qualifications', 'qualifications.id', '=', 'js_educational_details.education')
-            ->leftjoin('functional_roles', 'functional_roles.id', '=', 'js_professional_details.functional_role')
             ->select(
                 'jobseekers.*',
-                'js_educational_details.*',
-                'js_professional_details.*',
-                'js_certifications.*',
-                'js_social_links.*',
-                'qualifications.*',
-                'functional_roles.*',
-                'js_resumes.js_userid',
+                // 'js_educational_details.*',
+                // 'js_professional_details.*',
+                // 'js_certifications.*',
+                // 'js_social_links.*',
+                // 'qualifications.*',
+                // 'functional_roles.*',
+                // 'js_resumes.js_userid',
+                // 'js_resumes.resume',
                 'js_resumes.resume',
-                'js_resumes.resume',
-                'js_resumes.resume_video_link',
-                'js_resumes.linkedin_resume_link',
-                'js_resumes.cover_letter',
-                'js_resumes.updated_at as resume_upload_date'
+                // 'js_resumes.resume_video_link',
+                // 'js_resumes.linkedin_resume_link',
+                // 'js_resumes.cover_letter',
+                // 'js_resumes.updated_at as resume_upload_date'
             )
             ->where('jobseekers.id', $id)
             ->first();
 
-        if ($data->resume_video_link) {
-            $old_link = $data->resume_video_link;
-            $new_link = "https://www.youtube.com/watch?v=" . $old_link;
-            $data->resume_video_link = $new_link;
-        }
-
+        // if ($data->resume_video_link) {
+        //     $old_link = $data->resume_video_link;
+        //     $new_link = "https://www.youtube.com/watch?v=" . $old_link;
+        //     $data->resume_video_link = $new_link;
+        // }
+        // echo "<pre>";
+        // print_r($data);
+        // echo "</pre>";
+        
+        // die();
         // return response()->json(['data' => $data], 200);
-        return view('jobseeker.myProfile', ['alldata' => $data]);
+        $professionalDetails = JsProfessionalDetail::where('js_userid', $id)->get();
+
+        return view('jobseeker.myProfile', ['alldata' => $data, 'professionalDetails' => $professionalDetails]);
     }
 
     public function getResumeLink()
@@ -846,9 +846,9 @@ class UserprofileController extends Controller
 
     public function getUserSkill()
     {
-        $uid = Session::get('user')['id'];
-        $skills = JsSkill::where('js_userid', $uid)->get();
-
+        // $uid = Session::get('user')['id'];
+        $uid = Auth::guard('jobseeker')->user()->id;
+        $skills = JsSkill::select('skill')->where('js_userid', $uid)->get();
         return response()->json(['data' => $skills, 'status' => 'success'], 200);
     }
 
