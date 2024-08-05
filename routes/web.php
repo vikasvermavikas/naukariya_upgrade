@@ -107,6 +107,8 @@ Route::middleware(['guest:jobseeker', 'guest:employer'])->group(function () {
 
     Route::get('/get-keywords', [JobseekerController::class, 'getKeywords'])->name('getskillsoptions');
 
+    Route::get('/subuser-login', [SubuserController::class, 'login'])->name('subuser-signin');
+    Route::post('/subuser/subuser-login', [SubuserController::class, 'loginSubuser'])->name('subuser-login');
 
 });
 Route::get('/get/sociallinks', [WebsiteInfoController::class, 'getPortalSocialLinks'])->name('sociallinks');
@@ -145,6 +147,8 @@ Route::middleware('jobseeker')->group(function () {
         Route::get('/profile/percentage', [ProfileCompleteController::class, 'ProfilePercentage']);
         Route::get('/supportlist', [SupportController::class, 'index'])->name('jobseeker_support_list');
         Route::post('/add-support', [SupportController::class, 'store_jobseeker'])->name('store_jobseeker_support');
+        Route::get('/my-profile', [UserprofileController::class, 'jobseeker_profile'])->name('jobseekerProfile');
+
 
         Route::controller(SavedJobController::class)->group(function () {
             Route::get('/follow-list', 'follow_list')->name('follow_list');

@@ -1,5 +1,10 @@
 $(document).ready(function () {
- 
+
+    // Add multi select.
+    $('.location-multiple').select2({
+        width: 'resolve' // need to override the changed default
+    });
+
 
     var abc = 0;
     var bcd = [];
@@ -757,7 +762,7 @@ $(document).ready(function () {
                             title: "Thank you!",
                             text: response.message,
                         });
-                        window.location.href = SITE_URL + "/dashboard/jobseeker";
+                        window.location.href = SITE_URL + "/jobseeker/my-profile";
                     } else {
                         Swal.fire({
                             icon: "error",

@@ -163,7 +163,7 @@
     </div>
 
     <li class="user-menu__item mt-2">
-        <a href="#/viewemployeeprofile" class="user-menu-link">
+        <a href="{{route('jobseekerProfile')}}" class="user-menu-link">
             <div class="text-color"><i class="fas fa-user-circle"></i> My profile
             </div>
         </a>

@@ -1,0 +1,106 @@
+#experience{
+    margin-top: 15px;
+}
+
+
+#preferred-loaction{
+    margin-top: 15px;
+}
+
+
+#notice-period{
+    margin-top: 15px;
+    margin-bottom: 50px;
+}
+.card-wrapper {
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border: 1px solid red; 
+      padding: 20px;
+      margin: 20px; */
+    border: 1px solid #ddddddd7;
+    /* border-radius: 15px;    */
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 0px 15px;
+    /* margin: 10px;          */
+    transition: box-shadow 0.3s ease;
+
+}
+
+.card-wrapper:hover {
+    box-shadow: 0 7px 13px rgba(0, 0, 0, 0.3);
+}
+input{
+    padding: 8px 28px 8px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 25px;
+    margin-top: 2px;
+    width: 100%;
+    box-sizing: border-box;
+    color: #2C3E50;
+    font-size: 16px;
+    letter-spacing: 1px
+}
+#education{
+    margin-left: 10px;
+
+}
+#skills{
+    margin-left: 10px;
+}
+#download-resume{
+    border-radius: 18px;
+    padding: 15px 20px;    
+}
+
+#print-resume{
+    padding: 15px 20px;
+    border-radius: 18px;
+}
+ .contact_span{
+    margin-left: 5px;
+ }
+.circle{
+       
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-sizing: border-box;
+            border-radius: 18px;
+            padding: 15px 20px;  
+            background-color: #e35e25;
+            color: white;
+            margin: 10px;
+}
+.circle span {
+    
+}
+
+ @media (768px <= width <= 1000px) {
+    #download-btn-div{
+margin-top: 20px;
+    }
+
+ }
+ @media (300px <= width <= 575px){
+    #download-btn-div{
+        margin-top: 20px;
+            }
+
+ }
+ @media (300px <= width <= 768px){
+    #right-container{
+        border: none;
+    }
+
+ }
+
+ 
+
+
+
+
+    

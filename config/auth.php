@@ -68,6 +68,10 @@ return [
             'driver' => 'session',
             'provider' => 'employers',
         ],
+        'subuser' => [
+            'driver' => 'session',
+            'provider' => 'subusers',
+        ],
     ],
 
     /*
@@ -104,6 +108,10 @@ return [
             'driver' => 'database',
             'model' => App\Models\AllUser::class,
             'table' => 'all_users',
+        ],
+        'subusers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\SubUser::class,
         ],
 
         // 'users' => [

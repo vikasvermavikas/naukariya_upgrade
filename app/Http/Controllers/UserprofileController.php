@@ -480,7 +480,8 @@ class UserprofileController extends Controller
 
     public function jobseeker_profile()
     {
-        $id = Session::get('user')['id'];
+        // $id = Session::get('user')['id'];
+        $id = Auth::guard('jobseeker')->user()->id;
 
         $data = DB::table('jobseekers')
             ->leftjoin('js_educational_details', 'js_educational_details.js_userid', '=', 'jobseekers.id')
@@ -509,13 +510,14 @@ class UserprofileController extends Controller
             ->where('jobseekers.id', $id)
             ->first();
 
-        // if ($data->resume_video_link) {
-        //     $old_link = $data->resume_video_link;
-        //     $new_link = "https://www.youtube.com/watch?v=" . $old_link;
-        //     $data->resume_video_link = $new_link;
-        // }
+        if ($data->resume_video_link) {
+            $old_link = $data->resume_video_link;
+            $new_link = "https://www.youtube.com/watch?v=" . $old_link;
+            $data->resume_video_link = $new_link;
+        }
 
-        return response()->json(['data' => $data], 200);
+        // return response()->json(['data' => $data], 200);
+        return view('jobseeker.myProfile', ['alldata' => $data]);
     }
 
     public function getResumeLink()

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 
 class SubuserController extends Controller
 {
@@ -23,9 +24,12 @@ class SubuserController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            $this->userid = Auth::guard('employer')->user()->id;
-            $this->companyid = Auth::guard('employer')->user()->company_id;
+            if (Auth::guard('employer')->check()){
+                $this->userid = Auth::guard('employer')->user()->id;
+                $this->companyid = Auth::guard('employer')->user()->company_id;
+            }
             return $next($request);
+
         });
     }
     public function index()
@@ -203,6 +207,11 @@ class SubuserController extends Controller
     public function loginSubuser(Request $request)
     {
         //dd($request->all());
+        $this->validate($request, [
+            'email' =>'required|email',
+            'password' => ['required'],
+        ]);
+
         $username = $request->email;
         $data = DB::table('sub_users')
             ->where('email', $username)
@@ -215,13 +224,22 @@ class SubuserController extends Controller
             // }
 
             if ($data->active == '1') {
-                Session::put('user', ['id' => $data->id, 'first_name' => $data->fname, 'last_name' => $data->lname, 'email' => $data->email, 'contact' => $data->contact, 'designation' => $data->designation, 'gender' => $data->gender, 'company_id' => $data->company_id]);
-                return response()->json(['status' => 'success', 'message' => 'Login success'], 200);
+
+                // Login the user.
+                if (Auth::guard('subuser')->attempt(['email' => $request->email, 'password' => $request->password])) {
+                    Session::put('user', ['id' => $data->id, 'first_name' => $data->fname, 'last_name' => $data->lname, 'email' => $data->email, 'contact' => $data->contact, 'designation' => $data->designation, 'gender' => $data->gender, 'company_id' => $data->company_id]);
+
+                    return redirect()->route('subuser-dashboard');
+
+                    // return response()->json(['status' => 'success', 'message' => 'Login success'], 200);
+                }
             } else {
-                return response()->json(['status' => 'error', 'message' => 'Your account is not active. Please contact your administrator.'], 201);
+                return redirect()->route('subuser-signin')->with(['error' => true, 'message' => 'Your account is not active. Please contact your administrator.']);
+                // return response()->json(['status' => 'error', 'message' => 'Your account is not active. Please contact your administrator.'], 201);
             }
         } else {
-            return response()->json(['status' => 'error', 'message' => 'You have entered wrong credentials.'], 201);
+            return redirect()->route('subuser-signin')->with(['error' => true, 'message' => 'You have entered wrong credentials.']);
+            // return response()->json(['status' => 'error', 'message' => 'You have entered wrong credentials.'], 201);
         }
     }
     public function getSubuserData()
@@ -308,5 +326,9 @@ class SubuserController extends Controller
         }
 
         return response()->json(['status' => 'success', 'message' => 'Profile Update'], 200);
+    }
+
+    public function login(){
+        return view('subuser.login');
     }
 }

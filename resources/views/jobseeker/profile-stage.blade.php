@@ -346,7 +346,7 @@
                                                     <span style="color: red;"> * </span>Resume</label>
                                                 <i aria-hidden="true" class="fa fa-info ml-2 mr-1"></i>
 
-                                                @if ($getresume->resume)
+                                                @if (isset($getresume->resume))
                                                     <input type="file" name="resume" id="file"
                                                         accept="application/pdf,application/msword,
                                                 application/vnd.openxmlformats-officedocument.wordprocessingml.document"
@@ -362,7 +362,7 @@
 
 
                                                 <span>
-                                                    @if ($getresume->resume)
+                                                    @if (isset($getresume->resume))
                                                         <a href="{{ asset('resume/' . $getresume->resume) }}"
                                                             class="btn">
                                                             <i class="fas fa-download"></i>
@@ -513,7 +513,7 @@
                                                             </label>
 
                                                             <select class="tab2 form-control degrees"
-                                                                data-id="qualification-error" name="degree[]" required>
+                                                                data-id="qualification-error" name="degree[]">
                                                                 <option value="12th"> 12th</option>
                                                             </select>
                                                             <small id="qualification-error" class="text-danger"></small>
@@ -616,7 +616,7 @@
                                                             </label>
 
                                                             <select class="tab2 form-control degrees"
-                                                                data-id="qualification-error" name="degree[]" required>
+                                                                data-id="qualification-error" name="degree[]">
                                                                 <option value="">Select Qualification</option>
                                                                 @foreach ($graduations as $qualification)
                                                                     <option value="{{ $qualification->qualification }}"
@@ -1451,11 +1451,5 @@
 @section('script')
     <script src="{{ asset('assets/js/profile-stage.js') }}"></script>
     <script src="{{ asset('assets/js/tagsinput.js') }}"></script>
-    <script>
-        $(document).ready(function () {
-            $('.location-multiple').select2({
-        width: 'resolve' // need to override the changed default
-    });
-            });
-    </script>
+ 
 @endsection
