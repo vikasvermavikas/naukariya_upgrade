@@ -13,14 +13,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Response;
-
+use Illuminate\Support\Facades\Auth;
+use App\Models\States;
 
 class TrackerController extends Controller
 {
 
     public function index(Request $request)
     {
-
+       
         $from_date = $request->from_date;
         $to_date = $request->to_date;
         $source = $request->source;
@@ -28,7 +29,7 @@ class TrackerController extends Controller
         $skills = $request->skills;
         $uploadstatus = $request->uploadstatus;
         $keyword = $request->keyword;
-        $subuser_id = Session::get('user')['id'];
+        $subuser_id = Auth::guard('subuser')->user()->id;
 
         $data = Tracker::where('added_by', $subuser_id)->orderBy('id', 'desc');
 
@@ -72,9 +73,6 @@ class TrackerController extends Controller
                 ->orWhere('preffered_location', 'like', "%$location%");
         }
 
-        // if (isset($skills) && $skills != '') {
-        //     $data->Where('key_skills', 'like', "%$skills%");
-        // }
         if (isset($skills) && $skills != '') {
             $key = explode(',', $skills);
             $data->Where(function ($query) use ($key) {
@@ -94,10 +92,10 @@ class TrackerController extends Controller
         }
 
 
-        $trackerList = $data->paginate(50);
+        $trackerList = $data->paginate(10);
 
-
-        return response()->json(['data' => $trackerList], 200);
+        return view('sub_user.tracker-list', ['data' => $trackerList]);
+        // return response()->json(['data' => $trackerList], 200);
     }
 
     public function store(Request $request)
@@ -825,5 +823,31 @@ class TrackerController extends Controller
             ->first();
 
         return response()->json(['data' => $data]);
+    }
+
+    public function addTracker(){
+        $locationdata = DB::table('master_location')
+        ->select('state')
+        ->distinct('state')
+        ->get();
+
+
+    $locations = $locationdata->map(function ($data) {
+        $edu = DB::table('master_location')
+            ->select('master_location.id', 'master_location.location')
+            ->where('master_location.state', $data->state)->get();
+
+        $educations = ['location' => $edu];
+
+        $collection = collect($data)->merge($educations);
+
+        return $collection;
+    });
+
+    $states = States::select('id', 'states_name')
+    ->where('country_id', '101')->get();
+
+        return view('sub_user.add_tracker', compact('locations', 'states'));
+
     }
 }

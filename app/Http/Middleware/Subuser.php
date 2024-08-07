@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Middleware;
+
 use Auth;
 use Illuminate\Http\Request;
 use Session;
@@ -19,9 +20,8 @@ class Subuser
      */
     public function handle($request, Closure $next)
     {
-        $usertype = Session::get('user')['id'];
+        if (Auth::guard('subuser')->check()) {
 
-        if ($usertype) {
             return $next($request);
         }
         return redirect('/');

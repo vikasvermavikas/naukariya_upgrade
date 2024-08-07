@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Http;
+use Symfony\Component\HttpFoundation\IpUtils;
 
 class SubuserController extends Controller
 {
@@ -24,12 +26,11 @@ class SubuserController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            if (Auth::guard('employer')->check()){
+            if (Auth::guard('employer')->check()) {
                 $this->userid = Auth::guard('employer')->user()->id;
                 $this->companyid = Auth::guard('employer')->user()->company_id;
             }
             return $next($request);
-
         });
     }
     public function index()
@@ -208,77 +209,111 @@ class SubuserController extends Controller
     {
         //dd($request->all());
         $this->validate($request, [
-            'email' =>'required|email',
+            'email' => 'required|email',
             'password' => ['required'],
+            'g-recaptcha-response' => ['required'],
         ]);
+        $recaptcha_response = $request->input('g-recaptcha-response');
 
-        $username = $request->email;
-        $data = DB::table('sub_users')
-            ->where('email', $username)
-            ->first();
+        $url = "https://www.google.com/recaptcha/api/siteverify";
 
-        if (isset($data) && password_verify($request->password, $data->password)) {
+        $body = [
+            'secret' => config('services.recaptcha.secret'),
+            'response' => $recaptcha_response,
+            'remoteip' => IpUtils::anonymize($request->ip()) //anonymize the ip to be GDPR compliant. Otherwise just pass the default ip address
+        ];
 
-            // if ($data->active == '0') {
-            //     return response()->json(['status' => 'account_deactive', 'message' => 'Your Account has been deactivated. Please contact your administrator'], 201);
-            // }
+        $response = Http::asForm()->post($url, $body);
 
-            if ($data->active == '1') {
+        $result = json_decode($response);
+        if ($response->successful() && $result->success == true) {
+            $username = $request->email;
+            $data = DB::table('sub_users')
+                ->where('email', $username)
+                ->first();
 
-                // Login the user.
-                if (Auth::guard('subuser')->attempt(['email' => $request->email, 'password' => $request->password])) {
-                    Session::put('user', ['id' => $data->id, 'first_name' => $data->fname, 'last_name' => $data->lname, 'email' => $data->email, 'contact' => $data->contact, 'designation' => $data->designation, 'gender' => $data->gender, 'company_id' => $data->company_id]);
+            if (isset($data) && password_verify($request->password, $data->password)) {
 
-                    return redirect()->route('subuser-dashboard');
+                // if ($data->active == '0') {
+                //     return response()->json(['status' => 'account_deactive', 'message' => 'Your Account has been deactivated. Please contact your administrator'], 201);
+                // }
 
-                    // return response()->json(['status' => 'success', 'message' => 'Login success'], 200);
+                if ($data->active == '1') {
+
+                    // Login the user.
+                    if (Auth::guard('subuser')->attempt(['email' => $request->email, 'password' => $request->password])) {
+                        Session::put('user', ['id' => $data->id, 'first_name' => $data->fname, 'last_name' => $data->lname, 'email' => $data->email, 'contact' => $data->contact, 'designation' => $data->designation, 'gender' => $data->gender, 'company_id' => $data->company_id]);
+
+                        return redirect()->route('subuser-dashboard');
+
+                        // return response()->json(['status' => 'success', 'message' => 'Login success'], 200);
+                    }
+                } else {
+                    return redirect()->route('subuser-signin')->with(['error' => true, 'message' => 'Your account is not active. Please contact your administrator.']);
+                    // return response()->json(['status' => 'error', 'message' => 'Your account is not active. Please contact your administrator.'], 201);
                 }
             } else {
-                return redirect()->route('subuser-signin')->with(['error' => true, 'message' => 'Your account is not active. Please contact your administrator.']);
-                // return response()->json(['status' => 'error', 'message' => 'Your account is not active. Please contact your administrator.'], 201);
+                return redirect()->route('subuser-signin')->with(['error' => true, 'message' => 'You have entered wrong credentials.']);
+                // return response()->json(['status' => 'error', 'message' => 'You have entered wrong credentials.'], 201);
             }
+        } else if ($result->{'error-codes'}) {
+
+            return redirect()->route('subuser-signin')->with(['error' => true, 'message' => $result->{'error-codes'}[0]]);
         } else {
-            return redirect()->route('subuser-signin')->with(['error' => true, 'message' => 'You have entered wrong credentials.']);
-            // return response()->json(['status' => 'error', 'message' => 'You have entered wrong credentials.'], 201);
+            return redirect()->route('subuser-signin')->with(['error' => true, 'message' => 'Captcha not validated']);
         }
     }
     public function getSubuserData()
     {
-        $uid = $this->userid;
+        // $uid = $this->userid;
+        $userdata = Auth::guard('subuser')->user();
 
-        $data = SubUser::join('all_users', 'all_users.id', 'sub_users.created_by')
-            ->join('empcompaniesdetails', 'empcompaniesdetails.id', 'all_users.company_id')
-            ->select('sub_users.*', 'empcompaniesdetails.company_name')->where('sub_users.id', $uid)->first();
+        // $data = SubUser::join('all_users', 'all_users.id', 'sub_users.created_by')
+        //     ->join('empcompaniesdetails', 'empcompaniesdetails.id', 'all_users.company_id')
+        //     ->select('sub_users.*', 'empcompaniesdetails.company_name')->where('sub_users.id', $uid)->first();
 
 
-        return response()->json(['data' => $data], 200);
+        // return response()->json(['data' => $data], 200);
+        return view('sub_user.myprofile', ['user' => $userdata]);
     }
     public function updatePassword(Request $request)
     {
-        $id = $this->userid;
+        $id = Auth::guard('subuser')->user()->id;
 
         $this->validate($request, [
 
-            'new_password' => 'min:8|required_with:confirm_password|same:confirm_password',
-            'confirm_password' => 'min:8'
+            // 'new_password' => 'min:8|required_with:confirm_password|same:confirm_password',
+            'password' => ['required', 'confirmed', Password::min(8)
+                ->mixedCase()
+                ->numbers()
+                ->symbols()],
+            'password_confirmation' => 'min:8'
         ]);
 
         $change = SubUser::find($id);
 
-        $change->password = Hash::make($request->confirm_password);
-        $change->password_view = $request->confirm_password; //decrpt password
+        $change->password = Hash::make($request->password);
+        $change->password_view = $request->password; //decrpt password
 
         $saved = $change->save();
 
         if ($saved) {
-            return response()->json(['success' => 'Password Changed'], 200);
+            // return response()->json(['success' => 'Password Changed'], 200);
+            return redirect()->route('subuser-profile')->with(['success' => true, 'message' => 'Password was successfully changed']);
+            
         }
-
-        return response()->json(['error' => 'Something went wrong'], 200);
+        
+        return redirect()->route('subuser-profile')->with(['error' => true, 'message' => 'Something went wrong, please contact to administrator.']);
+        // return response()->json(['error' => 'Something went wrong'], 200);
     }
     public function updateSubUserProfileImage(Request $request)
     {
-        $authId = $this->userid;
+
+        $this->validate($request, [
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:1024', // max 1MB
+        ]);
+
+        $authId = Auth::guard('subuser')->user()->id;
         $consultant = SubUser::where('id', $authId)->first();
 
         //$path = public_path(). '/subuser_profile_image';
@@ -295,6 +330,12 @@ class SubuserController extends Controller
             $consultantProfile = SubUser::where('id', $authId)->update(['profile_image' => $filename]);
 
             $upload = $request->image->move($path, $filename);
+
+            if ($upload) {
+                return response()->json(['status' => true, 'message' => 'Profile Image Uploaded Successfully'], 200);
+            } else {
+                return response()->json(['status' => false, 'message' => 'Failed to Upload Profile Image'], 200);
+            }
         }
     }
     public function checkEmail($email)
@@ -309,7 +350,15 @@ class SubuserController extends Controller
     }
     public function updateHimself(Request $request)
     {
-        $authId = $this->userid;
+        $authId = Auth::guard('subuser')->user()->id;
+
+        $this->validate($request, [
+            'fname' => 'required|string',
+            'lname' => 'required|string',
+            'contact' => 'required|numeric|min:10',
+            'designation' => 'required|string',
+            'gender' => 'required|string'
+        ]);
 
         $data = [
             'fname' => $request->fname,
@@ -322,13 +371,16 @@ class SubuserController extends Controller
         $consultant = SubUser::where('id', $authId)->update($data);
 
         if (!$consultant) {
-            return response()->json(['status' => 'error', 'message' => 'Something went wrong'], 200);
+            return redirect()->route('subuser-profile')->with(['error' => true, 'message' => 'Something went wrong, please try again']);
+            // return response()->json(['status' => false, 'message' => 'Something went wrong'], 200);
         }
 
-        return response()->json(['status' => 'success', 'message' => 'Profile Update'], 200);
+        return redirect()->route('subuser-profile')->with(['success' => true, 'message' => 'Profile Updated Successfully']);
+        // return response()->json(['status' => true, 'message' => 'Profile Update'], 200);
     }
 
-    public function login(){
-        return view('subuser.login');
+    public function login()
+    {
+        return view('sub_user.login');
     }
 }

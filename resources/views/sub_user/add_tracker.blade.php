@@ -1,0 +1,405 @@
+@extends('layouts.master', ['title' => 'Add Tracker'])
+@section('style')
+    <link rel="stylesheet" href="{{ asset('assets/css/subuser/addTracker.css') }}">
+    <link href="{{ asset('assets/css/tagsinput.css') }}" rel="stylesheet" type="text/css">
+
+    <style>
+        .currenlyLog {
+            margin-top: -0.75rem !important;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        h3 {
+            color: #e35e25;
+        }
+
+        hr {
+            border-bottom: 3px solid #eceff8;
+        }
+        .bootstrap-tagsinput .badge {
+            margin-right: 2px;
+        }
+    </style>
+@endsection
+@section('content')
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 my-4">
+                <h3>Add Candidate</h3>
+            </div>
+            <div class="col-lg-9 col-md-12 col-sm-12 border  h-auto wrapper-profile">
+                <h3 style="margin-top: 20px;">Profile Details</h3>
+                <hr>
+                <!-- Profile details row-1 -->
+                <form action="" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label><span style="color: red;">*</span> Name</label>
+                            <input type="text" placeholder="Enter Name" name="name" required />
+                            @error('name')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label><span style="color: red;">*</span> Email</label>
+                            <input type="email" placeholder="Enter Email" name="email" required />
+                            @error('email')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label><span style="color: red;">*</span> Contact No</label>
+                            <input type="text" maxlength="10" placeholder="Enter Contact No" name="contact" pattern="[1-9]{1}[0-9]{9}" required />
+                            @error('contact')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <!-- Profile Details row-2 -->
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label><span style="color: red;">*</span> Select Gender</label>
+                            <select name="gender" style="outline: none;" required>
+                                <option value="">Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="others">Others</option>
+                            </select>
+                            @error('gender')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12">
+                            <label>Key skills(use Multiple Skills Seprated By Comma(,))</label>
+                            <input type="text" data-role="tagsinput" placeholder="Enter Skills(Multiple Skills Seprated By Comma,)"
+                                name="skills" required>
+                        </div>
+                    </div>
+                    <!-- profile details row-3 -->
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label>Applied Designation</label>
+                            <input type="text" class="designation" placeholder="Enter Input Applied Designation" name="applied_designation" data-prefetch="{{ route('getskillsoptions') }}">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label>Current Designation</label>
+                            <input type="text" class="designation" placeholder="Enter Input Current Designation" name="current_designation" data-prefetch="{{ route('getskillsoptions') }}" >
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label>Experience</label>
+                            <select name="experience" style="outline: none;" name="experience">
+                                <option value="">Select Experience</option>
+                                <option value="fresher">0-1 Yr (Also Fresher)</option>
+                                <option value="1-2">1-2 Yr</option>
+                                <option value="2-4">2-4 Yr</option>
+                                <option value="4-5">4-5 Yr</option>
+                                <option value="5-8">5-8 Yr</option>
+                                <option value="8-10">8-10 Yr</option>
+                                <option value="10-15">10-15 Yr</option>
+                                <option value="15-20">15-20 Yr</option>
+                                <option value="20-25">20-25 Yr</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- Company details section -->
+                    <!-- Row-1 -->
+                    <h3 style="margin-top: 20px;">Company Details</h3>
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <label>Comapny Name</label>
+                            <input type="text" placeholder="Enter Company Name" name="company_name[]" />
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <label>Designation in Company</label>
+                            <input type="text" placeholder="Working As" name="working_as[]" />
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label>From</label>
+                            <input type="date" name="from[]" max="{{date('Y-m-d')}}">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <span class="float-right small d-flex currenlyLog"><input type="checkbox" value="1">Currently Working
+                            </span>
+                            <label>To</label>
+                            <input type="date" name="to[]" max="{{date('Y-m-d')}}">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label>Current CTC (In LPA)</label>
+                            <input type="number" min="1" name="current-ctc[]" pattern="[0-9]*[.,]?[0-9]*"
+                                placeholder="Enter Current CTC">
+
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label>Expected CTC (In LPA)</label>
+                            <input type="number" min="1" name="expected-ctc[]" pattern="[0-9]*[.,]?[0-9]*"
+                                placeholder="Enter Expected CTC">
+
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label>Intrested Job Type</label>
+                            <select name="intrested_job_type[]">
+                                <option value="">Select Intrested Job Type</option>
+                                <option value="part-time">Part Time</option>
+                                <option value="full-time">Full Time</option>
+                            </select>
+
+                        </div>
+                        <div class="col-md-12">
+                            <button class="btn rounded p-3 float-right">Add More</button>
+                        </div>
+                    </div>
+                    <h3 style="margin-top: 20px;">Education Details</h3>
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label>10th Board name</label>
+                            <input type="text" placeholder="Enter 10th Board" name="tenth_board" />
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label>10th Percentage</label>
+                            <input type="number" placeholder="Enter 10th  %" min="40" max="100"
+                                name="tenth_percentage" />
+                            @error('tenth_percentage')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label>10th Passing Year</label>
+                            <input type="number" placeholder="Enter 10th Passing Year" min="{{date('Y') - 20}}" max="{{date('Y')}}" name="tenth_year" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label>12th Board name</label>
+                            <input type="text" placeholder="Enter 12th Board" name="twelth_board" />
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label>12th Percentage</label>
+                            <input type="number" placeholder="Enter 12th  %" min="40" max="100" name="twelth_percentage" />
+                            @error('twelth_percentage')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label>12th Passing Year</label>
+                            <input type="number" placeholder="Enter 12th Passing Year" min="{{date('Y') - 20}}" max="{{date('Y')}}" name="twelth_year" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <label>Diploma Board</label>
+                            <input type="text" placeholder="Diploma Board" name="diploma_board" />
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <label>Diploma Percentage</label>
+                            <input type="number" placeholder="Diploma %" min="40" max="100"
+                                name="diploma_percentage" />
+                            @error('diploma_percentage')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <label>Diploma In</label>
+                            <input type="text" placeholder="Diploma In" name="diploma_field" />
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <label>Diploma Passing Year</label>
+                            <input type="number" placeholder="Diploma passing year" min="{{date('Y') - 20}}" max="{{date('Y')}}" name="diploma_year" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label>Graduation Mode</label>
+                            <input type="text" placeholder="Graduation Mode" name="graduation_mode" />
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label>Degree Name</label>
+                            <input type="text" placeholder="Degree Name" name="graduation" />
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label>Graduation Stream</label>
+                            <input type="text" placeholder="Graduation Stream" name="graduation_stream" />
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label>Graduation Percentage</label>
+                            <input type="number" placeholder="Graduation %" min="40" max="100"
+                                name="graduation_percentage" />
+                            @error('graduation_percentage')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label>Graduation Passing Year</label>
+                            <input type="number" placeholder="Graduation Passing year" name="graduation_year" min="{{date('Y') - 20}}" max="{{date('Y')}}" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label>PG Mode</label>
+                            <input type="text" placeholder="Post Graduation Mode" name="post_graduation_mode" />
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label>PG Degree Name</label>
+                            <input type="text" placeholder="Post Graduation Degree Name" name="post_graduation" />
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label>PG Stream</label>
+                            <input type="text" placeholder="Post Graduation Stream Name"
+                                name="post_graduate_stream" />
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label>PG Percentage(%)</label>
+                            <input type="number" min="40" max="100" placeholder="Post Graduation %" name="post_graduation_percentage" />
+                            @error('post_graduation_percentage')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label>PG Passing Year</label>
+                            <input type="number" min="{{date('Y') - 20}}" max="{{date('Y')}}" placeholder="Post Graduation Passing year"
+                                name="post_graduation_year" />
+                        </div>
+
+                    </div>
+                    <h3>Loaction Details</h3>
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <label>Current Location</label>
+                            <select name="current_location" id="current_location" required>
+                                @for ($i = 0; $i < count($locations); $i++)
+                                    <optgroup label="{{ $locations[$i]['state'] }}">
+                                        @foreach ($locations[$i]['location'] as $locationvalue)
+                                            <option value="{{ $locationvalue->location }}">
+                                                {{ $locationvalue->location }}
+                                            </option>
+                                        @endforeach
+                                    </optgroup>
+                                @endfor
+                            </select>
+                            
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <label>Preffered Loaction</label>
+                            <select name="preffered_location" id="preffered_location" required>
+                                @for ($i = 0; $i < count($locations); $i++)
+                                    <optgroup label="{{ $locations[$i]['state'] }}">
+                                        @foreach ($locations[$i]['location'] as $locationvalue)
+                                            <option value="{{ $locationvalue->location }}">
+                                                {{ $locationvalue->location }}
+                                            </option>
+                                        @endforeach
+                                    </optgroup>
+                                @endfor
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <label>Hometown State</label>
+                            <select class="form-control" name="hometown_state" id="hometown_state">
+                                <option value="">Select State</option>
+                                @foreach ($states as $state)
+                                    <option value="{{ $state->id }}">{{ $state->states_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <label>Hometown City</label>
+                            <select class="form-control" name="hometown_city" id="hometown_city" required>
+                                <option value="">Select City</option>
+                            </select>
+                        </div>
+                    </div>
+                    <h3 style="margin-top: 10px;">Personal Information</h3>
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <label>Maritial Status</label>
+                            <select name="martial" style="outline: none;" name="maritial_status">
+                                <option value="" disabled>Select Maritial Status</option>
+                                <option value="unmarried">Unmarried</option>
+                                <option value="married">Married</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <label>Date of Birth</label>
+                            <input type="date" name="dob" max="{{date('Y-m-d')}}"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <label>Resume</label>
+                            <span style="color: red;"><i aria-hidden="true" class="fa fa-info ml-2 mr-1"></i></span>
+                            <input type="file"
+                                accept="application/pdf,application/msword,
+                        application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                name="resume">
+                            @error('resume')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <label>Notice Period</label>
+                            <select name="notice_period" style="outline: none;">
+                                <option value="">Select From Here</option>
+                                <option value="immediate">Immediate</option>
+                                <option value="15">Within 15 days</option>
+                                <option value="30">30 days</option>
+                                <option value="45">45 days</option>
+                                <option value="60">60 days</option>
+                                <option value="90">90 days</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <label>Raference</label>
+                            <input type="text" placeholder="Enter Raference name" name="reference" />
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <label>Remarks</label>
+                            <textarea placeholder="Remarks Here..." name="remarks"></textarea>
+                        </div>
+
+                    </div>
+                    <div class="text-center mb-50">
+                        <button type="submit" class="btn">Add</button>
+                    </div>
+                </form>
+            </div>
+            <!-- Recruitment Tracker container -->
+            <div class="col-lg-3 col-md-12 col-sm-12  h-auto">
+                <h4 style="text-align: center; margin-top: 20px;">Recruitment Tracker</h4>
+                <hr>
+                <p>A recruitment tracker is used to track job applications interviews
+                    ,and candidate contact details online.Improve your recruitment process with this free Recruitment
+                    Tracker table just enter candidate info by hand,or link your online job application from with your
+                    Recruitment Tracker to add new candidates automatically ! By adding interview notes to existing
+                    candidates you can compare strengths and weakness to choose the right person for the job.
+                </p>
+                <button type="button" class="btn w-100 mb-50">Candidate List</button>
+            </div>
+        </div>
+    </div>
+@endsection
+@section('script')
+<script src="{{ asset('assets/js/subuser/add_tracker.js') }}"></script>
+<script src="{{ asset('assets/js/tagsinput.js') }}"></script>
+<script src="{{ asset('assets/js/bootstrap-autocomplete.js') }}"></script>
+@endsection

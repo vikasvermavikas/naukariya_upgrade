@@ -7,12 +7,14 @@ use App\Models\SubUser;
 use App\Models\Tracker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
 class SubUserDashboardController extends Controller
 {
     public function dashboard()
     {
-        $subuserId =Session::get('user')['id'];
+        // $subuserId =Session::get('user')['id'];
+        $subuserId = Auth::guard('subuser')->user()->id;
 
         $data['totalAdded']= Tracker::where('added_by',$subuserId)->count();
 
@@ -20,7 +22,19 @@ class SubUserDashboardController extends Controller
 
         $data['resumeNotUploaded']= Tracker::where('added_by',$subuserId)->whereNull('resume')->count();
 
-        return response()->json(['data' => $data]);
+        return view('sub_user.dashboard', ['data' => $data]);
+    }
+
+    public function logout(Request $request) {
+        Auth::guard('subuser')->logout();
+ 
+        $request->session()->invalidate();
+     
+        $request->session()->regenerateToken();
+
+        Session::flush();
+
+       return redirect()->route('home');
     }
   
 }

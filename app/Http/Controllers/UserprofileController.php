@@ -66,6 +66,7 @@ class UserprofileController extends Controller
         if (Auth::guard('employer')->check()) {
             Auth::guard('employer')->logout();
         }
+      
         Session::flush();
 
         return redirect()->route('home');

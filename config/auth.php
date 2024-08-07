@@ -110,8 +110,9 @@ return [
             'table' => 'all_users',
         ],
         'subusers' => [
-            'driver' => 'eloquent',
+            'driver' => 'database',
             'model' => App\Models\SubUser::class,
+            'table' => 'sub_users',
         ],
 
         // 'users' => [

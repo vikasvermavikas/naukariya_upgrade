@@ -78,7 +78,7 @@
                 <div class="row">
                     @if (session()->has('message'))
                         <div class="alert alert-success alert-dismissible fade show w-100" role="alert">
-                            abra ka dabra
+                           {{ session()->get('message') }}
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>

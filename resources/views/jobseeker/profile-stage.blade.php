@@ -2,8 +2,8 @@
 @section('style')
     {{-- <link rel="stylesheet" href="{{asset('assets/css/jobseeker/fontawesome.css')}}" --}}
 
-    <link href="{{ asset('assets/css/tagsinput.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{ asset('assets/css/jobseeker.css') }}">
+    <link href="{{ asset('assets/css/tagsinput.css') }}" rel="stylesheet" type="text/css">
     <style>
         /* .bootstrap-tagsinput .badge {
             margin-right: 10px;
@@ -79,7 +79,7 @@
                                                         @else
                                                             <img id="previewImg"
                                                                 src="https://i.pinimg.com/736x/aa/c9/4e/aac94e41310947cbcd5f38a41ccc0132.jpg"
-                                                                style="width: 150px; height: 150px; border: 1px solid white;">
+                                                                style="width: 150px; height: 150px; border: 1px solid white;" class="profileimage">
                                                         @endif
 
                                                         <input id="file-input" name="image" accept="image/*"
