@@ -25,6 +25,11 @@
     </style>
 @endsection
 @section('content')
+@php
+ if (!$companyDetails) {
+    $companyDetails = new stdclass();
+ }   
+@endphp
     <div class="container">
         <div class="row">
             <div class="col-md-12">

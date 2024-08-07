@@ -3,6 +3,11 @@
   <link rel="stylesheet" href="{{asset('assets/css/my_organisation.css')}}">
 @endsection
 @section('content')
+@php
+ if (!$company_details) {
+    $company_details = new stdclass();
+ }   
+@endphp
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12" style="background-image: url({{asset('company_cover/'.$company_details->cover_image.'')}});background-size:cover;height:137px;" >
