@@ -25,38 +25,38 @@
     </style>
 @endsection
 @section('content')
-@php
- if (!$companyDetails) {
-    $companyDetails = new stdclass();
-    $companyDetails->company_logo = '';
-$companyDetails->cover_image = '';
-$companyDetails->company_name = '';
-$companyDetails->tagline = '';
-$companyDetails->company_industry = '';
-$companyDetails->owner_name = '';
-$companyDetails->com_email = '';
-$companyDetails->com_contact = '';
-$companyDetails->website = '';
-$companyDetails->no_of_employee = '';
-$companyDetails->no_of_employee = '';
-$companyDetails->no_of_employee = '';
-$companyDetails->no_of_employee = '';
-$companyDetails->no_of_employee = '';
-$companyDetails->establish_date = '';
-$companyDetails->address = '';
-$companyDetails->company_country = '';
-$companyDetails->company_state = '';
-$companyDetails->company_city = '';
-$companyDetails->company_capital = '';
-$companyDetails->cin_no = '';
-$companyDetails->facebook_url = '';
-$companyDetails->twitter_url = '';
-$companyDetails->linkedin_url = '';
-$companyDetails->about = '';
-$companyDetails->additional = '';
-$companyDetails->company_video = '';
- }   
-@endphp
+    @php
+        if (!$companyDetails) {
+            $companyDetails = new stdclass();
+            $companyDetails->company_logo = '';
+            $companyDetails->cover_image = '';
+            $companyDetails->company_name = '';
+            $companyDetails->tagline = '';
+            $companyDetails->company_industry = '';
+            $companyDetails->owner_name = '';
+            $companyDetails->com_email = '';
+            $companyDetails->com_contact = '';
+            $companyDetails->website = '';
+            $companyDetails->no_of_employee = '';
+            $companyDetails->no_of_employee = '';
+            $companyDetails->no_of_employee = '';
+            $companyDetails->no_of_employee = '';
+            $companyDetails->no_of_employee = '';
+            $companyDetails->establish_date = '';
+            $companyDetails->address = '';
+            $companyDetails->company_country = '';
+            $companyDetails->company_state = '';
+            $companyDetails->company_city = '';
+            $companyDetails->company_capital = '';
+            $companyDetails->cin_no = '';
+            $companyDetails->facebook_url = '';
+            $companyDetails->twitter_url = '';
+            $companyDetails->linkedin_url = '';
+            $companyDetails->about = '';
+            $companyDetails->additional = '';
+            $companyDetails->company_video = '';
+        }
+    @endphp
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -161,6 +161,9 @@ $companyDetails->company_video = '';
                                         <label for="dob">Date of Birth</label>
                                         <input type="date" class="form-control" id="dob" name="dob"
                                             value="{{ $user->dob }}">
+                                        @error('dob')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <div class="col-md-4">
                                         <label for="gender">Gender</label>
@@ -174,6 +177,9 @@ $companyDetails->company_video = '';
                                                 Others
                                             </option>
                                         </select>
+                                        @error('gender')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <div class="col-md-4">
                                         <label for="aadhar_no">Aadhar No.</label>
@@ -189,7 +195,9 @@ $companyDetails->company_video = '';
                                         <input type="text" class="form-control" id="designation" name="designation"
                                             placeholder="Enter Your Current Designation"
                                             value="{{ $user->designation }}">
-
+                                        @error('designation')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <div class="col-md-4">
                                         <label for="industry_id">Select Industry <sub>(Please select one)</sub></label>
