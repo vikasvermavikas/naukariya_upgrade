@@ -6,6 +6,19 @@
 @php
  if (!$company_details) {
     $company_details = new stdclass();
+$company_details->cover_image = '';
+$company_details->owner_name = '';
+$company_details->company_logo = '';
+$company_details->about = '';
+$company_details->company_name = '';
+$company_details->address = '';
+$company_details->establish_date = '';
+$company_details->com_email = '';
+$company_details->com_email = '';
+$company_details->com_email = '';
+$company_details->com_contact = '';
+$company_details->cin_no = '';
+$company_details->status = '';
  }   
 @endphp
 <div class="container-fluid">

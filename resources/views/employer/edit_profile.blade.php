@@ -28,6 +28,33 @@
 @php
  if (!$companyDetails) {
     $companyDetails = new stdclass();
+    $companyDetails->company_logo = '';
+$companyDetails->cover_image = '';
+$companyDetails->company_name = '';
+$companyDetails->tagline = '';
+$companyDetails->company_industry = '';
+$companyDetails->owner_name = '';
+$companyDetails->com_email = '';
+$companyDetails->com_contact = '';
+$companyDetails->website = '';
+$companyDetails->no_of_employee = '';
+$companyDetails->no_of_employee = '';
+$companyDetails->no_of_employee = '';
+$companyDetails->no_of_employee = '';
+$companyDetails->no_of_employee = '';
+$companyDetails->establish_date = '';
+$companyDetails->address = '';
+$companyDetails->company_country = '';
+$companyDetails->company_state = '';
+$companyDetails->company_city = '';
+$companyDetails->company_capital = '';
+$companyDetails->cin_no = '';
+$companyDetails->facebook_url = '';
+$companyDetails->twitter_url = '';
+$companyDetails->linkedin_url = '';
+$companyDetails->about = '';
+$companyDetails->additional = '';
+$companyDetails->company_video = '';
  }   
 @endphp
     <div class="container">
