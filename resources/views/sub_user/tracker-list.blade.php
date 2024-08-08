@@ -4,7 +4,26 @@
         <div class="row">
             <div class="col-md-12">
                 <h3>Trackers List</h3>
-                <a href="{{route('add_tracker')}}" class="btn float-right p-3 rounded mb-2"><i class="fas fa-plus mr-2"></i>Add Candidate</a>
+                <a href="{{ route('add_tracker') }}" class="btn float-right p-3 rounded mb-2"><i
+                        class="fas fa-plus mr-2"></i>Add Candidate</a>
+            </div>
+            <div class="col-md-12">
+                @if (session()->has('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session()->get('message') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
+                @if (session()->has('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ session()->get('message') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
             </div>
             <div class="col-md-12">
                 <div class="table-responsive">
@@ -64,7 +83,7 @@
                                     <td class="text-capitalize">{{ $track->reference }}</td>
                                     <td>{{ $track->created_at }}</td>
                                     <td>
-                                        <a href="/tracker-details/track.id" class="badge badge-primary text-white"
+                                        <a href="{{route('edit_tracker', ['id' => $track->id])}}" class="badge badge-primary text-white"
                                             target="_blank" rel="noopener noreferrer"><i class="fa fa-eye"
                                                 aria-hidden="true"></i> View</a>
 

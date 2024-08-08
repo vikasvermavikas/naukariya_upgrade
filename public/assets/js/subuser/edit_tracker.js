@@ -2,14 +2,49 @@ $(document).ready(function () {
     // Get designations.
     $('.designation').autocomplete();
 
+    function get_cities(stateid = '') {
+        var cityid = '';
+        if (!stateid) {
+            var stateid = $("#hometown_state").val();
+            cityid = $("#cityid").val();
+        }
+
+        // If stateid is not empty, then return cities.
+        if (stateid) {
+            $.ajax({
+                url: SITE_URL + '/subuser/get-cities/data/' + stateid,
+                type: 'GET',
+                success: function (data) {
+                    var html = '<option>Select City</option>';
+                    $.each(data.data, function (key, value) {
+                        if (value.id == cityid) {
+                            html += '<option value="' + value.id + ' " selected>' + value.cities_name + '</option>';
+                        }
+                        else {
+                            html += '<option value="' + value.id + '">' + value.cities_name + '</option>';
+                        }
+                    });
+                    $("#hometown_city").html(html);
+                }
+            });
+        }
+    }
+
     function get_reference_list() {
+        var referenceid = $("#referenceid").val();
         $.ajax({
             url: SITE_URL + '/subuser/reference-list',
             type: 'GET',
             success: function (data) {
                 var html = '<option value="">Select Reference Name</option>';
                 $.each(data.data, function (key, value) {
-                    html += '<option value="' + value.id + '">' + value.name + '</option>';
+                    if (referenceid && (value.id == referenceid)) {
+                        html += '<option value="' + value.id + '" selected>' + value.name + '</option>';
+                    }
+                    else {
+                        html += '<option value="' + value.id + '">' + value.name + '</option>';
+                    }
+
                 });
                 html += '<option value="add_reference">Others</option>';
                 $('#reference').html(html);
@@ -17,6 +52,7 @@ $(document).ready(function () {
         });
     }
     get_reference_list();
+    get_cities();
     // Call to add reference modal.
     $('#reference').change(function () {
         var referenceValue = $(this).val();
@@ -64,14 +100,21 @@ $(document).ready(function () {
         $(".parentcompany .childcompany:last").find(".companydetails:last").prop("disabled", false); // Make todate field indisabled.
         // Add remove button
         $(".parentcompany .childcompany:last div:last").after(
-            "<div class='col-md-12 mb-2'><button class='btn rounded p-3 float-right removecompany'>Remove</button></div>"
+            "<div class='col-md-12 mb-2'><button type='button' class='btn rounded p-3 float-right removecompany'>Remove</button></div>"
         );
 
     });
 
     // Remove company details.
+    var removed_exp = [];
     $(document).on("click", ".removecompany", function () {
         $(this).closest(".childcompany").remove();
+
+        // Removed experiences.
+        var removedExperience = $(this).closest(".childcompany").find("#experiencedid").val();
+        removed_exp.push(removedExperience);
+        $("#removedexperiences").val(removed_exp);
+        console.log($("#removedexperiences").val());
     });
 
     // Disable currently working.
@@ -83,19 +126,10 @@ $(document).ready(function () {
         }
     });
 
+
     // Get cities based on selected state.
     $("#hometown_state").change(function () {
         var stateid = this.value;
-        $.ajax({
-            url: SITE_URL + '/subuser/get-cities/data/' + stateid,
-            type: 'GET',
-            success: function (data) {
-                var html = '<option>Select City</option>';
-                $.each(data.data, function (key, value) {
-                    html += '<option value="' + value.id + ' ">' + value.cities_name + '</option>';
-                });
-                $("#hometown_city").html(html);
-            }
-        });
+        get_cities(stateid);
     });
 });

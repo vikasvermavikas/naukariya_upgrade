@@ -36,6 +36,7 @@ use App\Http\Controllers\WebsiteInfoController;
 use App\Http\Controllers\ProfileCompleteController;
 use App\Http\Controllers\SubUserDashboardController;
 use App\Http\Controllers\TrackerController;
+use App\Http\Controllers\ReferenceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -351,8 +352,16 @@ Route::middleware('subuser')->group(function () {
         Route::controller(TrackerController::class)->prefix('trackers')->group(function () {
             Route::get('/', 'index')->name('subuser-tracker-list');
             Route::get('/add-tracker', 'addTracker')->name('add_tracker');
+            Route::post('/add-tracker', 'store')->name('submit_tracker');
+            Route::get('tracker-details/{id}','edit')->name('edit_tracker');
+            Route::post('update-tracker','update')->name('update_tracker');
+            Route::post('update-tracker/resume','uploadResume')->name('upload_tracker_resume');
 
         });
+
+        Route::get('/reference-list', [ReferenceController::class, 'index']);
+        Route::post('/add-reference', [ReferenceController::class, 'store']);
+
         Route::get('/get-cities/data/{id}', [CitiesController::class, 'getCityByState']);
 
     });

@@ -15,13 +15,15 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
 use App\Models\States;
-
+use Illuminate\Validation\Rule;
+use throwable;
+use Illuminate\Validation\Rules\File as FileRule;
 class TrackerController extends Controller
 {
 
     public function index(Request $request)
     {
-       
+
         $from_date = $request->from_date;
         $to_date = $request->to_date;
         $source = $request->source;
@@ -101,9 +103,28 @@ class TrackerController extends Controller
     public function store(Request $request)
     {
         //dd($request);
-        $subuser_id = Session::get('user')['id'];
-        $company_id = Session::get('user')['company_id'];
-        $addedbyEmployerId = SubUser::where('id', $subuser_id)->first();
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:trackers',
+            'contact' => 'required|string|max:15',
+            'dob' => 'date',
+            'gender' => 'required',
+            'reference' => 'required',
+            'resume' => 'mimes:doc,docx,pdf|max:1024'
+        ]);
+
+        // echo "<pre>";
+        // print_r($request->all());
+        // echo "</pre>";
+        // die();
+
+        // $subuser_id = Session::get('user')['id'];
+        // $company_id = Session::get('user')['company_id'];
+        // $addedbyEmployerId = SubUser::where('id', $subuser_id)->first();
+        $subuser_id = Auth::guard('subuser')->user()->id;
+        $company_id = Auth::guard('subuser')->user()->company_id;
+        $addedbyEmployerId = Auth::guard('subuser')->user()->created_by;
+        // $addedbyEmployerId = SubUser::where('id', $subuser_id)->first();
 
         $tracker = new Tracker();
 
@@ -136,7 +157,7 @@ class TrackerController extends Controller
         $tracker->preffered_location = $request->preffered_location;
         $tracker->reference = $request->reference;
         $tracker->company_id = $company_id;
-        $tracker->employer_id = $addedbyEmployerId->created_by;
+        $tracker->employer_id = $addedbyEmployerId;
         $tracker->added_by = $subuser_id;
 
 
@@ -146,13 +167,11 @@ class TrackerController extends Controller
             //resume upload
             if ($request->hasFile('resume')) {
                 //in local
-                $path = 'public/tracker/resume/';
+                $path = public_path() . '\tracker\resume\\';
                 //in live server
                 //$path='public/tracker/resume/';
                 //   return response()->json(['data' => $filename], 500);
                 $upload = $request->resume->move($path, $filename);
-
-
 
                 //unlink($path,$tracker->resume);
             }
@@ -192,19 +211,29 @@ class TrackerController extends Controller
             // }
 
 
-            $companyName = explode(",", $request->company_name);
+            $companyName = $request->company_name;
+            $designation = $request->working_as;
+            $from = $request->from;
+            $to = $request->to;
+
             $count = count($companyName);
 
 
             if ($count > 0) {
 
 
-                for ($i = 0; $i < $count; $i++) {
-                    $trackerExp = new TrackerPastExperience();
+                $currentlyworking = false;
 
-                    $designation = explode(",", $request->working_as);
-                    $from = explode(",", $request->from);
-                    $to = explode(",", $request->to);
+                for ($i = 0; $i < $count; $i++) {
+
+                    // If company name is not available then skip.
+                    if (empty($companyName[$i])) {
+                        continue;
+                    }
+                    $trackerExp = new TrackerPastExperience();
+                    if ($i == 0 && !empty($request->currentlyWork)) {
+                        $currentlyworking = true;
+                    }
 
                     $trackerExp->tracker_candidate_id = $tracker->id;
                     $trackerExp->company_name = $companyName[$i];
@@ -213,7 +242,14 @@ class TrackerController extends Controller
                     $trackerExp->currently_working = ($i == 0 && $request->currentlyWork == 1) ? '1' : NULL;
 
                     $trackerExp->from = $from[$i];
-                    $trackerExp->to = $to[$i];
+                    if ($currentlyworking && $i == 0) {
+                        $trackerExp->to = '';
+                    } else if ($currentlyworking) {
+                        $trackerExp->to = $to[$i - 1];
+                    } else {
+                        $trackerExp->to = $to[$i];
+                    }
+
 
                     $trackerExp->save();
                 }
@@ -235,6 +271,8 @@ class TrackerController extends Controller
                     $add->save();
                 }
             }
+
+            return redirect()->route('subuser-tracker-list')->with(['success' => true, 'message' => 'Candidate added successfully.']);
         }
         //return response()->json(['data' => $data], 200);
 
@@ -242,157 +280,223 @@ class TrackerController extends Controller
 
     public function edit($id)
     {
-        $Details = Tracker::leftJoin('tracker_education', 'tracker_education.tracker_candidate_id', '=', 'trackers.id')
+        $trackerDetails = Tracker::leftJoin('tracker_education', 'tracker_education.tracker_candidate_id', '=', 'trackers.id')
             ->select('*')
             ->where('trackers.id', $id)
             ->first();
 
-        $experience = TrackerPastExperience::where('tracker_candidate_id', $id)->get();
-        return response()->json(['data' => $Details, 'experience' => $experience]);
+        $experienceDetails = TrackerPastExperience::where('tracker_candidate_id', $id)->get();
+        // return response()->json(['data' => $Details, 'experience' => $experience]);
+
+        // Get Locations
+        $locationdata = DB::table('master_location')
+            ->select('state')
+            ->distinct('state')
+            ->get();
+
+
+        $locations = $locationdata->map(function ($data) {
+            $edu = DB::table('master_location')
+                ->select('master_location.id', 'master_location.location')
+                ->where('master_location.state', $data->state)->get();
+
+            $educations = ['location' => $edu];
+
+            $collection = collect($data)->merge($educations);
+
+            return $collection;
+        });
+
+        // Get States
+        $states = States::select('id', 'states_name')
+            ->where('country_id', '101')->get();
+
+        return view('sub_user.edit_tracker', compact('locations', 'states', 'trackerDetails', 'experienceDetails', 'id'));
     }
 
     public function update(Request $request, Tracker $tracker)
     {
-        //dd($request->all());
-        $subuser_id = Session::get('user')['id'];
-        $company_id = Session::get('user')['company_id'];
-        $addedbyEmployerId = SubUser::where('id', $subuser_id)->first();
-
         $id = $request->id;
+        // print_r(count($request->experienceid));
+        // dd($request->all());
+        // $subuser_id = Session::get('user')['id'];
+        // $company_id = Session::get('user')['company_id'];
+        // $addedbyEmployerId = SubUser::where('id', $subuser_id)->first();
+        $subuser_id = Auth::guard('subuser')->user()->id;
+        $company_id = Auth::guard('subuser')->user()->company_id;
+        $addedbyEmployerId = Auth::guard('subuser')->user()->created_by;
 
-        $tracker = Tracker::find($id);
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'email' => ['required','string','email','max:255',
+            Rule::unique('trackers')->ignore($id)
+        ],
+            'contact' => 'required|string|max:15',
+            'dob' => 'date',
+            'gender' => 'required',
+            'reference' => 'required',
+            'resume' => 'mimes:doc,docx,pdf|max:1024'
+        ]);
 
-        $tracker->name = $request->name;
-        $tracker->email = $request->email;
-        $tracker->contact = $request->contact;
-        $tracker->current_designation = $request->current_designation;
-        $tracker->key_skills = $request->key_skills;
-        $tracker->experience = $request->experience;
-        $tracker->current_ctc = $request->current_ctc;
-        $tracker->expected_ctc = $request->expected_ctc;
-        $tracker->notice_period = $request->notice_period;
-        $tracker->gender = $request->gender;
-        $tracker->remarks = $request->remarks;
-        $tracker->company_id = $company_id;
-        $tracker->employer_id = $addedbyEmployerId->created_by;
-        $tracker->added_by = $subuser_id;
-        $tracker->current_location = $request->current_location;
-        $tracker->preffered_location = $request->preffered_location;
-        $tracker->reference = $request->reference;
+        try{
+            $tracker = Tracker::find($id);
 
-        $tracker->dob = $request->dob;
-        $tracker->maritial_status = $request->maritial_status;
-        $tracker->intrested_job_type = $request->intrested_job_type;
-        $tracker->hometown_state = $request->hometown_state;
-        $tracker->hometown_city = $request->hometown_city;
-        $tracker->applied_designation = $request->applied_designation;
-
-        $data = $tracker->save();
-
-        $educationrecord = TrackerEducation::where('tracker_candidate_id', $id);
-        //  Update the education details.
-        if ($educationrecord->exists()) {
-            $trackerEdu = $educationrecord->first();
-        }
-        else{
-            $trackerEdu = new TrackerEducation();
-            $trackerEdu->tracker_candidate_id = $id;
-        }
-            $trackerEdu->tenth_board_name = $request->tenth_board_name ? $request->tenth_board_name : NULL;
+            $tracker->name = $request->name;
+            $tracker->email = $request->email;
+            $tracker->contact = $request->contact;
+            $tracker->current_designation = $request->current_designation;
+            $tracker->key_skills = $request->skills;
+            $tracker->experience = $request->experience;
+            $tracker->current_ctc = $request->current_ctc;
+            $tracker->expected_ctc = $request->expected_ctc;
+            $tracker->notice_period = $request->notice_period;
+            $tracker->gender = $request->gender;
+            $tracker->remarks = $request->remarks;
+            $tracker->company_id = $company_id;
+            $tracker->employer_id = $addedbyEmployerId;
+            $tracker->added_by = $subuser_id;
+            $tracker->current_location = $request->current_location;
+            $tracker->preffered_location = $request->preffered_location;
+            $tracker->reference = $request->reference;
+    
+            $tracker->dob = $request->dob;
+            $tracker->maritial_status = $request->maritial_status;
+            $tracker->intrested_job_type = $request->intrested_job_type;
+            $tracker->hometown_state = $request->hometown_state;
+            $tracker->hometown_city = $request->hometown_city;
+            $tracker->applied_designation = $request->applied_designation;
+    
+            $data = $tracker->save();
+    
+            $educationrecord = TrackerEducation::where('tracker_candidate_id', $id);
+            //  Update the education details.
+            if ($educationrecord->exists()) {
+                $trackerEdu = $educationrecord->first();
+            } else {
+                $trackerEdu = new TrackerEducation();
+                $trackerEdu->tracker_candidate_id = $id;
+            }
+            $trackerEdu->tenth_board_name = $request->tenth_board ? $request->tenth_board : NULL;
             $trackerEdu->tenth_percentage = $request->tenth_percentage ? $request->tenth_percentage : NULL;
             $trackerEdu->tenth_year = $request->tenth_year ? $request->tenth_year : NULL;
-
-            $trackerEdu->twelve_board_name = $request->twelve_board_name ? $request->twelve_board_name : NULL;
-            $trackerEdu->twelve_percentage = $request->twelve_percentage ? $request->twelve_percentage : NULL;
-            $trackerEdu->twelve_year = $request->twelve_year ? $request->twelve_year : NULL;
-
+    
+            $trackerEdu->twelve_board_name = $request->twelth_board ? $request->twelth_board : NULL;
+            $trackerEdu->twelve_percentage = $request->twelth_percentage ? $request->twelth_percentage : NULL;
+            $trackerEdu->twelve_year = $request->twelth_year ? $request->twelth_year : NULL;
+    
             $trackerEdu->diploma_board = $request->diploma_board ? $request->diploma_board : NULL;
             $trackerEdu->diploma_field = $request->diploma_field ? $request->diploma_field : NULL;
             $trackerEdu->diploma_percentage = $request->diploma_percentage ? $request->diploma_percentage : NULL;
             $trackerEdu->diploma_year = $request->diploma_year ? $request->diploma_year : NULL;
-
+    
             $trackerEdu->graduation = $request->graduation ? $request->graduation : NULL;
             $trackerEdu->graduation_mode = $request->graduation_mode ? $request->graduation_mode : NULL;
             $trackerEdu->graduation_stream = $request->graduation_stream ? $request->graduation_stream : NULL;
             $trackerEdu->graduation_percentage = $request->graduation_percentage ? $request->graduation_percentage : NULL;
             $trackerEdu->graduation_year = $request->graduation_year ? $request->graduation_year : NULL;
-
+    
             $trackerEdu->post_graduation = $request->post_graduation ? $request->post_graduation : NULL;
             $trackerEdu->post_graduation_mode = $request->post_graduation_mode ? $request->post_graduation_mode : NULL;
             $trackerEdu->post_graduate_stream = $request->post_graduate_stream ? $request->post_graduate_stream : NULL;
             $trackerEdu->post_graduation_percentage = $request->post_graduation_percentage ? $request->post_graduation_percentage : NULL;
             $trackerEdu->post_graduation_year = $request->post_graduation_year ? $request->post_graduation_year : NULL;
-
+    
             $trackerEdu->save();
-        
-
-        // Update experience information.
-        $experiencedetails = $request->experience_details;
-        $allexperience = 0;
-        if ($experiencedetails) {
-            $allexperience = count($experiencedetails);
-        }
-
-        if ($allexperience > 0) {
-            for ($i = 0; $i < $allexperience; $i++) {
-                if (isset($experiencedetails[$i]['id'])) {
-                    // Update existing record.
-                    $existrecord = TrackerPastExperience::find($experiencedetails[$i]['id']);
-                } else {
-                    // Create new record.
-                    $existrecord = new TrackerPastExperience;
-                    $existrecord->tracker_candidate_id = $id;
-                }
-                // Set current working record.
-                if (isset($experiencedetails[$i]['currently_working'])){
-                    $existrecord->currently_working = $experiencedetails[$i]['currently_working'];
-                }
-                else{
-                    $existrecord->currently_working = Null; 
-                }
-
-
-                $existrecord->company_name = $experiencedetails[$i]['company_name'];
-                $existrecord->designation = $experiencedetails[$i]['designation'];
-                $existrecord->from = $experiencedetails[$i]['from'];
-                $existrecord->to = $experiencedetails[$i]['to'];
-                $existrecord->save();
+    
+    
+            // Update experience information.
+            // $experiencedetails = $request->experience_details;
+            $experiencedetails = $request->experienceid;
+            $allexperience = 0;
+            if ($experiencedetails) {
+                $allexperience = count($experiencedetails);
             }
-        }
-
-        // Delete removed experciend records.
-        $removed_experienced = $request->removed_experiences;
-        if ($removed_experienced) {
-            $removed_items = count($removed_experienced);
-            if ($removed_items > 0) {
-                for ($i = 0; $i < $removed_items; $i++) {
-                    $deleterecord = TrackerPastExperience::find($removed_experienced[$i]);
-                    $deleterecord->delete();
-                }
-            }
-        }
-
-        if ($data) {
-            // New designation add if designation is not exist in our record.
-            if (isset($request->current_designation) && $request->current_designation !== '') {
-                $designation = Str::upper($request->current_designation);
-                $desList = DesignationList::where('designation', $designation)->first();
-                $designationList = Str::upper($desList);
-
-                if ($designationList === null || $designationList === "") {
-                    $add = new DesignationList();
-                    $add->designation = $designation;
-                    $add->employer_id = $addedbyEmployerId->created_by;
-                    $add->added_by = $subuser_id;
-                    $add->save();
+    
+            if ($allexperience > 0) {
+                $currentlyworking = false;
+                for ($i = 0; $i < $allexperience; $i++) {
+                    if (isset($experiencedetails[$i]) && $experiencedetails[$i] != null) {
+                        // Update existing record.
+                        $existrecord = TrackerPastExperience::find($experiencedetails[$i]);
+                    } else {
+                        // Create new record.
+                        $existrecord = new TrackerPastExperience;
+                        $existrecord->tracker_candidate_id = $id;
+                    }
+                    // Set current working record.
+                    if ($i == 0 && $request->currentlyWork) {
+                        $existrecord->currently_working = 1;
+                        $currentlyworking = true;
+                    } else {
+                        $existrecord->currently_working = Null;
+                    }
+    
+    
+                    $existrecord->company_name = $request->company_name[$i];
+                    $existrecord->designation = $request->working_as[$i];
+                    $existrecord->from = $request->from[$i];
+    
+                    if ($currentlyworking && $i == 0) {
+                        $existrecord->to = '';
+                    } else if ($currentlyworking) {
+                        $existrecord->to = $request->to[$i - 1];
+                    } else {
+                        $existrecord->to = $request->to[$i];
+                    }
+    
+                    $existrecord->save();
                 }
             }
+    
+            // Delete removed experciend records.
+            $removed_experienced = explode(",", $request->removed_experiences[0]);
+            if ($removed_experienced) {
+                $removed_items = count($removed_experienced);
+                if ($removed_items > 0) {
+                    for ($i = 0; $i < $removed_items; $i++) {
+                        $deleterecord = TrackerPastExperience::find($removed_experienced[$i]);
+                        if($deleterecord)
+                        $deleterecord->delete();
+                    }
+                }
+            }
+    
+            if ($data) {
+                // New designation add if designation is not exist in our record.
+                if (isset($request->current_designation) && $request->current_designation !== '') {
+                    $designation = Str::upper($request->current_designation);
+                    $desList = DesignationList::where('designation', $designation)->first();
+                    $designationList = Str::upper($desList);
+    
+                    if ($designationList === null || $designationList === "") {
+                        $add = new DesignationList();
+                        $add->designation = $designation;
+                        $add->employer_id = $addedbyEmployerId->created_by;
+                        $add->added_by = $subuser_id;
+                        $add->save();
+                    }
+                }
+            }
+            // return response()->json(['data' => $data], 200);
+            return redirect()->route('subuser-tracker-list')->with(['success' => true, 'message' => 'Candidate update successfully']);
         }
-        return response()->json(['data' => $data], 200);
+        catch (Throwable $e) {
+            return redirect()->route('subuser-tracker-list')->with(['error' => true, 'message' => $e->getMessage()]);
+        }
+
     }
     public function uploadResume(Request $request)
     {
         //dd($request->all());
+        $this->validate($request, [
+            'resume' => [
+                'required',
+                FileRule::types('doc,docx,pdf')
+                ->max('1mb')
+            ],
+            'id' =>'required|integer'
+        ]);
+
         $id = $request->id;
         $tracker = Tracker::find($id);
         $old_res = $tracker->resume;
@@ -402,7 +506,8 @@ class TrackerController extends Controller
                 'resume' => $filename,
             ];
 
-            $path = 'public/tracker/resume/';
+            $path = public_path() . '\tracker\resume\\';
+
             if (isset($old_res)) {
                 File::delete($path . $old_res);
             }
@@ -411,6 +516,11 @@ class TrackerController extends Controller
 
 
             $upload = $request->resume->move($path, $filename);
+            if ($upload) {
+                return redirect()->route('subuser-tracker-list')->with(['success' => true, 'message' => 'Resume uploaded successfully']);
+            } else {
+                return redirect()->route('subuser-tracker-list')->with(['success' => false, 'message' => 'Failed to upload resume']);
+            }
         }
     }
     public function getUniqueSourceEmployer()
@@ -825,29 +935,29 @@ class TrackerController extends Controller
         return response()->json(['data' => $data]);
     }
 
-    public function addTracker(){
+    public function addTracker()
+    {
         $locationdata = DB::table('master_location')
-        ->select('state')
-        ->distinct('state')
-        ->get();
+            ->select('state')
+            ->distinct('state')
+            ->get();
 
 
-    $locations = $locationdata->map(function ($data) {
-        $edu = DB::table('master_location')
-            ->select('master_location.id', 'master_location.location')
-            ->where('master_location.state', $data->state)->get();
+        $locations = $locationdata->map(function ($data) {
+            $edu = DB::table('master_location')
+                ->select('master_location.id', 'master_location.location')
+                ->where('master_location.state', $data->state)->get();
 
-        $educations = ['location' => $edu];
+            $educations = ['location' => $edu];
 
-        $collection = collect($data)->merge($educations);
+            $collection = collect($data)->merge($educations);
 
-        return $collection;
-    });
+            return $collection;
+        });
 
-    $states = States::select('id', 'states_name')
-    ->where('country_id', '101')->get();
+        $states = States::select('id', 'states_name')
+            ->where('country_id', '101')->get();
 
         return view('sub_user.add_tracker', compact('locations', 'states'));
-
     }
 }
