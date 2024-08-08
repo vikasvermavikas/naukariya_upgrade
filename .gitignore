@@ -19,3 +19,4 @@ yarn-error.log
 /public/.htaccess
 /public/index.php
 .gitignore
+/public/tracker/resume/*

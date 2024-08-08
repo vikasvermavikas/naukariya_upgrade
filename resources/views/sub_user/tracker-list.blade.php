@@ -8,6 +8,39 @@
                         class="fas fa-plus mr-2"></i>Add Candidate</a>
             </div>
             <div class="col-md-12">
+                <form class="form" action="" method="get">
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <label for="source">Source</label>
+                            <select class="form-control" id="source" name="source">
+                                <option value="">Select Source</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Location<small> (Preff./Curr.)</small></label>
+                            <input type="text" class="form-control" name="location" value="{{$location}}" placeholder="Enter Location">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Skills<small> (Multiple Skills Seperated by comma(,))</small></label>
+                            <input type="text" class="form-control" name="skills" value="{{$skills}}" placeholder="Enter Multiple Skills also Separated by Comma">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>From Date</label>
+                            <input type="date" class="form-control" name="from_date" value="{{$from_date}}" placeholder="Enter From Date">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>To Date<small> (Preff./Curr.)</small></label>
+                            <input type="date" class="form-control" name="to_date" value="{{$to_date}}" placeholder="Enter To Date">
+                        </div>
+                        <div class="col-md-3 mt-4 p-2">
+                           <button type="submit" class="btn rounded p-3">Search</button>
+                           <a href="{{route('subuser-tracker-list')}}" class="btn rounded p-3">Reset</a>
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
+            <div class="col-md-12">
                 @if (session()->has('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         {{ session()->get('message') }}
@@ -54,7 +87,7 @@
                                         {{ $loop->iteration }}
                                     </td>
 
-                                    <td class="case-capitalize">
+                                    <td class="text-capitalize">
 
                                         {{ $track->name }}
                                     </td>
@@ -64,7 +97,7 @@
                                         {{ $track->preffered_location }} /
                                         {{ $track->current_location }}
                                     </td>
-                                    <td>{{ $track->gender }}</td>
+                                    <td class="text-capitalize	">{{ $track->gender }}</td>
                                     <td>{{ $track->applied_designation }} /
                                         {{ $track->current_designation }}
                                     </td>
@@ -90,11 +123,20 @@
                                     </td>
                                 </tr>
                             @empty
+                            <tr>
+                                <td class="text-danger text-center" colspan="14">No Record Found</td>
+                            </tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
             </div>
+            <div class="col-md-12 my-3">
+                {{$data->links()}}
+            </div>
         </div>
     </div>
+@endsection
+@section('script')
+<script src="{{asset('assets/js/subuser/tracker-list.js')}}"></script>
 @endsection

@@ -18,6 +18,7 @@ use App\Models\States;
 use Illuminate\Validation\Rule;
 use throwable;
 use Illuminate\Validation\Rules\File as FileRule;
+
 class TrackerController extends Controller
 {
 
@@ -71,8 +72,11 @@ class TrackerController extends Controller
 
 
         if (isset($location) && $location != '') {
-            $data->Where('current_location', 'like', "%$location%")
-                ->orWhere('preffered_location', 'like', "%$location%");
+            $data->where(function ($query) use ($location) {
+                      $query->Where('current_location', 'like', "%$location%")
+                      ->orWhere('preffered_location', 'like', "%$location%");
+            });
+      
         }
 
         if (isset($skills) && $skills != '') {
@@ -94,14 +98,22 @@ class TrackerController extends Controller
         }
 
 
-        $trackerList = $data->paginate(10);
-
-        return view('sub_user.tracker-list', ['data' => $trackerList]);
+        $trackerList = $data->paginate(5)->withQueryString();
+        
+        return view('sub_user.tracker-list', [
+            'data' => $trackerList, 
+            'from_date' => $from_date,
+            'to_date' => $to_date,
+            'source' => $source,
+            'location' => $location,
+            'skills' => $skills,
+        ]);
         // return response()->json(['data' => $trackerList], 200);
     }
 
     public function store(Request $request)
     {
+      
         //dd($request);
         $this->validate($request, [
             'name' => 'required|string|max:255',
@@ -167,9 +179,9 @@ class TrackerController extends Controller
             //resume upload
             if ($request->hasFile('resume')) {
                 //in local
-                $path = public_path() . '\tracker\resume\\';
+                $path = public_path() . '/tracker/resume/';
                 //in live server
-                //$path='public/tracker/resume/';
+                // $path='public/tracker/resume/';
                 //   return response()->json(['data' => $filename], 500);
                 $upload = $request->resume->move($path, $filename);
 
@@ -328,9 +340,10 @@ class TrackerController extends Controller
 
         $this->validate($request, [
             'name' => 'required|string|max:255',
-            'email' => ['required','string','email','max:255',
-            Rule::unique('trackers')->ignore($id)
-        ],
+            'email' => [
+                'required', 'string', 'email', 'max:255',
+                Rule::unique('trackers')->ignore($id)
+            ],
             'contact' => 'required|string|max:15',
             'dob' => 'date',
             'gender' => 'required',
@@ -338,7 +351,7 @@ class TrackerController extends Controller
             'resume' => 'mimes:doc,docx,pdf|max:1024'
         ]);
 
-        try{
+        try {
             $tracker = Tracker::find($id);
 
             $tracker->name = $request->name;
@@ -358,16 +371,16 @@ class TrackerController extends Controller
             $tracker->current_location = $request->current_location;
             $tracker->preffered_location = $request->preffered_location;
             $tracker->reference = $request->reference;
-    
+
             $tracker->dob = $request->dob;
             $tracker->maritial_status = $request->maritial_status;
             $tracker->intrested_job_type = $request->intrested_job_type;
             $tracker->hometown_state = $request->hometown_state;
             $tracker->hometown_city = $request->hometown_city;
             $tracker->applied_designation = $request->applied_designation;
-    
+
             $data = $tracker->save();
-    
+
             $educationrecord = TrackerEducation::where('tracker_candidate_id', $id);
             //  Update the education details.
             if ($educationrecord->exists()) {
@@ -379,31 +392,31 @@ class TrackerController extends Controller
             $trackerEdu->tenth_board_name = $request->tenth_board ? $request->tenth_board : NULL;
             $trackerEdu->tenth_percentage = $request->tenth_percentage ? $request->tenth_percentage : NULL;
             $trackerEdu->tenth_year = $request->tenth_year ? $request->tenth_year : NULL;
-    
+
             $trackerEdu->twelve_board_name = $request->twelth_board ? $request->twelth_board : NULL;
             $trackerEdu->twelve_percentage = $request->twelth_percentage ? $request->twelth_percentage : NULL;
             $trackerEdu->twelve_year = $request->twelth_year ? $request->twelth_year : NULL;
-    
+
             $trackerEdu->diploma_board = $request->diploma_board ? $request->diploma_board : NULL;
             $trackerEdu->diploma_field = $request->diploma_field ? $request->diploma_field : NULL;
             $trackerEdu->diploma_percentage = $request->diploma_percentage ? $request->diploma_percentage : NULL;
             $trackerEdu->diploma_year = $request->diploma_year ? $request->diploma_year : NULL;
-    
+
             $trackerEdu->graduation = $request->graduation ? $request->graduation : NULL;
             $trackerEdu->graduation_mode = $request->graduation_mode ? $request->graduation_mode : NULL;
             $trackerEdu->graduation_stream = $request->graduation_stream ? $request->graduation_stream : NULL;
             $trackerEdu->graduation_percentage = $request->graduation_percentage ? $request->graduation_percentage : NULL;
             $trackerEdu->graduation_year = $request->graduation_year ? $request->graduation_year : NULL;
-    
+
             $trackerEdu->post_graduation = $request->post_graduation ? $request->post_graduation : NULL;
             $trackerEdu->post_graduation_mode = $request->post_graduation_mode ? $request->post_graduation_mode : NULL;
             $trackerEdu->post_graduate_stream = $request->post_graduate_stream ? $request->post_graduate_stream : NULL;
             $trackerEdu->post_graduation_percentage = $request->post_graduation_percentage ? $request->post_graduation_percentage : NULL;
             $trackerEdu->post_graduation_year = $request->post_graduation_year ? $request->post_graduation_year : NULL;
-    
+
             $trackerEdu->save();
-    
-    
+
+
             // Update experience information.
             // $experiencedetails = $request->experience_details;
             $experiencedetails = $request->experienceid;
@@ -411,7 +424,7 @@ class TrackerController extends Controller
             if ($experiencedetails) {
                 $allexperience = count($experiencedetails);
             }
-    
+
             if ($allexperience > 0) {
                 $currentlyworking = false;
                 for ($i = 0; $i < $allexperience; $i++) {
@@ -430,12 +443,12 @@ class TrackerController extends Controller
                     } else {
                         $existrecord->currently_working = Null;
                     }
-    
-    
+
+
                     $existrecord->company_name = $request->company_name[$i];
                     $existrecord->designation = $request->working_as[$i];
                     $existrecord->from = $request->from[$i];
-    
+
                     if ($currentlyworking && $i == 0) {
                         $existrecord->to = '';
                     } else if ($currentlyworking) {
@@ -443,11 +456,11 @@ class TrackerController extends Controller
                     } else {
                         $existrecord->to = $request->to[$i];
                     }
-    
+
                     $existrecord->save();
                 }
             }
-    
+
             // Delete removed experciend records.
             $removed_experienced = explode(",", $request->removed_experiences[0]);
             if ($removed_experienced) {
@@ -455,19 +468,19 @@ class TrackerController extends Controller
                 if ($removed_items > 0) {
                     for ($i = 0; $i < $removed_items; $i++) {
                         $deleterecord = TrackerPastExperience::find($removed_experienced[$i]);
-                        if($deleterecord)
-                        $deleterecord->delete();
+                        if ($deleterecord)
+                            $deleterecord->delete();
                     }
                 }
             }
-    
+
             if ($data) {
                 // New designation add if designation is not exist in our record.
                 if (isset($request->current_designation) && $request->current_designation !== '') {
                     $designation = Str::upper($request->current_designation);
                     $desList = DesignationList::where('designation', $designation)->first();
                     $designationList = Str::upper($desList);
-    
+
                     if ($designationList === null || $designationList === "") {
                         $add = new DesignationList();
                         $add->designation = $designation;
@@ -479,11 +492,9 @@ class TrackerController extends Controller
             }
             // return response()->json(['data' => $data], 200);
             return redirect()->route('subuser-tracker-list')->with(['success' => true, 'message' => 'Candidate update successfully']);
-        }
-        catch (Throwable $e) {
+        } catch (Throwable $e) {
             return redirect()->route('subuser-tracker-list')->with(['error' => true, 'message' => $e->getMessage()]);
         }
-
     }
     public function uploadResume(Request $request)
     {
@@ -492,9 +503,9 @@ class TrackerController extends Controller
             'resume' => [
                 'required',
                 FileRule::types('doc,docx,pdf')
-                ->max('1mb')
+                    ->max('1mb')
             ],
-            'id' =>'required|integer'
+            'id' => 'required|integer'
         ]);
 
         $id = $request->id;
@@ -506,7 +517,7 @@ class TrackerController extends Controller
                 'resume' => $filename,
             ];
 
-            $path = public_path() . '\tracker\resume\\';
+            $path = public_path() . '/tracker/resume/';
 
             if (isset($old_res)) {
                 File::delete($path . $old_res);
