@@ -31,7 +31,7 @@
                         <div class="border jumbotron">
                             <span class="text-danger">Please follow instructions</span>
                            <ul>
-                            <li>Password must be minimum 8 character long. </li>
+                            <li>Password must be minimum 8 characters long. </li>
                             <li>Password must contain at least 1 uppercase and 1 lowercase letter.</li>
                             <li>Password must contain at least 1 special symbol.</li>
                             <li>Password must not contain white spaces.</li>

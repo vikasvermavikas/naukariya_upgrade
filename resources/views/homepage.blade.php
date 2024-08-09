@@ -30,9 +30,11 @@
             background: white;
         }
 
+        /* For mobile */
         @media only screen and (min-width: 368px) and (max-width: 768px) {
             .select2-container {
-                /* width: 100%; */
+                width: 100% !important;
+                padding: 0px 0px 15px 0px;
             }
         }
 
@@ -63,10 +65,9 @@
         #experienced_level,
         #location,
         #search_jobs {
-            width: 115%;
+            /* width: 115%; */
 
         }
-
     </style>
 @endsection
 @section('content')
@@ -78,7 +79,7 @@
                 <div class="row">
                     @if (session()->has('message'))
                         <div class="alert alert-success alert-dismissible fade show w-100" role="alert">
-                           {{ session()->get('message') }}
+                            {{ session()->get('message') }}
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -89,7 +90,7 @@
             <!-- Mobile Menu -->
             <div class="slider-active">
                 <div class="single-slider slider-height d-flex align-items-center"
-                    data-background={{ asset('assets/img/hero/h1_hero.jpg') }}>
+                    style="background-image: url({{ asset('assets/img/hero/h1_hero.jpg') }}); background-size: 100% 100%;">
                     <div class="container">
                         <div class="row">
                             <div class="col-xl-6 col-lg-9 col-md-10">
@@ -108,7 +109,7 @@
                                         <input type="text" class="form-control" placeholder="Timezone" list="list-timezone" id="input-datalist">
                                     </div> --}}
                                     <div class="row">
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 my-2">
                                             {{-- <div class=""> --}}
                                             <input type="text" class="border-0 form-control rounded" name="searchkeyword"
                                                 id="searchkeyword" placeholder="Job Tittle or skills"
@@ -116,7 +117,7 @@
                                                 data-toggle="tooltip" required>
                                             {{-- </div> --}}
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 my-2">
                                             <Select class="form-control rounded" title="Experience Level"
                                                 data-toggle="tooltip" name="experienced_level" id="experienced_level">
                                                 <option value="experienced" selected>Experienced</option>
@@ -127,7 +128,7 @@
                                                 required> --}}
                                             {{-- </div> --}}
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 my-2">
                                             {{-- <div class="">
                                             <div class=""> --}}
                                             {{-- <input class="form-control h-100 border-0" list="locationlist" name="location"
@@ -138,11 +139,15 @@
                                                 placeholder="Enter location" name="location" title="locations"
                                                 data-toggle="tooltip" id="location">
                                                 <option value="">Select Location</option>
+                                                @foreach ($locations as $location)
+                                                <option value="{{$location->cities_name}}">{{$location->cities_name}}</option>
+                                                   
+                                               @endforeach
                                             </select>
                                             {{-- </div>
                                         </div> --}}
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 my-2">
 
                                             {{-- <div class=""> --}}
                                             <button class=" btn rounded" id="search_jobs" type="submit">Find

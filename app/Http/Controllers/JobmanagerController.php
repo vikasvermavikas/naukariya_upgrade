@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Jobmanager;
 use App\Models\ApplyJob;
+use App\Models\Cities;
 use App\Models\ClientName;
 use App\Models\EmployerNotification;
 use Illuminate\Support\Facades\Auth;
@@ -1746,7 +1747,9 @@ class JobmanagerController extends Controller
         // $jobs = $jobs->get();
 
         // return response()->json($jobs, 200);
-        return view('homepage', ['egovernance' => $egovernance, 'corporate' => $corporate, 'government' => $government]);
+        $locations = Cities::select('cities_name')->where('state_id', '<',  42)->groupBy('cities_name')->get();
+
+        return view('homepage', ['egovernance' => $egovernance, 'corporate' => $corporate, 'government' => $government, 'locations' => $locations]);
     }
 
     public function showSingleJob($id)

@@ -19,39 +19,39 @@
                         creating stylish, modern websites, web services and online stores. My passion is to design
                         digital user experiences through the bold interface and meaningful interactions.</p> --}}
                     <div class="row about-list">
-                        <div class="col-md-6 my-2 ">
+                        <div class="col-6 col-sm-6 col-md-6 my-2 ">
                             <label>Name : </label>
                             <span>{{ $user->fname." ".$user->lname }}</span>
                         </div>
-                        <div class="col-md-6 my-2 ">
+                        <div class="col-6 col-sm-6 col-md-6 my-2 ">
                             <label>Designation : </label>
                             <span>{{ $user->designation }}</span>
                         </div>
-                        <div class="col-md-6 my-2 ">
+                        <div class="col-6 col-sm-6 col-md-6 my-2 ">
                             <label>Birthday : </label>
                             <span>{{ date('d-M-Y', strtotime($user->dob)) }}</span>
                         </div>
 
-                        <div class="col-md-6 my-2 ">
+                        <div class="col-6 col-sm-6 col-md-6 my-2 ">
                             <label>Age : </label>
                             <span>{{ date('Y') - date('Y', strtotime($user->dob)) }} Yr</span>
                         </div>
 
-                        <div class="col-md-6 my-2 ">
+                        <div class="col-6 col-sm-6 col-md-6 my-2 ">
                             <label>User Type : </label>
                             <span>{{ ' ' . $user->user_type }}</span>
                         </div>
 
-                        <div class="col-md-6 my-2 ">
+                        <div class="col-6 col-sm-6 col-md-6 my-2 ">
                             <label>Status : </label>
                             <span>{{ $user->status == 1 ? 'Active' : 'InActive' }}</span>
                         </div>
 
-                        <div class="col-md-6 my-2 ">
+                        <div class="col-6 col-sm-6 col-md-6 my-2 ">
                             <label>Gender : </label>
                             <span>{{ $user->gender }}</span>
                         </div>
-                        <div class="col-md-6 my-2 ">
+                        <div class="col-6 col-sm-6 col-md-6 my-2 ">
                             <label>Phone : </label>
                             <span>{{ $user->contact }}</span>
                         </div>

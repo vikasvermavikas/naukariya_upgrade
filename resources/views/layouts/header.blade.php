@@ -163,7 +163,7 @@
     </div>
 
     <li class="user-menu__item mt-2">
-        <a href="{{route('jobseekerProfile')}}" class="user-menu-link">
+        <a href="{{ route('jobseekerProfile') }}" class="user-menu-link">
             <div class="text-color"><i class="fas fa-user-circle"></i> My profile
             </div>
         </a>
@@ -250,8 +250,7 @@
                         <!-- Logo -->
                         <div class="logo">
                             <a href={{ route('home') }}><img src={{ asset('assets/images/naukriyan-logo.png') }}
-                                class=""
-                                    alt="Naukriyan-Logo"></a>
+                                    class="" alt="Naukriyan-Logo"></a>
                         </div>
                     </div>
                     <div class="col-lg-10 col-md-10">
@@ -416,8 +415,7 @@
                         <!-- Logo -->
                         <div class="logo">
                             <a href={{ route('home') }}><img src={{ asset('assets/images/naukriyan-logo.png') }}
-                                class=""
-                                    alt="Naukriyan-Logo"></a>
+                                    class="" alt="Naukriyan-Logo"></a>
                         </div>
                     </div>
                     <div class="col-lg-10 col-md-10">
@@ -428,14 +426,14 @@
                                     <ul id="navigation">
                                         <li><a href={{ route('subuser-dashboard') }}>Dashboard</a></li>
                                         <li><a href={{ route('subuser-tracker-list') }}>Tracker</a></li>
-                                       
+
                                     </ul>
                                 </nav>
                             </div>
                             <li class="nav-item dropdown open">
                                 <a href="#" data-toggle="dropdown" role="button" aria-expanded="false"
                                     class="nav-link dropdown-toggle">
-                             
+
                                     @if (Auth::guard('subuser')->user()->profile_image)
                                         <img src="{{ asset('subuser_profile_image/' . Auth::guard('subuser')->user()->profile_image . '') }}"
                                             class="mini-photo rounded-circle text-center" width="36"
@@ -475,7 +473,8 @@
 
                                     <li class="user-menu__item mt-2">
                                         <a href="{{ route('subuser-profile') }}" class="user-menu-link">
-                                            <div class="text-color"><i class="fas fa-user-circle"></i> Profile/Password
+                                            <div class="text-color"><i class="fas fa-user-circle"></i>
+                                                Profile/Password
                                             </div>
                                         </a>
                                     </li>
@@ -498,7 +497,9 @@
                     </div>
                     <!-- Mobile Menu -->
                     <div class="col-12">
-                        <div class="mobile_menu d-block d-lg-none"></div>
+                        <div class="mobile_menu d-block d-lg-none">
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -507,6 +508,22 @@
     <!-- Header End -->
 </header>
 @else
+<style>
+    /* style for mobile only */
+    @media only screen and (max-width: 768px) {
+        ul.slicknav_nav {
+            overflow: auto;
+        }
+    }
+
+    /* style for laptop */
+    @media only screen and (min-width: 992px) {
+        .show-employer {
+            line-height: 0px;
+        }
+
+    }
+</style>
 <header>
     <!-- Header Start -->
     <div class="header-area header-transparrent">
@@ -538,6 +555,34 @@
                                             </ul>
                                         </li>
                                         <li><a href={{ route('contact') }}>Contact</a></li>
+                                        </li>
+                                        <li>
+                                        <li style="display: inline-table;">
+                                            <a href={{ route('register') }}
+                                                class="btn head-btn1 p-3 rounded text-light">Register</a>
+                                        </li>
+                                        <li style="display: inline-table;">
+                                            <a href={{ route('login') }}
+                                                class="btn head-btn1 p-3 rounded text-light">Login</a>
+                                        </li>
+
+                                        <li>
+                                            <div class="dropdown">
+                                                <a href="#" class="text-dark head-btn1 dropdown-toggle employer"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Employer
+                                                </a>
+                                                <ul class="dropdown-menu show-employer">
+                                                    <li><a class="dropdown-item"
+                                                            href="{{ route('loadLoginPage') }}">Sign
+                                                            In</a></li>
+                                                    <li><a class="dropdown-item"
+                                                            href="{{ route('employer-register') }}">Sign
+                                                            Up</a></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+
                                     </ul>
                                 </nav>
                             </div>
@@ -552,11 +597,11 @@
                                     <button type="submit" class="btn head-btn2">Logout</button>
                                 </form>
                             @else
-                                <div class="header-btn d-none f-right d-lg-block">
+                                <div class="header-btn d-none f-right">
                                     <a href={{ route('register') }} class="btn head-btn1">Register</a>
                                     <a href={{ route('login') }} class="btn head-btn1">Login</a>
                                 </div>
-                                <div class="header-btn d-none f-right d-lg-block">
+                                <div class="header-btn d-none f-right    ">
                                     <div class="dropdown">
                                         <a href="#" class="text-dark head-btn1 dropdown-toggle employer"
                                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -576,7 +621,9 @@
                     </div>
                     <!-- Mobile Menu -->
                     <div class="col-12">
-                        <div class="mobile_menu d-block d-lg-none"></div>
+                        <div class="mobile_menu d-block d-lg-none">
+
+                        </div>
                     </div>
                 </div>
             </div>

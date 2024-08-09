@@ -57,6 +57,6 @@ $(document).ready(function () {
     }
 
     // Call on load functions.
-    getLocations();
+    // getLocations();
     getCategoriesJobs();
 })
