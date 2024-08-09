@@ -98,7 +98,7 @@ class TrackerController extends Controller
         }
 
 
-        $trackerList = $data->paginate(5)->withQueryString();
+        $trackerList = $data->paginate(10)->withQueryString();
         
         return view('sub_user.tracker-list', [
             'data' => $trackerList, 
@@ -541,11 +541,12 @@ class TrackerController extends Controller
 
         return response()->json(['data' => $data]);
     }
-    public function exportTrackerDataEmployer()
+    public function exportTrackerDataEmployer($trackerids = '')
     {
-        $subuserId = Session::get('user')['id'];
+       
+        $subuserId = Auth::guard('subuser')->user()->id;
         $today = date('d-m-Y');
-
+       
         $headers = [
             'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0',
             'Content-type'        => 'text/csv',
@@ -556,34 +557,20 @@ class TrackerController extends Controller
 
         $list = DB::table('trackers')
             ->join('sub_users', 'sub_users.id', '=', 'trackers.added_by')
-            // ->leftJoin('tracker_education', 'tracker_education.tracker_candidate_id', '=', 'trackers.id')
             ->select(
                 'trackers.*',
                 'sub_users.email as emp_email',
                 'sub_users.fname as emp_name',
-                // 'tracker_education.tenth_board_name',
-                // 'tracker_education.tenth_percentage',
-                // 'tracker_education.tenth_year',
-                // 'tracker_education.twelve_board_name',
-                // 'tracker_education.twelve_percentage',
-                // 'tracker_education.twelve_year',
-                // 'tracker_education.diploma_board',
-                // 'tracker_education.diploma_field',
-                // 'tracker_education.diploma_percentage',
-                // 'tracker_education.diploma_year',
-                // 'tracker_education.graduation',
-                // 'tracker_education.graduation_mode',
-                // 'tracker_education.graduation_percentage',
-                // 'tracker_education.graduation_year',
-                // 'tracker_education.post_graduation',
-                // 'tracker_education.post_graduation_mode',
-                // 'tracker_education.post_graduation_percentage',
-                // 'tracker_education.post_graduation_year'
             )
             ->where('added_by', $subuserId)
-            ->orderBy('id', 'desc')
-            ->get();
-
+            ->orderBy('id', 'desc');
+            
+            if ($trackerids)
+            {
+             $list = $list->whereIn('trackers.id', explode(",", $trackerids));
+            }
+    
+            $list = $list->get();
         $no = 0;
 
         $list = collect($list)->map(function ($x, $no) {
@@ -603,35 +590,15 @@ class TrackerController extends Controller
                 'Current Designation' => $x->current_designation ? $x->current_designation : 'Not Available',
                 'Applied Designation' => $x->applied_designation ? $x->applied_designation : 'Not Available',
                 'Experience(in Yr)' => $exp ? $exp : 'Not Available',
-                'Expected CTC' => $x->expected_ctc ? $x->expected_ctc : 'Not Available',
-                'Current CTC' => $x->current_ctc ? $x->current_ctc : 'Not Available',
+                'Expected CTC (In LPA)' => $x->expected_ctc ? $x->expected_ctc : 'Not Available',
+                'Current CTC (In LPA)' => $x->current_ctc ? $x->current_ctc : 'Not Available',
                 'Current Location' => $x->current_location ? $x->current_location : 'Not Available',
                 'Preffered Location' => $x->preffered_location ? $x->preffered_location : 'Not Available',
                 'Resume' => $x->resume ? url('/tracker/resume/' . $x->resume) : 'Not Available',
-                // 'Tenth Board Name' => $x->tenth_board_name ? $x->tenth_board_name : 'Not Available',
-                // 'Tenth Percentage' => $x->tenth_percentage ? $x->tenth_percentage : 'Not Available',
-                // 'Tenth Year' => $x->tenth_year ? $x->tenth_year : 'Not Available',
-                // 'Twelth Board Name ' => $x->twelve_board_name ? $x->twelve_board_name : 'Not Available',
-                // 'Twelth Percentage ' => $x->twelve_percentage ? $x->twelve_percentage : 'Not Available',
-                // 'Twelth Year ' => $x->twelve_year ? $x->twelve_year : 'Not Available',
-                // 'Diploma Board' => $x->diploma_board ? $x->diploma_board : 'Not Available',
-                // 'Diploma Field' => $x->diploma_field ? $x->diploma_field : 'Not Available',
-                // 'Diploma Percentage' => $x->diploma_percentage ? $x->diploma_percentage : 'Not Available',
-                // 'Diploma Year' => $x->diploma_year ? $x->diploma_year : 'Not Available',
-                // 'Graduation' => $x->graduation ? $x->graduation : 'Not Available',
-                // 'Graduation Mode' => $x->graduation_mode ? $x->graduation_mode : 'Not Available',
-                // 'Graduation Percentage' => $x->graduation_percentage ? $x->graduation_percentage : 'Not Available',
-                // 'Graduation Year' => $x->graduation_year ? $x->graduation_year : 'Not Available',
-                // 'Post Graduation' => $x->post_graduation ? $x->post_graduation : 'Not Available',
-                // 'Post Graduation Mode' => $x->post_graduation_mode ? $x->post_graduation_mode : 'Not Available',
-                // 'Post Graduation Percentage' => $x->post_graduation_percentage ? $x->post_graduation_percentage : 'Not Available',
-                // 'Post Graduation Year' => $x->post_graduation_year ? $x->post_graduation_year : 'Not Available',
                 'Source' => $x->reference ? $x->reference : 'Not Available',
                 'Added By' => $x->emp_email ? $x->emp_email : 'Not Available',
                 'Date' => $x->created_at,
-                ''
-                // 'Resume' => $x->resume ? url('resume/' . $x->resume) : 'Not Available',
-                // 'Video Resume' => $x->resume_video_link ? $x->resume_video_link : 'Not Available',
+
             ];
         })->toArray();
 

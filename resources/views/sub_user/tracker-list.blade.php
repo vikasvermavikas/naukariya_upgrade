@@ -2,11 +2,13 @@
 @section('content')
     <div class="container">
         <div class="row">
+            {{-- Heading --}}
             <div class="col-md-12">
                 <h3>Trackers List</h3>
                 <a href="{{ route('add_tracker') }}" class="btn float-right p-3 rounded mb-2"><i
                         class="fas fa-plus mr-2"></i>Add Candidate</a>
             </div>
+            {{-- Filter Form --}}
             <div class="col-md-12">
                 <form class="form" action="" method="get">
                     <div class="row">
@@ -40,6 +42,13 @@
                     
                 </form>
             </div>
+
+            {{-- Export Button --}}
+            <div class="col-md-12">
+                <button class="btn-success rounded pr-3 exportexcel" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="white" class="mb-3" height="20"><path d="M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 128-168 0c-13.3 0-24 10.7-24 24s10.7 24 24 24l168 0 0 112c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 64zM384 336l0-48 110.1 0-39-39c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l80 80c9.4 9.4 9.4 24.6 0 33.9l-80 80c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l39-39L384 336zm0-208l-128 0L256 0 384 128z"/></svg> Export Data</button>
+            </div>
+
+            {{-- Showing Notifications if any. --}}
             <div class="col-md-12">
                 @if (session()->has('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -58,6 +67,8 @@
                     </div>
                 @endif
             </div>
+
+            {{-- Listing Table. --}}
             <div class="col-md-12">
                 <div class="table-responsive">
                     <table class="table table-bordered">
@@ -83,7 +94,7 @@
                             @forelse ($data as $track)
                                 <tr>
                                     <td>
-                                        <input type="checkbox" name="emp_check" value="{{ $track->id }}" />
+                                        <input type="checkbox" name="emp_check" class="trackerids" value="{{ $track->id }}" />
                                         {{ $loop->iteration }}
                                     </td>
 
@@ -131,6 +142,8 @@
                     </table>
                 </div>
             </div>
+
+            {{-- Pagination --}}
             <div class="col-md-12 my-3">
                 {{$data->links()}}
             </div>
