@@ -2,11 +2,11 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <h1 class="mb-3">Consolidate Data Candidate List</h1>
+            <div class="col-md-12">
+                <h1 class="mb-3">Consolidate Data Candidate List</h1>
+            </div>
             <div class="col-md-12">
                 <form action="{{ route('get_consolidate_data') }}" method="get">
-
-
                     <div class="row">
                         <div class="col-md-6">
                             <label>Keyword</label>
@@ -59,67 +59,84 @@
                         <div class="col-md-2">
                             <button type="submit" class="btn h-50 mt-4">Search</button>
                         </div>
-                        <a href="{{ route('get_consolidate_data') }}" class="btn h-50">Clear</a>
+                        <div class="col-md-2 my-2">
+                            <a href="{{ route('get_consolidate_data') }}" class="btn h-50">Clear</a>
+                        </div>
+
                     </div>
                 </form>
             </div>
             <div class="col-md-12">
-                @if (session()->has('message'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        {{ session()->get('message') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+
+                <div class="row">
+                    <div class="col-md-12 my-2">
+                        @if (session()->has('message'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ session()->get('message') }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        @endif
                     </div>
-                @endif
-                <a href="{{route('export_consolidate_data').$query}}" target="_blank" class="btn mt-2 float-right">Complete data export</a>
-                <div class="d-flex justify-content-center">{{ $data->links() }}</div>
-                <div class="table-responsive">
+                    <div class="col-md-12 my-2">
+                        <a href="{{ route('export_consolidate_data') . $query }}" target="_blank"
+                            class="btn mt-2 float-right">Complete data export</a>
+                    </div>
+                    <div class="col-md-12 d-flex justify-content-center mb-3">
+                        {{ $data->onEachSide(0)->links() }}
+                    </div>
 
-                    <table class="table table-bordered">
-                        <thead style="background:#E35E25;" class="text-light">
-                            <tr>
-                                <th>S no.</th>
-                                <th>Source</th>
-                                <th>Name / Email / Contact</th>
-                                <th>Designation</th>
-                                <th>Current / Preffered Location</th>
-                                <th>Experience / Fresher</th>
-                                <th>Skill Sets</th>
-                                <th>Annual Salary</th>
-                                <th>Upload Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($data as $item)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                    <div class="col-md-12">
+                        <div class="table-responsive">
 
-                                    <td>{{ $item->source }}</td>
-                                    <td>
-                                        {{ $item->name }} / {{ $item->email }} / {{ $item->mobile_no }}
-                                    </td>
-                                    <td>{{ $item->designation }}</td>
-                                    <td>
-                                        {{ $item->current_location }} / {{ $item->preferred_location }}
-                                    </td>
-                                    <td>{{ $item->work_experience }}</td>
-                                    <td>{{ $item->key_skills }}</td>
-                                    <td>{{ $item->annual_salary }} </td>
-                                    <td>{{ date('d-M-y', strtotime($item->created_at)) }}</td>
+                            <table class="table table-bordered">
+                                <thead style="background:#E35E25;" class="text-light">
+                                    <tr>
+                                        <th>S no.</th>
+                                        <th>Source</th>
+                                        <th>Name / Email / Contact</th>
+                                        <th>Designation</th>
+                                        <th>Current / Preffered Location</th>
+                                        <th>Experience / Fresher</th>
+                                        <th>Skill Sets</th>
+                                        <th>Annual Salary</th>
+                                        <th>Upload Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($data as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
 
-                                </tr>
+                                            <td>{{ $item->source }}</td>
+                                            <td>
+                                                {{ $item->name }} / {{ $item->email }} / {{ $item->mobile_no }}
+                                            </td>
+                                            <td>{{ $item->designation }}</td>
+                                            <td>
+                                                {{ $item->current_location }} / {{ $item->preferred_location }}
+                                            </td>
+                                            <td>{{ $item->work_experience }}</td>
+                                            <td>{{ $item->key_skills }}</td>
+                                            <td>{{ $item->annual_salary }} </td>
+                                            <td>{{ date('d-M-y', strtotime($item->created_at)) }}</td>
 
-                            @empty
-                                <tr>
-                                    <td colspan="8" class="text-danger">No Record Found</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                                        </tr>
+
+                                    @empty
+                                        <tr>
+                                            <td colspan="8" class="text-danger">No Record Found</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-12 my-2">
+                        <div class="d-flex justify-content-center">{{ $data->onEachSide(0)->links() }}</div>
+                    </div>
                 </div>
-                <div class="d-flex justify-content-center">{{ $data->links() }}</div>
-
             </div>
         </div>
     </div>

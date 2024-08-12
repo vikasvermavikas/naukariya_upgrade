@@ -33,10 +33,20 @@
         <div class="job-post-company pt-120 pb-120">
             <div class="col-md-12">
                 @if ($errors->has('message'))
-                    <div class="alert alert-danger" role="alert">{{ $errors->first('message') }}</div>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ $errors->first('message') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
                 @endif
                 @if (session()->has('message'))
-                    <div class="alert alert-success" role="alert">{{ session()->get('message') }}</div>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session()->get('message') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
                 @endif
             </div>
             <div class="container">

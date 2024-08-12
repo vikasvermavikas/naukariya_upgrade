@@ -30,7 +30,7 @@ $(document).ready(function () {
     });
 
     $(".searchreset").click(function (){
-        window.location.href = SITE_URL+'/employer/questionnaires';
+        window.location.href = SITE_URL+'/employer/questionnaires/list';
     });
     // Delete question from questionnaire.
     $(".delete_question").on("submit", function (event) {

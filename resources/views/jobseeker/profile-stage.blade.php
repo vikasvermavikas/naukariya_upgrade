@@ -6,8 +6,8 @@
     <link href="{{ asset('assets/css/tagsinput.css') }}" rel="stylesheet" type="text/css">
     <style>
         /* .bootstrap-tagsinput .badge {
-            margin-right: 10px;
-        } */
+                margin-right: 10px;
+            } */
 
         li.active .profileclass {
             border: none;
@@ -18,6 +18,7 @@
             padding: 15px;
             color: white;
         }
+
         li .profileclass {
             border: none;
             width: 57px;
@@ -27,15 +28,18 @@
             padding: 15px;
             color: white;
         }
+
         /* .preferlocation .select2-search__field{
-            border : none;
-        } */
+                border : none;
+            } */
         .select2-container--default .select2-selection--multiple {
-            margin-top: 8px; 
+            margin-top: 8px;
         }
+
         .select2-container .select2-selection--multiple {
             min-height: 46px;
         }
+
         .bootstrap-tagsinput .badge {
             margin-right: 2px;
         }
@@ -53,15 +57,19 @@
                         <!-- progressbar -->
                         <ul id="progressbar">
                             <li class="active"><i class="fas fa-user profileclass"></i><br><strong>Profile </strong></li>
-                            <li id="educationid"><i class="fas fa-university profileclass"></i><br><strong>Education</strong></li>
-                            <li id="professionalid"><i class="fas fa-briefcase profileclass"></i><br><strong>Professional</strong></li>
+                            <li id="educationid"><i
+                                    class="fas fa-university profileclass"></i><br><strong>Education</strong></li>
+                            <li id="professionalid"><i
+                                    class="fas fa-briefcase profileclass"></i><br><strong>Professional</strong></li>
                             <li id="skillid"><i class="fas fa-cog profileclass"></i><br><strong>Skills</strong></li>
-                            <li id="certificateid"><i class="fas fa-certificate profileclass"></i><br><strong>Certificate </strong></li>
+                            <li id="certificateid"><i class="fas fa-certificate profileclass"></i><br><strong>Certificate
+                                </strong></li>
                         </ul>
 
 
                         <div class="profile_container">
 
+                            {{-- Profile Form --}}
                             <form id="formData" class="form" enctype="multipart/form-data" method="POST">
                                 @csrf
                                 <fieldset id="field-1" class="tab">
@@ -79,7 +87,8 @@
                                                         @else
                                                             <img id="previewImg"
                                                                 src="https://i.pinimg.com/736x/aa/c9/4e/aac94e41310947cbcd5f38a41ccc0132.jpg"
-                                                                style="width: 150px; height: 150px; border: 1px solid white;" class="profileimage">
+                                                                style="width: 150px; height: 150px; border: 1px solid white;"
+                                                                class="profileimage">
                                                         @endif
 
                                                         <input id="file-input" name="image" accept="image/*"
@@ -283,21 +292,21 @@
 
                                             </div>
                                             <div class="col-md-4">
-                                                    <label> <span style="color: red;">*</span> Preferred Location </label>
-                                                    <select class="location-multiple form-control" name="locationlist[]"
-                                                        multiple="multiple">
-                                                        @foreach ($locations as $location)
-                                                            <optgroup label="{{ $location['state'] }}">
+                                                <label> Preferred Location </label>
+                                                <select class="location-multiple form-control" name="locationlist[]"
+                                                    multiple="multiple">
+                                                    @foreach ($locations as $location)
+                                                        <optgroup label="{{ $location['state'] }}">
 
-                                                                @for ($i = 0; $i < count($location['location']); $i++)
-                                                                    <option value="{{ $location['location'][$i]->location }}"
-                                                                        {{ in_array($location['location'][$i]->location, explode(',', $data->preferred_location)) ? 'selected' : '' }}>
-                                                                        {{ $location['location'][$i]->location }}
-                                                                    </option>
-                                                                @endfor
-                                                            </optgroup>
+                                                            @for ($i = 0; $i < count($location['location']); $i++)
+                                                                <option value="{{ $location['location'][$i]->location }}"
+                                                                    {{ in_array($location['location'][$i]->location, explode(',', $data->preferred_location)) ? 'selected' : '' }}>
+                                                                    {{ $location['location'][$i]->location }}
+                                                                </option>
+                                                            @endfor
+                                                        </optgroup>
                                                     @endforeach
-                                                    </select>
+                                                </select>
                                             </div>
                                             {{-- <div class="col-sm-4 preferlocation">
 
@@ -341,7 +350,7 @@
                                             <div class="col-sm-4">
                                                 <label for="password" class="col-form-label">Password</label>
                                                 <input type="password" minlength="8" name="password"
-                                                    placeholder="Enter your password" autocomplete="">
+                                                    placeholder="Enter your password" autocomplete="off">
                                             </div>
                                             <div class="col-sm-4 resume">
 
@@ -383,7 +392,7 @@
                             </form>
 
 
-                            <!-- fieldsets 2 -->
+                            <!-- Education Form -->
                             <fieldset class="tab" id="field-2">
                                 <h1>Education Details</h1>
                                 <div class="card-outer">
@@ -511,7 +520,7 @@
                                                         <div class="col">
 
                                                             <label>
-                                                                <span style="color: red;"> *</span>
+
                                                                 Qualification
                                                             </label>
 
@@ -524,7 +533,7 @@
                                                         </div>
                                                         <div class="col">
                                                             <label>
-                                                                <span style="color: red;"> *</span>
+
                                                                 Course type
                                                             </label>
                                                             <select class="form-control tab2 course_types"
@@ -546,7 +555,7 @@
                                                         </div>
                                                         <div class="col">
                                                             <label>
-                                                                <span style="color: red;"> *</span>
+
                                                                 Percentage(%)
                                                             </label>
                                                             <input type="number" min="1" step="0.01"
@@ -564,7 +573,7 @@
                                                     <div class="row">
                                                         <div class="col">
                                                             <label>
-                                                                <span style="color: red;"> *</span>Passing year
+                                                                Passing year
                                                             </label>
                                                             <input type="number" name="pass_year[]"
                                                                 placeholder="Select year" min="{{ date('Y') - 20 }}"
@@ -586,7 +595,7 @@
                                                         </div>
                                                         <div class="col">
                                                             <label>
-                                                                <span style="color: red;"> *</span>Institute Location
+                                                                Institute Location
                                                             </label>
                                                             <input type="text" placeholder="Enter Loaction"
                                                                 class="tab2" data-id="loaction-error" name="ins_loc[]"
@@ -614,7 +623,7 @@
                                                         <div class="col">
 
                                                             <label>
-                                                                <span style="color: red;"> *</span>
+
                                                                 Qualification
                                                             </label>
 
@@ -634,7 +643,7 @@
                                                         </div>
                                                         <div class="col">
                                                             <label>
-                                                                <span style="color: red;"> *</span>
+
                                                                 Course type
                                                             </label>
                                                             <select class="form-control tab2 course_types"
@@ -656,7 +665,7 @@
                                                         </div>
                                                         <div class="col">
                                                             <label>
-                                                                <span style="color: red;"> *</span>
+
                                                                 Percentage(%)
                                                             </label>
                                                             <input type="number" min="1" step="0.01"
@@ -674,7 +683,7 @@
                                                     <div class="row">
                                                         <div class="col">
                                                             <label>
-                                                                <span style="color: red;"> *</span>Passing year
+                                                                Passing year
                                                             </label>
                                                             <input type="number" name="pass_year[]"
                                                                 placeholder="Select year" min="{{ date('Y') - 20 }}"
@@ -696,7 +705,7 @@
                                                         </div>
                                                         <div class="col">
                                                             <label>
-                                                                <span style="color: red;"> *</span>Institute Location
+                                                                Institute Location
                                                             </label>
                                                             <input type="text" placeholder="Enter Loaction"
                                                                 class="tab2" data-id="loaction-error" name="ins_loc[]"
@@ -724,7 +733,7 @@
                                                         <div class="col">
 
                                                             <label>
-                                                                <span style="color: red;"> *</span>
+
                                                                 Qualification
                                                             </label>
 
@@ -746,7 +755,7 @@
                                                         </div>
                                                         <div class="col">
                                                             <label>
-                                                                <span style="color: red;"> *</span>
+
                                                                 Course type
                                                             </label>
                                                             <select class="form-control tab2 course_types"
@@ -768,7 +777,7 @@
                                                         </div>
                                                         <div class="col">
                                                             <label>
-                                                                <span style="color: red;"> *</span>
+
                                                                 Percentage(%)
                                                             </label>
                                                             <input type="number" min="1" step="0.01"
@@ -786,7 +795,7 @@
                                                     <div class="row">
                                                         <div class="col">
                                                             <label>
-                                                                <span style="color: red;"> *</span>Passing year
+                                                                Passing year
                                                             </label>
                                                             <input type="number" name="pass_year[]"
                                                                 placeholder="Select year" min="{{ date('Y') - 20 }}"
@@ -797,8 +806,7 @@
                                                         </div>
                                                         <div class="col">
                                                             <label>
-                                                                <span style="color: red;">
-                                                                    *</span>University/College/Institute
+                                                                University/College/Institute
                                                             </label>
                                                             <input type="text"
                                                                 placeholder="University/College/Institute Name"
@@ -808,7 +816,7 @@
                                                         </div>
                                                         <div class="col">
                                                             <label>
-                                                                <span style="color: red;"> *</span>Institute Location
+                                                                Institute Location
                                                             </label>
                                                             <input type="text" placeholder="Enter Loaction"
                                                                 class="tab2" data-id="loaction-error" name="ins_loc[]"
@@ -831,8 +839,7 @@
 
                             </fieldset>
 
-                            <!-- field set-3 -->
-
+                            <!-- Professional Form -->
                             <fieldset id="field-3" class="tab">
                                 <h1>Professional</h1>
                                 <form action="" method="POST" class="form" id="professionalForm">
@@ -1147,8 +1154,7 @@
                                 </form>
                             </fieldset>
 
-                            <!-- field set-4 -->
-
+                            <!-- Skill Form -->
                             <fieldset id="field-4" class="tab">
                                 <h1>Skills</h1>
                                 <div class="card-outer">
@@ -1171,7 +1177,8 @@
                                                     </label>
                                                     <input type="text" placeholder="Add Skills (comma seperated)"
                                                         name="skill" id="skills" data-role="tagsinput"
-                                                        value="{{ isset($skillsDetails->skills) ? $skillsDetails->skills : '' }}" required />
+                                                        value="{{ isset($skillsDetails->skills) ? $skillsDetails->skills : '' }}"
+                                                        required />
                                                     <small id="skillstab-error" class="text-danger"></small>
                                                 </div>
                                             </div>
@@ -1184,8 +1191,7 @@
 
                             </fieldset>
 
-                            <!-- Field-set 5 -->
-
+                            <!-- Certificate Form -->
                             <fieldset id="field-5" class="tab">
                                 <form id="certificate_form" action="" method="POST" class="form">
                                     @csrf
@@ -1454,5 +1460,4 @@
 @section('script')
     <script src="{{ asset('assets/js/profile-stage.js') }}"></script>
     <script src="{{ asset('assets/js/tagsinput.js') }}"></script>
- 
 @endsection

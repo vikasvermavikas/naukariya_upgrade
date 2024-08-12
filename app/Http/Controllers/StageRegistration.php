@@ -27,6 +27,8 @@ class StageRegistration extends Controller
 
         // $uid = Session::get('user')['id'];
         $uid = Auth::guard('jobseeker')->user()->id;
+        $get_stage = Auth::guard('jobseeker')->user()->savestage;
+
         // $data = [];
         // $uid = 1215;
         $update = 0;
@@ -96,7 +98,7 @@ class StageRegistration extends Controller
             $updateLastModifiedDate->professional_stage = $request->professional_experience;
             $updateLastModifiedDate->last_modified = Carbon::now();
             $updateLastModifiedDate->save();
-            return response()->json(['success' => true, 'message' => 'Professional details updated successfully.']);
+            return response()->json(['success' => true, 'message' => 'Professional details updated successfully.', 'savedstage' => $get_stage]);
         }
         return response()->json(['success' => false, 'message' => 'Something went wrong, please call your administrator.']);
         // return ['created' => $create, 'update' => $update];
@@ -107,6 +109,8 @@ class StageRegistration extends Controller
 
         // $uid = Session::get('user')['id'];
         $uid = Auth::guard('jobseeker')->user()->id;
+        $get_stage = Auth::guard('jobseeker')->user()->savestage;
+
         // $data = [];
         // return $request->all();
 
@@ -159,7 +163,7 @@ class StageRegistration extends Controller
         // $stage = Jobseeker::select('stage')->where('id', $uid)->first();
 
         // return response()->json(['data' => $request->all(), 'stage' => $stage]);
-        return response()->json(['success' => true, 'message' => 'Certification details updated successfully.']);
+        return response()->json(['success' => true, 'message' => 'Certification details updated successfully.', 'savedstage' => $get_stage]);
     }
     public function addCertificate(Request $request)
     {
@@ -245,6 +249,8 @@ class StageRegistration extends Controller
         // $uid = 1215;
         try {
             $uid = Auth::guard('jobseeker')->user()->id;
+            $get_stage = Auth::guard('jobseeker')->user()->savestage;
+
             $data = JsSkill::where('js_userid', $uid)->delete();
             if ($req->skill) {
                 $skills = explode(",", $req->skill);
@@ -260,7 +266,7 @@ class StageRegistration extends Controller
                     );
                 }
             }
-            return response()->json(['success' => true, 'message' => 'Skills updated successfully.'], 200);
+            return response()->json(['success' => true, 'message' => 'Skills updated successfully.', 'savedstage' => $get_stage], 200);
         } catch (throwable $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 200);
         }
@@ -285,7 +291,7 @@ class StageRegistration extends Controller
 
         // $uid = Session::get('user')['id'];
         $uid = Auth::guard('jobseeker')->user()->id;
-
+        $get_stage = Auth::guard('jobseeker')->user()->savestage;
         for ($i = 0; $i < count($req->degree); $i++) {
 
             if ($req->percentage[$i]){
@@ -310,7 +316,7 @@ class StageRegistration extends Controller
             }
             // $ins = Institute::firstOrCreate(['institute_name' => $req->ins_name[$i]]);
         }
-        return response()->json(['success' => true, 'message' => 'Education Details updated successfully']);
+        return response()->json(['success' => true, 'message' => 'Education Details updated successfully', 'savedstage' => $get_stage]);
     }
 
     public function deleteEducationDetail($id)
@@ -381,6 +387,7 @@ class StageRegistration extends Controller
     {
 
         $uid = Auth::guard('jobseeker')->user()->id;
+        $getstage = Auth::guard('jobseeker')->user()->savestage;
         // $uid = 1215;
         if (is_array($req->locationlist)) {
 
@@ -439,7 +446,7 @@ class StageRegistration extends Controller
 
 
         Jobseeker::where('id', $uid)->update($personalData);
-        return response()->json(['status' => true, 'message' => 'Profile details added successfully'], 200);
+        return response()->json(['status' => true, 'message' => 'Profile details added successfully', 'savedstage' => $getstage], 200);
     }
     public function getPersnol(Request $req)
     {

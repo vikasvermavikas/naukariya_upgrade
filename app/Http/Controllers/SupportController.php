@@ -68,8 +68,8 @@ class SupportController extends Controller
     public function store_employer(Request $request)
     {
         $request->validate([
-            'support_subject' => 'required|size:20',
-            'support_comment' => 'required|size:100',
+            'support_subject' => 'required|max:255',
+            'support_comment' => 'required|max:255',
         ]);
 
         // $userid = Session::get('user')['id'];

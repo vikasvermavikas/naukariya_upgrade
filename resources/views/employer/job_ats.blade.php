@@ -19,6 +19,16 @@
 
                 <a href="{{ route('managejobs') }}" class="btn float-right mb-3">Back</a>
             </div>
+            <div class="col-md-12 my-2">
+                @if (session()->has('message'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session()->get('message') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+            @endif
+            </div>
             <div class="col-md-12 mb-3 rounded" style="background:#F95602">
                 <ul class="nav nav-tabs nav-fill">
                     <li class="nav-item active"><a data-toggle="tab" href="#All" class="nav-link fs-12 active">All</a>
@@ -41,9 +51,7 @@
                 </ul>
             </div>
             <div class="col-md-12">
-                @if (session()->has('message'))
-                    <div class="alert alert-success">{{ session()->get('message') }}</div>
-                @endif
+              
 
                 <div class="table-responsive">
                     <table class="table table-bordered">

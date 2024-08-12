@@ -111,6 +111,7 @@ class ViewProfileTrackController extends Controller
         $optional_keywords = request('optional_keywords');
         $mandate_keywords = request('mandate_keywords');
         $excluding_keywords = request('excluding_keywords');
+       
         $designation = request('designation');
         $functionalrole = request('functionalrole');
         $industry = request('industry');
@@ -233,12 +234,18 @@ class ViewProfileTrackController extends Controller
         }
         if (isset($excluding_keywords) && $excluding_keywords !== '') {
             $jobseeker->where(function ($query) use ($excluding_keywords) {
-                $query->WhereNotIn('jobseekers.fname', 'like', "%" . $excluding_keywords . "%")
-                    ->WhereNotIn('jobseekers.lname', 'like', "%" . $excluding_keywords . "%")
-                    ->WhereNotIn('jobseekers.designation', 'like', "%" . $excluding_keywords . "%")
-                    ->WhereNotIn('jobseekers.preferred_location', 'like', "%" . $excluding_keywords . "%")
-                    ->WhereNotIn('jobseekers.email', 'like', "%" . $excluding_keywords . "%")
-                    ->WhereNotIn('jobseekers.contact', 'like', "%" . $excluding_keywords . "%");
+                $query->whereNot('jobseekers.fname', 'like', "%" . $excluding_keywords . "%")
+                    ->whereNot('jobseekers.lname', 'like', "%" . $excluding_keywords . "%")
+                    ->whereNot('jobseekers.designation', 'like', "%" . $excluding_keywords . "%")
+                    ->whereNot('jobseekers.preferred_location', 'like', "%" . $excluding_keywords . "%")
+                    ->whereNot('jobseekers.email', 'like', "%" . $excluding_keywords . "%")
+                    ->whereNot('jobseekers.contact', 'like', "%" . $excluding_keywords . "%");
+                // $query->WhereNotIn('jobseekers.fname', 'like', "%" . $excluding_keywords . "%")
+                //     ->WhereNotIn('jobseekers.lname', 'like', "%" . $excluding_keywords . "%")
+                //     ->WhereNotIn('jobseekers.designation', 'like', "%" . $excluding_keywords . "%")
+                //     ->WhereNotIn('jobseekers.preferred_location', 'like', "%" . $excluding_keywords . "%")
+                //     ->WhereNotIn('jobseekers.email', 'like', "%" . $excluding_keywords . "%")
+                //     ->WhereNotIn('jobseekers.contact', 'like', "%" . $excluding_keywords . "%");
             });
         }
 

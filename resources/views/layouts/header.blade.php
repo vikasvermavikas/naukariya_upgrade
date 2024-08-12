@@ -70,7 +70,7 @@
                                                 </ul>
                                             </li>
 
-                                            <li><a href={{ route('loadJoblistPage') }}>Blog</a></li>
+                                            {{-- <li><a href={{ route('loadJoblistPage') }}>Blog</a></li> --}}
 
                                             <li class="nav-item dropdown">
                                                 <a class="nav-link dropdown-toggle" href="http://example.com"
@@ -232,7 +232,7 @@
 @if (get_profile_completion() != 100)
     <div style="background:#EAEDFF;margin-bottom: -14px;">
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            Your profile is {{ get_profile_completion() }}% complete, please complete your profile for apply job.
+            Your profile is <span id="profile_stage"> {{ get_profile_completion() }}% </span> complete, please complete your profile for apply job.
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -240,6 +240,15 @@
     </div>
 @endif
 @elseif(Auth::guard('employer')->check())
+<style>
+    /* style for mobile only */
+    @media only screen and (max-width: 768px) {
+        ul.slicknav_nav {
+            height: 200px;
+            overflow-y: scroll;
+        }
+    }
+</style>
 <header>
     <!-- Header Start -->
     <div class="header-area header-transparrent">

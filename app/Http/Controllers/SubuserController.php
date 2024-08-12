@@ -118,12 +118,12 @@ class SubuserController extends Controller
     {
 
         $request->validate([
-            'fname' => 'required',
-            'lname' => 'required',
+            'fname' => 'required|string',
+            'lname' => 'required|string',
             'email' => 'required|email|unique:sub_users,email',
             'contact' => 'required|numeric|min:10',
-            'designation' => 'required',
-            'gender' => 'required',
+            'designation' => 'required|string',
+            'gender' => 'required|string',
         ]);
 
         $uid = $this->userid;

@@ -59,9 +59,12 @@
                                 <td style="color:#F95602;"><span data-toggle="modal" data-target="#viewResumemodal"
                                         data-whatever="{{ $link }}"><i class="fas fa-eye mr-2" title="View Resume"
                                             data-toggle="tooltip" data-placement="top"></i></span>
-                                    <a href="{{ asset('resume/' . $item->resume . '') }}" target="_blank"
-                                        style="color:#F95602;" download><i class="fas fa-download mr-2"
-                                            title="Download Resume" data-toggle="tooltip" data-placement="top"></i></a>
+                                            @if ($item->resume)
+                                            <a href="{{ asset('resume/' . $item->resume . '') }}" target="_blank"
+                                                style="color:#F95602;" download><i class="fas fa-download mr-2"
+                                                    title="Download Resume" data-toggle="tooltip" data-placement="top"></i></a>
+                                            @endif
+
                                     <a href="https://www.youtube.com/watch?v={{ $item->resume_video_link }}" target="_blank"
                                         style="color:#F95602;"> <i class="fas fa-video mr-2" title="Video Resume"
                                             data-toggle="tooltip" data-placement="top"></i></a>

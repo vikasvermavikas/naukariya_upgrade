@@ -381,7 +381,9 @@ $(document).ready(function () {
 
                         // Update stage.
                         update_stage(1);
-
+                        if (response.savedstage <3) {
+                            $("#profile_stage").text(" 20% ");
+                        }
                         Swal.fire({
                             icon: "success",
                             title: "Thank you!",
@@ -462,6 +464,9 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.success) {
                     update_stage(2);
+                    if (response.savedstage < 4) {
+                        $("#profile_stage").text(" 40% ");
+                    }
 
                     Swal.fire({
                         icon: "success",
@@ -564,7 +569,23 @@ $(document).ready(function () {
     var bcd = [];
     $("form#professionalForm").submit(function (e) {
         e.preventDefault();
+        var checkCurrentlyWorking = [];
+        $(".currentwork").each(function () {
+            if ($(this).is(':checked')) {
+                checkCurrentlyWorking.push($(this).val());
+            }
+        });
 
+        // Validate the current working.
+        if (checkCurrentlyWorking.length > 1) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Invalid Details, please try again",
+            });
+            return false;
+        }
+        
         bcd = []
 
         // $(".tab3").each(function(index) {
@@ -605,7 +626,9 @@ $(document).ready(function () {
                 success: function (response) {
                     if (response.success) {
                         update_stage(3); // update stage.
-
+                        if (response.savedstage < 5) {
+                        $("#profile_stage").text(" 60% ");
+                    }
                         Swal.fire({
                             icon: "success",
                             title: "Thank you!",
@@ -658,6 +681,9 @@ $(document).ready(function () {
                 success: function (response) {
                     if (response.success) {
                         update_stage(4);  // Update the stage.
+                        if (response.savedstage < 6) {
+                            $("#profile_stage").text(" 80% ");
+                        }
                         Swal.fire({
                             icon: "success",
                             title: "Thank you!",
@@ -770,6 +796,10 @@ $(document).ready(function () {
                 success: function (response) {
                     if (response.success) {
                         update_stage(5);  // Update the stage.
+                        if (response.savedstage < 7) {
+                            $("#profile_stage").text(" 100% ");
+                        }
+                        
                         Swal.fire({
                             icon: "success",
                             title: "Thank you!",
