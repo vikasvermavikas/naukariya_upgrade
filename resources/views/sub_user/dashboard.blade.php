@@ -7,31 +7,44 @@
             </div>
             <div class="col-md-4 my-3">
                 <div class="card mb-3" style="width: 18rem;">
-                    <img class="card-img-top" src="{{asset('subuser_profile_image/default_image.png')}}" alt="Card image cap">
-                    <div class="card-body text-center">
-                      <h5 class="card-title"> {{ Auth::guard('subuser')->user()->fname ." ".Auth::guard('subuser')->user()->lname  }}</h5>
-                      <p class="card-text  small">Working As a {{Auth::guard('subuser')->user()->designation}}</p>
-                    </div>
-                    </div>
 
-                    <h6 class="card-title">Here are your actions details :</h6>
-                    <div class="card mt-3 hover" style="width: 18rem;">
+                    @if (Auth::guard('subuser')->user()->profile_image)
+                        <img src="{{ asset('subuser_profile_image/' . Auth::guard('subuser')->user()->profile_image . '') }}"
+                            class="card-img-top">
+                    @else
+                        <img class="card-img-top" src="{{ asset('subuser_profile_image/default_image.png') }}"
+                            alt="Card image cap">
+                    @endif
+
+
+                    <div class="card-body text-center">
+                        <h5 class="card-title">
+                            {{ Auth::guard('subuser')->user()->fname . ' ' . Auth::guard('subuser')->user()->lname }}</h5>
+                        <p class="card-text  small">Working As a {{ Auth::guard('subuser')->user()->designation }}</p>
+                    </div>
+                </div>
+
+                <h6 class="card-title">Here are your actions details :</h6>
+                <div class="card mt-3 hover" style="width: 18rem;">
                     <ul class="list-group">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                         Total Added
-                          <span class="badge badge-primary badge-pill">{{$data["totalAdded"]}}</span>
+                            Total Added
+                            <a href="{{ route('subuser-tracker-list') }}"><span
+                                    class="badge badge-primary badge-pill">{{ $data['totalAdded'] }}</span></a>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                          Resume not uploaded
-                          <span class="badge badge-danger badge-pill">{{$data["resumeNotUploaded"]}}</span>
+                            Resume not uploaded
+                            <a href="{{ route('subuser-tracker-list', ['uploadstatus' => 'no']) }}"> <span
+                                    class="badge badge-danger badge-pill">{{ $data['resumeNotUploaded'] }}</span></a>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                         Resume Uploaded
-                          <span class="badge badge-secondary badge-pill">{{$data["resumeUploaded"]}}</span>
+                            Resume Uploaded
+                            <a href="{{ route('subuser-tracker-list', ['uploadstatus' => 'yes']) }}"> <span
+                                    class="badge badge-secondary badge-pill">{{ $data['resumeUploaded'] }}</span></a>
                         </li>
-                      </ul>
+                    </ul>
                 </div>
-                  
+
             </div>
         </div>
     </div>

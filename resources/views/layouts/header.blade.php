@@ -417,93 +417,110 @@
         <!-- Header End -->
     </header>
 @elseif (Auth::guard('subuser')->check())
+<style>
+    @media only screen and (max-width:991px) {
+        ul.slicknav_nav{
+            overflow: auto;
+        }
+    }
+    @media only screen and (min-width:992px) {
+        .usermenu_custom{
+            left: -59px;
+        }
+        .customlogo{
+            margin-top: 17px;
+        }
+    }
+</style>
     <header class="border">
         <!-- Header Start -->
         <div class="header-area header-transparrent">
             <div class="headder-top header-sticky">
                 <div class="container">
                     <div class="row align-items-center">
-                        <div class="col-lg-2 col-md-2">
+                        {{-- <div class="col-lg-2 col-md-2">
                             <!-- Logo -->
-                            <div class="logo">
-                                <a href={{ route('home') }}><img src={{ asset('assets/images/naukriyan-logo.png') }}
+                           
+                        </div> --}}
+                        <div class="col-lg-12 col-md-12 d-flex">
+                            <div class="logo customlogo">
+                                <a href={{ route('subuser-dashboard') }}><img src={{ asset('assets/images/naukriyan-logo.png') }}
                                         style="width: 227px;" alt="Naukriyan-Logo"></a>
                             </div>
-                        </div>
-                        <div class="col-lg-10 col-md-10">
-                            <div class="menu-wrapper">
+                            <div class="menu-wrapper w-100 d-flex justify-content-end">
                                 <!-- Main-menu -->
                                 <div class="main-menu">
                                     <nav class="d-none d-lg-block">
                                         <ul id="navigation">
                                             <li><a href={{ route('subuser-dashboard') }}>Dashboard</a></li>
                                             <li><a href={{ route('subuser-tracker-list') }}>Tracker</a></li>
-
+                                            <li class="nav-item dropdown open">
+                                                <a href="#" data-toggle="dropdown" role="button" aria-expanded="false"
+                                                    class="nav-link dropdown-toggle">
+            
+                                                    @if (Auth::guard('subuser')->user()->profile_image)
+                                                        <img src="{{ asset('subuser_profile_image/' . Auth::guard('subuser')->user()->profile_image . '') }}"
+                                                            class="mini-photo rounded-circle text-center" width="36"
+                                                            height="36">
+                                                    @else
+                                                        <img src="{{ asset('assets/images/default-image.png') }}"
+                                                            class="mini-photo rounded-circle text-center" width="36"
+                                                            height="36">
+                                                    @endif
+                                                </a>
+            
+                                                <ul class="dropdown-menu user-menu usermenu_custom">
+                                                    <div class="profile-highlight text-center">
+            
+                                                        {{-- <img src={{ asset('assets/images/default-image.png') }} width="36"
+                                                            height="36" class="mini-photo rounded-circle text-center"> --}}
+                                                        @if (Auth::guard('subuser')->user()->profile_image)
+                                                            <img src="{{ asset('subuser_profile_image/' . Auth::guard('subuser')->user()->profile_image . '') }}"
+                                                                class="mini-photo rounded-circle text-center" width="36"
+                                                                height="36">
+                                                        @else
+                                                            <img src="{{ asset('assets/images/default-image.png') }}"
+                                                                class="mini-photo rounded-circle text-center" width="36"
+                                                                height="36">
+                                                        @endif
+            
+                                                        <div class="details text-center">
+                                                            <div id="profile-name">
+                                                                <small>
+                                                                    {{ Auth::guard('subuser')->user()->fname . ' ' . Auth::guard('subuser')->user()->lname }}</small>
+                                                            </div>
+                                                            {{-- <div id="profile-footer text-center">
+                                                                <small>{{ Auth::guard('subuser')->user()->email }}</small>
+                                                            </div> --}}
+                                                        </div>
+                                                    </div>
+            
+                                                    <li class="user-menu__item mt-2">
+                                                        <a href="{{ route('subuser-profile') }}" class="user-menu-link p-0">
+                                                            <div class="text-color"><i class="fas fa-user-circle"></i>
+                                                                Profile/Password
+                                                            </div>
+                                                        </a>
+                                                    </li>
+            
+                                                    <li class="user-menu__item mt-2">
+                                                        <a href="#" class="user-menu-link p-0">
+                                                            <div class="text-color">
+                                                                {{-- <i class="fas fa-sign-out-alt"></i> --}}
+                                                                <form id="logout-form" action="{{ route('subuser-logout') }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    <button type="submit" class="btn head-btn2">Logout</button>
+                                                                </form>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </li>
                                         </ul>
                                     </nav>
                                 </div>
-                                <li class="nav-item dropdown open">
-                                    <a href="#" data-toggle="dropdown" role="button" aria-expanded="false"
-                                        class="nav-link dropdown-toggle">
-
-                                        @if (Auth::guard('subuser')->user()->profile_image)
-                                            <img src="{{ asset('subuser_profile_image/' . Auth::guard('subuser')->user()->profile_image . '') }}"
-                                                class="mini-photo rounded-circle text-center" width="36"
-                                                height="36">
-                                        @else
-                                            <img src="{{ asset('assets/images/default-image.png') }}"
-                                                class="mini-photo rounded-circle text-center" width="36"
-                                                height="36">
-                                        @endif
-                                    </a>
-
-                                    <ul class="dropdown-menu user-menu">
-                                        <div class="profile-highlight text-center">
-
-                                            {{-- <img src={{ asset('assets/images/default-image.png') }} width="36"
-                                                height="36" class="mini-photo rounded-circle text-center"> --}}
-                                            @if (Auth::guard('subuser')->user()->profile_image)
-                                                <img src="{{ asset('subuser_profile_image/' . Auth::guard('subuser')->user()->profile_image . '') }}"
-                                                    class="mini-photo rounded-circle text-center" width="36"
-                                                    height="36">
-                                            @else
-                                                <img src="{{ asset('assets/images/default-image.png') }}"
-                                                    class="mini-photo rounded-circle text-center" width="36"
-                                                    height="36">
-                                            @endif
-
-                                            <div class="details text-center">
-                                                <div id="profile-name">
-                                                    <small>
-                                                        {{ Auth::guard('subuser')->user()->fname . ' ' . Auth::guard('subuser')->user()->lname }}</small>
-                                                </div>
-                                                <div id="profile-footer text-center">
-                                                    <small>{{ Auth::guard('subuser')->user()->email }}</small>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <li class="user-menu__item mt-2">
-                                            <a href="{{ route('subuser-profile') }}" class="user-menu-link">
-                                                <div class="text-color"><i class="fas fa-user-circle"></i>
-                                                    Profile/Password
-                                                </div>
-                                            </a>
-                                        </li>
-
-                                        <li class="user-menu__item mt-2">
-                                            <a href="#" class="user-menu-link">
-                                                <div class="text-color"><i class="fas fa-sign-out-alt"></i>
-                                                    <form id="logout-form" action="{{ route('subuser-logout') }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        <button type="submit" class="btn head-btn2">Logout</button>
-                                                    </form>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
+                               
 
                             </div>
                         </div>

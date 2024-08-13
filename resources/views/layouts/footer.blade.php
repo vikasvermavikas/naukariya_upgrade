@@ -10,6 +10,18 @@
         -o-transition: .4s;
         transition: .4s;
     }
+    @media only screen and (max-width:700px){
+        .footer-area .footer-form form .form-icon button {
+            top: 10px;
+        }
+        
+    }
+    @media only screen and (min-width:576px) and (max-width:1199px){
+        .footer-social{
+            position: relative;
+            right: 17px;
+        }
+    }
 </style>
 <footer>
     <!-- Footer Start-->
@@ -94,31 +106,32 @@
                                                 class="email_icon newsletter-submit button-contactForm"><img
                                                     src={{ asset('assets/img/icon/form.png') }} alt=""></button>
                                         </div>
-                                        <div class="footer-social">
-                                            <a
-                                                href="{{ !empty(get_social_links()) ? get_social_links()->facebook_links : '' }}"><i
-                                                    class="fab fa-facebook-f"></i></a>
-                                            <a
-                                                href="{{ !empty(get_social_links()) ? get_social_links()->twitter_links : '' }}"><svg
-                                                    xmlns="http://www.w3.org/2000/svg" class="mb-4"
-                                                    viewBox="0 0 512 512" width="20">
-                                                    <path fill="#888888"
-                                                        d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" />
-                                                </svg></a>
-                                            <a
-                                                href="{{ !empty(get_social_links()) ? get_social_links()->linkedin_links : '' }}"><i
-                                                    class="fab fa-linkedin" aria-hidden="true"></i></a>
-                                            <a
-                                                href="{{ !empty(get_social_links()) ? get_social_links()->instagram_links : '' }}"><i
-                                                    class="fab fa-instagram"></i></a>
-                                            <a
-                                                href="{{ !empty(get_social_links()) ? get_social_links()->youtube_links : '' }}"><i
-                                                    class="fab fa-youtube"></i></a>
-                                        </div>
+                                      
                                         {{-- <span class="btn mt-4" id="unfollow">UnFollow</span><br>
                                      <span id="email_error" class="text-danger"></span>
                                      <div class="mt-10 info"></div> --}}
                                     </form>
+                                    <div class="footer-social d-flex">
+                                        <a
+                                            href="{{ !empty(get_social_links()) ? get_social_links()->facebook_links : '' }}"><i
+                                                class="fab fa-facebook-f"></i></a>
+                                        <a
+                                            href="{{ !empty(get_social_links()) ? get_social_links()->twitter_links : '' }}"><svg
+                                                xmlns="http://www.w3.org/2000/svg" class="mb-4"
+                                                viewBox="0 0 512 512" width="20">
+                                                <path fill="#888888"
+                                                    d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" />
+                                            </svg></a>
+                                        <a
+                                            href="{{ !empty(get_social_links()) ? get_social_links()->linkedin_links : '' }}"><i
+                                                class="fab fa-linkedin" aria-hidden="true"></i></a>
+                                        <a
+                                            href="{{ !empty(get_social_links()) ? get_social_links()->instagram_links : '' }}"><i
+                                                class="fab fa-instagram"></i></a>
+                                        <a
+                                            href="{{ !empty(get_social_links()) ? get_social_links()->youtube_links : '' }}"><i
+                                                class="fab fa-youtube"></i></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
