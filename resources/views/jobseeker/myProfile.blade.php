@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/jobseeker/myProfile.css') }}">
 @endsection
 @section('content')
-    <div class="container mt-30 mb-40">
+    <div class="container mt-30 mb-40 border    ">
         <div class="row h-auto">
             <div class="col-lg-4 col-md-6 col-sm-12 h-auto ">
                 <div class="card-wrapper">

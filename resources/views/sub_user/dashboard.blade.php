@@ -23,11 +23,11 @@
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                           Resume not uploaded
-                          <span class="badge badge-danger badge-pill">{{$data["totalAdded"]}}</span>
+                          <span class="badge badge-danger badge-pill">{{$data["resumeNotUploaded"]}}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                          Resume Uploaded
-                          <span class="badge badge-secondary badge-pill">{{$data["totalAdded"]}}</span>
+                          <span class="badge badge-secondary badge-pill">{{$data["resumeUploaded"]}}</span>
                         </li>
                       </ul>
                 </div>

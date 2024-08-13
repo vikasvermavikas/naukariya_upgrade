@@ -23,6 +23,20 @@ function get_experience()
     return $result;
 }
 
+if (!function_exists('get_education_details')) {
+    /**
+     * Get education_details.
+     * 
+     * @return array
+     */
+
+     function get_education_details($id){
+        $data = DB::table('tracker_education')->where('tracker_candidate_id', $id)->first();
+        return $data;
+     }
+    
+}
+
 if (!function_exists('get_profile_completion')) {
     /**
      * Return profile completion.

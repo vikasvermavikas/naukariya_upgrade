@@ -17,7 +17,7 @@
                 <div class="col-sm-9">
                     <h1 class="text-center"><b>DASHBOARD</b></h1>
                     <div class="row mt-5">
-                        <div class="col-sm-3">
+                        <div class="col-sm-4 col-md-6 col-lg-3">
                             <a href="{{ route('applyJobList') }}" target="_blank">
                                 <div class="box bg-success py-4 text-center mt-3 rounded"><span
                                         class="text-white">{{ $data['applied_jobs'] }}</span>
@@ -41,7 +41,7 @@
                                 <p class="lead"><span class="text-white">Recommended Jobs</span></p>
                             </div>
                         </div> --}}
-                        <div class="col-sm-3">
+                        <div class="col-sm-4 col-md-6 col-lg-3">
                             <a href="{{ route('follow_list') }}" target="_blank">
                                 <div class="box bg-info py-4 text-center mt-3 rounded"><span class="text-white">
                                         {{ $data['following'] }}</span>
@@ -51,7 +51,7 @@
                             </a>
 
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4 col-md-6 col-lg-3">
                             <a href="{{ route('get-saved-job') }}" target="_blank">
                                 <div class="box bg-success py-4 text-center mt-3 rounded"><span
                                         class="text-white">{{ $data['saved_jobs'] }}</span>
@@ -68,7 +68,7 @@
                                 <p class="lead"><span class="text-white">Recruiter Message</span></p>
                             </div>
                         </div> --}}
-                        <div class="col-sm-3">
+                        <div class="col-sm-4 col-md-6 col-lg-3">
                             <a href="{{ route('jobseeker_support_list') }}" target="_blank">
                             <div class="box bg-dark py-4 text-center mt-3 rounded"><span class="text-white"> {{ $data['helpdesk'] }}</span>
                                 <hr class="hr1">
@@ -81,7 +81,8 @@
                     </div>
                 </div>
 
-                <div class="col-sm-3 bg-light">
+                {{-- Side profile layout. --}}
+                <div class="col-sm-12 col-md-12 col-lg-3 my-3 bg-light">
 
                     <div class="card">
                         <div class="card-header text-center">
