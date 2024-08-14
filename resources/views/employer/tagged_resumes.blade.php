@@ -8,12 +8,12 @@
             <div class="col-md-12 my-4">
                 <form action="" class="form">
                     <div class="form-group row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-4 col-4">
                             <select name="tag" id="tag" class="form-control">
                                 <option value="">Select Tags</option>
                             </select>
                         </div>
-                        <div class="col-sm-8">
+                        <div class="col-sm-8 col-8">
                             <button type="submit" class="btn text-white rounded" style="padding: 21px;">
                                 Search
                             </button>

@@ -14,16 +14,18 @@
                 @endif
             </div>
             <div class="col-md-12 my-2">
-                <form action="" method="GET">
-                    <div class="col-md-3 float-right">
-                        <Label class="font-weight-bold small">Search (Title / Status / Client Name)</Label>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="search" name="keyword"
-                                value="{{ $keyword }}">
-                        </div>
-                        <div class="d-flex">
-                            <button class="btn bg-success text-white">Search</button>
-                            <a href="{{ route('postedjobs') }}" class="btn text-white">Clear</a>
+                <form action="" method="GET" class="float-right">
+                    <div class="row">
+                        <div class="col-md-12 float-right">
+                            <Label class="font-weight-bold small">Search (Title / Status / Client Name)</Label>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="search" name="keyword"
+                                    value="{{ $keyword }}">
+                            </div>
+                            <div class="d-flex">
+                                <button class="btn bg-success text-white">Search</button>
+                                <a href="{{ route('postedjobs') }}" class="btn text-white">Clear</a>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -32,7 +34,7 @@
                 {{ $data->onEachSide(0)->links() }}
             </div>
             @forelse ($data as $item)
-                <div class="col-sm-3 my-2">
+                <div class="col-sm-6 col-md-4 col-lg-3 my-2">
                     <div class="card">
                         @if ($item->status == 'Active')
                             <div class="card-header bg-success text-light rounded text-center">

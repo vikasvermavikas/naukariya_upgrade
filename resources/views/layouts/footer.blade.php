@@ -177,9 +177,7 @@
                     <div class="col-xl-10 col-lg-10 ">
                         <div class="footer-copy-right text-center">
                             <p>©
-                                <script>
-                                    document.write(new Date().getFullYear());
-                                </script> All Rights Reserved by Naukriyan. Design & Developed by Prakhar
+                               {{date("Y")}} All Rights Reserved by Naukriyan. Design & Developed by Prakhar
                                 Software Solutions Pvt Ltd
                             </p>
                         </div>

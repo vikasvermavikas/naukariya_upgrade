@@ -537,13 +537,13 @@ class JobseekerController extends Controller
         $skills = JsSkill::distinct()->pluck('skill')->toArray();
         $designations = DesignationList::distinct()->pluck('designation')->toArray();
         // $companies = Empcompaniesdetail::pluck('company_name')->toArray();
-        $jobManagers = Jobmanager::select('job_role', 'job_skills', 'title')->get();
+        // $jobManagers = Jobmanager::select('job_role', 'job_skills', 'title')->get();
 
-        $roleSkillsJobTitle = $jobManagers->map(function ($query) {
-        });
+        // $roleSkillsJobTitle = $jobManagers->map(function ($query) {
+        // });
 
         $demo = array_merge($designations, $skills);
-
+        // $demo = array_slice($demo,0,4);
         return $demo;
     }
     public function getLocations($search = '')

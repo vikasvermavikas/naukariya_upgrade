@@ -37,7 +37,11 @@
                 padding: 0px 0px 15px 0px;
             }
         }
+        .dropdown-menu.show {
+            overflow: auto;
+            max-height: 200px;
 
+        }
         .image-class {
             width: 114px;
             /* height: 62px; */
@@ -95,7 +99,7 @@
                         <div class="row">
                             <div class="col-xl-6 col-lg-9 col-md-10">
                                 <div class="hero__caption">
-                                    <h1>Find the most exciting startup jobs</h1>
+                                    <h1>Discover Jobs That Inspire Across the Nation</h1>
                                 </div>
                             </div>
                         </div>
@@ -319,7 +323,7 @@
                     <div class="col-lg-12">
                         <div class="section-tittle text-center">
                             {{-- <span>Recent Job</span> --}}
-                            <h2>Featured Jobs</h2>
+                            <h2>Naukriyan of the Week</h2>
                         </div>
                     </div>
                 </div>
@@ -516,8 +520,8 @@
                                 <span class="flaticon-search"></span>
                             </div>
                             <div class="process-cap">
-                                <h5>1. Search a job</h5>
-                                <p>Sorem spsum dolor sit amsectetur adipisclit, seddo eiusmod tempor incididunt ut laborea.
+                                <h5>1. Search for Jobs</h5>
+                                <p>Use Naukriyan’s search function to find job listings that align with your skills, interests, and career goals. Filter results by location, industry, and job type to narrow down your options.
                                 </p>
                             </div>
                         </div>
@@ -528,8 +532,8 @@
                                 <span class="flaticon-curriculum-vitae"></span>
                             </div>
                             <div class="process-cap">
-                                <h5>2. Apply for job</h5>
-                                <p>Sorem spsum dolor sit amsectetur adipisclit, seddo eiusmod tempor incididunt ut laborea.
+                                <h5>2. Apply for Positions</h5>
+                                <p>Review the job descriptions and select the roles that best match your qualifications. Click "Apply," attach your resume and cover letter, and complete any additional application requirements.
                                 </p>
                             </div>
                         </div>
@@ -540,8 +544,8 @@
                                 <span class="flaticon-tour"></span>
                             </div>
                             <div class="process-cap">
-                                <h5>3. Get your job</h5>
-                                <p>Sorem spsum dolor sit amsectetur adipisclit, seddo eiusmod tempor incididunt ut laborea.
+                                <h5>3. Get Hired</h5>
+                                <p>Monitor your application status through your Naukriyan dashboard. Follow up with potential employers as needed, and prepare for interviews to secure your desired job.
                                 </p>
                             </div>
                         </div>
@@ -635,11 +639,8 @@
                                 <h2>24k Talented people are getting Jobs</h2>
                             </div>
                             <div class="support-caption">
-                                <p class="pera-top">Mollit anim laborum duis au dolor in voluptate velit ess cillum dolore
-                                    eu lore dsu quality mollit anim laborumuis au dolor in voluptate velit cillum.</p>
-                                <p>Mollit anim laborum.Duis aute irufg dhjkolohr in re voluptate velit esscillumlore eu
-                                    quife nrulla parihatur. Excghcepteur signjnt occa cupidatat non inulpadeserunt mollit
-                                    aboru. temnthp incididbnt ut labore mollit anim laborum suis aute.</p>
+                                <p class="pera-top">At Naukriyan, we're committed to connecting talent with opportunity. Currently, over thousands of  skilled professionals have successfully found jobs through our platform. Our mission is to bridge the gap between talented individuals and top employers, ensuring that every job seeker finds a role that matches their skills and aspirations. Join us and be part of a thriving community where your career growth is our priority.</p>
+                            
                                 <a href="{{ route('loadLoginPage') }}" class="btn post-btn">Post a job</a>
                             </div>
                         </div>
@@ -678,7 +679,7 @@
                                     <!-- Blog date -->
                                     <div class="blog-date text-center">
                                         <span>24</span>
-                                        <p>Now</p>
+                                        <p>Nov</p>
                                     </div>
                                 </div>
                                 <div class="blog-cap">
@@ -698,7 +699,7 @@
                                     <!-- Blog date -->
                                     <div class="blog-date text-center">
                                         <span>24</span>
-                                        <p>Now</p>
+                                        <p>Nov</p>
                                     </div>
                                 </div>
                                 <div class="blog-cap">

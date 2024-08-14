@@ -26,7 +26,7 @@
                                 <h3 class="font-weight-bold" style="text-decoration: underline;">Job Post As</h3>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-6 col-xl-4">
                                 <label class="col-form-label" for="">Select Job For <span
                                         class="text-danger">*</span></label>
                                 <select class="form-control" name="job_for" id="job_for" required>
@@ -39,7 +39,7 @@
                                 @enderror
 
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6 col-xl-4">
                                 <label class="col-form-label" for="job_sector_id">Select Job Sector <span
                                         class="text-danger">*</span></label>
                                 <select class="form-control" name="job_sector_id" id="job_sector_id" required>
@@ -52,7 +52,7 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6 col-xl-4">
                                 <label class="col-form-label" for="client_id">Client Name <sub class="text-danger">(Not in
                                         List ?? Select 'others' and add new)</sub> <span
                                         class="text-danger">*</span></label>
@@ -80,7 +80,7 @@
                                 <h3 class="font-weight-bold" style="text-decoration: underline;">General Information</h3>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-6 col-xl-4">
                                 <label class="col-form-label" for="job_title">Job Title <span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="title" placeholder="Enter Job Title"
@@ -89,7 +89,7 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6 col-xl-4">
                                 <label class="col-form-label" for="job_industry_id">Select Industry <span
                                         class="text-danger">*</span></label>
                                 <select class="form-control" name="job_industry_id" id="job_industry_id" required>
@@ -102,7 +102,7 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6 col-xl-4">
                                 <label class="col-form-label" for="job_functional_role_id">Select Functional Area <span
                                         class="text-danger">*</span></label>
                                 <select class="form-control" name="job_functional_role_id" id="job_functional_role_id"
@@ -119,7 +119,7 @@
                                 @enderror
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-6 col-xl-4">
                                 <label class="col-form-label" for="job_address">Address <span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="job_address" id="job_address"
@@ -128,7 +128,7 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6 col-xl-4">
                                 <label class="col-form-label" for="job_state_id">State <span
                                         class="text-danger">*</span></label>
                                 <select class="form-control" name="job_state_id" id="job_state_id" required>
@@ -141,7 +141,7 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6 col-xl-4">
                                 <label class="col-form-label" for="job_city_id">City <span
                                         class="text-danger">*</span></label>
                                 <select class="form-control" name="job_city_id" id="job_city_id" required>
@@ -151,7 +151,7 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6 col-xl-4">
                                 <label class="col-form-label" for="job_posted_type_id">Posted <span
                                         class="text-danger">*</span></label>
                                 <select class="form-control" name="job_posted_type_id" id="job_posted_type_id" required>
@@ -164,7 +164,7 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6 col-xl-4">
                                 <label class="col-form-label" for="job_preference">Preference</label>
                                 <select class="form-control" name="job_preference" id="job_preference">
                                     <option disabled value="">Select Preference</option>
@@ -174,7 +174,7 @@
                                     <option value="Handicapped">Handicapped</option>
                                 </select>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-12 col-xl-4">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label class="col-form-label" for="job_category_id">Select Category <span
@@ -207,7 +207,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6 col-xl-4">
                                 <label class="col-form-label" for="job_role">Role <span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="job_role" id="job_role"
@@ -216,7 +216,7 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6 col-xl-4">
                                 <label class="col-form-label" for="job_vaccancy">No. Of Vacancy <span
                                         class="text-danger">*</span></label>
                                 <input type="number" name="job_vaccancy" id="job_vaccancy" class="form-control"
@@ -225,7 +225,7 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-12 col-xl-4">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label class="col-form-label" for="main_exp">Select Experience <span
@@ -255,17 +255,17 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6 col-xl-4">
                                 <label class="col-form-label" for="start_apply_date">Start Apply Date</label>
                                 <input type="date" class="form-control" min="{{ date('Y-m-d') }}"
                                     name="start_apply_date" id="start_apply_date">
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6 col-xl-4">
                                 <label class="col-form-label" for="last_apply_date">Last Apply Date</label>
                                 <input type="date" class="form-control" name="last_apply_date"
                                     min="{{ date('Y-m-d') }}" id="last_apply_date">
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-12 col-xl-4">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label class="col-form-label" for="grad_start_year">Graduation Year</label>
@@ -289,7 +289,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6 col-xl-4">
                                 <label class="col-form-label" for="">Select Job Type <span
                                         class="text-danger">*</span></label>
                                 <select class="form-control" name="job_type_id" id="job_type_id" required>
@@ -303,7 +303,7 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6 col-xl-4">
                                 <label class="col-form-label" for="">Select Job Shift <span
                                         class="text-danger">*</span></label>
                                 <select class="form-control" name="job_shift_id" id="job_shift_id" required>
@@ -316,7 +316,7 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6 col-xl-4">
                                 <label class="col-form-label" for="">Location <span
                                         class="text-danger">*</span></label>
                                 <select class="form-control" name="job_exp" id="job_exp" required>
@@ -334,7 +334,7 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6 col-xl-4">
                                 <label class="col-form-label" for="job_qualification_id">Select Qualification <span
                                         class="text-danger">*</span></label>
                                 <select class="form-control" name="job_qualification_id" id="job_qualification_id"
@@ -349,7 +349,7 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6 col-xl-4">
                                 <label class="col-form-label" for="sal_disclosed">Salary Disclosed</label>
                                 <select class="form-control" name="sal_disclosed" id="sal_disclosed">
                                     <option value="">Select Salary Disclosed</option>
@@ -357,7 +357,7 @@
                                     <option value="No">No</option>
                                 </select>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6 col-xl-4">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label class="col-form-label" for="offered_sal_min">Salary per year</label>

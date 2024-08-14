@@ -1,5 +1,6 @@
 $(document).ready(function () {
-    $('#submit_contact_form').on('click', function(e) {
+    // $('#submit_contact_form').on('click', function(e) {
+    $('form#myForm').on('submit', function(e) {
         e.preventDefault(); 
 
         // Clear previous errors
@@ -39,7 +40,10 @@ $(document).ready(function () {
         if (hasError) {
             return;
         }
+        Swal.fire('Please wait...');
+        Swal.showLoading();
 
+        // Submit the form.
         $.ajax({
             type: "POST",
             url: SITE_URL+"/add-contactus-detail",
@@ -51,13 +55,23 @@ $(document).ready(function () {
                 "_token": $('meta[name="csrf-token"]').attr('content')
             },
             success: function(response) {
-                console.log(response.message);
+                Swal.hideLoading()
                 $('#myForm')[0].reset();
 
                 Swal.fire(response.message);
             },
             error: function(xhr, status, error) {
-                Swal.fire(error.message);
+                Swal.hideLoading()
+                var response = JSON.parse(xhr.responseText);
+                
+                if (response.message) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: response.message,
+                      });
+                }
+               
             }
         });
     });

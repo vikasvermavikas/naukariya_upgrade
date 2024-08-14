@@ -18,13 +18,11 @@ class ContactUsController extends Controller
     public function store(Request $request)
     {
 
-    // dd($request);
-
         $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required',
-            'remarks' => 'required'
-         
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'remarks' => 'required|string',
+            'contact_no' => 'required|numeric|max_digits:10'
         ]);
         $contact = new ContactUs();
         $contact->name = $request->name;

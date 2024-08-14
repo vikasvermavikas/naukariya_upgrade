@@ -404,6 +404,11 @@
       });
       $(this._element).on(Event.BLUR_DATA_API, function (e) {
         if (_this._preventClose) return;
+
+        var renderEvent = $.Event(Event.CLICK_DATA_API, {
+          item: itemEl
+        });
+        $(_this._element).trigger(renderEvent);
         setTimeout(function () {
           return _this.hide();
         }, 150);

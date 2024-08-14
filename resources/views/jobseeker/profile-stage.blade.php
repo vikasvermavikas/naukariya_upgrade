@@ -584,8 +584,7 @@
                                                         </div>
                                                         <div class="col">
                                                             <label>
-                                                                <span style="color: red;">
-                                                                    *</span>University/College/Institute
+                                                                University/College/Institute
                                                             </label>
                                                             <input type="text"
                                                                 placeholder="University/College/Institute Name"
@@ -694,8 +693,7 @@
                                                         </div>
                                                         <div class="col">
                                                             <label>
-                                                                <span style="color: red;">
-                                                                    *</span>University/College/Institute
+                                                                University/College/Institute
                                                             </label>
                                                             <input type="text"
                                                                 placeholder="University/College/Institute Name"

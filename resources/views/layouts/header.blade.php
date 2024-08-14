@@ -238,7 +238,7 @@
 @elseif(Auth::guard('employer')->check())
     <style>
         /* style for mobile only */
-        @media only screen and (max-width: 768px) {
+        @media only screen and (max-width: 992px) {
             ul.slicknav_nav {
                 height: 200px;
                 overflow-y: scroll;
@@ -539,7 +539,7 @@
 @else
     <style>
         /* style for mobile only */
-        @media only screen and (max-width: 768px) {
+        @media only screen and (max-width: 991px) {
             ul.slicknav_nav {
                 overflow: auto;
             }

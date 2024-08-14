@@ -20,3 +20,7 @@ yarn-error.log
 /public/index.php
 .gitignore
 /public/tracker/resume/*
+/public/company_cover/*
+/public/company_logo/*
+/public/emp_profile_image/*
+/public/resume/*

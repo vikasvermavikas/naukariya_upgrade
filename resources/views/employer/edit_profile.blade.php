@@ -38,10 +38,6 @@
             $companyDetails->com_contact = '';
             $companyDetails->website = '';
             $companyDetails->no_of_employee = '';
-            $companyDetails->no_of_employee = '';
-            $companyDetails->no_of_employee = '';
-            $companyDetails->no_of_employee = '';
-            $companyDetails->no_of_employee = '';
             $companyDetails->establish_date = '';
             $companyDetails->address = '';
             $companyDetails->company_country = '';
@@ -122,7 +118,7 @@
 
                                 <div class="form-group row">
                                     <div class="col-md-4">
-                                        <label for="fname">First Name</label>
+                                        <label for="fname">First Name <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="fname" name="fname"
                                             placeholder="Enter Your First Name" value="{{ $user->fname }}" required>
                                         @error('fname')
@@ -131,7 +127,7 @@
 
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="lname">Last Name</label>
+                                        <label for="lname">Last Name <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="lname" name="lname"
                                             placeholder="Enter Your Last Name" value="{{ $user->lname }}" required>
                                         @error('lname')
@@ -140,7 +136,7 @@
 
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="email">Email</label>
+                                        <label for="email">Email <span class="text-danger">*</span></label>
                                         <input type="email" class="form-control" id="email" name="email"
                                             placeholder="Enter Your Email" value="{{ $user->email }}" required>
                                         @error('email')
@@ -149,10 +145,10 @@
 
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="contact">Contact No.</label>
+                                        <label for="contact">Contact No. <span class="text-danger">*</span></label>
                                         <input type="text" minlength="10" maxlength="10"
                                             placeholder="Enter Your Contact No." class="form-control" id="contact"
-                                            name="contact" value="{{ $user->contact }}">
+                                            name="contact" value="{{ $user->contact }}" required>
                                         @error('contact')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -166,7 +162,7 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="gender">Gender</label>
+                                        <label for="gender">Gender <span class="text-danger">*</span></label>
                                         <select class="form-control" name="gender" id="gender" required>
                                             <option value="Male" {{ $user->gender == 'Male' ? 'selected' : '' }}>Male
                                             </option>
@@ -293,7 +289,7 @@
                                 <div class="form-group row">
 
                                     <div class="col-md-4">
-                                        <label for="company_name">Company Name</label>
+                                        <label for="company_name">Company Name <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" name="company_name"
                                             placeholder="Enter Your Company Name"
                                             value="{{ $companyDetails->company_name }}" required>
@@ -302,7 +298,7 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="tagline">Company Tagline</label>
+                                        <label for="tagline">Company Tagline <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" name="tagline"
                                             placeholder="Enter Your Company Tagline"
                                             value="{{ $companyDetails->tagline }}" required>
@@ -311,7 +307,7 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="com_industry">Select Industry</label>
+                                        <label for="com_industry">Select Industry <span class="text-danger">*</span></label>
                                         <select class="form-control" name="com_industry" required>
                                             <option value="">Select Industry</option>
                                             @foreach ($industries as $industry)
@@ -326,7 +322,7 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="owner_name">Owner Name*</label>
+                                        <label for="owner_name">Owner Name <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" name="owner_name"
                                             placeholder="Enter Owner Name" value="{{ $companyDetails->owner_name }}"
                                             required>
@@ -335,7 +331,7 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="com_email">Company Email</label>
+                                        <label for="com_email">Company Email <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" name="com_email"
                                             placeholder="Enter Email Id" value="{{ $companyDetails->com_email }}"
                                             required>
@@ -344,7 +340,7 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="com_contact">Company Contact No.</label>
+                                        <label for="com_contact">Company Contact No. <span class="text-danger">*</span></label>
                                         <input type="number" class="form-control" name="com_contact"
                                             placeholder="Enter Your Contact No."
                                             value="{{ $companyDetails->com_contact }}" required>
@@ -358,7 +354,7 @@
                                             placeholder="Enter Your Website Link" value="{{ $companyDetails->website }}">
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="employee_no">Employees</label>
+                                        <label for="employee_no">Employees <span class="text-danger">*</span></label>
                                         <select class="form-control" name="employee_no" required>
                                             <option value="" disabled="">Select Employeee</option>
 
@@ -384,7 +380,7 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="established_year">Established Date <sub>Please Enter Year</sub></label>
+                                        <label for="established_year">Established Date <sub>Please Enter Year</sub> <span class="text-danger">*</span></label>
                                         <input type="date" class="form-control" name="established_year"
                                             placeholder="Enter Establish Year"
                                             value="{{ $companyDetails->establish_date }}" required>
@@ -399,7 +395,7 @@
                                 <legend>Company Address</legend>
                                 <div class="form-group row">
                                     <div class="col-md-4">
-                                        <label for="address">Address</label>
+                                        <label for="address">Address <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" placeholder="Enter Address"
                                             name="address" value="{{ $companyDetails->address }}" required>
                                         @error('address')
@@ -407,7 +403,7 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="country">Country</label>
+                                        <label for="country">Country <span class="text-danger">*</span></label>
                                         <select class="form-control" name="country" required>
                                             <option value="">Select Country</option>
                                             @foreach ($countries as $country)
@@ -421,7 +417,7 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="state">State</label>
+                                        <label for="state">State <span class="text-danger">*</span></label>
                                         <select class="form-control" name="state" id="company_state" required>
                                             <option value="">Select State</option>
                                             @foreach ($states as $state)
@@ -435,7 +431,7 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="city">City</label>
+                                        <label for="city">City <span class="text-danger">*</span></label>
                                         <select class="form-control" name="city" id="company_cities" required>
                                             <option value="">Select City</option>
                                             @foreach ($cities as $city)
@@ -454,7 +450,7 @@
                                             name="revenue" value="{{ $companyDetails->company_capital }}">
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="cin_no">Corporate Identification Number/License Number</label>
+                                        <label for="cin_no">Corporate Identification Number/License Number <span class="text-danger">*</span></label>
                                         <input type="text" class="form-control"
                                             placeholder="Enter Your CIN/License Number" name="cin_no"
                                             value="{{ $companyDetails->cin_no }}" required>

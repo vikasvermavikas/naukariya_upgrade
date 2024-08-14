@@ -65,7 +65,7 @@
                             <div class="input-data col">
                                 <a href="#" class="text-dark text-center">Forgot Password?</a>
                             </div>
-                            <div class="text-center">
+                            {{-- <div class="text-center">
                                 <p>OR</p>
                                 <div class='g-sign-in-button'>
                                     <div class=content-wrapper text-center>
@@ -78,7 +78,7 @@
                                         </span>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </form>
                     </div>
                 </div>

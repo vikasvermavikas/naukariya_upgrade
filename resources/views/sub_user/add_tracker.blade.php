@@ -85,8 +85,8 @@
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-12">
                             <label>Applied Designation</label>
-                            <input type="text" class="designation" placeholder="Enter Input Applied Designation"
-                                name="applied_designation" data-prefetch="{{ route('getskillsoptions') }}" value="{{old('applied_designation')}}" >
+                            <input type="text"  class="designation" placeholder="Enter Input Applied Designation"
+                                name="applied_designation" data-prefetch="{{ route('getskillsoptions') }}" data-maxResult=5 value="{{old('applied_designation')}}" >
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12">
                             <label>Current Designation</label>

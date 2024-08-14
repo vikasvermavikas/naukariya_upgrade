@@ -12,7 +12,7 @@
                         </button>
                     </div>
                 @endif
-                <button type="button" class="btn float-right" data-toggle="modal" data-target="#addSubuserform">
+                <button type="button" class="btn float-right mb-2" data-toggle="modal" data-target="#addSubuserform">
                     Add Sub User
                 </button>
                 <div class="table-responsive">
