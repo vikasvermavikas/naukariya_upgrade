@@ -79,7 +79,7 @@
                                         <div class="row mb-2">
                                             <div class="col-sm-3">
                                                 <div class="profile-pic m-0">
-                                                    <label
+                                                    <label id="cam"
                                                         style="display: flex; justify-content: center; align-items: center;">
                                                         @if ($data->profile_pic_thumb)
                                                             <img src="{{ asset('jobseeker_profile_image/' . $data->profile_pic_thumb . '') }}"
@@ -95,7 +95,7 @@
                                                             type="file" class="d-none">
                                                         <button class="d-none" id="upload-btn" value="upload-image">
                                                             Upload!</button>
-                                                        <i id="cam" class="fas fa-camera"
+                                                        <i  class="fas fa-camera"
                                                             style="margin-top: 180px; position: relative; left: -85px;"></i>
                                                     </label>
                                                 </div>

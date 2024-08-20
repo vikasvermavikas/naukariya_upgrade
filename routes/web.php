@@ -39,6 +39,7 @@ use App\Http\Controllers\TrackerController;
 use App\Http\Controllers\ReferenceController;
 use App\Http\Controllers\FaqsController;
 use App\Http\Controllers\MasterController;
+use App\Http\Controllers\BlogController;
 
 
 /*
@@ -76,13 +77,12 @@ Route::middleware(['guest:jobseeker', 'guest:employer', 'guest:subuser'])->group
         return view('about');
     })->name('about');
 
-    Route::get('/blog', function () {
-        return view('blog');
-    })->name('blog');
+    Route::get('/blog', [BlogController::class, 'show'])->name('blog');
+    Route::get('/blog-details/{id}', [BlogController::class, 'blogDetails'])->name('blog-details');
 
-    Route::get('/single-blog', function () {
-        return view('single-blog');
-    })->name('single-blog');
+    // Route::get('/blog-details', function () {
+    //     return view('single-blog');
+    // })->name('blog-details');
 
     Route::get('/elements', function () {
         return view('elements');
@@ -216,7 +216,15 @@ Route::group(['middleware' => 'employer'], function () {
 
         Route::get('/getjobsector', [JobsectorController::class, 'index'])->name('get_job_sector');
 
-
+        // Blog Controller.
+        Route::controller(BlogController::class)->prefix('blog')->group(function () {
+            Route::get('/', 'index')->name('blog_list');
+            Route::get('/add-blog', 'create')->name('add_blog');
+            Route::post('/save-blog', 'store')->name('save_blog');
+            Route::get('/edit-blog/{id}', 'edit')->name('edit_blog');
+            Route::post('/update_blog/{id}', 'update')->name('update_blog');
+            Route::post('/delete_blog/{id}', 'destroy')->name('delete_blog');
+        });
 
         // Venue Controller.
         Route::controller(VenuesController::class)->prefix('venue')->group(function () {

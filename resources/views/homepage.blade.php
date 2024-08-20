@@ -37,11 +37,13 @@
                 padding: 0px 0px 15px 0px;
             }
         }
+
         .dropdown-menu.show {
             overflow: auto;
             max-height: 200px;
 
         }
+
         .image-class {
             width: 114px;
             /* height: 62px; */
@@ -71,6 +73,10 @@
         #search_jobs {
             /* width: 115%; */
 
+        }
+
+        .header-area .main-menu ul li {
+            z-index: auto;
         }
     </style>
 @endsection
@@ -144,9 +150,9 @@
                                                 data-toggle="tooltip" id="location">
                                                 <option value="">Select Location</option>
                                                 @foreach ($locations as $location)
-                                                <option value="{{$location->cities_name}}">{{$location->cities_name}}</option>
-                                                   
-                                               @endforeach
+                                                    <option value="{{ $location->cities_name }}">
+                                                        {{ $location->cities_name }}</option>
+                                                @endforeach
                                             </select>
                                             {{-- </div>
                                         </div> --}}
@@ -521,7 +527,9 @@
                             </div>
                             <div class="process-cap">
                                 <h5>1. Search for Jobs</h5>
-                                <p>Use Naukriyan’s search function to find job listings that align with your skills, interests, and career goals. Filter results by location, industry, and job type to narrow down your options.
+                                <p>Use Naukriyan’s search function to find job listings that align with your skills,
+                                    interests, and career goals. Filter results by location, industry, and job type to
+                                    narrow down your options.
                                 </p>
                             </div>
                         </div>
@@ -533,7 +541,9 @@
                             </div>
                             <div class="process-cap">
                                 <h5>2. Apply for Positions</h5>
-                                <p>Review the job descriptions and select the roles that best match your qualifications. Click "Apply," attach your resume and cover letter, and complete any additional application requirements.
+                                <p>Review the job descriptions and select the roles that best match your qualifications.
+                                    Click "Apply," attach your resume and cover letter, and complete any additional
+                                    application requirements.
                                 </p>
                             </div>
                         </div>
@@ -545,7 +555,8 @@
                             </div>
                             <div class="process-cap">
                                 <h5>3. Get Hired</h5>
-                                <p>Monitor your application status through your Naukriyan dashboard. Follow up with potential employers as needed, and prepare for interviews to secure your desired job.
+                                <p>Monitor your application status through your Naukriyan dashboard. Follow up with
+                                    potential employers as needed, and prepare for interviews to secure your desired job.
                                 </p>
                             </div>
                         </div>
@@ -639,8 +650,13 @@
                                 <h2>24k Talented people are getting Jobs</h2>
                             </div>
                             <div class="support-caption">
-                                <p class="pera-top">At Naukriyan, we're committed to connecting talent with opportunity. Currently, over thousands of  skilled professionals have successfully found jobs through our platform. Our mission is to bridge the gap between talented individuals and top employers, ensuring that every job seeker finds a role that matches their skills and aspirations. Join us and be part of a thriving community where your career growth is our priority.</p>
-                            
+                                <p class="pera-top">At Naukriyan, we're committed to connecting talent with opportunity.
+                                    Currently, over thousands of skilled professionals have successfully found jobs through
+                                    our platform. Our mission is to bridge the gap between talented individuals and top
+                                    employers, ensuring that every job seeker finds a role that matches their skills and
+                                    aspirations. Join us and be part of a thriving community where your career growth is our
+                                    priority.</p>
+
                                 <a href="{{ route('loadLoginPage') }}" class="btn post-btn">Post a job</a>
                             </div>
                         </div>
@@ -666,32 +682,37 @@
                     <div class="col-lg-12">
                         <div class="section-tittle text-center">
                             <span>Our latest blog</span>
-                            <h2>Our recent news</h2>
+                            {{-- <h2>Our recent news</h2> --}}
                         </div>
                     </div>
                 </div>
                 <div class="row">
+                    @forelse ($blogs as $blog)
                     <div class="col-xl-6 col-lg-6 col-md-6">
                         <div class="home-blog-single mb-30">
                             <div class="blog-img-cap">
                                 <div class="blog-img">
-                                    <img src={{ asset('assets/img/blog/home-blog1.jpg') }} alt="">
+                                    <img src={{ asset('blogs/'.$blog->image) }} alt="">
                                     <!-- Blog date -->
                                     <div class="blog-date text-center">
-                                        <span>24</span>
-                                        <p>Nov</p>
+                                        <span>{{date('d', strtotime($blog->created_at))}}</span>
+                                        <p>{{date('M', strtotime($blog->created_at))}}</p>
                                     </div>
                                 </div>
                                 <div class="blog-cap">
-                                    <p>| Properties</p>
-                                    <h3><a href="single-blog.html">Footprints in Time is perfect House in Kurashiki</a>
+                                    {{-- <p>| Title</p> --}}
+                                    <h3><a href="{{route('blog-details', ['id' => $blog->id])}}">{{$blog->title}}</a>
                                     </h3>
-                                    <a href="#" class="more-btn">Read more »</a>
+                                    <a href="{{route('blog-details', ['id' => $blog->id])}}" class="more-btn">Read more »</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6">
+                    @empty
+                        <span class="text-danger">No Blogs</span>
+                    @endforelse
+                 
+                    {{-- <div class="col-xl-6 col-lg-6 col-md-6">
                         <div class="home-blog-single mb-30">
                             <div class="blog-img-cap">
                                 <div class="blog-img">
@@ -710,7 +731,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

@@ -554,6 +554,7 @@
         @media only screen and (max-width: 991px) {
             ul.slicknav_nav {
                 overflow: auto;
+                max-height: 200px;
             }
         }
 
@@ -564,16 +565,30 @@
             }
 
         }
-        .carrermenu{
+
+        @media only screen and (min-width:991.98px) and (max-width:1199.98px) {
+            .logocontent {
+                position: relative;
+                right: 15px;
+            }
+
+            .menucontent {
+                position: relative;
+                left: 46px;
+            }
+        }
+
+        .carrermenu {
             width: 229px !important;
         }
-        .carrersubmenu{
+
+        .carrersubmenu {
             width: 212px !important;
         }
-        
-.header-area ul>li:hover>ul.submenu {
-    z-index: 2 !important;
-}
+
+        .header-area ul>li:hover>ul.submenu {
+            z-index: 2 !important;
+        }
     </style>
     <header>
         <!-- Header Start -->
@@ -581,14 +596,14 @@
             <div class="headder-top header-sticky">
                 <div class="container">
                     <div class="row align-items-center">
-                        <div class="col-lg-2 col-md-2">
+                        <div class="col-lg-1 col-md-2 logocontent">
                             <!-- Logo -->
                             <div class="logo">
                                 <a href={{ route('home') }}><img src={{ asset('assets/images/naukriyan-logo.png') }}
                                         style="width: 227px;" alt="Naukriyan-Logo"></a>
                             </div>
                         </div>
-                        <div class="col-lg-10 col-md-10">
+                        <div class="col-lg-11 col-md-10 menucontent">
                             <div class="menu-wrapper">
                                 <!-- Main-menu -->
                                 <div class="main-menu">
@@ -600,7 +615,7 @@
                                             <li><a href={{ route('about') }}>About</a></li>
                                             <li><a href='#'>Blogs </a>
                                                 <ul class="submenu">
-                                                    <li><a href={{ route('single-blog') }}>Single Blog</a></li>
+                                                    {{-- <li><a href={{ route('single-blog') }}>Single Blog</a></li> --}}
                                                     <li><a href={{ route('blog') }}>Blog Details</a></li>
                                                     {{-- <li><a href={{ route('job_details') }}>job Details</a></li> --}}
                                                 </ul>
@@ -611,14 +626,20 @@
                                                         <a class="dropdown-item dropdown-toggle" href="#">Video
                                                             Resume</a>
                                                         <ul class="submenu carrersubmenu">
-                                                            <li><a class="dropdown-item" href="{{route('how-to-make-resume')}}">How to make Video
-                                                                Resume</a>
+                                                            <li><a class="dropdown-item"
+                                                                    href="{{ route('how-to-make-resume') }}">How to
+                                                                    make Video
+                                                                    Resume</a>
                                                             </li>
-                                                            <li><a class="dropdown-item" href="{{route('video-resume')}}">Content of Video
+                                                            <li><a class="dropdown-item"
+                                                                    href="{{ route('video-resume') }}">Content of
+                                                                    Video
                                                                     Resume</a>
                                                             </li>
 
-                                                            <li><a class="dropdown-item" href="{{route('sample-video-resume')}}">Sample Video Resume</a>        
+                                                            <li><a class="dropdown-item"
+                                                                    href="{{ route('sample-video-resume') }}">Sample
+                                                                    Video Resume</a>
                                                             </li>
                                                         </ul>
                                                     </li>
@@ -626,11 +647,11 @@
                                                         <a class="dropdown-item dropdown-toggle" href="#">How to
                                                             make Effective Resume</a>
                                                         <ul class="submenu">
-                                                           <li>
-                                                            <a class="dropdown-item"
-                                                                href="http://blog.naukriyan.com/category/articles/"
-                                                                target="_blank">Articles</a>
-                                                            </li> 
+                                                            <li>
+                                                                <a class="dropdown-item"
+                                                                    href="http://blog.naukriyan.com/category/articles/"
+                                                                    target="_blank">Articles</a>
+                                                            </li>
                                                         </ul>
                                                     </li>
                                                     {{-- <li>
