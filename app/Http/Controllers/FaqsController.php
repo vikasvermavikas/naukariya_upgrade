@@ -11,8 +11,9 @@ class FaqsController extends Controller
 
     }
     public function getData(){
-        $getInfo = Faqs::all();
-        return response()->json(['data' => $getInfo]);
+        $getInfo = Faqs::select('question', 'answer')->get();
+        // return response()->json(['data' => $getInfo]);
+        return view('public.faqs', ['faqs' => $getInfo]);
         
     }
 }

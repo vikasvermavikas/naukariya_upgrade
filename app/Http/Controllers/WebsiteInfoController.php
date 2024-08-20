@@ -13,8 +13,20 @@ class WebsiteInfoController extends Controller
     public function getWebInfoData()
     {
 
-        $getInfo = WebsiteInfo::all();
-        return response()->json(['data' => $getInfo]);
+        $getInfo = WebsiteInfo::select('terms_and_condition')->first();
+        return view('public.terms_conditions', ['conditions' => $getInfo]);
+    }
+
+    public function privacy_policy(){
+        
+        $getInfo = WebsiteInfo::select('privacy_policy')->first();
+        return view('public.policies', ['policies' => $getInfo]);
+    }
+
+    public function advertise_with_us(){
+        
+        $getInfo = WebsiteInfo::select('advertise_with_us')->first();
+        return view('public.advertise_with_us', ['advertise_with_us' => $getInfo]);
     }
     public function countRow()
     {

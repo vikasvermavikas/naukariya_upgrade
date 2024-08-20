@@ -36,8 +36,9 @@
                 .companylogo {
                     margin-top: 22px;
                 }
-                .usermenu_custom{
-                    left:-59px;
+
+                .usermenu_custom {
+                    left: -59px;
                 }
             }
         </style>
@@ -244,6 +245,7 @@
                 overflow-y: scroll;
             }
         }
+
         @media only screen and (min-width: 992px) {
             .company-logo {
                 margin-top: 14px;
@@ -306,36 +308,36 @@
                                             </li>
 
                                             <li class="nav-item dropdown open">
-                                                <a href="#" data-toggle="dropdown" role="button" aria-expanded="false"
-                                                    class="nav-link dropdown-toggle">
+                                                <a href="#" data-toggle="dropdown" role="button"
+                                                    aria-expanded="false" class="nav-link dropdown-toggle">
                                                     {{-- <img src={{ asset('assets/images/default-image.png') }} width="36"
                                                         height="36" class="mini-photo rounded-circle"> --}}
                                                     @if (Auth::guard('employer')->user()->profile_pic_thumb)
                                                         <img src="{{ asset('emp_profile_image/' . Auth::guard('employer')->user()->profile_pic_thumb . '') }}"
-                                                            class="mini-photo rounded-circle text-center" width="36"
-                                                            height="36">
+                                                            class="mini-photo rounded-circle text-center"
+                                                            width="36" height="36">
                                                     @else
                                                         <img src="{{ asset('assets/images/default-image.png') }}"
-                                                            class="mini-photo rounded-circle text-center" width="36"
-                                                            height="36">
+                                                            class="mini-photo rounded-circle text-center"
+                                                            width="36" height="36">
                                                     @endif
                                                 </a>
-            
+
                                                 <ul class="dropdown-menu user-menu" style="left:-10px;">
                                                     <div class="profile-highlight text-center">
-            
+
                                                         {{-- <img src={{ asset('assets/images/default-image.png') }} width="36"
                                                             height="36" class="mini-photo rounded-circle text-center"> --}}
                                                         @if (Auth::guard('employer')->user()->profile_pic_thumb)
                                                             <img src="{{ asset('emp_profile_image/' . Auth::guard('employer')->user()->profile_pic_thumb . '') }}"
-                                                                class="mini-photo rounded-circle text-center" width="36"
-                                                                height="36">
+                                                                class="mini-photo rounded-circle text-center"
+                                                                width="36" height="36">
                                                         @else
                                                             <img src="{{ asset('assets/images/default-image.png') }}"
-                                                                class="mini-photo rounded-circle text-center" width="36"
-                                                                height="36">
+                                                                class="mini-photo rounded-circle text-center"
+                                                                width="36" height="36">
                                                         @endif
-            
+
                                                         <div class="details text-center">
                                                             <div id="profile-name">
                                                                 <small>
@@ -346,21 +348,25 @@
                                                             </div> --}}
                                                         </div>
                                                     </div>
-            
+
                                                     <li class="user-menu__item mt-2">
-                                                        <a href="{{ route('employer_view_profile') }}" class="user-menu-link  p-0">
-                                                            <div class="text-color"><i class="fas fa-user-circle"></i> My profile
+                                                        <a href="{{ route('employer_view_profile') }}"
+                                                            class="user-menu-link  p-0">
+                                                            <div class="text-color"><i class="fas fa-user-circle"></i>
+                                                                My profile
                                                             </div>
                                                         </a>
                                                     </li>
-            
+
                                                     <li class="user-menu__item mt-2">
                                                         <a href="#" class="user-menu-link p-0">
                                                             <div class="text-color">
-                                                                <form id="logout-form" action="{{ route('jobseekerlogout') }}"
+                                                                <form id="logout-form"
+                                                                    action="{{ route('jobseekerlogout') }}"
                                                                     method="POST">
                                                                     @csrf
-                                                                    <button type="submit" class="btn head-btn2">Logout</button>
+                                                                    <button type="submit"
+                                                                        class="btn head-btn2">Logout</button>
                                                                 </form>
                                                             </div>
                                                         </a>
@@ -370,7 +376,7 @@
                                         </ul>
                                     </nav>
                                 </div>
-                              
+
 
                                 {{-- <!-- Header-btn -->
                             @if (Auth::guard('employer')->check() || Auth::guard('jobseeker')->check())
@@ -417,21 +423,23 @@
         <!-- Header End -->
     </header>
 @elseif (Auth::guard('subuser')->check())
-<style>
-    @media only screen and (max-width:991px) {
-        ul.slicknav_nav{
-            overflow: auto;
+    <style>
+        @media only screen and (max-width:991px) {
+            ul.slicknav_nav {
+                overflow: auto;
+            }
         }
-    }
-    @media only screen and (min-width:992px) {
-        .usermenu_custom{
-            left: -59px;
+
+        @media only screen and (min-width:992px) {
+            .usermenu_custom {
+                left: -59px;
+            }
+
+            .customlogo {
+                margin-top: 17px;
+            }
         }
-        .customlogo{
-            margin-top: 17px;
-        }
-    }
-</style>
+    </style>
     <header class="border">
         <!-- Header Start -->
         <div class="header-area header-transparrent">
@@ -444,8 +452,9 @@
                         </div> --}}
                         <div class="col-lg-12 col-md-12 d-flex">
                             <div class="logo customlogo">
-                                <a href={{ route('subuser-dashboard') }}><img src={{ asset('assets/images/naukriyan-logo.png') }}
-                                        style="width: 227px;" alt="Naukriyan-Logo"></a>
+                                <a href={{ route('subuser-dashboard') }}><img
+                                        src={{ asset('assets/images/naukriyan-logo.png') }} style="width: 227px;"
+                                        alt="Naukriyan-Logo"></a>
                             </div>
                             <div class="menu-wrapper w-100 d-flex justify-content-end">
                                 <!-- Main-menu -->
@@ -455,35 +464,35 @@
                                             <li><a href={{ route('subuser-dashboard') }}>Dashboard</a></li>
                                             <li><a href={{ route('subuser-tracker-list') }}>Tracker</a></li>
                                             <li class="nav-item dropdown open">
-                                                <a href="#" data-toggle="dropdown" role="button" aria-expanded="false"
-                                                    class="nav-link dropdown-toggle">
-            
+                                                <a href="#" data-toggle="dropdown" role="button"
+                                                    aria-expanded="false" class="nav-link dropdown-toggle">
+
                                                     @if (Auth::guard('subuser')->user()->profile_image)
                                                         <img src="{{ asset('subuser_profile_image/' . Auth::guard('subuser')->user()->profile_image . '') }}"
-                                                            class="mini-photo rounded-circle text-center" width="36"
-                                                            height="36">
+                                                            class="mini-photo rounded-circle text-center"
+                                                            width="36" height="36">
                                                     @else
                                                         <img src="{{ asset('assets/images/default-image.png') }}"
-                                                            class="mini-photo rounded-circle text-center" width="36"
-                                                            height="36">
+                                                            class="mini-photo rounded-circle text-center"
+                                                            width="36" height="36">
                                                     @endif
                                                 </a>
-            
+
                                                 <ul class="dropdown-menu user-menu usermenu_custom">
                                                     <div class="profile-highlight text-center">
-            
+
                                                         {{-- <img src={{ asset('assets/images/default-image.png') }} width="36"
                                                             height="36" class="mini-photo rounded-circle text-center"> --}}
                                                         @if (Auth::guard('subuser')->user()->profile_image)
                                                             <img src="{{ asset('subuser_profile_image/' . Auth::guard('subuser')->user()->profile_image . '') }}"
-                                                                class="mini-photo rounded-circle text-center" width="36"
-                                                                height="36">
+                                                                class="mini-photo rounded-circle text-center"
+                                                                width="36" height="36">
                                                         @else
                                                             <img src="{{ asset('assets/images/default-image.png') }}"
-                                                                class="mini-photo rounded-circle text-center" width="36"
-                                                                height="36">
+                                                                class="mini-photo rounded-circle text-center"
+                                                                width="36" height="36">
                                                         @endif
-            
+
                                                         <div class="details text-center">
                                                             <div id="profile-name">
                                                                 <small>
@@ -494,23 +503,26 @@
                                                             </div> --}}
                                                         </div>
                                                     </div>
-            
+
                                                     <li class="user-menu__item mt-2">
-                                                        <a href="{{ route('subuser-profile') }}" class="user-menu-link p-0">
+                                                        <a href="{{ route('subuser-profile') }}"
+                                                            class="user-menu-link p-0">
                                                             <div class="text-color"><i class="fas fa-user-circle"></i>
                                                                 Profile/Password
                                                             </div>
                                                         </a>
                                                     </li>
-            
+
                                                     <li class="user-menu__item mt-2">
                                                         <a href="#" class="user-menu-link p-0">
                                                             <div class="text-color">
                                                                 {{-- <i class="fas fa-sign-out-alt"></i> --}}
-                                                                <form id="logout-form" action="{{ route('subuser-logout') }}"
+                                                                <form id="logout-form"
+                                                                    action="{{ route('subuser-logout') }}"
                                                                     method="POST">
                                                                     @csrf
-                                                                    <button type="submit" class="btn head-btn2">Logout</button>
+                                                                    <button type="submit"
+                                                                        class="btn head-btn2">Logout</button>
                                                                 </form>
                                                             </div>
                                                         </a>
@@ -520,7 +532,7 @@
                                         </ul>
                                     </nav>
                                 </div>
-                               
+
 
                             </div>
                         </div>
@@ -552,6 +564,16 @@
             }
 
         }
+        .carrermenu{
+            width: 229px !important;
+        }
+        .carrersubmenu{
+            width: 212px !important;
+        }
+        
+.header-area ul>li:hover>ul.submenu {
+    z-index: 2 !important;
+}
     </style>
     <header>
         <!-- Header Start -->
@@ -574,16 +596,50 @@
                                         <ul id="navigation">
                                             <li><a href={{ route('home') }}>Home</a></li>
                                             <li><a href={{ route('loadJoblistPage') }}>Find a Jobs </a></li>
+
                                             <li><a href={{ route('about') }}>About</a></li>
-                                            <li><a href='#'>Page </a>
+                                            <li><a href='#'>Blogs </a>
                                                 <ul class="submenu">
-                                                    <li><a href={{ route('blog') }}>Blog</a></li>
-                                                    <li><a href={{ route('single-blog') }}>Blog Details</a></li>
-                                                    <li><a href={{ route('elements') }}>Elements</a></li>
+                                                    <li><a href={{ route('single-blog') }}>Single Blog</a></li>
+                                                    <li><a href={{ route('blog') }}>Blog Details</a></li>
                                                     {{-- <li><a href={{ route('job_details') }}>job Details</a></li> --}}
                                                 </ul>
                                             </li>
-                                            <li><a href={{ route('contact') }}>Contact</a></li>
+                                            <li><a href='#'>Career Services </a>
+                                                <ul class="submenu carrermenu">
+                                                    <li>
+                                                        <a class="dropdown-item dropdown-toggle" href="#">Video
+                                                            Resume</a>
+                                                        <ul class="submenu carrersubmenu">
+                                                            <li><a class="dropdown-item" href="{{route('how-to-make-resume')}}">How to make Video
+                                                                Resume</a>
+                                                            </li>
+                                                            <li><a class="dropdown-item" href="{{route('video-resume')}}">Content of Video
+                                                                    Resume</a>
+                                                            </li>
+
+                                                            <li><a class="dropdown-item" href="{{route('sample-video-resume')}}">Sample Video Resume</a>        
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="dropdown-submenu">
+                                                        <a class="dropdown-item dropdown-toggle" href="#">How to
+                                                            make Effective Resume</a>
+                                                        <ul class="submenu">
+                                                           <li>
+                                                            <a class="dropdown-item"
+                                                                href="http://blog.naukriyan.com/category/articles/"
+                                                                target="_blank">Articles</a>
+                                                            </li> 
+                                                        </ul>
+                                                    </li>
+                                                    {{-- <li>
+                                                        <a class="dropdown-item" href="#">Interview
+                                                            Preparation</a>
+                                                    </li> --}}
+                                                </ul>
+                                            </li>
+                                            {{-- <li><a href={{ route('contact') }}>Contact</a></li> --}}
                                             </li>
                                             <li>
                                             <li style="display: inline-table;">

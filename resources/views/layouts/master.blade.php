@@ -103,7 +103,7 @@
         const SITE_URL = "{{ env('JS_WEB_URL') }}";
         const PUBLIC_PATH = "{{ env('JS_PUBLIC_URL') }}";
     </script>
-
+    <script src="{{asset('assets/js/master.js')}}"></script>
     @yield('script')
     <script>
         if ($(".employer")[0]) {

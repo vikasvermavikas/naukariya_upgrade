@@ -37,6 +37,9 @@ use App\Http\Controllers\ProfileCompleteController;
 use App\Http\Controllers\SubUserDashboardController;
 use App\Http\Controllers\TrackerController;
 use App\Http\Controllers\ReferenceController;
+use App\Http\Controllers\FaqsController;
+use App\Http\Controllers\MasterController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -108,14 +111,32 @@ Route::middleware(['guest:jobseeker', 'guest:employer', 'guest:subuser'])->group
     Route::get('employerlogin', [FrontuserloginController::class, 'loadLoginPage'])->name('loadLoginPage');
     Route::get('get-categories-jobs', [JobmanagerController::class, 'get_categories_jobs'])->name('getCategoriesJobs');
 
-    
+
     Route::get('/subuser-login', [SubuserController::class, 'login'])->name('subuser-signin');
     Route::post('/subuser/subuser-login', [SubuserController::class, 'loginSubuser'])->name('subuser-login');
+
+    Route::get('/how-to-make-resume', function () {
+        return view('public.how-to-make-resume');
+    })->name('how-to-make-resume');
+
+    Route::get('/video-resume', function () {
+        return view('public.video-resume');
+    })->name('video-resume');
+
+    Route::get('/sample-video-resume', function () {
+        return view('public.sample-video-resume');
+    })->name('sample-video-resume');
+
 });
 Route::get('/get-keywords', [JobseekerController::class, 'getKeywords'])->name('getskillsoptions');
+Route::get('/get_realtime_updates', [MasterController::class, 'real_time_updates']);
 
-
-Route::get('/get/sociallinks', [WebsiteInfoController::class, 'getPortalSocialLinks'])->name('sociallinks');
+Route::controller(WebsiteInfoController::class)->group(function () {
+    Route::get('/get/sociallinks', 'getPortalSocialLinks')->name('sociallinks');
+    Route::get('get-web-info', 'getWebInfoData')->name('get_terms_conditions');
+    Route::get('policies', 'privacy_policy')->name('get_privacy_policies');
+    Route::get('advertise-with-us', 'advertise_with_us')->name('advertise_with_us');
+});
 
 Route::post('/add-newsletter', [NewsletterController::class, 'store'])->name('addNewsletter');
 Route::get('/unsubscribe-newsletter', [NewsletterController::class, 'unsubscribe'])->name('unsubscribe');
@@ -130,7 +151,7 @@ Route::get('job_listing-data', [JobmanagerController::class, 'browsejob'])->name
 Route::post('jobseekerlogin', [FrontuserloginController::class, 'login'])->name('jobseekerlogin');
 Route::post('/jobseeker-logout', [UserprofileController::class, 'logout'])->name('jobseekerlogout');
 // Social Login
-Route::get('/auth/redirect/{provider}/{userType}', [JobseekerController::class, 'redirect'])->name('sociallogin');
+Route::get('/auth/redirect/{provider}/{userType}/{jobid?}', [JobseekerController::class, 'redirect'])->name('sociallogin');
 Route::get('/callback/{provider}', [JobseekerController::class, 'callback'])->name('socialcallback');
 Route::get('/get-industry', [IndustryController::class, 'index'])->name('getIndustries');
 Route::get('/get-skill', [JobmanagerController::class, 'getSkill'])->name('getSkill');
@@ -141,6 +162,10 @@ Route::get('/get-locations/{search?}', [JobseekerController::class, 'getLocation
 Route::post('/apply-job/{id}', [ApplyJobController::class, 'store'])->name('applyjob');
 Route::post('/saved-job/{id}', [SavedJobController::class, 'store'])->name('savejob');
 Route::post('/follow/{companyid}/{jobid}', [SavedJobController::class, 'follow'])->name('followjob');
+
+// FAQ Page.
+Route::get('/faq', [FaqsController::class, 'getData'])->name('show_faqs');
+
 
 
 Route::middleware('jobseeker')->group(function () {
@@ -346,16 +371,15 @@ Route::middleware('subuser')->group(function () {
             Route::post('/update/subuser/profileimage', 'updateSubUserProfileImage');
             Route::post('/update/subuser/profile', 'updateHimself')->name('update-subuser');
             Route::post('/update/password/subuser', 'updatePassword')->name('update-subuser-password');
-
         });
 
         Route::controller(TrackerController::class)->prefix('trackers')->group(function () {
             Route::get('/', 'index')->name('subuser-tracker-list');
             Route::get('/add-tracker', 'addTracker')->name('add_tracker');
             Route::post('/add-tracker', 'store')->name('submit_tracker');
-            Route::get('tracker-details/{id}','edit')->name('edit_tracker');
-            Route::post('update-tracker','update')->name('update_tracker');
-            Route::post('update-tracker/resume','uploadResume')->name('upload_tracker_resume');
+            Route::get('tracker-details/{id}', 'edit')->name('edit_tracker');
+            Route::post('update-tracker', 'update')->name('update_tracker');
+            Route::post('update-tracker/resume', 'uploadResume')->name('upload_tracker_resume');
             Route::get('/export/tracker/{trackerids?}', 'exportTrackerDataEmployer')->name('export_subuser_tracker');
         });
 
@@ -363,6 +387,5 @@ Route::middleware('subuser')->group(function () {
         Route::post('/add-reference', [ReferenceController::class, 'store']);
 
         Route::get('/get-cities/data/{id}', [CitiesController::class, 'getCityByState']);
-
     });
 });

@@ -50,9 +50,11 @@ class JobseekerController extends Controller
     }
 
 
-    public function redirect($provider, $userType)
+    public function redirect($provider, $userType, $jobid = '')
     {
-
+        if ($jobid){
+            session(['jobid' => $jobid]);
+        }
         Session::put('user', ['user_type' => $userType]);
         return Socialite::driver($provider)->stateless()
             // ->with(['state' => 'event_slug='.$userType])
@@ -64,11 +66,15 @@ class JobseekerController extends Controller
         // $state = $req->input('state');
         // parse_str($state, $result);
         // $user_type = $result['event_slug'];
-
+        $jobid = '';
         $user_type = Session::get('user')['user_type'];
-
+        if(Session::has('jobid')){
+            $jobid = Session::get('jobid');
+        }
+   
         $getInfo = Socialite::driver($provider)->stateless()->user();
 
+        // If user login from jobseeker login portal.
         if ($user_type == 'Jobseeker') {
 
             $jobseeker = Jobseeker::where('email', $getInfo->user['email'])->first();
@@ -96,19 +102,17 @@ class JobseekerController extends Controller
             }
 
             Session::flush();
-
-            if (Auth::guard('jobseeker')->login($jobseeker, true)) {
-
+            Auth::guard('jobseeker')->login($jobseeker, true);
+            if (Auth::guard('jobseeker')->check()) {
                 Session::put('user', ['id' => $jobseeker->id, 'fname' => $jobseeker->fname, 'lname' =>  $jobseeker->lname, 'email' => $jobseeker->email, 'user_type' => 'Jobseeker', 'last_login' => '23', 'profile_pic_thumb' => $getInfo->user['picture']]);
 
+                if ($jobid){
+                    return redirect()->route('job_details', ['id' => $jobid]);
+                }
+
                 return redirect()->route('AllDataForJobSeeker');
-                // if ($user_exist == 1) {
-                // } else {
-                //     return redirect()->route('AllDataForJobSeeker');
-                // }
             } else {
                 Session::flush();
-
                 return redirect()->to('/');
             }
         } elseif ($user_type == 'Employer') {

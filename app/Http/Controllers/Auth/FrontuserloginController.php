@@ -163,7 +163,7 @@ class FrontuserloginController extends Controller
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now()
                     ]);
-                    return redirect()->route('login')->with('error', $errors);
+                    return redirect()->back()->with('error', $errors);
                 }
             }
     

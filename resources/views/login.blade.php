@@ -94,7 +94,7 @@
                                         </div>
                                         <span class='text-container'>
                                             <a
-                                                href="{{ route('sociallogin', ['provider' => 'google', 'userType' => 'Jobseeker']) }}">Sign
+                                                href="{{ isset($_GET['job']) ?  route('sociallogin', ['provider' => 'google', 'userType' => 'Jobseeker', 'jobid' => $_GET['job']]) :  route('sociallogin', ['provider' => 'google', 'userType' => 'Jobseeker'])}}">Sign
                                                 in with Google</a>
                                         </span>
                                     </div>
