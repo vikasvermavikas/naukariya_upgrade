@@ -1,4 +1,11 @@
 @extends('layouts.master', ['title' => 'Employer Registeration'])
+@section('style')
+<style>
+    .eyeicon{
+        margin-top: -25px;
+    }
+</style>
+@endsection
 @section('content')
 
     <!-- ================ registration form section start ================= -->
@@ -81,6 +88,7 @@
                                 </div>
                                 <div class="input-data col">
                                     <input type="password" name="password_confirmation">
+                                <i class="fas fa-solid fa-eye-slash float-right eyeicon"></i>
                                     <div class="underline"></div>
                                     <label for="password_confirmation">Confirm Password</label>
                                     @error('password_confirmation')
@@ -145,4 +153,7 @@
 
 
     </section>
+@endsection
+@section('script')
+<script src="{{asset('assets/js/register.js')}}"></script>
 @endsection

@@ -1,4 +1,11 @@
 @extends('layouts.master', ['title' => 'Register'])
+@section('style')
+<style>
+    .eyeicon{
+        margin-top: -25px;
+    }
+</style>
+@endsection
 @section('content')
     <!-- ================ registration form section start ================= -->
     <section id="registration-form">
@@ -50,8 +57,6 @@
                         <div class="form-row row">
                             <div class="input-data col mt-3">
                                 <input type="password" name="password">
-                                {{-- <i class="fas fa-solid fa-eye"></i> --}}
-
                                 <div class="underline"></div>
                                 <label for="">Password</label>
                                 @error('password')
@@ -60,6 +65,8 @@
                             </div>
                             <div class="input-data col mt-3">
                                 <input type="password" name="password_confirmation">
+                                <i class="fas fa-solid fa-eye-slash float-right eyeicon"></i>
+
                                 <div class="underline"></div>
                                 <label for="">Confirm Password</label>
                                 @error('password_confirmation')
@@ -129,4 +136,7 @@
 
 
     </section>
+@endsection
+@section('script')
+<script src="{{asset('assets/js/register.js')}}"></script>
 @endsection
