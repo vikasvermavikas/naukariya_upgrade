@@ -50,6 +50,8 @@
                         <div class="form-row row">
                             <div class="input-data col mt-3">
                                 <input type="password" name="password">
+                                {{-- <i class="fas fa-solid fa-eye"></i> --}}
+
                                 <div class="underline"></div>
                                 <label for="">Password</label>
                                 @error('password')

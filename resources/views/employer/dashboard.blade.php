@@ -1,4 +1,12 @@
 @extends('layouts.master', ['title' => 'Dashboard'])
+@section('style')
+<style>
+    .effectclass:hover{
+        transform: scale(1.1);
+        /* transition: 1s; */
+    }
+</style>
+@endsection
 @section('content')
     <section id="registration-form">
         <div class="container py-5">
@@ -7,7 +15,7 @@
                     <h1 class="text-center"><b>DASHBOARD</b></h1>
                     <div class="row mt-5">
 
-                        <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="col-sm-6 col-md-6 col-lg-3 effectclass">
                             <a href="{{ route('managejobs') }}">
                                 <div class="box rounded bg-success py-4 text-center mt-3"><span
                                         class="text-white">{{ $data['active_jobs'] }}</span>
@@ -16,7 +24,7 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="col-sm-6 col-md-6 col-lg-3 effectclass">
                             <a href="{{ route('postedjobs') }}">
                                 <div class="box rounded bg-primary py-4 text-center mt-3"><span
                                         class="text-white">{{ $data['job_posted_by_me'] }}</span>
@@ -25,7 +33,7 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="col-sm-6 col-md-6 col-lg-3 effectclass">
                             
                             <a href="{{route('resume_filter')}}">
                                 <div class="box rounded bg-info py-4 text-center mt-3"><span class="text-white">0</span>
@@ -34,7 +42,7 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="col-sm-6 col-md-6 col-lg-3 effectclass">
                             <a href="{{ route('interview_list') }}">
                                 <div class="box rounded bg-dark py-4 text-center mt-3"><span
                                         class="text-white">{{ $data['scheduled_interview'] }}</span>
@@ -43,21 +51,21 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="col-sm-6 col-md-6 col-lg-3 effectclass">
                             <div class="box rounded bg-info py-4 text-center mt-3"><span class="text-white">
                                     {{ $data['reports'] }}</span>
                                 <hr class="hr1">
                                 <p class="lead"><span class="text-white">Reports</span></p>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="col-sm-6 col-md-6 col-lg-3 effectclass">
                             <div class="box rounded bg-success py-4 text-center mt-3"><span
                                     class="text-white">{{ $data['package_subscription'] }}</span>
                                 <hr class="hr1">
                                 <p class="lead"><span class="text-white">Subscriptions</span></p>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="col-sm-6 col-md-6 col-lg-3 effectclass">
                             <a href="{{ route('employer_followers') }}">
                                 <div class="box rounded bg-dark py-4 text-center mt-3"><span
                                         class="text-white">{{ $data['followers'] }}</span>
@@ -66,7 +74,7 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="col-sm-6 col-md-6 col-lg-3 effectclass">
                             <a href="{{ route('employer_support_list') }}">
                                 <div class="box rounded bg-primary py-4 text-center mt-3"><span
                                         class="text-white">{{ $data['helpdesk'] }}</span>
@@ -75,7 +83,7 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="col-sm-6 col-md-6 col-lg-3 effectclass">
                             <a href="{{ route('tracker-list') }}">
                                 <div class="box rounded bg-primary py-4 text-center mt-3"><span
                                         class="text-white">{{ $data['totalTrackercandidate'] }}</span>
@@ -84,7 +92,7 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="col-sm-6 col-md-6 col-lg-3 effectclass">
                             <a href="{{ route('get_subusers') }}">
                                 <div class="box rounded bg-dark py-4 text-center mt-3"><span
                                         class="text-white">{{ $data['totalSubuser'] }}</span>
@@ -93,7 +101,7 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="col-sm-6 col-md-6 col-lg-3 effectclass">
                             <a href="{{ route('get_clients') }}">
                                 <div class="box rounded bg-success py-4 text-center mt-3"><span
                                         class="text-white">{{ $data['totalClient'] }}</span>
@@ -102,7 +110,7 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-3">
+                        <div class="col-sm-6 col-md-6 col-lg-3 effectclass">
                             <a href="{{ route('get_consolidate_data') }}">
                                 <div class="box rounded bg-info py-4 text-center mt-3"><span
                                         class="text-white">{{ isset($data['consolidateData']) ? $data['consolidateData'] : '' }}</span>
@@ -114,6 +122,7 @@
                                 </div>
                             </a>
                         </div>
+
                     </div>
                 </div>
 
@@ -172,16 +181,17 @@
                         </div>
 
                         @foreach ($sub_user_data as $key => $value)
-                            <div class="col-sm-6 col-md-6 col-lg-3">
-
+                            <div class="col-sm-6 col-md-6 col-lg-3 effectclass">
+                                <a href="{{ route('tracker-list') . '?userid=' . $value->id . '' }}">
                                 <div class="box rounded bg-info py-4 text-center mt-3"> <span class="text-white"><i
                                             class="fa fa-user"></i> {{ $value->total }}</span>
                                     <hr class="hr1">
                                     <p class="lead">
-                                        <a href="{{ route('tracker-list') . '?userid=' . $value->id . '' }}"> <span
-                                                class="text-white">{{ $value->fname }} {{ $value->lname }}</span></a>
+                                         <span
+                                                class="text-white">{{ $value->fname }} {{ $value->lname }}</span>
                                     </p>
                                 </div>
+                            </a>
                             </div>
                         @endforeach
                     </div>

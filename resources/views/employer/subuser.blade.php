@@ -110,7 +110,7 @@
                                         <label class="col-form-label font-weight-bold" for="">Contact No.</label>
                                         <input type="text" class="form-control" name="contact" maxlength="10"
                                             id="" placeholder="Enter 10 digit Mobile No." pattern="\d{10}"
-                                            value="{{ old('contact') }}"required>
+                                            value="{{ old('contact') }}" oninvalid="this.setCustomValidity('Only 10 digit no. are allowed')" oninput="this.setCustomValidity('')" required>
                                         @error('contact')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -133,13 +133,13 @@
                                     </div>
                                     <div class="form-group col-sm-6">
                                         <label class="col-form-label font-weight-bold" for="">Gender</label>
-                                        <select name="gender" class="form-control">
+                                        <select name="gender" class="form-control" required>
                                             <option value="">Select Gender</option>
                                             <option value="Male">Male</option>
                                             <option value="Female">Female</option>
                                             <option value="Others">Others</option>
                                         </select>
-                                        @error('address')
+                                        @error('gender')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
@@ -202,7 +202,7 @@
                                                 No.</label>
                                             <input type="text" class="form-control" name="contact" maxlength="10"
                                                 id="updatecontact" placeholder="Enter 10 digit Mobile No."
-                                                pattern="\d{10}" value="{{ old('contact') }}"required>
+                                                pattern="\d{10}" value="{{ old('contact') }}" oninvalid="this.setCustomValidity('Only 10 digit no. are allowed')" oninput="this.setCustomValidity('')" required>
                                             @error('contact')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror

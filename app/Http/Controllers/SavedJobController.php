@@ -48,10 +48,10 @@ class SavedJobController extends Controller
             $savedjob->job_id = $id;
             $savedjob->username = Auth::guard('jobseeker')->user()->email;
             $savedjob->save();
-            return redirect()->back()->with(['message' => 'Job saved successfully']);
+            return redirect()->back()->with(['success' => true, 'message' => 'Job saved successfully']);
         }
         // return redirect()->back()->withErrors(['message' => 'Please login first with jobseeker credentials.']);
-        return redirect()->route('login', ['job' => $id])->with(['error' => 'You must be logged in to save a job']);
+        return redirect()->route('login', ['job' => $id])->with(['error' => true, 'message' => 'You must be logged in to save a job']);
 
     }
 
@@ -79,10 +79,10 @@ class SavedJobController extends Controller
             $follow->user_type = Auth::guard('jobseeker')->user()->user_type;
             $followSuccess = $follow->save();
             if ($followSuccess) {
-                return redirect()->back()->with(['message' => 'Company followed successfully']);
+                return redirect()->back()->with(['success' => true, 'message' => 'Company followed successfully']);
             }
         }
-        return redirect()->route('login', ['job' => $job_id])->with(['error' => 'You must be logged in to follow a job']);
+        return redirect()->route('login', ['job' => $job_id])->with(['error' => true, 'message' => 'You must be logged in to follow a job']);
 
         // return redirect()->back()->withErrors(['message' => 'Please login first with jobseeker credentials.']);
         // return response()->json(['error' => 'Something went wrong'], 201);

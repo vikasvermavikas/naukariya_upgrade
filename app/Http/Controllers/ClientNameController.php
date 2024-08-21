@@ -43,11 +43,12 @@ class ClientNameController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' =>'required|string|max:255',
+            'name' =>'required|alpha:ascii|max:255',
             'email' =>'required|email|unique:client_names',
             'contact' =>'required|numeric|min:10',
             'address' =>'required|string|max:255'
-        ]);
+        ]
+    );
         // $uid = Session::get('user')['id'];
         // $companyId = Session::get('user')['company_id'];
         $uid = $this->userid;
@@ -68,7 +69,7 @@ class ClientNameController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'name' =>'required|max:255',
+            'name' =>'required|alpha:ascii|max:255',
             'email' => [
                 'required',
                 'email',

@@ -574,18 +574,27 @@ class UserprofileController extends Controller
         $this->validate(
             $request,
             [
-                'fname'    => 'required|string',
-                'lname'    => 'required|string',
+                'fname'    => 'required|alpha:ascii',
+                'lname'    => 'required|alpha:ascii',
                 'email'    => ['required', 'email', Rule::unique('all_users')->ignore($uid)],
                 'contact'  => 'required|numeric|min:10',
                 'gender'   => 'required',
                 'aadhar_no' => 'required|numeric|min:12',
-                'designation' => 'required|string',
+                'designation' => 'required|alpha:ascii',
                 'emp_image' => [FileValidator::image()
                     ->min('1kb')
                     ->max('1mb')
                     ->dimensions(Rule::dimensions()->maxWidth(500)->maxHeight(500))]
+            ],
+            [
+                'fname.required' => 'First name is required.',
+                'fname.alpha' => 'First name should contain only alphabets.',
+                'lname.required' => 'Last name is required.',
+                'lname.alpha' => 'Last name should contain only alphabets.',
+                'designation.alpha' => 'Designation should contain only alphabets.',
+
             ]
+
         );
 
         $employerDetail = AllUser::where('id', $uid)->first();

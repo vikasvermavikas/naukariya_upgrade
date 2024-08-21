@@ -24,3 +24,4 @@ yarn-error.log
 /public/company_logo/*
 /public/emp_profile_image/*
 /public/resume/*
+/public/blogs/*

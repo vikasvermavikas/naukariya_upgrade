@@ -118,13 +118,21 @@ class SubuserController extends Controller
     {
 
         $request->validate([
-            'fname' => 'required|string',
-            'lname' => 'required|string',
+            'fname' => 'required|alpha:ascii',
+            'lname' => 'required|alpha:ascii',
             'email' => 'required|email|unique:sub_users,email',
             'contact' => 'required|numeric|min:10',
-            'designation' => 'required|string',
-            'gender' => 'required|string',
-        ]);
+            'designation' => 'required|alpha:ascii',
+            'gender' => 'required|alpha:ascii',
+        ],
+        [
+            'fname.required' => 'First name is required.',
+            'fname.alpha' => 'First name should contain only alphabets.',
+            'lname.required' => 'Last name is required.',
+            'lname.alpha' => 'Last name should contain only alphabets.',
+            'designation.alpha' => 'Designation should contain only alphabets.',
+        ]
+    );
 
         $uid = $this->userid;
         $companyId = $this->companyid;
@@ -171,17 +179,24 @@ class SubuserController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'fname' => 'required',
-            'lname' => 'required',
+            'fname' => 'required|alpha:ascii',
+            'lname' => 'required|alpha:ascii',
             'email' => [
                 'required',
                 'email',
                 Rule::unique('sub_users')->ignore($request->id),
             ],
             'contact' => 'required|numeric|min:10',
-            'designation' => 'required',
+            'designation' => 'required|alpha:ascii',
             'gender' => 'required',
-        ]);
+        ],
+        [
+            'fname.required' => 'First name is required.',
+            'fname.alpha' => 'First name should contain only alphabets.',
+            'lname.required' => 'Last name is required.',
+            'lname.alpha' => 'Last name should contain only alphabets.',
+        ]
+    );
 
         $subuser = SubUser::find($request->id);
 

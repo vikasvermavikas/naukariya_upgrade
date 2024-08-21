@@ -6291,7 +6291,7 @@ form.search-box .search-form a {
 }
 
 .our-services .single-services:hover .services-ion span {
-  color: #e35e25
+  /* color: #e35e25  */
 }
 
 .our-services .single-services:hover .services-cap h5 a {
@@ -7791,7 +7791,7 @@ form.search-box .search-form a {
   }
 
   form .form-row .input-data {
-    margin: 51px 0 !important;
+    margin: 71px 0 !important;
   }
 
   .submit-btn .input-data {

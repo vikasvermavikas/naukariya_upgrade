@@ -84,21 +84,21 @@
                 </div>
                 <div class="col-lg-3 offset-lg-1 card shadow p-2">
                     <div class="media contact-info">
-                        <span class="contact-info__icon"><i class="ti-home"></i></span>
+                        <span class="contact-info__icon"><i class="ti-home text-dark"></i></span>
                         <div class="media-body">
                             <h3>Delhi, India</h3>
                             <p>C – 11, LGF, Opp. State Bank of India, Malviya Nagar, New Delhi - 110017</p>
                         </div>
                     </div>
                     <div class="media contact-info">
-                        <span class="contact-info__icon"><i class="ti-tablet"></i></span>
+                        <span class="contact-info__icon"><i class="ti-tablet text-dark"></i></span>
                         <div class="media-body">
                             <h3>+91 11 4010 4369</h3>
                             <p>Mon to Sat 9:30 am to 6:30 pm</p>
                         </div>
                     </div>
                     <div class="media contact-info">
-                        <span class="contact-info__icon"><i class="ti-email"></i></span>
+                        <span class="contact-info__icon"><i class="ti-email text-dark"></i></span>
                         <div class="media-body">
                             <h3>info@prakharsoftwares.com</h3>
                             <p>Send us your query anytime!</p>

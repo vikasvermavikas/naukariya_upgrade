@@ -105,7 +105,7 @@
                                         <label class="col-form-label font-weight-bold" for="">Contact No.</label>
                                         <input type="text" class="form-control" name="contact" maxlength="10" id=""
                                             placeholder="Enter 10 digit Mobile No." pattern="\d{10}"
-                                            value="{{ old('contact') }}"required>
+                                            value="{{ old('contact') }}" oninvalid="this.setCustomValidity('Contact no. must be 10 digit mobile no.')" required>
                                         @error('contact')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror

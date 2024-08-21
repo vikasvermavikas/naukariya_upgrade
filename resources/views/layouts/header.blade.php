@@ -23,6 +23,8 @@
 
             }
 
+           
+
             /* style for mobile only */
             @media only screen and (max-width: 768px) {
                 ul.slicknav_nav {
@@ -40,6 +42,11 @@
                 .usermenu_custom {
                     left: -59px;
                 }
+                .jobsubmenu {
+                height: 200px;
+                overflow-y: scroll;
+                width: 216px !important;
+            }
             }
         </style>
         <!-- Header Start -->
@@ -63,7 +70,7 @@
                                         <ul id="navigation" class="navbar-nav-new">
                                             <li><a href={{ route('AllDataForJobSeeker') }}>Dashboard</a></li>
                                             <li><a href='#'>Jobs </a>
-                                                <ul class="submenu">
+                                                <ul class="submenu jobsubmenu">
                                                     <li><a
                                                             href="{{ route('loadJoblistPage') }}?location=Jobs-in-Ahmedabad">Jobs
                                                             in Ahmedabad</a></li>
@@ -583,7 +590,11 @@
         }
 
         .carrersubmenu {
-            width: 212px !important;
+            /* width: 212px !important; */
+            width: 198px !important;
+            /* position: absolute !important; */
+            margin-left: 222px;
+            margin-top: -46px;
         }
 
         .header-area ul>li:hover>ul.submenu {

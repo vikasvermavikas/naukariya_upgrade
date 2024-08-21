@@ -16,7 +16,7 @@
                     <li class="list-group-item">Vacancy : <span>{{ $job->job_vaccancy }}</span></li>
                     <li class="list-group-item">Job nature : <span>{{ $job->job_type }}</span></li>
                     <li class="list-group-item">Salary :
-                        <span>{{ $job->sal_disclosed == 'Yes' ? 'INR ' . $minsalary . ' - ' . $job->offered_sal_max : 'Not Disclosed' }}</span>
+                        <span>{{ $job->sal_disclosed == 'Yes' ? 'INR ' . $job->offered_sal_min . ' - ' . $job->offered_sal_max : 'Not Disclosed' }}</span>
                     </li>
                     <li class="list-group-item">Job Shift : <span>{{ $job->job_shift }}</span></li>
                 </ul>

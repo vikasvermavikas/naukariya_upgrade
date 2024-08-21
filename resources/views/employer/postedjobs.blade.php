@@ -22,9 +22,9 @@
                                 <input type="text" class="form-control" placeholder="search" name="keyword"
                                     value="{{ $keyword }}">
                             </div>
-                            <div class="d-flex">
-                                <button class="btn bg-success text-white">Search</button>
-                                <a href="{{ route('postedjobs') }}" class="btn text-white">Clear</a>
+                            <div class="d-flex justify-content-center">
+                                <button class="btn text-white p-3 rounded mr-2">Search</button>
+                                <a href="{{ route('postedjobs') }}" class="btn text-white p-3 rounded ml-2">Clear</a>
                             </div>
                         </div>
                     </div>

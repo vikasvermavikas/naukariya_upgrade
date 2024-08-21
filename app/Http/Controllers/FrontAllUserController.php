@@ -113,13 +113,14 @@ class FrontAllUserController extends Controller
                 'firstname' => 'required|regex:/^[a-zA-Z]+$/u',
                 'lastname' => 'required|regex:/^[a-zA-Z]+$/u',
                 // "designation" => 'required',
-                "email" => 'required|unique:jobseekers,email',
-                "mobile" => 'required|min:10|max:12|unique:jobseekers,contact',
-                "password" => ['required', 'min:8', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/'],
+                "email" => 'required|unique:all_users,email',
+                "mobile" => 'required|min:10|max:12|unique:all_users,contact',
                 "gender" => 'required|string',
                 // 'usertype.required' => 'User type is required', rakesh 18/06/2024
                 // "com_search" => 'required',
-                "company_id" => 'required'
+                "company_id" => 'required',
+                'password' => ['required', 'confirmed', 'min:8', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/'],
+                'password_confirmation' => ['required', 'min:8', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/'],
                 // 'captcha' => 'required|captcha'
             ],
             [
