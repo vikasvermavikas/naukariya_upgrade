@@ -44,7 +44,7 @@ class ClientNameController extends Controller
     {
         $request->validate([
             'name' =>'required|alpha:ascii|max:255',
-            'email' =>'required|email|unique:client_names',
+            'email' =>'required|email:filter|unique:client_names',
             'contact' =>'required|numeric|min:10',
             'address' =>'required|string|max:255'
         ]
@@ -69,24 +69,34 @@ class ClientNameController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'name' =>'required|alpha:ascii|max:255',
-            'email' => [
+            'updatename' =>'required|alpha:ascii|max:255',
+            'updateemail' => [
                 'required',
-                'email',
-                Rule::unique('client_names')->ignore($request->id),
+                'email:filter',
+                Rule::unique('client_names', 'email')->ignore($request->id),
             ],
-            'contact' =>'required|numeric|min:10',
-            'address' =>'required|max:255'
+            'updatecontact' =>'required|numeric|min:10',
+            'updateaddress' =>'required|max:255'
+        ], [
+            'updatename.required' => 'Name is required',
+            'updatename.alpha' => 'Name must contain only letters',
+            'updateemail.required' => 'Email is required',
+            'updateemail.email' => 'Invalid email format',
+            'updateemail.unique' => 'Email already exists',
+            'updatecontact.required' => 'Contact number is required',
+            'updatecontact.numeric' => 'Contact must be 10 digit number',
+            'updateaddress.required' => 'Address is required',
+            'updateaddress.max' => 'Address should not exceed 255 characters'
         ]);
         $uid = $this->userid;
         $companyId = $this->companyid;
 
         $subuser = ClientName::find($request->id);
 
-        $subuser->name = $request->name;
-        $subuser->email = $request->email;
-        $subuser->contact = $request->contact;
-        $subuser->address = $request->address;
+        $subuser->name = $request->updatename;
+        $subuser->email = $request->updateemail;
+        $subuser->contact = $request->updatecontact;
+        $subuser->address = $request->updateaddress;
         $subuser->created_by = $uid;
         $subuser->company_id = $companyId;
         $data = $subuser->save();

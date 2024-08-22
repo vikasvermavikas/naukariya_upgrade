@@ -120,7 +120,7 @@ class SubuserController extends Controller
         $request->validate([
             'fname' => 'required|alpha:ascii',
             'lname' => 'required|alpha:ascii',
-            'email' => 'required|email|unique:sub_users,email',
+            'email' => 'required|email:filter|unique:sub_users,email',
             'contact' => 'required|numeric|min:10',
             'designation' => 'required|alpha:ascii',
             'gender' => 'required|alpha:ascii',
@@ -179,33 +179,33 @@ class SubuserController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'fname' => 'required|alpha:ascii',
-            'lname' => 'required|alpha:ascii',
-            'email' => [
+            'updatefname' => 'required|alpha:ascii',
+            'updatelname' => 'required|alpha:ascii',
+            'updateemail' => [
                 'required',
-                'email',
-                Rule::unique('sub_users')->ignore($request->id),
+                'email:filter',
+                Rule::unique('sub_users', 'email')->ignore($request->id),
             ],
-            'contact' => 'required|numeric|min:10',
-            'designation' => 'required|alpha:ascii',
-            'gender' => 'required',
+            'updatecontact' => 'required|numeric|min:10',
+            'updatedesignation' => 'required|alpha:ascii',
+            'updategender' => 'required',
         ],
         [
-            'fname.required' => 'First name is required.',
-            'fname.alpha' => 'First name should contain only alphabets.',
-            'lname.required' => 'Last name is required.',
-            'lname.alpha' => 'Last name should contain only alphabets.',
+            'updatefname.required' => 'First name is required.',
+            'updatefname.alpha' => 'First name should contain only alphabets.',
+            'updatelname.required' => 'Last name is required.',
+            'updatelname.alpha' => 'Last name should contain only alphabets.',
         ]
     );
 
         $subuser = SubUser::find($request->id);
 
-        $subuser->fname = $request->fname;
-        $subuser->lname = $request->lname;
-        $subuser->email = $request->email;
-        $subuser->contact = $request->contact;
-        $subuser->designation = $request->designation;
-        $subuser->gender = $request->gender;
+        $subuser->fname = $request->updatefname;
+        $subuser->lname = $request->updatelname;
+        $subuser->email = $request->updateemail;
+        $subuser->contact = $request->updatecontact;
+        $subuser->designation = $request->updatedesignation;
+        $subuser->gender = $request->updategender;
         $subuser->save();
         return redirect()->route('get_subusers')->with(['message' => 'Sub User updated successfully.']);
     }

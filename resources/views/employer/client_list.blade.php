@@ -105,7 +105,7 @@
                                         <label class="col-form-label font-weight-bold" for="">Contact No.</label>
                                         <input type="text" class="form-control" name="contact" maxlength="10" id=""
                                             placeholder="Enter 10 digit Mobile No." pattern="\d{10}"
-                                            value="{{ old('contact') }}" oninvalid="this.setCustomValidity('Contact no. must be 10 digit mobile no.')" required>
+                                            value="{{ old('contact') }}" oninvalid="this.setCustomValidity('Invalid Contact Number.')" required>
                                         @error('contact')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -148,43 +148,44 @@
                             <form action="{{ route('update_client') }}" method="POST">
                                 @csrf
                                 <div class="d-none">
-                                    <input type="hidden" name="id" id="clientid">
+                                    <input type="hidden" name="id" id="clientid" value="{{old('id')}}">
+                                    <input type="hidden" name="oldid" id="oldclientid" value="{{old('id')}}">
                                 </div>
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="form-group col-sm-6">
                                             <label class="col-form-label font-weight-bold" for="">Client
                                                 Name</label>
-                                            <input type="text" class="form-control" name="name" id="updateclientname"
-                                                value="{{ old('name') }}" placeholder="Enter Client Name" required>
-                                            @error('name')
-                                                <span class="text-danger">{{ $message }}</span>
+                                            <input type="text" class="form-control" name="updatename" id="updateclientname"
+                                                value="{{ old('updatename') }}" placeholder="Enter Client Name" required>
+                                            @error('updatename')
+                                                <span class="text-danger updateerror">{{ $message }}</span>
                                             @enderror
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label class="col-form-label font-weight-bold" for="">Email</label>
-                                            <input type="email" class="form-control" name="email" id="updateclientemail"
-                                                value="{{ old('email') }}" placeholder="Enter Email" required>
-                                            @error('email')
-                                                <span class="text-danger">{{ $message }}</span>
+                                            <input type="email" class="form-control" name="updateemail" id="updateclientemail"
+                                                value="{{ old('updateemail') }}" placeholder="Enter Email" required>
+                                            @error('updateemail')
+                                                <span class="text-danger updateerror">{{ $message }}</span>
                                             @enderror
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label class="col-form-label font-weight-bold" for="">Contact
                                                 No.</label>
-                                            <input type="text" class="form-control" name="contact" maxlength="10" id="updateclientcontact"
-                                                placeholder="Enter 10 digit Mobile No." pattern="\d{10}"
-                                                value="{{ old('contact') }}"required>
-                                            @error('contact')
-                                                <span class="text-danger">{{ $message }}</span>
+                                            <input type="text" class="form-control" name="updatecontact" maxlength="10" id="updateclientcontact"
+                                                placeholder="Enter 10 digit Mobile No." pattern="\d{10}" oninvalid="this.setCustomValidity('Invalid Contact Number')"
+                                                value="{{ old('updatecontact') }}" oninput="this.setCustomValidity('')" required>
+                                            @error('updatecontact')
+                                                <span class="text-danger updateerror">{{ $message }}</span>
                                             @enderror
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label class="col-form-label font-weight-bold" for="">Address</label>
-                                            <input type="text" class="form-control" name="address" id="updateclientaddress"
-                                                value="{{ old('address') }}" placeholder="Enter Address" required>
-                                            @error('address')
-                                                <span class="text-danger">{{ $message }}</span>
+                                            <input type="text" class="form-control" name="updateaddress" id="updateclientaddress"
+                                                value="{{ old('updateaddress') }}" placeholder="Enter Address" required>
+                                            @error('updateaddress')
+                                                <span class="text-danger updateerror">{{ $message }}</span>
                                             @enderror
                                         </div>
                                         <div class="col-sm-12"> <i class="fa fa-info-circle" aria-hidden="true"></i><span
@@ -209,4 +210,27 @@
 
 @section('script')
     <script src="{{ asset('assets/js/client.js') }}"></script>
+
+    {{-- If any bug of add subuser form is came then show add subuser modal --}}
+    @if (
+        $errors->has('name') ||
+            $errors->has('email') ||
+            $errors->has('contact') ||
+            $errors->has('address') )
+        <script>
+            $('#addClientform').modal('show');
+        </script>
+    @endif
+
+    {{-- If any bug of update subuser form is came then show update subuser modal --}}
+
+    @if (
+        $errors->has('updatename') ||
+            $errors->has('updateemail') ||
+            $errors->has('updatecontact') ||
+            $errors->has('updateaddress'))
+        <script>
+            $('#updateClient').modal('show');
+        </script>
+    @endif
 @endsection

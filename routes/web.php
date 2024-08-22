@@ -40,6 +40,7 @@ use App\Http\Controllers\ReferenceController;
 use App\Http\Controllers\FaqsController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\PublicController;
 
 
 /*
@@ -73,10 +74,11 @@ use App\Http\Controllers\BlogController;
 
 Route::middleware(['guest:jobseeker', 'guest:employer', 'guest:subuser'])->group(function () {
 
-    Route::get('/about', function () {
-        return view('about');
-    })->name('about');
+    // Route::get('/about', function () {
+    //     return view('about');
+    // })->name('about');
 
+    Route::get('/about', [PublicController::class, 'about'])->name('about');
     Route::get('/blog', [BlogController::class, 'show'])->name('blog');
     Route::get('/blog-details/{id}', [BlogController::class, 'blogDetails'])->name('blog-details');
 

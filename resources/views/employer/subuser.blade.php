@@ -50,16 +50,19 @@
                                         @endif
 
                                     </td>
-                                    <td><span title="Edit" data-toggle="tooltip" data-placement="top"><i class="fas fa-edit mr-2" data-toggle="modal" data-target="#updateSubuser"
-                                        data-whatever="{{ $subuser->id }}"></i></span>
+                                    <td><span title="Edit" data-toggle="tooltip" data-placement="top"><i
+                                                class="fas fa-edit mr-2" data-toggle="modal" data-target="#updateSubuser"
+                                                data-whatever="{{ $subuser->id }}"></i></span>
                                         @if ($subuser->active == 1)
                                             <a class="text-dark"
                                                 href="{{ route('deactivate_subuser', ['id' => $subuser->id]) }}"><i
-                                                    class="fas fa-toggle-on" title="Deactivate" data-toggle="tooltip" data-placement="top"></i></a>
+                                                    class="fas fa-toggle-on" title="Deactivate" data-toggle="tooltip"
+                                                    data-placement="top"></i></a>
                                         @else
                                             <a class="text-dark"
                                                 href="{{ route('activate_subuser', ['id' => $subuser->id]) }}"><i
-                                                    class="fas fa-toggle-off" title="Activate" data-toggle="tooltip" data-placement="top"></i></a>
+                                                    class="fas fa-toggle-off" title="Activate" data-toggle="tooltip"
+                                                    data-placement="top"></i></a>
                                         @endif
 
                                     </td>
@@ -73,7 +76,7 @@
                         </tbody>
                     </table>
                 </div>
-               <span class="d-flex justify-content-center mb-2">{{ $subusers->links() }}</span> 
+                <span class="d-flex justify-content-center mb-2">{{ $subusers->links() }}</span>
             </div>
             <!-- add client Modal -->
             <div class="modal fade" id="addSubuserform" tabindex="-1" role="dialog" aria-labelledby="addSubuserformTitle"
@@ -110,7 +113,9 @@
                                         <label class="col-form-label font-weight-bold" for="">Contact No.</label>
                                         <input type="text" class="form-control" name="contact" maxlength="10"
                                             id="" placeholder="Enter 10 digit Mobile No." pattern="\d{10}"
-                                            value="{{ old('contact') }}" oninvalid="this.setCustomValidity('Only 10 digit no. are allowed')" oninput="this.setCustomValidity('')" required>
+                                            value="{{ old('contact') }}"
+                                            oninvalid="this.setCustomValidity('Only 10 digit no. are allowed')"
+                                            oninput="this.setCustomValidity('')" required>
                                         @error('contact')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -173,67 +178,77 @@
                             <form action="{{ route('update_subuser') }}" method="POST">
                                 @csrf
                                 <div class="d-none">
-                                    <input type="hidden" name="id" id="subuserid">
+                                    <input type="hidden" name="id" id="subuserid" value="{{ old('id') }}">
+                                    <input type="hidden" name="oldid" id="oldsubuserid" value="{{ old('id') }}">
                                 </div>
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="form-group col-sm-6">
-                                            <label class="col-form-label font-weight-bold" for="">First
+                                            <label class="col-form-label font-weight-bold" for="updatefname">First
                                                 Name</label>
-                                            <input type="text" class="form-control" name="fname"
-                                                id="updatefname" value="{{ old('fname') }}"
+                                            <input type="text" class="form-control" name="updatefname"
+                                                id="updatefname" value="{{ old('updatefname') }}"
                                                 placeholder="Enter First Name" required>
-                                            @error('fname')
-                                                <span class="text-danger">{{ $message }}</span>
+                                            @error('updatefname')
+                                                <span class="text-danger updateerror">{{ $message }}</span>
                                             @enderror
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label class="col-form-label font-weight-bold" for="">Last
                                                 Name</label>
-                                            <input type="text" class="form-control" name="lname"
-                                                id="updatelname" value="{{ old('lname') }}"
+                                            <input type="text" class="form-control" name="updatelname"
+                                                id="updatelname" value="{{ old('updatelname') }}"
                                                 placeholder="Enter Last Name" required>
-                                            @error('lname')
-                                                <span class="text-danger">{{ $message }}</span>
+                                            @error('updatelname')
+                                                <span class="text-danger updateerror">{{ $message }}</span>
                                             @enderror
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label class="col-form-label font-weight-bold" for="">Contact
                                                 No.</label>
-                                            <input type="text" class="form-control" name="contact" maxlength="10"
-                                                id="updatecontact" placeholder="Enter 10 digit Mobile No."
-                                                pattern="\d{10}" value="{{ old('contact') }}" oninvalid="this.setCustomValidity('Only 10 digit no. are allowed')" oninput="this.setCustomValidity('')" required>
-                                            @error('contact')
-                                                <span class="text-danger">{{ $message }}</span>
+                                            <input type="text" class="form-control" name="updatecontact"
+                                                maxlength="10" value="{{ old('updatecontact') }}" id="updatecontact"
+                                                placeholder="Enter 10 digit Mobile No." pattern="\d{10}"
+                                                oninvalid="this.setCustomValidity('Only 10 digit no. are allowed')"
+                                                oninput="this.setCustomValidity('')" required>
+                                            @error('updatecontact')
+                                                <span class="text-danger updateerror">{{ $message }}</span>
                                             @enderror
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label class="col-form-label font-weight-bold"
                                                 for="">Desgination</label>
-                                            <input type="text" class="form-control" name="designation"
-                                                id="updatedesignation" value="{{ old('designation') }}"
+                                            <input type="text" class="form-control" name="updatedesignation"
+                                                id="updatedesignation" value="{{ old('updatedesignation') }}"
                                                 placeholder="Enter Last Name" required>
-                                            @error('designation')
-                                                <span class="text-danger">{{ $message }}</span>
+                                            @error('updatedesignation')
+                                                <span class="text-danger updateerror">{{ $message }}</span>
                                             @enderror
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label class="col-form-label font-weight-bold" for="">Email</label>
-                                            <input type="email" class="form-control" name="email"
-                                                id="updateemail" value="{{ old('email') }}"
+                                            <input type="email" class="form-control" name="updateemail"
+                                                id="updateemail" value="{{ old('updateemail') }}"
                                                 placeholder="Enter Email" required>
-                                            @error('email')
-                                                <span class="text-danger">{{ $message }}</span>
+                                            @error('updateemail')
+                                                <span class="text-danger updateerror">{{ $message }}</span>
                                             @enderror
                                         </div>
 
                                         <div class="form-group col-sm-6">
                                             <label class="col-form-label font-weight-bold" for="">Gender</label>
-                                            <Select name="gender" class="form-control" id="update-gender" required>
+                                            <Select name="updategender" value="{{ old('updategender') }}"
+                                                class="form-control" id="update-gender" required>
                                                 <option value="">Select Gender</option>
+                                                <option value="Male"
+                                                    {{ old('updategender') == 'Male' ? 'selected' : '' }}>Male</option>
+                                                <option value="Female"
+                                                    {{ old('updategender') == 'Female' ? 'selected' : '' }}>Female</option>
+                                                <option value="Other"
+                                                    {{ old('updategender') == 'Other' ? 'selected' : '' }}>Other</option>
                                             </Select>
-                                            @error('gender')
-                                                <span class="text-danger">{{ $message }}</span>
+                                            @error('updategender')
+                                                <span class="text-danger updateerror">{{ $message }}</span>
                                             @enderror
                                         </div>
                                         <div class="col-sm-12"> <i class="fa fa-info-circle" aria-hidden="true"></i><span
@@ -258,4 +273,31 @@
 
 @section('script')
     <script src="{{ asset('assets/js/subuser.js') }}"></script>
+
+    {{-- If any bug of add subuser form is came then show add subuser modal --}}
+    @if (
+        $errors->has('fname') ||
+            $errors->has('lname') ||
+            $errors->has('email') ||
+            $errors->has('contact') ||
+            $errors->has('designation') ||
+            $errors->has('gender'))
+        <script>
+            $('#addSubuserform').modal('show');
+        </script>
+    @endif
+
+    {{-- If any bug of update subuser form is came then show update subuser modal --}}
+
+    @if (
+        $errors->has('updatefname') ||
+            $errors->has('updatelname') ||
+            $errors->has('updateemail') ||
+            $errors->has('updatecontact') ||
+            $errors->has('updatedesignation') ||
+            $errors->has('updategender'))
+        <script>
+            $('#updateSubuser').modal('show');
+        </script>
+    @endif
 @endsection

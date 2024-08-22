@@ -10,11 +10,24 @@ $(document).ready(function () {
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         var modal = $(this)
         modal.find('#subuserid').val(subuserid);
+
+        // Hide error messages for other data.
+        var oldsubuserid = modal.find('#oldsubuserid').val();
+        if (oldsubuserid) {
+            if (subuserid != oldsubuserid) {
+                modal.find(".updateerror").addClass('d-none');
+            }
+            else {
+                modal.find(".updateerror").removeClass('d-none');
+            }
+        }
+       
         var genderlist = ['Male', 'Female', 'Other']; //
         $.ajax({
             url: SITE_URL+"/employer/subuser/get-single-subuserdata/" + subuserid,
             type: "GET",
             success: function (data) {
+
                 modal.find('#updatefname').val(data.fname);
                 modal.find('#updatelname').val(data.lname);
                 modal.find('#updatecontact').val(data.contact);

@@ -4,6 +4,11 @@
     .eyeicon{
         margin-top: -25px;
     }
+   
+      input::-ms-reveal,
+      input::-ms-clear {
+        display: none;
+      }
 </style>
 @endsection
 @section('content')
@@ -36,7 +41,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="form-row row mt-2">
+                        <div class="form-row row mt-5">
                             <div class="input-data col mt-3">
                                 <input type="text" name="email">
                                 <div class="underline"></div>
@@ -46,7 +51,7 @@
                                 @enderror
                             </div>
                             <div class="input-data col mt-3">
-                                <input type="text" name="mobile" maxlength="10" pattern="[789][0-9]{9}">
+                                <input type="text" name="mobile" maxlength="10" pattern="[789][0-9]{9}" oninvalid="this.setCustomValidity('Invalid Contact Number.')" oninput="this.setCustomValidity('')">
                                 <div class="underline"></div>
                                 <label for="">Contact No.</label>
                                 @error('mobile')
@@ -54,7 +59,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="form-row row">
+                        <div class="form-row row  mt-sm-5">
                             <div class="input-data col mt-3">
                                 <input type="password" name="password">
                                 <div class="underline"></div>
@@ -103,7 +108,7 @@
                         </div>
                         <div class="form-row row">
                             <div class="input-data col mt-3">
-                                <input type="file"  name="resume" accept=".docx,.pdf" title="Upload Resume" data-toggle="tooltip">
+                                <input type="file"  name="resume" accept=".docx,.pdf">
                                 <div class="underline"></div>
                                 <label for="resume" class="my-3">Resume</label>
                                 @error('resume')
@@ -125,7 +130,7 @@
                     </form>
 
 
-                    <p class="text-center">You have already account? <a href="#" class="text-danger">Sign
+                    <p class="text-center">You have already account? <a href="{{route('login')}}" class="text-danger">Sign
                             in</a></p>
 
                 </div>

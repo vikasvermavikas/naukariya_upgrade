@@ -755,26 +755,26 @@ $(document).ready(function () {
     $("form#certificate_form").submit(function (e) {
         e.preventDefault();
         bcd = []
-        $(".tab5").each(function (index) {
+        // $(".tab5").each(function (index) {
 
-            if ($(this).val() == "") {
-                var error = $(this).data('id');
-                var id = $(this).attr('id');
-                var classes = $(this).attr('class');
-                // alert(classes)
-                $('#' + error).html('Please fill ' + id);
-                abc = 0;
-                bcd.push(abc);
-            } else {
-                $('#' + error).html('');
-                var error = $(this).data('id');
-                $('#' + error).html('');
-                abc = 1;
-                bcd.push(abc);
+        //     if ($(this).val() == "") {
+        //         var error = $(this).data('id');
+        //         var id = $(this).attr('id');
+        //         var classes = $(this).attr('class');
+        //         // alert(classes)
+        //         $('#' + error).html('Please fill ' + id);
+        //         abc = 0;
+        //         bcd.push(abc);
+        //     } else {
+        //         $('#' + error).html('');
+        //         var error = $(this).data('id');
+        //         $('#' + error).html('');
+        //         abc = 1;
+        //         bcd.push(abc);
 
 
-            }
-        });
+        //     }
+        // });
         if ($.inArray(0, bcd) > -1) {
             Swal.fire({
                 icon: "error",

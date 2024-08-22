@@ -10,9 +10,18 @@ $(document).ready(function () {
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         var modal = $(this)
         modal.find('#clientid').val(clientid);
-
+        // Hide error messages for other data.
+        var oldclientid = modal.find('#oldclientid').val();
+        if (oldclientid) {
+            if (clientid != oldclientid) {
+                modal.find(".updateerror").addClass('d-none');
+            }
+            else {
+                modal.find(".updateerror").removeClass('d-none');
+            }
+        }
         $.ajax({
-            url: SITE_URL+"/employer/get-clientdata/" + clientid,
+            url: SITE_URL + "/employer/get-clientdata/" + clientid,
             type: "GET",
             success: function (data) {
                 modal.find('#updateclientname').val(data.name);
@@ -20,7 +29,7 @@ $(document).ready(function () {
                 modal.find('#updateclientcontact').val(data.contact);
                 modal.find('#updateclientaddress').val(data.address);
             }
-           
+
         });
     })
 });

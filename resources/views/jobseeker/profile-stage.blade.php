@@ -52,7 +52,7 @@
             <div class="col-12 ">
                 <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
                     <p>Fill all form field to go to next step</p>
-                    <form id="msform">
+                    <form id="msform" autocomplete="off">
                         <!-- Inside the Ms Form all the field forms   -->
                         <!-- progressbar -->
                         <ul id="progressbar">
@@ -70,7 +70,7 @@
                         <div class="profile_container">
 
                             {{-- Profile Form --}}
-                            <form id="formData" class="form" enctype="multipart/form-data" method="POST">
+                            <form id="formData" class="form" enctype="multipart/form-data" method="POST" autocomplete="off">
                                 @csrf
                                 <fieldset id="field-1" class="tab">
                                     <h1>Profile</h1>
@@ -350,7 +350,7 @@
                                             <div class="col-sm-4">
                                                 <label for="password" class="col-form-label">Password</label>
                                                 <input type="password" minlength="8" name="password"
-                                                    placeholder="Enter your password" autocomplete="off">
+                                                    placeholder="Enter your password"  autocomplete="false" readonly onfocus="this.removeAttribute('readonly');">
                                             </div>
                                             <div class="col-sm-4 resume">
 

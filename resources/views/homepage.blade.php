@@ -23,7 +23,14 @@
             border: none;
             margin-top: 20px;
         }
-
+        .leftradius{
+            border-top-left-radius: 2.25rem !important;
+            border-bottom-left-radius: 2.25rem !important;
+        }
+        .rightradius {
+            border-top-right-radius: 2.25rem !important;
+            border-bottom-right-radius: 2.25rem !important;
+        }
         .select2-container {
             /* width: 100%; */
             height: 100%;
@@ -60,7 +67,7 @@
         }
 
         #search_jobs {
-            padding: 33px 44px
+            padding: 32px 44px
         }
 
         .dropdown-menu.show {
@@ -118,17 +125,17 @@
                                         <label for="input-datalist">Timezone</label>
                                         <input type="text" class="form-control" placeholder="Timezone" list="list-timezone" id="input-datalist">
                                     </div> --}}
-                                    <div class="row">
+                                    <div class="row no-gutters">
                                         <div class="col-md-3 my-2">
                                             {{-- <div class=""> --}}
-                                            <input type="text" class="border-0 form-control rounded" name="searchkeyword"
+                                            <input type="text" class="border-0 form-control leftradius" name="searchkeyword"
                                                 id="searchkeyword" placeholder="Job Tittle or skills"
                                                 data-prefetch="{{ route('getskillsoptions') }}" title="Skills"
                                                 data-toggle="tooltip" required>
                                             {{-- </div> --}}
                                         </div>
                                         <div class="col-md-3 my-2">
-                                            <Select class="form-control rounded" title="Experience Level"
+                                            <Select class="form-control" title="Experience Level"
                                                 data-toggle="tooltip" name="experienced_level" id="experienced_level">
                                                 <option value="experienced" selected>Experienced</option>
                                                 <option value="fresher">Fresher</option>
@@ -145,7 +152,7 @@
                                                     id="location" placeholder="Enter location">
                                                 <datalist id="locationlist" class="bg-white" role="listbox">
                                                 </datalist> --}}
-                                            <select class="js-example-basic-single form-control rounded"
+                                            <select class="js-example-basic-single form-control"
                                                 placeholder="Enter location" name="location" title="locations"
                                                 data-toggle="tooltip" id="location">
                                                 <option value="">Select Location</option>
@@ -160,7 +167,7 @@
                                         <div class="col-md-3 my-2">
 
                                             {{-- <div class=""> --}}
-                                            <button class=" btn rounded" id="search_jobs" type="submit">Find
+                                            <button class="btn rightradius" id="search_jobs" type="submit">Find
                                                 job</button>
                                             {{-- </div> --}}
                                         </div>
