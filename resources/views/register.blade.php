@@ -69,7 +69,7 @@
                                 @enderror
                             </div>
                             <div class="input-data col mt-3">
-                                <input type="password" name="password_confirmation">
+                                <input type="password" name="password_confirmation" class="w-75">
                                 <i class="fas fa-solid fa-eye-slash float-right eyeicon"></i>
 
                                 <div class="underline"></div>
