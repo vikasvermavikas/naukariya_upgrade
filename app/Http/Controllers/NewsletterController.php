@@ -36,10 +36,10 @@ class NewsletterController extends Controller
             $this->validate(
                 $request,
                 [
-                    'email' => 'required|email',
+                    'newsleeteremail' => 'required|email:filter',
                 ],
                 [
-                    'email.required' => 'Email Cannot be empty!',
+                    'newsleeteremail.required' => 'Email Cannot be empty!',
                     // 'email.unique' => 'Email is already registered',
                 ]
             );
@@ -49,12 +49,12 @@ class NewsletterController extends Controller
             if (is_null($userType)) {
                 $userType = null;
             }
-            $user = Newsletter::where('email', $request->email)->first();
+            $user = Newsletter::where('email', $request->newsleeteremail)->first();
             if ($user) {
                 return response()->json(['success' => false, 'message' => 'User already registered.'], 200);
             }
             $news_letter = new Newsletter();
-            $news_letter->email = $request->email;
+            $news_letter->email = $request->newsleeteremail;
             $news_letter->user_type = $userType;
             $news_letter->save();
             return response()->json(['success' => true, 'message' => 'Email Registered Successfully.'], 200);

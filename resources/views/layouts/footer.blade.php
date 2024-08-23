@@ -113,11 +113,11 @@
                                         <form action="{{ route('addNewsletter') }}" method="POST" id="newsletterform"
                                             class="subscribe_form relative mail_part">
                                             @csrf
-                                            <input type="email" name="email" id="newsletter-form-email"
+                                            <input type="email" name="newsleeteremail" id="newsletter-form-email"
                                                 placeholder="Email Address" class="placeholder hide-on-focus"
                                                 onfocus="this.placeholder = ''"
                                                 onblur="this.placeholder = 'Email Address'" required>
-                                            @error('email')
+                                            @error('newsleeteremail')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
 

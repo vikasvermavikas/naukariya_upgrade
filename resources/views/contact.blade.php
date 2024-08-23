@@ -48,7 +48,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <input class="form-control" name="email" id="email" type="text"
+                                    <input class="form-control" name="email" id="email" type="email"
                                         onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'"
                                         placeholder="Email" required>
 
@@ -60,8 +60,8 @@
                                 <div class="form-group">
                                     <input class="form-control" name="contact_no" id="contact_no" type="text"
                                         maxlength="10" minlength="10" pattern="[789][0-9]{9}"
-                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Contact Number'"
-                                        placeholder="Enter Contact Number" required>
+                                        onfocus="this.placeholder = ''" oninvalid="this.setCustomValidity('Invalid Contact no.')" onblur="this.placeholder = 'Enter Contact Number'"
+                                        placeholder="Enter Contact Number" oninput="this.setCustomValidity('')" required>
                                     <small class="text-danger" id="contact_no_error"></small>
                                 </div>
                             </div>

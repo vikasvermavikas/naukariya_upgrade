@@ -581,7 +581,7 @@ $(document).ready(function () {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "Invalid Details, please try again",
+                text: "User must be currently working in only one company",
             });
             return false;
         }

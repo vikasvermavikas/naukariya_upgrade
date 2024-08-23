@@ -105,7 +105,7 @@
                                         <label class="col-form-label font-weight-bold" for="">Contact No.</label>
                                         <input type="text" class="form-control" name="contact" maxlength="10" id=""
                                             placeholder="Enter 10 digit Mobile No." pattern="\d{10}"
-                                            value="{{ old('contact') }}" oninvalid="this.setCustomValidity('Invalid Contact Number.')" required>
+                                            value="{{ old('contact') }}" oninvalid="this.setCustomValidity('Invalid Contact Number.')" oninput="this.setCustomValidity('')" required>
                                         @error('contact')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -113,7 +113,7 @@
                                     <div class="form-group col-sm-6">
                                         <label class="col-form-label font-weight-bold" for="">Address</label>
                                         <input type="text" class="form-control" name="address" id="" value="{{ old('address') }}"
-                                            placeholder="Enter Address" required>
+                                            placeholder="Enter Address"  required>
                                         @error('address')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -174,7 +174,7 @@
                                             <label class="col-form-label font-weight-bold" for="">Contact
                                                 No.</label>
                                             <input type="text" class="form-control" name="updatecontact" maxlength="10" id="updateclientcontact"
-                                                placeholder="Enter 10 digit Mobile No." pattern="\d{10}" oninvalid="this.setCustomValidity('Invalid Contact Number')"
+                                                placeholder="Enter 10 digit Mobile No." pattern="\d{10}" oninvalid="CustomValidity('Invalid Contact Number')"
                                                 value="{{ old('updatecontact') }}" oninput="this.setCustomValidity('')" required>
                                             @error('updatecontact')
                                                 <span class="text-danger updateerror">{{ $message }}</span>

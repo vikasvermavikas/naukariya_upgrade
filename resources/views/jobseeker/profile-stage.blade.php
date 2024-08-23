@@ -8,7 +8,9 @@
         /* .bootstrap-tagsinput .badge {
                 margin-right: 10px;
             } */
-
+        #skills{
+            left: 50%;
+        }
         li.active .profileclass {
             border: none;
             width: 57px;
@@ -850,7 +852,7 @@
                                                     style="display: flex; justify-content: center; align-items: center;">
                                                     <div style="display: flex; gap: 10px;">
                                                         <label>
-                                                            Select One:-
+                                                            Select One:- <span class="text-danger">*</span>
                                                         </label>
                                                         <label style="display: flex; gap: 10px">
                                                             <input type="radio" name="professional_experience"

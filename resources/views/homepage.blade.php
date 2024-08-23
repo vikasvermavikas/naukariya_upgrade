@@ -42,7 +42,49 @@
             .select2-container {
                 width: 100% !important;
                 padding: 0px 0px 15px 0px;
+                height: 60px;
+                border-top-right-radius: 2.25em !important;
+                border-bottom-right-radius: 2.25em !important;
+                border-top-left-radius: 2.25em !important;
+                border-bottom-left-radius: 2.25em !important;
+                box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
             }
+            .border-right{
+                border-right: none !important;
+            }
+            .skillradius{
+                border-top-right-radius: 2.25em !important;
+                border-bottom-right-radius: 2.25em !important;
+                box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+            }
+            .experienceborder{
+                border-top-right-radius: 2.25em !important;
+                border-bottom-right-radius: 2.25em !important;
+                border-top-left-radius: 2.25em !important;
+                border-bottom-left-radius: 2.25em !important;
+                box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+            }
+         
+            #search_jobs{
+                border-top-left-radius: 2.25em !important;
+                border-bottom-left-radius: 2.25em !important;
+            }
+            .findjob{
+                display: flex;
+                justify-content: center;
+            }
+            span.selection {
+                display: inline-block;
+                width: 44%;
+                margin-left: 1%;
+            }
+        }
+        
+        @media only screen and (min-width: 768px){
+            #searchkeyword {
+            padding-left: 18%;
+
+        }
         }
 
         .dropdown-menu.show {
@@ -118,24 +160,24 @@
                         </div>
                         <!-- Search Box -->
                         <div class="row">
-                            <div class="col-xl-8">
+                            <div class="col-xl-10">
                                 <!-- form -->
-                                <form action="{{ route('loadJoblistPage') }}" method="GET" class="search-box shadow-none">
+                                <form action="{{ route('loadJoblistPage') }}" method="GET" class="shadow-none">
                                     {{-- <div class="form-group">
                                         <label for="input-datalist">Timezone</label>
                                         <input type="text" class="form-control" placeholder="Timezone" list="list-timezone" id="input-datalist">
                                     </div> --}}
                                     <div class="row no-gutters">
-                                        <div class="col-md-3 my-2">
+                                        <div class="col-md-3 my-2 border-right">
                                             {{-- <div class=""> --}}
-                                            <input type="text" class="border-0 form-control leftradius" name="searchkeyword"
+                                            <input type="text" class="border-0 form-control leftradius skillradius" name="searchkeyword"
                                                 id="searchkeyword" placeholder="Job Tittle or skills"
                                                 data-prefetch="{{ route('getskillsoptions') }}" title="Skills"
                                                 data-toggle="tooltip" required>
                                             {{-- </div> --}}
                                         </div>
-                                        <div class="col-md-3 my-2">
-                                            <Select class="form-control" title="Experience Level"
+                                        <div class="col-md-3 my-2 border-right">
+                                            <Select class="form-control experienceborder" title="Experience Level"
                                                 data-toggle="tooltip" name="experienced_level" id="experienced_level">
                                                 <option value="experienced" selected>Experienced</option>
                                                 <option value="fresher">Fresher</option>
@@ -145,7 +187,7 @@
                                                 required> --}}
                                             {{-- </div> --}}
                                         </div>
-                                        <div class="col-md-3 my-2">
+                                        <div class="col-md-3 my-2 border-right">
                                             {{-- <div class="">
                                             <div class=""> --}}
                                             {{-- <input class="form-control h-100 border-0" list="locationlist" name="location"
@@ -164,7 +206,7 @@
                                             {{-- </div>
                                         </div> --}}
                                         </div>
-                                        <div class="col-md-3 my-2">
+                                        <div class="col-md-3 my-2 findjob">
 
                                             {{-- <div class=""> --}}
                                             <button class="btn rightradius" id="search_jobs" type="submit">Find

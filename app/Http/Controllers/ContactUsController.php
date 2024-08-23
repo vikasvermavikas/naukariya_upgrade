@@ -19,8 +19,8 @@ class ContactUsController extends Controller
     {
 
         $this->validate($request, [
-            'name' => 'required|string',
-            'email' => 'required|email',
+            'name' => 'required|alpha:ascii',
+            'email' => 'required|email:filter',
             'remarks' => 'required|string',
             'contact_no' => 'required|numeric|max_digits:10'
         ]);

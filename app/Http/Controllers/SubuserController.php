@@ -122,7 +122,10 @@ class SubuserController extends Controller
             'lname' => 'required|alpha:ascii',
             'email' => 'required|email:filter|unique:sub_users,email',
             'contact' => 'required|numeric|min:10',
-            'designation' => 'required|alpha:ascii',
+            'designation' => [
+                'required',
+                'regex:/(^[A-Za-z ]+$)+/'
+            ],
             'gender' => 'required|alpha:ascii',
         ],
         [
@@ -131,6 +134,8 @@ class SubuserController extends Controller
             'lname.required' => 'Last name is required.',
             'lname.alpha' => 'Last name should contain only alphabets.',
             'designation.alpha' => 'Designation should contain only alphabets.',
+            'designation.regex' => 'Invalid Designation',
+
         ]
     );
 
@@ -187,7 +192,10 @@ class SubuserController extends Controller
                 Rule::unique('sub_users', 'email')->ignore($request->id),
             ],
             'updatecontact' => 'required|numeric|min:10',
-            'updatedesignation' => 'required|alpha:ascii',
+            'updatedesignation' => [
+                'required',
+                'regex:/(^[A-Za-z ]+$)+/'
+            ],
             'updategender' => 'required',
         ],
         [
@@ -195,6 +203,7 @@ class SubuserController extends Controller
             'updatefname.alpha' => 'First name should contain only alphabets.',
             'updatelname.required' => 'Last name is required.',
             'updatelname.alpha' => 'Last name should contain only alphabets.',
+            'updatedesignation.regex' => 'Invalid Designation',
         ]
     );
 
