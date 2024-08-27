@@ -35,7 +35,7 @@ use App\Models\JobType;
 use App\Models\JobShift;
 use App\Models\QuestionnarieName;
 use App\Models\Blog;
-
+use App\Models\ParentIndustry;
 
 
 class JobmanagerController extends Controller
@@ -1751,7 +1751,19 @@ class JobmanagerController extends Controller
         $locations = Cities::select('cities_name')->where('state_id', '<',  42)->groupBy('cities_name')->get();
         $blogs = Blog::select('id', 'title', 'image', 'created_at')->orderBy('id', 'desc')->offset(0)
         ->limit(2)->get();
-       return view('homepage', ['egovernance' => $egovernance, 'corporate' => $corporate, 'government' => $government, 'locations' => $locations, 'blogs' => $blogs]);
+        // select pi.id, pi.name as category, count(jb.id) as jobscount, group_concat(distinct i.id) as industryid from parent_industries pi join industries i on i.parent_id = pi.id 
+// join jobmanagers jb on jb.job_industry_id = i.id group by pi.name order by count(jb.id) DESC limit 8;
+
+        $topcategories = ParentIndustry::join('industries', 'industries.parent_id', 'parent_industries.id')
+        ->join('jobmanagers', 'jobmanagers.job_industry_id', 'industries.id')
+        ->select('parent_industries.name as parent_name', 'parent_industries.image as icon', DB::raw('COUNT(DISTINCT jobmanagers.id) as jobscount'), DB::raw('GROUP_CONCAT(DISTINCT industries.id) as industryid'))
+        ->groupBy('parent_industries.name', 'parent_industries.image')
+        ->orderBy('jobscount', 'DESC')
+        ->offset(0)
+        ->limit(8)
+        ->get();
+      
+       return view('homepage', ['egovernance' => $egovernance, 'corporate' => $corporate, 'government' => $government, 'locations' => $locations, 'blogs' => $blogs, 'topcategories' => $topcategories]);
     }
 
     public function showSingleJob($id)

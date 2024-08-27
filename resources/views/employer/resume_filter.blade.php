@@ -75,13 +75,13 @@
                                             <div class="row">
 
 
-                                                <div class="col-md-3">
+                                                <div class="col-md-3 my-2">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                                        width="20px" >
+                                                        width="20px"  title="Experience" data-toggle="tooltip">
                                                         <path
                                                             d="M184 48l144 0c4.4 0 8 3.6 8 8l0 40L176 96l0-40c0-4.4 3.6-8 8-8zm-56 8l0 40L64 96C28.7 96 0 124.7 0 160l0 96 192 0 128 0 192 0 0-96c0-35.3-28.7-64-64-64l-64 0 0-40c0-30.9-25.1-56-56-56L184 0c-30.9 0-56 25.1-56 56zM512 288l-192 0 0 32c0 17.7-14.3 32-32 32l-64 0c-17.7 0-32-14.3-32-32l0-32L0 288 0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-128z" />
                                                     </svg>
-                                                    <span style="color: #E35E25;" title="experience" data-toggle="tooltip" data-placement="top">
+                                                    <span style="color: #E35E25;" data-placement="top">
                                                         @if (isset($item['exp_year']))
                                                             {{ $item['exp_year'] . ' Year' }} -
                                                             {{ $item['exp_month'] . ' Month' }}
@@ -90,22 +90,22 @@
                                                         @endif
                                                     </span>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-3 my-2">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                                                        width="20px">
+                                                        width="20px" title="Salary" data-toggle="tooltip" data-placement="top">
                                                         <path
                                                             d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V192c0-35.3-28.7-64-64-64H80c-8.8 0-16-7.2-16-16s7.2-16 16-16H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H64zM416 272a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
                                                     </svg>
                                                     <span
-                                                        style="color: #E35E25;" title="salary" data-toggle="tooltip" data-placement="top">{{ isset($item['current_salary']) ? $item['current_salary'] . ' LPA' : 'N/A' }}</span>
+                                                        style="color: #E35E25;" >{{ isset($item['current_salary']) ? $item['current_salary'] . ' LPA' : 'N/A' }}</span>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-6 my-2">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"
-                                                        width="20px">
+                                                        width="20px" title="Location" data-toggle="tooltip" data-placement="top">
                                                         <path
                                                             d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" />
                                                     </svg>
-                                                    <span style="color: #E35E25;" title="location" data-toggle="tooltip" data-placement="top">
+                                                    <span style="color: #E35E25;" >
                                                         {{ isset($item['current_working_location']) ?  $item['current_working_location'] : 'N/A'}}</span>
                                                 </div>
                                                 <div class="col-md-12 my-2">

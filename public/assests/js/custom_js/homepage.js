@@ -59,5 +59,5 @@ $(document).ready(function () {
     // Call on load functions.
     // getLocations();
 
-    getCategoriesJobs();
+    // getCategoriesJobs();  // commented because now dynamically categories are loaded.
 })

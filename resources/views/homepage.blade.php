@@ -237,22 +237,24 @@
                     </div>
                 </div>
                 <div class="row d-flex justify-contnet-center">
+                    @forelse($topcategories as $category)
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
                         <div class="single-services text-center mb-30">
                             <div class="services-ion">
                                 {{-- <span class="flaticon-tour"></span> --}}
-                                <img src="{{ asset('assets/images/accounting.png') }}" style="width:30%" class="img-fluid">
+                                <img src="{{ asset('assets/images/'.$category->icon) }}" style="width:30%" class="img-fluid">
                             </div>
                             <div class="services-cap" id="accounts_count">
-                                <h5><a href="#">Accounts</a></h5>
-                                <span></span>
+                                <h5><a href="{{route('loadJoblistPage', ['industry' => $category->industryid])}}">{{$category->parent_name}}</a></h5>
+                                <span>{{$category->jobscount}}</span>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
+                    @empty
+                    @endforelse
+                     <!-- <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
                         <div class="single-services text-center mb-30">
                             <div class="services-ion">
-                                {{-- <span class="flaticon-cms"></span> --}}
                                 <img src="{{ asset('assets/images/agriculture.png') }}" style="width:30%" class="img-fluid">
 
                             </div>
@@ -340,7 +342,7 @@
                                 <span></span>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <!-- More Btn -->
                 <!-- Section Button -->
