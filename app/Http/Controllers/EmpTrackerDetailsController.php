@@ -403,7 +403,7 @@ class EmpTrackerDetailsController extends Controller
             fclose($FH);
         };
 
-        return Response::stream($callback, 200, $headers);
+        return Response::stream($callback, 200, $headers)->send();
     }
     public function ExportTrackerCheckedDataEmployer($id)
     {

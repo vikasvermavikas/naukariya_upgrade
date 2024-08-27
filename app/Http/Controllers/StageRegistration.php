@@ -395,12 +395,13 @@ class StageRegistration extends Controller
         } else {
             $req->locationlist = $req->locationlist;
         }
-
+        $password = '';
         if ($req->password != NULL &&  strlen($req->password) < 15) {
             $password = Hash::make($req->password);
         } else {
             $password =  $req->password;
         }
+       
 
         $personalData = [
             'fname' => $req->fname,
@@ -419,8 +420,12 @@ class StageRegistration extends Controller
             'expected_salary' => $req->exp_sal,
             'notice_period' => $req->notice_period,
             'designation' => $req->designation,
-            'password' => $password,
         ];
+
+        // Update password if password is not empty.
+        if (!empty($password)) {
+            $personalData['password'] = $password;
+        }
 
         // Upload resume.
         if ($req->resume) {

@@ -157,8 +157,8 @@ class FrontJobseekerController extends Controller
         // return(session('key'));
         $validator = $request->validate(
             [
-                'firstname' => 'required',
-                'lastname' => 'required',
+                'firstname' => 'required|alpha:ascii',
+                'lastname' => 'required|alpha:ascii',
                 'mobile' => 'required|unique:jobseekers,contact|numeric',
                 'gender' => 'required',
                 'candidate_type' => 'required',
@@ -169,10 +169,15 @@ class FrontJobseekerController extends Controller
                 // 'captcha' => 'required|captcha'
             ],
             [
+                'firstname.required' => 'First name is required.',
+                'lastname.required' => 'Last name is required',
+                'firstname.alpha' => 'First Name must be contain only letters',
+                'lastname.alpha' => 'Last Name must be contain only letters',
                 'email.required' => 'Email Cannot be empty!',
                 'email.unique' => 'Email is already registered.Use different email',
                 'mobile.unique' => 'Mobile is already registered.Use different Contact No.!',
-                'resume.max' => 'Resume size must be less than or equal to 5 MB'
+                'resume.max' => 'Resume size must be less than or equal to 5 MB',
+                
                 // 'captcha.captcha'=>'Invalid captcha code.'
 
             ]

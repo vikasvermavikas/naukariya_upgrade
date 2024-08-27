@@ -25,7 +25,7 @@
                         </div>
                         <div class="form-row row">
                             <div class="input-data col mt-3">
-                                <input type="text" name="firstname">
+                                <input type="text" name="firstname" value="{{old('firstname')}}">
                                 <div class="underline"></div>
                                 <label for="">First Name</label>
                                 @error('firstname')
@@ -33,7 +33,7 @@
                                 @enderror
                             </div>
                             <div class="input-data col mt-3">
-                                <input type="text" name="lastname">
+                                <input type="text" name="lastname" value="{{old('lastname')}}">
                                 <div class="underline"></div>
                                 <label for="">Last Name</label>
                                 @error('lastname')
@@ -43,7 +43,7 @@
                         </div>
                         <div class="form-row row mt-5">
                             <div class="input-data col mt-3">
-                                <input type="text" name="email">
+                                <input type="text" name="email" value="{{old('email')}}">
                                 <div class="underline"></div>
                                 <label for="">Email Address</label>
                                 @error('email')
@@ -51,7 +51,7 @@
                                 @enderror
                             </div>
                             <div class="input-data col mt-3">
-                                <input type="text" name="mobile" maxlength="10" pattern="[789][0-9]{9}" oninvalid="this.setCustomValidity('Invalid Contact Number.')" oninput="this.setCustomValidity('')">
+                                <input type="text" name="mobile" maxlength="10" pattern="[789][0-9]{9}" oninvalid="this.setCustomValidity('Invalid Contact Number.')" oninput="this.setCustomValidity('')" value="{{old('mobile')}}">
                                 <div class="underline"></div>
                                 <label for="">Contact No.</label>
                                 @error('mobile')
@@ -82,11 +82,11 @@
 
                         <div class="form-row row">
                             <div class="input-data col mt-3">
-                                <select class="form-select" name="gender" required>
-                                    <option>Gender</option>
-                                    <option>Male</option>
-                                    <option>Female</option>
-                                    <option>Other</option>
+                                <select class="form-select" name="gender">
+                                    <option value="">Select Gender</option>
+                                    <option value="male" {{old('gender') == 'male' ? 'selected' : ''}}>Male</option>
+                                    <option value="female" {{old('gender') == 'female' ? 'selected' : ''}}>Female</option>
+                                    <option value="other" {{old('gender') == 'other' ? 'selected' : ''}}>Other</option>
                                 </select>
                                 @error('gender')
                                     <small class="text-danger"> {{$message }}</small>
@@ -95,9 +95,9 @@
 
                             <div class="input-data col mt-3">
                                 <select class="form-select" name="candidate_type">
-                                    <option>I am a</option>
-                                    <option>Fresher</option>
-                                    <option>Experience</option>
+                                    <option value="">I am a</option>
+                                    <option value="fresher" {{old('candidate_type') == 'fresher' ? 'selected' : ''}}>Fresher</option>
+                                    <option value="experienced" {{old('candidate_type') == 'experienced' ? 'selected' : ''}}>Experience</option>
                                 </select>
                                 @error('candidate_type')
                                     <small class="text-danger"> {{$message }}</small>
@@ -128,7 +128,6 @@
                             </div>
                         </div>
                     </form>
-
 
                     <p class="text-center">You have already account? <a href="{{route('login')}}" class="text-danger">Sign
                             in</a></p>
