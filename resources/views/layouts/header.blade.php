@@ -69,7 +69,7 @@
                                     <nav class="d-none d-lg-block">
                                         <ul id="navigation" class="navbar-nav-new">
                                             <li><a href={{ route('AllDataForJobSeeker') }}>Dashboard</a></li>
-                                            <li><a href='#'>Jobs </a>
+                                            <li><a href='{{route('loadJoblistPage')}}'>Jobs </a>
                                                 <ul class="submenu jobsubmenu">
                                                     <li><a
                                                             href="{{ route('loadJoblistPage') }}?location=Jobs-in-Ahmedabad">Jobs

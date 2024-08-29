@@ -30,10 +30,10 @@ class VenuesController extends Controller
     {
         $this->validate($request,[
               'venue_name' => 'required',
-              'venue_address' => 'required',
+              'venue_address' => 'required|max:70',
               'contact_person' => 'required',
               'contact_no' => 'required|numeric',
-              'contact_email' => 'required|email',
+              'contact_email' => 'required|email:filter',
               'instructions' => 'required',
         ]);
         
@@ -61,21 +61,21 @@ class VenuesController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
-            'venue_name' => 'required',
-            'venue_address' => 'required',
-            'contact_person' => 'required',
-            'contact_no' => 'required|numeric',
-            'contact_email' => 'required|email',
-            'instructions' => 'required',
+            'update_venue_name' => 'required',
+            'update_venue_address' => 'required|max:70',
+            'update_contact_person' => 'required',
+            'update_contact_no' => 'required|numeric',
+            'update_contact_email' => 'required|email:filter',
+            'update_instructions' => 'required',
       ]);
 
         $venues = Venues::find($id);
-        $venues->venue_name = $request->venue_name;
-        $venues->venue_address = $request->venue_address;
-        $venues->contact_person = $request->contact_person;
-        $venues->contact_no = $request->contact_no;
-        $venues->email = $request->contact_email;
-        $venues->instructions = $request->instructions;
+        $venues->venue_name = $request->update_venue_name;
+        $venues->venue_address = $request->update_venue_address;
+        $venues->contact_person = $request->update_contact_person;
+        $venues->contact_no = $request->update_contact_no;
+        $venues->email = $request->update_contact_email;
+        $venues->instructions = $request->update_instructions;
         if ($venues->save())
         {
             return redirect()->route('venue_list')->with(['status' => true, 'message' => 'Venue Updated Successfully']);

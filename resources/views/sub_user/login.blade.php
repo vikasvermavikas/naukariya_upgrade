@@ -1,6 +1,9 @@
 @extends('layouts.master', ['title' => 'Sub User Login'])
 @section('style')
     <style>
+        .eyeicon{
+        margin-top: -25px;
+    }
         #rc-anchor-container {
             max-width: 100%;
             widows: 70%;
@@ -39,6 +42,8 @@
                             <div class="form-row row">
                                 <div class="input-data ">
                                     <input type="password" autocomplete="new-password" name="password" required>
+                                    <i class="fas fa-solid fa-eye-slash float-right eyeicon"></i>
+
                                     <div class="underline"></div>
                                     <label for="">Password</label>
                                 </div>
@@ -77,4 +82,7 @@
             </div>
         </div>
     </section>
+@endsection
+@section('script')
+<script src="{{asset('assets/js/login.js')}}"></script>
 @endsection

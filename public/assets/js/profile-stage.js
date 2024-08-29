@@ -1,10 +1,68 @@
 $(document).ready(function () {
 
+
     // Add multi select.
     $('.location-multiple').select2({
         width: 'resolve' // need to override the changed default
     });
 
+    // When fresher then stop taking experience details.
+    $("input[name='professional_experience']").change(function () {
+        if ($(this).val() == 'fresher') {
+            $('.notfresher').hide();
+            $('.whenfresher').show();
+        } else {
+            $('.notfresher').show();
+            $('.whenfresher').hide();
+        }
+    });
+
+    // When jobseeker has not certificate.
+    $("input[name='hascertificate']").change(function () {
+        if ($(this).val() == 'Yes') {
+            $('.nocertificate').hide();
+            $('.yescertificate').show();
+        } else {
+            $('.nocertificate').show();
+            $('.yescertificate').hide();
+        }
+    });
+
+    // Give min date to todate in profession.
+    $(document).on('change', '.fromdate', function () {
+        const fromDate = $(this).val();
+        const currentfromDateMax = $(this).attr('max');
+        var currentmax = $(this).closest('.container').find('.pro_todate').attr('max');
+
+        // Add validation for to date.
+        $(document).find('.pro_todate').each(function () {
+            if ($(this).val()) { 
+                let todate = new Date($(this).val());
+                let newfromdate = new Date(fromDate);
+                if (newfromdate < todate) {
+                    return;
+                }
+            }
+            $(this).attr('max', fromDate);
+        });
+
+        // Add validation for from date.
+        $(document).find('.fromdate').each(function () {
+            if ($(this).val()) { 
+                let thisfromdate = new Date($(this).val());
+                let newfromdate = new Date(fromDate);
+                if (newfromdate < thisfromdate) {
+                    return;
+                }
+            }
+            $(this).attr('max', fromDate);
+        });
+        
+        $(this).attr('max', currentfromDateMax);
+        $(this).closest('.container').find('.pro_todate').attr('max', currentmax);
+        $(this).closest('.container').find('.pro_todate').attr('min', fromDate);
+
+    });
 
     var abc = 0;
     var bcd = [];
@@ -381,7 +439,7 @@ $(document).ready(function () {
 
                         // Update stage.
                         update_stage(1);
-                        if (response.savedstage <3) {
+                        if (response.savedstage < 3) {
                             $("#profile_stage").text(" 20% ");
                         }
                         Swal.fire({
@@ -567,6 +625,7 @@ $(document).ready(function () {
 
     var abc = 0;
     var bcd = [];
+    // Submit Professional details if any.
     $("form#professionalForm").submit(function (e) {
         e.preventDefault();
         var checkCurrentlyWorking = [];
@@ -585,7 +644,7 @@ $(document).ready(function () {
             });
             return false;
         }
-        
+
         bcd = []
 
         // $(".tab3").each(function(index) {
@@ -627,8 +686,8 @@ $(document).ready(function () {
                     if (response.success) {
                         update_stage(3); // update stage.
                         if (response.savedstage < 5) {
-                        $("#profile_stage").text(" 60% ");
-                    }
+                            $("#profile_stage").text(" 60% ");
+                        }
                         Swal.fire({
                             icon: "success",
                             title: "Thank you!",
@@ -652,6 +711,34 @@ $(document).ready(function () {
 
         }
 
+    });
+
+    // When user is a fresher then submit professional details without data.
+    $(".whenfresher").click(function(){
+      var isfresher = $("input[name='professional_experience']:checked").val();
+
+      if (isfresher == 'fresher') {
+        update_stage(3); // update stage.
+        var getupdatedstage = $("#profile_stage").text();
+        if (getupdatedstage != '60%' && getupdatedstage != '80%') {
+            $("#profile_stage").text(" 60% ");  // Update stage when stage is below than 60%.
+        }
+        Swal.fire({
+            icon: "success",
+            title: "Thank you!",
+            text: 'Professional stage saved successfully',
+        });
+        $('#field-4').show();
+        $('#field-3').hide();
+        $('#skillid').addClass('active');
+      }
+      else {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Jobseeker must be fresher.",
+        });
+      }
     });
 
     $('#Third-prev').click(function () {
@@ -752,6 +839,7 @@ $(document).ready(function () {
 
     });
 
+    // Submit certificate form if jobseeker has certificates.
     $("form#certificate_form").submit(function (e) {
         e.preventDefault();
         bcd = []
@@ -799,7 +887,7 @@ $(document).ready(function () {
                         if (response.savedstage < 7) {
                             $("#profile_stage").text(" 100% ");
                         }
-                        
+
                         Swal.fire({
                             icon: "success",
                             title: "Thank you!",
@@ -821,5 +909,31 @@ $(document).ready(function () {
         }
 
     });
+
+    // Submit certificate form if jobseeker has not certificates.
+     $(".nocertificate").click(function(){
+        var hascerfiticate = $("input[name='hascertificate']:checked").val();
+  
+        if (hascerfiticate == 'No') {
+          update_stage(5); // update stage.
+          var getupdatedstage = $("#profile_stage").text();
+          if (getupdatedstage == '80%') {
+              $("#profile_stage").text(" 100% ");  // Update stage when stage is below than 60%.
+          }
+          Swal.fire({
+              icon: "success",
+              title: "Thank you!",
+              text: 'Certificate Details saved successfully',
+          });
+          window.location.href = SITE_URL + "/jobseeker/my-profile";
+        }
+        else {
+          Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Jobseeker must not have certificates.",
+          });
+        }
+      });
 
 });

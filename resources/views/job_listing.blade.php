@@ -336,7 +336,7 @@
                 <div class="row justify-content-center">
                     <div class="text-center">
                         <div class="single-wrap default_pagination">
-                            {{ $data->links() }}
+                            {{ $data->onEachSide(0)->links() }}
 
                         </div>
                         <div class="single-wrap filter_pagination">

@@ -1,12 +1,15 @@
 @extends('layouts.master', ['title' => 'Jobseeker Login'])
 @section('style')
-<style>
+    <style>
+        .eyeicon {
+            margin-top: -25px;
+        }
 
-    #rc-anchor-container {
-    max-width: 100%;
-    widows: 70%;
-    }
-</style>
+        #rc-anchor-container {
+            max-width: 100%;
+            widows: 70%;
+        }
+    </style>
 @endsection
 @section('content')
     <!-- ================ registration form section start ================= -->
@@ -29,7 +32,7 @@
                             <div class="d-none">
                                 <input type="hidden" name="user_type" value="Jobseeker">
                                 @if (isset($_GET['job']))
-                                <input type="hidden" name="jobid" value="{{$_GET['job']}}">
+                                    <input type="hidden" name="jobid" value="{{ $_GET['job'] }}">
                                 @endif
                             </div>
                             <div class="form-row row">
@@ -45,6 +48,8 @@
                             <div class="form-row row">
                                 <div class="input-data ">
                                     <input type="password" autocomplete="new-password" name="password" required>
+                                    <i class="fas fa-solid fa-eye-slash float-right eyeicon"></i>
+
                                     <div class="underline"></div>
                                     <label for="">Password</label>
                                 </div>
@@ -66,7 +71,7 @@
                                     <label for="">Remember Me</label>
                                 </div>
 
-                              
+
                             </div>
                             <!-- Google Recaptcha -->
 
@@ -88,16 +93,19 @@
                             <div class="text-center">
                                 <p>OR</p>
                                 <div class='g-sign-in-button'>
-                                    <div class=content-wrapper text-center>
-                                        <div class='logo-wrapper'>
-                                            <img src='https://developers.google.com/identity/images/g-logo.png'>
+                                    <a
+                                        href="{{ isset($_GET['job']) ? route('sociallogin', ['provider' => 'google', 'userType' => 'Jobseeker', 'jobid' => $_GET['job']]) : route('sociallogin', ['provider' => 'google', 'userType' => 'Jobseeker']) }}">
+                                        <div class=content-wrapper text-center>
+
+                                            <div class='logo-wrapper'>
+                                                <img src='https://developers.google.com/identity/images/g-logo.png'>
+                                            </div>
+                                            <span class='text-container'>
+                                                Sign
+                                                in with Google
+                                            </span>
                                         </div>
-                                        <span class='text-container'>
-                                            <a
-                                                href="{{ isset($_GET['job']) ?  route('sociallogin', ['provider' => 'google', 'userType' => 'Jobseeker', 'jobid' => $_GET['job']]) :  route('sociallogin', ['provider' => 'google', 'userType' => 'Jobseeker'])}}">Sign
-                                                in with Google</a>
-                                        </span>
-                                    </div>
+                                    </a>
                                 </div>
                             </div>
                         </form>
@@ -106,4 +114,7 @@
             </div>
         </div>
     </section>
+@endsection
+@section('script')
+    <script src="{{ asset('assets/js/login.js') }}"></script>
 @endsection

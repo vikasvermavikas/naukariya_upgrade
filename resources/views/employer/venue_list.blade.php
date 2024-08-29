@@ -25,8 +25,8 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Search Venue"
-                                    name="search" value="{{$searchvalue}}" required />
+                                <input type="text" class="form-control" placeholder="Search Venue" name="search"
+                                    value="{{ $searchvalue }}" required />
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -108,7 +108,7 @@
 
         {{-- Pagination --}}
         <div class="col-md-12 d-flex justify-content-center my-2">
-            <p>{{$data->onEachSide(0)->links()}}</p>
+            <p>{{ $data->onEachSide(0)->links() }}</p>
         </div>
         {{-- End Pagination --}}
 
@@ -140,9 +140,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="">Contact Person <span class="text-danger">*</span> </label>
-                                        <input type="text" name="contact_person" id="contact_person" class="form-control"
-                                            placeholder="Enter Contact Person" value="{{ old('contact_person') }}"
-                                            required>
+                                        <input type="text" name="contact_person" id="contact_person"
+                                            class="form-control" placeholder="Enter Contact Person"
+                                            value="{{ old('contact_person') }}" required>
                                         @error('contact_person')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -163,8 +163,10 @@
                                     <div class="form-group">
                                         <label for="">Contact No. <span class="text-danger">*</span> </label>
                                         <input type="text" maxlength="10" class="form-control"
-                                            placeholder="Enter Your Contact No." name="contact_no" id="contact_no"
-                                            value="{{ old('contact_no') }}" required>
+                                            placeholder="Enter 10 digit Mobile No." pattern="[7,8,9][0-9]{9}"
+                                            name="contact_no" id="contact_no" value="{{ old('contact_no') }}"
+                                            oninvalid="this.setCustomValidity('Invalid Contact Number.')"
+                                            oninput="this.setCustomValidity('')" required>
                                         @error('contact_no')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -174,7 +176,7 @@
                                     <div class="form-group">
                                         <label for="">Address <span class="text-danger">*</span> </label>
                                         <textarea class="form-control" placeholder="Enter Your Address...." name="venue_address" id="venue_address"
-                                            required>{{ old('venue_address') }}</textarea>
+                                            maxlength="50" required>{{ old('venue_address') }}</textarea>
                                         @error('venue_address')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -216,26 +218,31 @@
                     </div>
                     <form method="POST">
                         @csrf
+                        <div class="d-none">
+                            <input type="hidden" name="id" id="venueid" value="{{old('id')}}">
+                            <input type="hidden" name="oldid" id="oldvenueid" value="{{old('id')}}">
+                        </div>
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="venue_name">Venue <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="venue_name" name="venue_name"
-                                            placeholder="Enter Your Venue" value="{{ old('venue_name') }}" required>
-                                        @error('venue_name')
-                                            <span class="text-danger">{{ $message }}</span>
+                                        <label for="update_venue_name">Venue <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="update_venue_name"
+                                            name="update_venue_name" placeholder="Enter Your Venue"
+                                            value="{{ old('update_venue_name') }}" required>
+                                        @error('update_venue_name')
+                                            <span class="text-danger updateerror">{{ $message }}</span>
                                         @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="">Contact Person <span class="text-danger">*</span> </label>
-                                        <input type="text" name="contact_person" id="contact_person"
+                                        <input type="text" name="update_contact_person" id="update_contact_person"
                                             class="form-control" placeholder="Enter Contact Person"
-                                            value="{{ old('contact_person') }}" required>
-                                        @error('contact_person')
-                                            <span class="text-danger">{{ $message }}</span>
+                                            value="{{ old('update_contact_person') }}" required>
+                                        @error('update_contact_person')
+                                            <span class="text-danger updateerror">{{ $message }}</span>
                                         @enderror
                                     </div>
                                 </div>
@@ -243,10 +250,10 @@
                                     <div class="form-group">
                                         <label for="">Email <span class="text-danger">*</span> </label>
                                         <input type="email" class="form-control" placeholder="Enter Your Email"
-                                            name="contact_email" id="contact_email" value="{{ old('contact_email') }}"
-                                            required>
-                                        @error('contact_email')
-                                            <span class="text-danger">{{ $message }}</span>
+                                            name="update_contact_email" id="update_contact_email"
+                                            value="{{ old('update_contact_email') }}" required>
+                                        @error('update_contact_email')
+                                            <span class="text-danger updateerror">{{ $message }}</span>
                                         @enderror
                                     </div>
                                 </div>
@@ -254,30 +261,30 @@
                                     <div class="form-group">
                                         <label for="">Contact No. <span class="text-danger">*</span> </label>
                                         <input type="text" maxlength="10" class="form-control"
-                                            placeholder="Enter Your Contact No." name="contact_no" id="contact_no"
-                                            value="{{ old('contact_no') }}" required>
-                                        @error('contact_no')
-                                            <span class="text-danger">{{ $message }}</span>
+                                            placeholder="Enter Your Contact No." name="update_contact_no"
+                                            id="update_contact_no" value="{{ old('update_contact_no') }}" required>
+                                        @error('update_contact_no')
+                                            <span class="text-danger updateerror">{{ $message }}</span>
                                         @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="">Address <span class="text-danger">*</span> </label>
-                                        <textarea class="form-control" placeholder="Enter Your Address...." name="venue_address" id="venue_address"
-                                            required>{{ old('venue_address') }}</textarea>
-                                        @error('venue_address')
-                                            <span class="text-danger">{{ $message }}</span>
+                                        <textarea class="form-control" placeholder="Enter Your Address...." name="update_venue_address"
+                                            id="update_venue_address" required>{{ old('update_venue_address') }}</textarea>
+                                        @error('update_venue_address')
+                                            <span class="text-danger updateerror">{{ $message }}</span>
                                         @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="">Instruction <span class="text-danger">*</span> </label>
-                                        <textarea class="form-control" placeholder="Enter Your Instruction here...." name="instructions" id="instructions"
-                                            required>{{ old('instructions') }}</textarea>
-                                        @error('instructions')
-                                            <span class="text-danger">{{ $message }}</span>
+                                        <textarea class="form-control" placeholder="Enter Your Instruction here...." name="update_instructions"
+                                            id="update_instructions" required>{{ old('update_instructions') }}</textarea>
+                                        @error('update_instructions')
+                                            <span class="text-danger updateerror">{{ $message }}</span>
                                         @enderror
                                     </div>
                                 </div>
@@ -286,7 +293,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn">Save changes</button>
+                            <button type="submit" class="btn">Update</button>
                         </div>
                     </form>
                 </div>
@@ -298,4 +305,29 @@
 @endsection
 @section('script')
     <script src="{{ asset('assets/js/venue_list.js') }}"></script>
+    @if (
+        $errors->has('venue_name') ||
+            $errors->has('venue_address') ||
+            $errors->has('contact_person') ||
+            $errors->has('contact_email') ||
+            $errors->has('instructions') ||
+            $errors->has('contact_no'))
+        <script>
+            $('#addVenueModal').modal('show');
+        </script>
+    @endif
+
+    {{-- If any bug of update subuser form is came then show update subuser modal --}}
+
+    @if (
+        $errors->has('update_venue_name') ||
+            $errors->has('update_venue_address') ||
+            $errors->has('update_contact_person') ||
+            $errors->has('update_contact_email') ||
+            $errors->has('update_instructions') ||
+            $errors->has('update_contact_no'))
+        <script>
+            $('#updateVenueModal').modal('show');
+        </script>
+    @endif
 @endsection

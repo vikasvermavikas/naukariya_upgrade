@@ -6,11 +6,22 @@
     <link href="{{ asset('assets/css/tagsinput.css') }}" rel="stylesheet" type="text/css">
     <style>
         /* .bootstrap-tagsinput .badge {
-                margin-right: 10px;
-            } */
-        #skills{
+                        margin-right: 10px;
+                    } */
+
+        .setcertificate {
+            margin-left: 43%;
+        }
+
+        .whenfresher,
+        .nocertificate {
+            display: none;
+        }
+
+        #skills {
             left: 50%;
         }
+
         li.active .profileclass {
             border: none;
             width: 57px;
@@ -32,8 +43,8 @@
         }
 
         /* .preferlocation .select2-search__field{
-                border : none;
-            } */
+                        border : none;
+                    } */
         .select2-container--default .select2-selection--multiple {
             margin-top: 8px;
         }
@@ -45,6 +56,34 @@
         .bootstrap-tagsinput .badge {
             margin-right: 2px;
         }
+
+        @media only screen and (min-width:320px) and (max-width:376px) {
+            .stepselement {
+                margin-left: 36%;
+            }
+
+            .select2-container {
+                width: 100% !important;
+            }
+
+            .downloadresume {
+                width: 100%;
+                font-size: 44%;
+            }
+            .educationbtn{
+                padding: 25% 27%;
+            }
+            
+        .educationnext{
+                padding: 24% 12%;
+                margin-left: 1% !important;
+            }
+            label{
+                display: block;
+            }
+           
+        }
+       
     </style>
 @endsection
 
@@ -58,13 +97,16 @@
                         <!-- Inside the Ms Form all the field forms   -->
                         <!-- progressbar -->
                         <ul id="progressbar">
-                            <li class="active"><i class="fas fa-user profileclass"></i><br><strong>Profile </strong></li>
-                            <li id="educationid"><i
-                                    class="fas fa-university profileclass"></i><br><strong>Education</strong></li>
-                            <li id="professionalid"><i
-                                    class="fas fa-briefcase profileclass"></i><br><strong>Professional</strong></li>
-                            <li id="skillid"><i class="fas fa-cog profileclass"></i><br><strong>Skills</strong></li>
-                            <li id="certificateid"><i class="fas fa-certificate profileclass"></i><br><strong>Certificate
+                            <li class="active"><i class="fas fa-user profileclass"></i><br><strong
+                                    class="stepselement">Profile </strong></li>
+                            <li id="educationid"><i class="fas fa-university profileclass"></i><br><strong
+                                    class="stepselement">Education</strong></li>
+                            <li id="professionalid"><i class="fas fa-briefcase profileclass"></i><br><strong
+                                    class="stepselement">Professional</strong></li>
+                            <li id="skillid"><i class="fas fa-cog profileclass"></i><br><strong
+                                    class="stepselement">Skills</strong></li>
+                            <li id="certificateid"><i class="fas fa-certificate profileclass"></i><br><strong
+                                    class="stepselement">Certificate
                                 </strong></li>
                         </ul>
 
@@ -72,7 +114,8 @@
                         <div class="profile_container">
 
                             {{-- Profile Form --}}
-                            <form id="formData" class="form" enctype="multipart/form-data" method="POST" autocomplete="off">
+                            <form id="formData" class="form" enctype="multipart/form-data" method="POST"
+                                autocomplete="off">
                                 @csrf
                                 <fieldset id="field-1" class="tab">
                                     <h1>Profile</h1>
@@ -97,7 +140,7 @@
                                                             type="file" class="d-none">
                                                         <button class="d-none" id="upload-btn" value="upload-image">
                                                             Upload!</button>
-                                                        <i  class="fas fa-camera"
+                                                        <i class="fas fa-camera"
                                                             style="margin-top: 180px; position: relative; left: -85px;"></i>
                                                     </label>
                                                 </div>
@@ -159,8 +202,9 @@
                                                     Birth</label>
                                                 <div class="vd-wrapper">
                                                     <input name="date" placeholder="YYYY-MM-DD" type="date"
-                                                        aria-readonly="true" class="tab1" data-id="date_error"
-                                                        value="{{ $data->dob }}" required>
+                                                        aria-readonly="true" class="tab1"
+                                                        max="{{ date('Y') - 18 }}-{{ date('m') . '-' . date('d') }}"
+                                                        data-id="date_error" value="{{ $data->dob }}" required>
                                                     <small id="date_error" class="text-danger"></small>
 
                                                 </div>
@@ -352,7 +396,8 @@
                                             <div class="col-sm-4">
                                                 <label for="password" class="col-form-label">Password</label>
                                                 <input type="password" minlength="8" name="password"
-                                                    placeholder="Enter your password"  autocomplete="false" readonly onfocus="this.removeAttribute('readonly');">
+                                                    placeholder="Enter your password" autocomplete="false" readonly
+                                                    onfocus="this.removeAttribute('readonly');">
                                             </div>
                                             <div class="col-sm-4 resume">
 
@@ -378,7 +423,7 @@
                                                 <span>
                                                     @if (isset($getresume->resume))
                                                         <a href="{{ asset('resume/' . $getresume->resume) }}"
-                                                            class="btn">
+                                                            class="btn p-3 rounded downloadresume">
                                                             <i class="fas fa-download"></i>
                                                             Download Resume</a>
                                                     @endif
@@ -831,8 +876,8 @@
                                             </div>
                                         </div>
 
-                                        <button type="button" class="btn mt-4" id="home-prev">Previous</button>
-                                        <button type="submit" class="btn mt-4 ml-5 " id="home-next-2">Save &
+                                        <button type="button" class="btn mt-4 educationbtn" id="home-prev">Previous</button>
+                                        <button type="submit" class="btn mt-4 ml-5 educationnext" id="home-next-2">Save &
                                             Next</button>
                                     </form>
                                 </div>
@@ -888,7 +933,7 @@
 
                                         </div>
                                         @forelse ($professionalDetails as $professional)
-                                            <div class="card-outer pro_child_node">
+                                            <div class="card-outer pro_child_node notfresher">
                                                 <input type="hidden" name="professional_id[]"
                                                     class="removedprofessional" value="{{ $professional->id }}">
                                                 <div class="container" style= "width: 100%;">
@@ -953,7 +998,7 @@
                                                     <div class="row">
                                                         <div class="col-sm-12 col-md-4">
                                                             <label><span style="color: red;">*</span> From:</label>
-                                                            <input type="date" class="tab3" name="fromdate[]"
+                                                            <input type="date" class="tab3 fromdate" name="fromdate[]"
                                                                 data-id="date-error"
                                                                 value="{{ $professional->from_date }}"
                                                                 max="{{ date('Y-m-d', time()) }}" required>
@@ -1028,7 +1073,7 @@
                                             </div>
                                         @empty
 
-                                            <div class="card-outer pro_child_node">
+                                            <div class="card-outer pro_child_node notfresher">
                                                 <input type="hidden" name="professional_id[]"
                                                     class="removedprofessional">
                                                 <div class="container" style= "width: 100%;">
@@ -1079,7 +1124,7 @@
                                                     <div class="row">
                                                         <div class="col-sm-12 col-md-4">
                                                             <label><span style="color: red;">*</span> From:</label>
-                                                            <input type="date" class="tab3" name="fromdate[]"
+                                                            <input type="date" class="tab3 fromdate" name="fromdate[]"
                                                                 data-id="date-error" required>
                                                             <small id="date-error" class="text-danger"></small>
 
@@ -1148,8 +1193,11 @@
                                     </div>
 
                                     <button type="button" class="btn mt-4" id="Third-prev">Previous</button>
-                                    <button type="button" class="btn mt-4" id="addExperience">Add More</button>
-                                    <button type="submit" class="btn mt-4" id="Third-next">Save & Next</button>
+                                    <button type="button" class="btn mt-4 notfresher" id="addExperience">Add
+                                        More</button>
+                                    <button type="submit" class="btn mt-4 notfresher" id="Third-next">Save &
+                                        Next</button>
+                                    <button type="button" class="btn mt-4 whenfresher">Save & Next</button>
 
                                 </form>
                             </fieldset>
@@ -1205,7 +1253,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="parent_certificate_card">
+                                    <div class="d-flex col-md-2 ml-5 setcertificate">
+                                        <span>Yes</span>
+                                        <input type="radio" class="radio" name="hascertificate" value="Yes"
+                                            checked>
+                                        <span>No</span>
+                                        <input type="radio" class="radio" name="hascertificate" value="No">
+                                    </div>
+                                    <div class="parent_certificate_card yescertificate">
                                         @forelse ($certificationDetails as $certificate)
                                             <div class="card-outer child_certificate_card">
                                                 <div class="d-none">
@@ -1444,9 +1499,12 @@
                                     </div>
 
                                     <button type="button" class="btn mt-4" id="Fifth-prev">Previous</button>
-                                    <button type="button" class="btn mt-4" id="addCertificate">Add More</button>
+                                    <button type="button" class="btn mt-4 yescertificate" id="addCertificate ">Add
+                                        More</button>
 
-                                    <button type="submit" class="btn mt-4 " id="Submit">Submit</button>
+                                    <button type="submit" class="btn mt-4 yescertificate"
+                                        id="Submit">Submit</button>
+                                    <button type="button" class="btn mt-4 nocertificate">Submit</button>
                                 </form>
                             </fieldset>
 

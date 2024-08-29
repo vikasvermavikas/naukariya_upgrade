@@ -4,18 +4,29 @@ $(document).ready(function () {
         var button = $(event.relatedTarget) // Button that triggered the modal
         var venuid = button.data('whatever') // Extract info from data-* attributes
         var modal = $(this);
+   // Hide error messages for other data.
+   modal.find('#venueid').val(venuid);
 
+   var oldvenueid = modal.find('#oldvenueid').val();
+   if (oldvenueid) {
+       if (venuid != oldvenueid) {
+           modal.find(".updateerror").addClass('d-none');
+       }
+       else {
+           modal.find(".updateerror").removeClass('d-none');
+       }
+   }
         $.ajax({
             url: SITE_URL + '/employer/venue/get-venuedata/' + venuid,
             type: "GET",
             success: function (data) {
                 modal.find('form').attr('action', SITE_URL + '/employer/venue/update-venue/' + venuid);
-                modal.find('#venue_name').val(data.venue_name);
-                modal.find('#venue_address').val(data.venue_address);
-                modal.find('#contact_email').val(data.email);
-                modal.find('#contact_person').val(data.contact_person);
-                modal.find('#contact_no').val(data.contact_no);
-                modal.find('#instructions').val(data.instructions);
+                modal.find('#update_venue_name').val(data.venue_name);
+                modal.find('#update_venue_address').val(data.venue_address);
+                modal.find('#update_contact_email').val(data.email);
+                modal.find('#update_contact_person').val(data.contact_person);
+                modal.find('#update_contact_no').val(data.contact_no);
+                modal.find('#update_instructions').val(data.instructions);
             }
         });
         // modal.find('.modal-title').text('New message to ' + recipient)

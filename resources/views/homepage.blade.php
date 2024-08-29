@@ -38,7 +38,7 @@
         }
 
         /* For mobile */
-        @media only screen and (min-width: 368px) and (max-width: 768px) {
+        @media only screen and (min-width: 320px) and (max-width: 768px) {
             .select2-container {
                 width: 100% !important;
                 padding: 0px 0px 15px 0px;
@@ -239,16 +239,18 @@
                 <div class="row d-flex justify-contnet-center">
                     @forelse($topcategories as $category)
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
+                        <a href="{{route('loadJoblistPage', ['industry' => $category->industryid])}}">
                         <div class="single-services text-center mb-30">
                             <div class="services-ion">
                                 {{-- <span class="flaticon-tour"></span> --}}
                                 <img src="{{ asset('assets/images/'.$category->icon) }}" style="width:30%" class="img-fluid">
                             </div>
                             <div class="services-cap" id="accounts_count">
-                                <h5><a href="{{route('loadJoblistPage', ['industry' => $category->industryid])}}">{{$category->parent_name}}</a></h5>
+                                <h5>{{$category->parent_name}}</h5>
                                 <span>{{$category->jobscount}}</span>
                             </div>
                         </div>
+                    </a>
                     </div>
                     @empty
                     @endforelse

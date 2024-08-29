@@ -17,7 +17,7 @@ class IndustryController extends Controller
         // $data = Industry::with(['jobmanagers' => function ($query) {
         //     $query->select('jobmanagers.id', 'jobmanagers.job_industry_id')->where('jobmanagers.status', 'Active');
         // }])->select('industries.id', 'industries.category_name')->orderBy('industries.category_name', 'ASC')->get();
-        $data = Industry::select('id', 'category_name')->orderBy('category_name', 'ASC')->get();
+        $data = Industry::select('id', 'category_name')->where('category_status', 1)->orderBy('category_name', 'ASC')->get();
 
         return response()->json(['data' => $data], 200);
     }
