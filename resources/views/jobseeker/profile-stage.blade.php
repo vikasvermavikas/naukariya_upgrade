@@ -6,8 +6,11 @@
     <link href="{{ asset('assets/css/tagsinput.css') }}" rel="stylesheet" type="text/css">
     <style>
         /* .bootstrap-tagsinput .badge {
-                        margin-right: 10px;
-                    } */
+                                margin-right: 10px;
+                            } */
+        /* .card-outer {
+            width: 100%;
+        } */
 
         .setcertificate {
             margin-left: 43%;
@@ -41,10 +44,10 @@
             padding: 15px;
             color: white;
         }
-
+       
         /* .preferlocation .select2-search__field{
-                        border : none;
-                    } */
+                                border : none;
+                            } */
         .select2-container--default .select2-selection--multiple {
             margin-top: 8px;
         }
@@ -56,10 +59,32 @@
         .bootstrap-tagsinput .badge {
             margin-right: 2px;
         }
-
+        @media only screen and (min-width: 768px) {
+            .skilldiv{
+                display: flex;
+                justify-content: center;
+            }
+        }
         @media only screen and (min-width:320px) and (max-width:376px) {
+            .skillcontent{
+               width: 87% !important;
+            }
+            .notfresher{
+                width: 120%;
+            }
+            .educationouter{
+                width: 100%;
+            }
+            .certificateblock{
+                max-width: 100%;
+                width: 100%;
+            }
             .stepselement {
                 margin-left: 36%;
+            }
+
+            h1 {
+                font-size: 167%;
             }
 
             .select2-container {
@@ -68,22 +93,32 @@
 
             .downloadresume {
                 width: 100%;
-                font-size: 44%;
+                font-size: 68%;
             }
-            .educationbtn{
+
+            .educationbtn {
                 padding: 25% 27%;
             }
-            
-        .educationnext{
+
+            .educationnext {
                 padding: 24% 12%;
                 margin-left: 1% !important;
             }
-            label{
+
+            label {
                 display: block;
             }
-           
+
         }
-       
+        @media only screen and (min-width:425px) and (max-width:767.98px) {
+            .skillcontent{
+                width: 80% !important;
+            }
+        }
+        .select2-container {
+            max-width: 100%;
+            width: auto;
+        }
     </style>
 @endsection
 
@@ -337,7 +372,7 @@
                                                 </div>
 
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-sm-4">
                                                 <label> Preferred Location </label>
                                                 <select class="location-multiple form-control" name="locationlist[]"
                                                     multiple="multiple">
@@ -433,7 +468,7 @@
                                         </div>
                                     </div>
                                     {{-- <button type="button" class="btn mt-4">Save</button> --}}
-                                    <button type="submit" class="btn mt-4 ml-5" id="home-next">Save &
+                                    <button type="submit" class="btn mt-4 ml-5 p-4 rounded" id="home-next">Save &
                                         Next</button>
                                 </fieldset>
                             </form>
@@ -442,7 +477,7 @@
                             <!-- Education Form -->
                             <fieldset class="tab" id="field-2">
                                 <h1>Education Details</h1>
-                                <div class="card-outer">
+                                <div class="card-outer educationouter">
                                     <form class="form" id="education_form" enctype="multipart/form-data"
                                         method="POST">
                                         @csrf
@@ -523,7 +558,7 @@
                                                                 placeholder="Select year" min="{{ date('Y') - 20 }}"
                                                                 max="{{ date('Y') }}" data-id="Syear-error"
                                                                 class="tab2 pass_years"
-                                                                value="{{ isset($highschool->passing_year) ? $highschool->passing_year : '' }}" />
+                                                                value="{{ isset($highschool->passing_year) ? $highschool->passing_year : '' }}" required/>
                                                             <small id="Syear-error" class="text-danger"></small>
                                                         </div>
                                                         <div class="col">
@@ -876,8 +911,10 @@
                                             </div>
                                         </div>
 
-                                        <button type="button" class="btn mt-4 educationbtn" id="home-prev">Previous</button>
-                                        <button type="submit" class="btn mt-4 ml-5 educationnext" id="home-next-2">Save &
+                                        <button type="button" class="btn mt-4 educationbtn p-4 rounded"
+                                            id="home-prev">Previous</button>
+                                        <button type="submit" class="btn mt-4 ml-5 educationnext p-4 rounded"
+                                            id="home-next-2">Save &
                                             Next</button>
                                     </form>
                                 </div>
@@ -893,47 +930,52 @@
                                         <div class="container" style="height: auto; width: 100%;">
                                             <div class="row">
 
-                                                <div class="col"
-                                                    style="display: flex; justify-content: center; align-items: center;">
-                                                    <div style="display: flex; gap: 10px;">
-                                                        <label>
-                                                            Select One:- <span class="text-danger">*</span>
-                                                        </label>
-                                                        <label style="display: flex; gap: 10px">
+                                                <div class="col-md-12 d-flex justify-content-center text-center">
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <label>Select One:- <span class="text-danger">*</span></label>
+                                                        </div>
+                                                        <div class="col-sm-3 d-flex">
+                                                            <label class="mx-2">Internship</label>
                                                             <input type="radio" name="professional_experience"
-                                                                style="margin-top: 7px;" data-id="inernship-error"
-                                                                value="internship"
+                                                                style="margin-top: 7px;width:11%;"
+                                                                data-id="inernship-error" value="internship"
                                                                 {{ $data->professional_stage == 'internship' ? 'checked' : '' }}
                                                                 required>
-                                                            Internship
+
                                                             <small id="inernship-error" class="text-danger"></small>
-                                                        </label>
-                                                        <label style="display: flex; gap: 10px">
+                                                        </div>
+
+                                                        <div class="col-sm-3 d-flex">
+
+                                                            <label class="mx-2">Fresher</label>
                                                             <input type="radio" name="professional_experience"
-                                                                data-id="fresher-error" id="fresher" value="fresher"
+                                                                data-id="fresher-error" id="fresher" style="width:11%;"
+                                                                value="fresher"
                                                                 {{ $data->professional_stage == 'fresher' ? 'checked' : '' }}
                                                                 required>
-                                                            Fresher
+
                                                             <small id="fresher-error" class="text-danger"></small>
-                                                        </label>
-                                                        <label style="display: flex; gap: 10px">
+                                                        </div>
+
+                                                        <div class="col-sm-3 d-flex">
+
+                                                            <label class="mx-2">Experienced</label>
                                                             <input type="radio" name="professional_experience"
-                                                                data-id="experi-error" id="experience"
+                                                                data-id="experi-error" style="width:11%;" id="experience"
                                                                 value="experienced"
                                                                 {{ $data->professional_stage == 'experienced' ? 'checked' : '' }}
                                                                 required>
-                                                            Experienced
+
                                                             <small id="experi-error" class="text-danger"></small>
-                                                        </label>
-
-
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
 
                                         </div>
                                         @forelse ($professionalDetails as $professional)
-                                            <div class="card-outer pro_child_node notfresher">
+                                            <div class="card-outer pro_child_node notfresher mx-auto">
                                                 <input type="hidden" name="professional_id[]"
                                                     class="removedprofessional" value="{{ $professional->id }}">
                                                 <div class="container" style= "width: 100%;">
@@ -1027,8 +1069,6 @@
                                                                 <span style="color: red;">*</span>
 
                                                                 Salary(LPA)
-
-
                                                             </label>
                                                             <input type="number" placeholder="Enter Salary"
                                                                 name="salary[]" data-id="salary-error" class="tab3"
@@ -1039,7 +1079,7 @@
                                                 </div>
                                                 <div class="container" style= "width: 100%;">
                                                     <div class="row">
-                                                        <div class="col" style="max-width: 33.5%;">
+                                                        <div class="col-sm-12 col-md-4">
                                                             <label>
                                                                 <span style="color: red;">*</span>
 
@@ -1051,7 +1091,7 @@
                                                                 value="{{ $professional->key_skill }}" required />
                                                             <small id="skills-error" class="text-danger"></small>
                                                         </div>
-                                                        <div class="col" style="max-width: 33.5%">
+                                                        <div class="col-sm-12 col-md-4">
                                                             <label>
                                                                 <span style="color: red;">*</span>
 
@@ -1068,12 +1108,13 @@
                                                 </div>
                                                 @if ($loop->iteration > 1)
                                                     <div class='col-md-12 mb-5'><button
-                                                            class='btn float-right proremove'>Remove</button></div>
+                                                            class='btn float-right proremove p-4 rounded'>Remove</button>
+                                                    </div>
                                                 @endif
                                             </div>
                                         @empty
 
-                                            <div class="card-outer pro_child_node notfresher">
+                                            <div class="card-outer pro_child_node notfresher mx-auto">
                                                 <input type="hidden" name="professional_id[]"
                                                     class="removedprofessional">
                                                 <div class="container" style= "width: 100%;">
@@ -1161,7 +1202,7 @@
                                                 </div>
                                                 <div class="container" style= "width: 100%;">
                                                     <div class="row">
-                                                        <div class="col" style="max-width: 33.5%;">
+                                                        <div class="col-sm-12 col-md-4">
                                                             <label>
                                                                 <span style="color: red;">*</span>
 
@@ -1173,7 +1214,7 @@
                                                                 required />
                                                             <small id="skills-error" class="text-danger"></small>
                                                         </div>
-                                                        <div class="col" style="max-width: 33.5%">
+                                                        <div class="col-sm-12 col-md-4">
                                                             <label>
                                                                 <span style="color: red;">*</span>
 
@@ -1192,12 +1233,12 @@
                                         @endforelse
                                     </div>
 
-                                    <button type="button" class="btn mt-4" id="Third-prev">Previous</button>
-                                    <button type="button" class="btn mt-4 notfresher" id="addExperience">Add
+                                    <button type="button" class="btn mt-4 p-4 rounded" id="Third-prev">Previous</button>
+                                    <button type="button" class="btn mt-4 notfresher p-4 rounded" id="addExperience">Add
                                         More</button>
-                                    <button type="submit" class="btn mt-4 notfresher" id="Third-next">Save &
+                                    <button type="submit" class="btn mt-4 notfresher p-4 rounded" id="Third-next">Save &
                                         Next</button>
-                                    <button type="button" class="btn mt-4 whenfresher">Save & Next</button>
+                                    <button type="button" class="btn mt-4 p-4 rounded whenfresher">Save & Next</button>
 
                                 </form>
                             </fieldset>
@@ -1205,24 +1246,26 @@
                             <!-- Skill Form -->
                             <fieldset id="field-4" class="tab">
                                 <h1>Skills</h1>
-                                <div class="card-outer">
-                                    <div class="container" style="height: auto; width: 100%;">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <h2 class="steps">Step 4 -5</h2>
+                                <div class="skilldiv">
 
+                                    <div class="card-outer skillcontent w-50">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <h2 class="steps">Step 4 -5</h2>
+    
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <form class="add_skill_form" method="post">
-                                        @csrf
-                                        <div class="container"
-                                            style="height: auto; width: 100%; display: flex; align-items: center;justify-content: center;">
-                                            <div class="row" style="width: 50%;">
-                                                <div class="col">
-                                                    <label>
-                                                        Add Skills
-                                                    </label>
+                                        <form class="add_skill_form" method="post">
+                                            @csrf
+                                            {{-- <div class="container"
+                                                style="height: auto; width: 100%; display: flex; align-items: center;justify-content: center;"> --}}
+                                            <label>
+                                                Add Skills
+                                            </label>
+                                            <div class="row">
+                                                <div class="col-md-12">
                                                     <input type="text" placeholder="Add Skills (comma seperated)"
                                                         name="skill" id="skills" data-role="tagsinput"
                                                         value="{{ isset($skillsDetails->skills) ? $skillsDetails->skills : '' }}"
@@ -1230,11 +1273,13 @@
                                                     <small id="skillstab-error" class="text-danger"></small>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <button type="button" class="btn mt-4" id="Fourth-prev">Previous</button>
-                                        <button type="submit" class="btn mt-4 ml-5 " id="Fourth-next">Save &
-                                            Next</button>
-                                    </form>
+                                            {{-- </div> --}}
+                                            <button type="button" class="btn mt-4 p-4 rounded"
+                                                id="Fourth-prev">Previous</button>
+                                            <button type="submit" class="btn mt-4 p-4 rounded" id="Fourth-next">Save &
+                                                Next</button>
+                                        </form>
+                                    </div>
                                 </div>
 
                             </fieldset>
@@ -1255,21 +1300,21 @@
                                     </div>
                                     <div class="d-flex col-md-2 ml-5 setcertificate">
                                         <span>Yes</span>
-                                        <input type="radio" class="radio" name="hascertificate" value="Yes"
+                                        <input type="radio" class="radio mt-2" name="hascertificate" value="Yes"
                                             checked>
                                         <span>No</span>
-                                        <input type="radio" class="radio" name="hascertificate" value="No">
+                                        <input type="radio" class="radio mt-2" name="hascertificate" value="No">
                                     </div>
                                     <div class="parent_certificate_card yescertificate">
                                         @forelse ($certificationDetails as $certificate)
-                                            <div class="card-outer child_certificate_card">
+                                            <div class="card-outer child_certificate_card certificateblock">
                                                 <div class="d-none">
                                                     <input type="hidden" class="certificateid" name="certificateid[]"
                                                         value="{{ $certificate->id }}">
                                                 </div>
                                                 <div class="container" style=" width: 100%; height: auto;">
                                                     <div class="row">
-                                                        <div class="col">
+                                                        <div class="col-sm-12 col-md-4">
                                                             <label>
                                                                 <span style="color: red;">*</span>
                                                                 Course Name
@@ -1281,7 +1326,7 @@
                                                             <small id="CourseName-error" class="text-danger"></small>
 
                                                         </div>
-                                                        <div class="col">
+                                                        <div class="col-sm-12 col-md-4">
                                                             <label>
                                                                 <span style="color: red;">*</span>
                                                                 Institute Name
@@ -1294,7 +1339,7 @@
                                                             <small id="institute-error" class="text-danger"></small>
 
                                                         </div>
-                                                        <div class="col">
+                                                        <div class="col-sm-12 col-md-4">
                                                             <label>
                                                                 <span style="color: red;">*</span>
                                                                 Certificate licence
@@ -1313,7 +1358,7 @@
 
                                                 <div class="container" style=" width: 100%; height: auto;">
                                                     <div class="row">
-                                                        <div class="col" style="max-width: 33.5%;">
+                                                        <div class="col-sm-12 col-md-4">
                                                             <label>
                                                                 <span style="color: red;">*</span>
                                                                 Certification Type
@@ -1335,27 +1380,28 @@
 
 
                                                         </div>
-                                                        <div class="col" style="max-width: 80%;">
+                                                        <div class="col-sm-12 col-md-4 col-lg-6" >
                                                             <label for="start-date">
                                                                 <span style="color: red;">*</span>
                                                                 Time Period
                                                             </label>
                                                             <br>
 
-                                                            <div style="display: flex; gap:15px;">
-
-
-
-                                                                <input type="month" name="fromdate[]" class="tab5"
-                                                                    data-id="time-error"
-                                                                    value="{{ $certificate->cert_from_date }}"
-                                                                    max="{{ date('Y-m') }}" required>
-                                                                <small id="time-error" class="text-danger"></small>
-
-                                                                <input type="month" name="todate[]" class="tab5"
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <input type="month" name="fromdate[]" class="tab5"
+                                                                        data-id="time-error"
+                                                                        value="{{ $certificate->cert_from_date }}"
+                                                                        max="{{ date('Y-m') }}" required>
+                                                                    <small id="time-error" class="text-danger"></small>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <input type="month" name="todate[]" class="tab5"
                                                                     data-id="endtime-error" max="{{ date('Y-m') }}"
                                                                     value="{{ $certificate->cert_to_date }}" required>
                                                                 <small id="endtime-error" class="text-danger"></small>
+                                                                </div>
+                                                             
 
                                                             </div>
                                                         </div>
@@ -1363,7 +1409,7 @@
                                                 </div>
                                                 <div class="container" style= "height: auto; width: 100%;">
                                                     <div class="row">
-                                                        <div class="col" style="max-width: 33.5%;">
+                                                        <div class="col-sm-12 col-md-4" >
                                                             <label>
                                                                 Certificate Link(optional)
                                                             </label>
@@ -1372,7 +1418,7 @@
                                                                 value="{{ $certificate->certificate_link }}"
                                                                 placeholder="Enter Certificate Link" />
                                                         </div>
-                                                        <div class="col" style="max-width: 35%;">
+                                                        <div class="col-sm-12 col-md-4" >
                                                             <label>
                                                                 Description(Optional)
                                                             </label>
@@ -1383,11 +1429,11 @@
 
                                                 @if ($loop->iteration > 1)
                                                     <div class="col-md-12 mb-5"><button
-                                                            class="btn float-right certremove">Remove</button></div>
+                                                            class="btn float-right certremove p-4 rounded">Remove</button></div>
                                                 @endif
                                             </div>
                                         @empty
-                                            <div class="card-outer child_certificate_card">
+                                            <div class="card-outer child_certificate_card certificateblock">
                                                 <div class="d-none">
                                                     <input type="hidden" class="certificateid" name="certificateid[]">
                                                 </div>
@@ -1498,13 +1544,13 @@
 
                                     </div>
 
-                                    <button type="button" class="btn mt-4" id="Fifth-prev">Previous</button>
-                                    <button type="button" class="btn mt-4 yescertificate" id="addCertificate ">Add
+                                    <button type="button" class="btn mt-4 p-4 rounded" id="Fifth-prev">Previous</button>
+                                    <button type="button" class="btn mt-4 yescertificate p-4 rounded" id="addCertificate ">Add
                                         More</button>
 
-                                    <button type="submit" class="btn mt-4 yescertificate"
+                                    <button type="submit" class="btn mt-4 yescertificate p-4 rounded"
                                         id="Submit">Submit</button>
-                                    <button type="button" class="btn mt-4 nocertificate">Submit</button>
+                                    <button type="button" class="btn mt-4 nocertificate p-4 rounded">Submit</button>
                                 </form>
                             </fieldset>
 
@@ -1514,6 +1560,8 @@
             </div>
         </div>
     </div>
+    </div>
+    
 @endsection
 @section('script')
     <script src="{{ asset('assets/js/profile-stage.js') }}"></script>
