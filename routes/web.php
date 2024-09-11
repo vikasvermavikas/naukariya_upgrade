@@ -41,6 +41,8 @@ use App\Http\Controllers\FaqsController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\PublicController;
+use App\Http\Controllers\ResumeParserController;
+use App\Http\Controllers\GoogleController;
 
 
 /*
@@ -130,6 +132,8 @@ Route::middleware(['guest:jobseeker', 'guest:employer', 'guest:subuser'])->group
     })->name('sample-video-resume');
 
 });
+  Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('google.callback');
+
 Route::get('/get-keywords', [JobseekerController::class, 'getKeywords'])->name('getskillsoptions');
 Route::get('/get_realtime_updates', [MasterController::class, 'real_time_updates']);
 
@@ -217,6 +221,20 @@ Route::group(['middleware' => 'employer'], function () {
         Route::get('/followdetails', [SavedJobController::class, 'follower_list'])->name('employer_followers');
 
         Route::get('/getjobsector', [JobsectorController::class, 'index'])->name('get_job_sector');
+
+        // Resume Parsing API.
+        Route::controller(ResumeParserController::class)->group(function () {
+            Route::get('/resume-analysing', 'parseResume')->name('resume_analysing');
+            Route::post('/get-parsed-resume', 'getParsedResume')->name('parse-resume');
+            Route::post('/parse-resume', 'extractResume')->name('extract-resume');
+            Route::get('/resume-details/{jobid}', 'extractResumeData');
+        });
+
+        Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.auth');
+      
+        Route::get('emails', [GoogleController::class, 'listMessages'])->name('emails.index');
+        Route::get('readmail/{messageid}', [GoogleController::class, 'messageDetails'])->name('emails.read');
+
 
         // Blog Controller.
         Route::controller(BlogController::class)->prefix('blog')->group(function () {
@@ -399,3 +417,5 @@ Route::middleware('subuser')->group(function () {
         Route::get('/get-cities/data/{id}', [CitiesController::class, 'getCityByState']);
     });
 });
+
+

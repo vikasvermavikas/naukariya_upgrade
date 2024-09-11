@@ -5,20 +5,21 @@ document.addEventListener('DOMContentLoaded', e => {
 $(document).ready(function () {
     $('.js-example-basic-single').select2();
     
-    function getLocations(search = '') {
-        $.ajax({
-            url: SITE_URL+"/get-locations/" + search,
-            method: "GET",
-            dataType: "json",
-            success: function (data) {
-                var html = "<option value='' >Select Location</option>";
-                $.each(data, function (key, value) {
-                    html += "<option value='" + value.cities_name + "'>" + value.cities_name + "</option>";
-                })
-                $("#location").html(html);
-            }
-        })
-    };
+  // function getLocations(search = '') {
+  //       $.ajax({
+  //           url: SITE_URL+"/get-locations/" + search,
+  //           method: "GET",
+  //           dataType: "json",
+  //           success: function (data) {
+  //               var html = "<option value='' >Select Location</option>";
+  //               $.each(data, function (key, value) {
+  //                   html += "<option value='" + value.cities_name + "'>" + value.cities_name + "</option>";
+  //               })
+  //               $("#location").html(html);
+  //           }
+  //       })
+  //   };
+  //   getLocations();
 
     // Welcome Alert.
 
@@ -57,7 +58,6 @@ $(document).ready(function () {
     }
 
     // Call on load functions.
-    // getLocations();
 
     // getCategoriesJobs();  // commented because now dynamically categories are loaded.
 })

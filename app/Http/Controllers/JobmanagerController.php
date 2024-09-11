@@ -1749,6 +1749,7 @@ class JobmanagerController extends Controller
 
         // return response()->json($jobs, 200);
         $locations = Cities::select('cities_name')->where('state_id', '<',  42)->groupBy('cities_name')->get();
+        
         $blogs = Blog::select('id', 'title', 'image', 'created_at')->orderBy('id', 'desc')->offset(0)
         ->limit(2)->get();
         // select pi.id, pi.name as category, count(jb.id) as jobscount, group_concat(distinct i.id) as industryid from parent_industries pi join industries i on i.parent_id = pi.id 
