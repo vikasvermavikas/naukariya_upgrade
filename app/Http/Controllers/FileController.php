@@ -121,8 +121,9 @@ class FileController extends Controller
 
             // Parse the file to extract the data.
             $response = $this->parseResume($filename);
- 
-                // Save job id.
+            if (isset($response['job_id'])) {
+                
+                  // Save job id.
                 MailResumeData::firstOrCreate([
                     'mailid' => $resumeid
                 ],
@@ -138,6 +139,12 @@ class FileController extends Controller
             );
 
                 sleep(15); // Time take to parse data is minimum 2 seconds.
+            }
+
+            else {
+                return ['error' => true, 'message' => $response['message']];
+            }
+              
 
                 }
 

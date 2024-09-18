@@ -72,7 +72,7 @@ class GoogleController extends Controller
             $messageid = $message->getId();
             $isExport = false;
             $exportedBy = '-';
-            $exportedId = MailMessage::select('exported_by')->where('messageid', $messageid)->first();
+            $exportedId = MailMessage::join('mail_resume_datas', 'mail_resume_datas.mailid', '=', 'mail_messages.messageid')->select('exported_by')->where('messageid', $messageid)->first();
             if (!empty($exportedId) && $exportedId->exported_by) {
 
             // Get name who exported mail.
@@ -138,7 +138,11 @@ class GoogleController extends Controller
         // Fetch resume records.
         $fileobject = new FileController();
         $resumedetails = $fileobject->showResumeData($messageid);
-       
+        if (isset($resumedetails['error']))
+        {
+            return redirect()->back()->with($resumedetails);
+        }
+        
         // Save Tracker Record. 
         $trackercontent = [
         'name' => $resumedetails['candidate_name'],
