@@ -10,6 +10,8 @@ use Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Mail;
+use App\Events\JobApplied;
+use stdclass;
 
 class ApplyJobController extends Controller
 {
@@ -68,7 +70,7 @@ class ApplyJobController extends Controller
     {
         $this->validate($request, []);
         if (Auth::guard('jobseeker')->check()){
-
+            $employer = Jobmanager::select('userid')->where('id', $id)->first();
             // If user has completed his profile.
             if (Auth::guard('jobseeker')->user()->savestage == 6){
                 $userid = Auth::guard('jobseeker')->user()->id;
@@ -79,6 +81,14 @@ class ApplyJobController extends Controller
                 $applyjob->application_id = $application_id;
                 $applyjob->username = Auth::guard('jobseeker')->user()->email;
                 $applyjob->save();
+
+                // call the event
+                $data = new stdclass();
+                $data->jobseeker_id = $userid;
+                $data->job_id = $id;
+                $data->employer_id = $employer->userid;
+                event(new JobApplied($data));
+
                 return redirect()->back()->with(['success' => true , 'message' => 'Job successfully applied']);
             }
             return redirect()->back()->with(['error' => true, 'message' => 'Please complete your profile first']);

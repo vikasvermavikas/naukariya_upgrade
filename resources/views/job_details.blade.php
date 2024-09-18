@@ -91,7 +91,7 @@
                                <span class="font-weight-bold">Skills :</span>  {{$data->job_skills}}
                             </div>
                             <div class="post-details1 mb-50">
-                                <span class="font-weight-bold">Description :</span>
+                                <p class="font-weight-bold mb-3">Description :</p>
                                 {!! $data->description !!}
                             </div>
                             {{-- <div class="post-details2  mb-50">

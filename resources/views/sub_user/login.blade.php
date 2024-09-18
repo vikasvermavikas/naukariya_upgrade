@@ -1,14 +1,6 @@
 @extends('layouts.master', ['title' => 'Sub User Login'])
 @section('style')
-    <style>
-        .eyeicon{
-        margin-top: -25px;
-    }
-        #rc-anchor-container {
-            max-width: 100%;
-            widows: 70%;
-        }
-    </style>
+<link rel="stylesheet" type="text/css" href="{{asset('assets/css/jobseeker_login.css')}}">
 @endsection
 @section('content')
     <!-- ================ registration form section start ================= -->
@@ -41,7 +33,7 @@
                             </div>
                             <div class="form-row row">
                                 <div class="input-data ">
-                                    <input type="password" autocomplete="new-password" name="password" required>
+                                    <input type="password" autocomplete="new-password" name="password" class="pr-3" required>
                                     <i class="fas fa-solid fa-eye-slash float-right eyeicon"></i>
 
                                     <div class="underline"></div>
@@ -72,9 +64,9 @@
                                 </div>
 
                             </div>
-                            <div class="input-data col">
+                           <!--  <div class="input-data col">
                                 <a href="#" class="text-dark justify-content-center">Forgot Password?</a>
-                            </div>
+                            </div> -->
 
                         </form>
                     </div>

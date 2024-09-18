@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\MailMessage;
 use App\Models\AllUser;
+use App\Models\SubUser;
 use Illuminate\Support\Str;
 use App\Models\Tracker;
 use App\Http\Controllers\FileController;
+use DB;
 
 class GoogleController extends Controller
 {
@@ -42,8 +44,8 @@ class GoogleController extends Controller
         $token = $this->googleService->authenticate($request->get('code'));
 
         // Save the token to the user's profile or session
-        $employer_id = Auth::guard('employer')->user()->id;
-        $user = AllUser::find($employer_id);
+        $subuserid = Auth::guard('subuser')->user()->id;
+        $user = SubUser::find($subuserid);
         $user->google_token = json_encode($token);
         $user->save();
         // print_r(json_encode($token));
@@ -58,8 +60,8 @@ class GoogleController extends Controller
     public function listMessages()
     {
 
-        $employer_id = Auth::guard('employer')->user()->id;
-        $user = AllUser::find($employer_id);
+        $subuser_id = Auth::guard('subuser')->user()->id;
+        $user = SubUser::find($subuser_id);
 
         if ($user->google_token) {
         $token = json_decode($user->google_token, true);
@@ -67,7 +69,23 @@ class GoogleController extends Controller
         $messages = $this->googleService->listMessages();   // to get messages ids.
         $inboxmails = [];
         foreach ($messages as $message) {
-            $inboxmails[] = $this->getMessageBrief($message->getId());
+            $messageid = $message->getId();
+            $isExport = false;
+            $exportedBy = '-';
+            $exportedId = MailMessage::select('exported_by')->where('messageid', $messageid)->first();
+            if (!empty($exportedId) && $exportedId->exported_by) {
+
+            // Get name who exported mail.
+            $creator = SubUser::select(DB::raw('CONCAT(fname," ",lname) AS subuserName'))->where('id', $exportedId->exported_by)->first();
+            $exportedBy = $creator->subuserName;
+            $isExport = true;
+                }
+
+            $inboxmails[] = [
+                'message' => $this->getMessageBrief($messageid),
+                'exported' => $isExport,
+                'exported_by' => Str::of($exportedBy)->apa()
+            ];
         }
         return view('employer.emails.index', ['messages' => $inboxmails]);
         }
@@ -83,8 +101,8 @@ class GoogleController extends Controller
 
     public function messageDetails($messageid)
     {
-        $employer_id = Auth::guard('employer')->user()->id;
-        $user = AllUser::find($employer_id);
+        $subuser_id = Auth::guard('subuser')->user()->id;
+        $user = SubUser::find($subuser_id);
         $token = json_decode($user->google_token, true);
         $this->googleService->setAccessToken($token);
         $messages = $this->googleService->getMessage($messageid);
@@ -99,8 +117,11 @@ class GoogleController extends Controller
             'subject' => $messagebrief['subject']['value'],
             'receivingdate' => $messagebrief['date']['value'],
             'body' => $body,
+            'exported_by' => $subuser_id
 
         ];
+
+        // If mail contain attachments.
         if (count($attachments) > 0) {
             for ($i = 0; $i < count($attachments); $i++) {
                 $mailcontent['attachmentid'] = $attachments[$i]['attachmentid'];
@@ -108,7 +129,7 @@ class GoogleController extends Controller
             }
         }
   
-        // Save mail attachment.
+        // Save mail content and attachment.
         $savemessage = MailMessage::firstOrCreate(
             ['messageid' => $messageid],
             $mailcontent
@@ -117,8 +138,7 @@ class GoogleController extends Controller
         // Fetch resume records.
         $fileobject = new FileController();
         $resumedetails = $fileobject->showResumeData($messageid);
-
-
+       
         // Save Tracker Record. 
         $trackercontent = [
         'name' => $resumedetails['candidate_name'],
@@ -126,8 +146,9 @@ class GoogleController extends Controller
         'contact' => $resumedetails['candidate_phone'],
         'key_skills' => $resumedetails['skills'],
         'resume' => isset($mailcontent['attachment_path']) ? $mailcontent['attachment_path'] : '',
-        'employer_id' => Auth::guard('employer')->user()->id,
-        'added_by' => 41
+        'company_id' => Auth::guard('subuser')->user()->company_id,
+        'employer_id' => Auth::guard('subuser')->user()->created_by,
+        'added_by' => Auth::guard('subuser')->user()->id
           ];
         Tracker::firstOrCreate(
             ['email' => $resumedetails['candidate_email']],

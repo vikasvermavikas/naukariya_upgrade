@@ -398,36 +398,36 @@ $(document).ready(function () {
         bcd = [];
 
         // Server side validation.
-        $(".tab1").each(function (index) {
+        // $(".tab1").each(function (index) {
 
-            if ($(this).val() == "") {
-                var error = $(this).data('id');
-                var id = $(this).attr('id');
-                var classes = $(this).attr('class');
-                //  alert(error)
-                $('#' + error).html('Please fill ' + id);
+        //     if ($(this).val() == "") {
+        //         var error = $(this).data('id');
+        //         var id = $(this).attr('id');
+        //         var classes = $(this).attr('class');
+        //         //  alert(error)
+        //         $('#' + error).html('Please fill ' + id);
 
-                abc = 0;
+        //         abc = 0;
 
-                bcd.push(abc);
-            } else {
-                var id = $(this).attr('id');
-                //  alert(id)
-                var error = $(this).data('id');
-                $('#' + error).html('');
-                abc = 1;
-                bcd.push(abc);
+        //         bcd.push(abc);
+        //     } else {
+        //         var id = $(this).attr('id');
+        //         //  alert(id)
+        //         var error = $(this).data('id');
+        //         $('#' + error).html('');
+        //         abc = 1;
+        //         bcd.push(abc);
 
-            }
-        });
+        //     }
+        // });
 
-        if ($.inArray(0, bcd) > -1) {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Please fill all required fields",
-            });
-        } else {
+        // if ($.inArray(0, bcd) > -1) {
+        //     Swal.fire({
+        //         icon: "error",
+        //         title: "Oops...",
+        //         text: "Please fill all required fields",
+        //     });
+        // } else {
 
             // Submit profile form.
             $.ajax({
@@ -460,7 +460,7 @@ $(document).ready(function () {
             });
 
 
-        }
+        // }
 
     })
 

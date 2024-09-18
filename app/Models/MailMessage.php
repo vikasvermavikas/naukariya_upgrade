@@ -10,5 +10,5 @@ class MailMessage extends Model
 {
     use HasFactory, SoftDeletes;
     
-    protected $fillable = ['messageid', 'subject', 'body', 'sender', 'receivingdate', 'attachmentid', 'attachment_path'];
+    protected $fillable = ['messageid', 'subject', 'body', 'sender', 'receivingdate', 'attachmentid', 'attachment_path', 'exported_by'];
 }

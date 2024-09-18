@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', e => {
 $(document).ready(function () {
     $('.js-example-basic-single').select2();
     
+
   // function getLocations(search = '') {
   //       $.ajax({
   //           url: SITE_URL+"/get-locations/" + search,

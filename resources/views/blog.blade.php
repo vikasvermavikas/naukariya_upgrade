@@ -4,6 +4,10 @@
     .zoom:hover {
   transform: scale(1.2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
+
+.zoom{
+    transition: transform 1s;
+}
 </style>
 @endsection
 @section('content')
@@ -14,7 +18,7 @@
             <div class="row">
                 <div class="col-xl-12">
                     <div class="hero-cap text-center">
-                        <h2>Blog Details</h2>
+                        <h2>Blogs Details</h2>
                     </div>
                 </div>
             </div>

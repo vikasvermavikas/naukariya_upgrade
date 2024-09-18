@@ -3,7 +3,7 @@
     <link href="{{ asset('assets/css/tagsinput.css') }}" rel="stylesheet" type="text/css">
     <style>
         .card:hover {
-            box-shadow: 8px 8px 8px #E35E25;
+            box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
         }
     </style>
 @endsection
@@ -17,6 +17,9 @@
             }
         @endphp
         <div class="row">
+             <div class="col-md-12 mb-5">
+                    {{ Breadcrumbs::render('trackers_list') }}
+                 </div>
             <div class="col-md-12">
                 <form action="" method="GET">
                     <div class="row">

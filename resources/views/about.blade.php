@@ -193,9 +193,8 @@
     <!-- Online CV Area End-->
 
     <!-- Blog Area Start -->
-    <div class="home-blog-area blog-h-padding">
+  <!--   <div class="home-blog-area blog-h-padding">
         <div class="container">
-            <!-- Section Tittle -->
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-tittle text-center">
@@ -211,7 +210,6 @@
                         <div class="blog-img-cap">
                             <div class="blog-img">
                                 <img src={{ asset('blogs/'.$blog->image) }} alt="">
-                                <!-- Blog date -->
                                 <div class="blog-date text-center">
                                     <span>{{date('d', strtotime($blog->created_at))}}</span>
                                     <p>{{date('M', strtotime($blog->created_at))}}</p>
@@ -234,7 +232,6 @@
                         <div class="blog-img-cap">
                             <div class="blog-img">
                                 <img src="{{asset('assets/img/blog/home-blog2.jpg')}}" alt="">
-                                <!-- Blog date -->
                                 <div class="blog-date text-center">
                                     <span>24</span>
                                     <p>Now</p>
@@ -250,7 +247,7 @@
                 </div> --}}
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Blog Area End -->
 
 </main>

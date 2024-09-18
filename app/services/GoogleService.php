@@ -40,7 +40,7 @@ class GoogleService
     public function listMessages()
     {
         $service = new Gmail($this->client);
-        return $service->users_messages->listUsersMessages('me', ['maxResults' => 5]);
+        return $service->users_messages->listUsersMessages('me', ['maxResults' => 10]);
     }
 
     public function getMessage($messageId){

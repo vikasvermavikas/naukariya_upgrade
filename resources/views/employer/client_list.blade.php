@@ -2,6 +2,9 @@
 @section('content')
     <div class="container">
         <div class="row">
+             <div class="col-md-12 mb-5">
+                    {{ Breadcrumbs::render('client_list') }}
+                 </div>
             <div class="col-md-12">
                 <h1>Client List</h1>
                 @if (session()->has('message'))

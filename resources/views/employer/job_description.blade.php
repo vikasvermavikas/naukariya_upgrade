@@ -2,6 +2,9 @@
 @section('content')
     <div class="container">
         <div class="row">
+            <div class="col-md-12 mb-5">
+                    {{ Breadcrumbs::render('job_description') }}
+                 </div>
             <div class="col-md-8">
                 <a href="{{route('managejobs')}}" class="btn float-right">Back</a>
                 <h2>{{ $job->title }}</h2><br>

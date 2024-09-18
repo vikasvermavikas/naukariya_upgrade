@@ -144,40 +144,34 @@
                                     <div class="small-section-tittle2">
                                         <h4>Posted Within</h4>
                                     </div>
-                                    {{-- <label class="container">Any
-                                        <input type="checkbox" class="experience" id="experience" name="postwithin" value="3-6">
+                                    <label class="container">All
+                                        <input type="radio" class="postedWithin" name="postwithin" value="all">
                                         <span class="checkmark"></span>
-                                    </label> --}}
+                                    </label>
                                     <label class="container">Today
-                                        <input type="radio" class="postedWithin" id="experience" name="postwithin"
-                                            value="{{ date('Y-m-d') }}">
+                                        <input type="radio" class="postedWithin" name="postwithin" value="{{ date('Y-m-d') }}">
+                                            
                                         <span class="checkmark"></span>
                                     </label>
 
                                     @php
-                                        $twodate = \Carbon\Carbon::now()->subDays(2);
-                                        $threedate = \Carbon\Carbon::now()->subDays(3);
-                                        $fivedate = \Carbon\Carbon::now()->subDays(5);
-                                        $tendate = \Carbon\Carbon::now()->subDays(10);
+                                        $sevendate = \Carbon\Carbon::now()->subDays(7);
+                                        $fifteendate = \Carbon\Carbon::now()->subDays(15);
+                                        $thirtydate = \Carbon\Carbon::now()->subDays(30);
                                     @endphp
-                                    <label class="container">Last 2 days
-                                        <input type="radio" class="postedWithin" id="experience" name="postwithin"
-                                            value="{{ date_format($twodate, 'Y-m-d') }}">
+                                    <label class="container">Last 7 days
+                                        <input type="radio" class="postedWithin" name="postwithin"
+                                            value="{{ date_format($sevendate, 'Y-m-d') }}">
                                         <span class="checkmark"></span>
                                     </label>
-                                    <label class="container">Last 3 days
-                                        <input type="radio" class="postedWithin" id="experience" name="postwithin"
-                                            value="{{ date_format($threedate, 'Y-m-d') }}">
+                                    <label class="container">Last 15 days
+                                        <input type="radio" class="postedWithin" name="postwithin"
+                                            value="{{ date_format($fifteendate, 'Y-m-d') }}">
                                         <span class="checkmark"></span>
                                     </label>
-                                    <label class="container">Last 5 days
-                                        <input type="radio" class="postedWithin" id="experience" name="postwithin"
-                                            value="{{ date_format($fivedate, 'Y-m-d') }}">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label class="container">Last 10 days
-                                        <input type="radio" class="postedWithin" id="experience" name="postwithin"
-                                            value="{{ date_format($tendate, 'Y-m-d') }}">
+                                    <label class="container">Last 30 days
+                                        <input type="radio" class="postedWithin" name="postwithin"
+                                            value="{{ date_format($thirtydate, 'Y-m-d') }}">
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
@@ -305,8 +299,8 @@
                                                                 </ul>
                                                                 <span class="text-muted"> Experience :
                                                                     {{ $exp_required }}</span><br>
-                                                                <span class="text-muted">Skills :
-                                                                    {{ $item->job_skills }}</span>
+                                                                    <p class="text-muted text-wrap">Skills : {{ Illuminate\Support\Str::of($item->job_skills)->replace(',', ', ') }}</p>
+                                                                    
                                                             </div>
                                                         </div>
                                                     </div>
@@ -331,12 +325,16 @@
         </div>
         <!-- Job List Area End -->
         <!--Pagination Start  -->
-        <div class="pagination-area pb-115 text-center">
+        <div class="d-flex justify-content-center mb-2 default_pagination">
+        {{ $data->onEachSide(0)->links() }}
+        </div>
+         <div class="d-flex justify-content-center mb-2 filter_pagination">
+        </div>
+      <!--   <div class="pagination-area pb-115 text-center">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="text-center">
                         <div class="single-wrap default_pagination">
-                            {{ $data->onEachSide(0)->links() }}
 
                         </div>
                         <div class="single-wrap filter_pagination">
@@ -346,7 +344,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!--Pagination End  -->
 
     </main>

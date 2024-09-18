@@ -18,9 +18,12 @@
 @section('content')
     <div class="container">
         <div class="row">
+              <div class="col-md-12 mb-5">
+                    {{ Breadcrumbs::render('add_question') }}
+                 </div>
             <div class="col-md-12">
                 <h3>Add Question</h3>
-                <a href="{{route('question_index_emp')}}" class="float-right btn my-2"><i class="fas fa-eye mr-2"></i>View Question</a>
+                <a href="{{route('question_index_emp')}}" class="float-right btn my-2"><i class="fas fa-eye mr-2"></i>View Questions</a>
             </div>
             <div class="col-md-12">
                 @if (session()->has('success'))

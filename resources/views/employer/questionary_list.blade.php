@@ -2,6 +2,9 @@
 @section('content')
     <div class="container">
         <div class="row">
+              <div class="col-md-12 mb-5">
+                    {{ Breadcrumbs::render('questionnaires_list') }}
+                 </div>
             <div class="col-md-12">
                 <h1>Questionaires</h1>
                 <a href="{{route('add_question')}}" class="btn float-right"><i class="fas fa-plus mr-2"></i>Add Question</a>

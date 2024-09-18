@@ -1,9 +1,10 @@
 @extends('layouts.master', ['title' => 'Register'])
 @section('style')
 <style>
-    .eyeicon{
-        margin-top: -25px;
-    }
+   .eyeicon, .eyeicon_confirm 
+        {
+            margin-top: -25px;
+        }
    
       input::-ms-reveal,
       input::-ms-clear {
@@ -62,6 +63,8 @@
                         <div class="form-row row  mt-sm-5">
                             <div class="input-data col mt-3">
                                 <input type="password" name="password">
+                                <i class="fas fa-solid fa-eye-slash float-right eyeicon"></i>
+
                                 <div class="underline"></div>
                                 <label for="">Password</label>
                                 @error('password')
@@ -70,7 +73,7 @@
                             </div>
                             <div class="input-data col mt-3">
                                 <input type="password" name="password_confirmation" class="w-75">
-                                <i class="fas fa-solid fa-eye-slash float-right eyeicon"></i>
+                                <i class="fas fa-solid fa-eye-slash float-right eyeicon_confirm"></i>
 
                                 <div class="underline"></div>
                                 <label for="">Confirm Password</label>
@@ -142,5 +145,5 @@
     </section>
 @endsection
 @section('script')
-<script src="{{asset('assets/js/register.js')}}"></script>
+<script src="{{asset('assets/js/login.js')}}"></script>
 @endsection

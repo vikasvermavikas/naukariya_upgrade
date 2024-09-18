@@ -36,7 +36,8 @@ use App\Models\JobShift;
 use App\Models\QuestionnarieName;
 use App\Models\Blog;
 use App\Models\ParentIndustry;
-
+use App\Events\JobPost;
+use stdclass;
 
 class JobmanagerController extends Controller
 {
@@ -722,6 +723,7 @@ class JobmanagerController extends Controller
         if (!empty($request->industry)) {
             $industryVal = explode(",", $request->industry);
         }
+        // print_r($industryVal);die;
         $experiencelevel = request('experienced_level');
 
         $countStr = strlen($request->experiences) - 1;
@@ -815,10 +817,10 @@ class JobmanagerController extends Controller
 
 
         //   print_r($datas);die;
-        $dataFilter->where('jobmanagers.job_exp', 'like', "%$location%");
+        // $dataFilter->where('jobmanagers.job_exp', 'like', "%$location%");
 
 
-        if (isset($location) && $location !== null) {
+        if (!empty($location)  && isset($location) && $location !== null) {
             $dataFilter->where('jobmanagers.job_exp', 'like', "%$location%");
         }
         // if (isset($experience) && $experience !== null) {
@@ -910,6 +912,7 @@ class JobmanagerController extends Controller
         //         $query->WhereIn('jobmanagers.job_qualification_id', $qualificationVal);
         //     });
         // }
+
         // echo "<pre>";
         // var_dump($dataFilter->getBindings());
         // echo "<br>";
@@ -961,8 +964,8 @@ class JobmanagerController extends Controller
         $jobtype = request('jobTypes');
 
         //checkbox filter in browsejob start
-        $minSalary = request('minsalary');
-        $maxSalary = request('maxsalary');
+        // $minSalary = request('minsalary');
+        // $maxSalary = request('maxsalary');
         // $minExp = request('minexp');
 
         // $maxExp = request('maxexp');
@@ -976,9 +979,9 @@ class JobmanagerController extends Controller
         // var_dump($minExp);
         // var_dump($maxExp);
         // die;
-        $functionalVal = request('functionalVal');
+        // $functionalVal = request('functionalVal');
         // $jobtypeVal = request('jobtypeVal');
-        $qualificationVal = request('qualificationVal');
+        // $qualificationVal = request('qualificationVal');
         $postwithin = $request->postedWithin;
 
         //checkbox filter in browsejob end
@@ -1135,7 +1138,7 @@ class JobmanagerController extends Controller
         }
 
 
-        if (isset($skill) && $skill !== '') {
+        if (isset($skill) && $skill !== '' && $skill != null) {
             $skills = explode(",", $skill); // Split the $skill string into an array
             $dataFilter->where(function ($query) use ($skills) {
                 foreach ($skills as $value) {
@@ -1166,7 +1169,7 @@ class JobmanagerController extends Controller
         // print_r($dataFilter->toSql());
         // echo "</pre>";
         // die;
-        $data = $dataFilter->paginate(15)->withQueryString();
+        $data = $dataFilter->paginate(25)->withQueryString();
         // $data = $dataFilter->getBindings();
         // $values = $dataFilter->toSql();
 
@@ -1296,7 +1299,8 @@ class JobmanagerController extends Controller
          Mail::to($to)->send(new Addjobmanager($name,$mobile,$job_title));
          }*/
 
-        $job->save();
+      $job->save();
+
     }
 
     public function store_front(Request $request)
@@ -1377,8 +1381,25 @@ class JobmanagerController extends Controller
             $job->userid = $uid;
             $job->start_apply_date = $request->start_apply_date;
             $job->client_id = $request->client_id;
-            $job->save();
-    
+           $job->save();
+      
+      // Send notifications to jobseekers who have skills similar to this job.
+           if ($request->job_skills) {
+        $jobseekers = JsSkill::select('js_userid')->whereIn('skill', explode(",", $request->job_skills))->distinct()->get();
+
+        $data = new stdclass();
+        $data->jobid = $job->id;
+        $data->date = date('d-m-Y', time());
+
+        foreach($jobseekers as $jobseeker){
+
+        $data->jobseeker_id = $jobseeker->js_userid;
+       // Trigger the event
+        event(new JobPost($data));
+        }
+
+           }
+
             return redirect()->route('postedjobs')->with(['message' => 'Job Posted Successfully']);
         }
         catch (Throwable $e) {
@@ -1759,6 +1780,7 @@ class JobmanagerController extends Controller
         ->join('jobmanagers', 'jobmanagers.job_industry_id', 'industries.id')
         ->select('parent_industries.name as parent_name', 'parent_industries.image as icon', DB::raw('COUNT(DISTINCT jobmanagers.id) as jobscount'), DB::raw('GROUP_CONCAT(DISTINCT industries.id) as industryid'))
         ->groupBy('parent_industries.name', 'parent_industries.image')
+        ->where('jobmanagers.status', 'Active')
         ->orderBy('jobscount', 'DESC')
         ->offset(0)
         ->limit(8)

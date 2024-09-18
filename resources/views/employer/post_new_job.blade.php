@@ -13,6 +13,9 @@
 @section('content')
     <div class="container">
         <div class="row">
+              <div class="col-md-12 mb-5">
+                    {{ Breadcrumbs::render('post_new_job') }}
+                 </div>
             <div class="col-md-12">
                 <h1>Post New Job</h1>
             </div>

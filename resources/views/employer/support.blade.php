@@ -2,6 +2,9 @@
 @section('content')
     <div class="container">
         <div class="row">
+            <div class="col-md-12 mb-5">
+                    {{ Breadcrumbs::render('helpdesk') }}
+                </div>
             <div class="col-md-12 my-3">
                 <h1>Support</h1>
                 <button class="btn float-right" data-toggle="modal" data-target="#addSupport"><i

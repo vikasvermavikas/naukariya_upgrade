@@ -66,3 +66,22 @@ if (!function_exists('get_social_links')) {
      }
     
 }
+
+if (!function_exists('is_guest')) {
+    /**
+     * Check user is guest or not.
+     * 
+     * @return bool, true if user is guest, false otherwise.
+     */
+
+     function is_guest(){
+        
+        if (!auth::guard('employer')->check() && !auth::guard('jobseeker')->check() && !auth::guard('subuser')->check()) {
+            return true;
+        }
+
+        return false;
+
+     }
+    
+}

@@ -2,6 +2,9 @@
 @section('content')
     <div class="container">
         <div class="row">
+             <div class="col-md-12 mb-5">
+                    {{ Breadcrumbs::render('consolidate_data') }}
+                 </div>
             <div class="col-md-12">
                 <h1 class="mb-3">Consolidate Data Candidate List</h1>
             </div>

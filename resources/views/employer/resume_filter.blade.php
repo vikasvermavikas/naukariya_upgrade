@@ -14,6 +14,10 @@
 @section('content')
     <div class="container">
         <div class="row">
+               <div class="col-md-12 mb-5">
+                    {{ Breadcrumbs::render('resume_view') }}
+                 </div>
+
             <div class="col-md-12">
                 <h2>Resume View</h2>
             </div>

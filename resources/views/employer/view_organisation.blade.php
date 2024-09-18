@@ -23,6 +23,9 @@
     @endphp
     <div class="container-fluid">
         <div class="row">
+             <div class="col-md-12">
+                    {{ Breadcrumbs::render('organisation_details') }}
+                 </div>
             <div class="col-md-12"
                 style="background-image: url({{ asset('company_cover/' . $company_details->cover_image . '') }});background-size:cover;height:137px;">
                 <p class="text-center mt-4">

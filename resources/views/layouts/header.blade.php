@@ -47,6 +47,13 @@
                 overflow-y: scroll;
                 width: 216px !important;
             }
+            .notificationsubmenu{
+
+        height: auto;
+        overflow-y: scroll;
+        width: 216px !important;
+    
+            }
             }
         </style>
         <!-- Header Start -->
@@ -60,7 +67,7 @@
                         <div class="col-lg-12 col-md-12 d-flex">
                             {{-- Naukriya Logo --}}
                             <div class="logo companylogo">
-                                <a href={{ route('home') }}><img src={{ asset('assets/images/naukriyan-logo.png') }}
+                                <a href={{ route('AllDataForJobSeeker') }}><img src={{ asset('assets/images/naukriyan-logo.png') }}
                                         style="width: 227px;" alt="Naukriyan-Logo" class=""></a>
                             </div>
                             <div class="menu-wrapper d-flex justify-content-end w-100">
@@ -145,11 +152,23 @@
                                                                 badge-danger
                                                                 badge-default
                                                                 badge-up
-                                                            ">0</span></a>
+                                                            ">{{isset($notifications) ? count($notifications) : 0}}</span></a>
+                                                              <ul class="submenu notificationsubmenu">
+
+                                                                @forelse($notifications as $notification)
+                                                    <li><a
+                                                            href="{{ route('job_details', ['id' => $notification->id]) }}">Requirement for {{$notification->title}}</a></li>
+                                                            @empty
+                                                              <li class="text-center text-danger">No Notifications</li>
+                                                              @endforelse
+                                                            <div class="dropdown-divider"></div>
+                                                    <li class="text-center"> <a href="{{route('job_notifications')}}">Show all notifications</a></li>
+
+                                                </ul>
                                             </li>
                                             <li class="nav-item dropdown open">
                                                 <a href="#" data-toggle="dropdown" role="button"
-                                                    aria-expanded="false" class="nav-link dropdown-toggle">
+                                                    aria-expanded="false" class="nav-link">
                                                     @if (Auth::guard('jobseeker')->user()->profile_pic_thumb)
                                                         <img src={{ asset('jobseeker_profile_image/' . Auth::guard('jobseeker')->user()->profile_pic_thumb . '') }}
                                                             class="mini-photo img-fluid rounded-circle mx-auto"
@@ -270,7 +289,7 @@
                         </div> --}}
                         <div class="col-lg-12 col-md-12 d-flex">
                             <div class="logo company-logo">
-                                <a href={{ route('home') }}><img src={{ asset('assets/images/naukriyan-logo.png') }}
+                                <a href={{ route('dashboardemployer') }}><img src={{ asset('assets/images/naukriyan-logo.png') }}
                                         style="width: 227px;" alt="Naukriyan-Logo"></a>
                             </div>
                             <div class="menu-wrapper w-100">
@@ -311,7 +330,21 @@
                                             badge-danger
                                             badge-default
                                             badge-up
-                                          ">0</span></a>
+                                          ">{{isset($notifications) ? count($notifications) : 0}}</span></a>
+
+
+                                           <ul class="submenu notificationsubmenu">
+
+                                                                @forelse($notifications as $notification)
+                                                    <li><a
+                                                            href="{{ route('job_ats', ['id' => $notification->id]) }}">{{$notification->fname." ".$notification->lname}} applied for {{$notification->title}}</a></li>
+                                                            @empty
+                                                              <li class="text-center text-danger">No Notifications</li>
+                                                              @endforelse
+                                                            <div class="dropdown-divider"></div>
+                                                    <li class="text-center"> <a href="{{route('employer_job_notifications')}}">Show all notifications</a></li>
+                                                    </ul>
+
                                             </li>
 
                                             <li class="nav-item dropdown open">
@@ -623,7 +656,7 @@
                                             <li><a href={{ route('home') }}>Home</a></li>
                                             <li><a href={{ route('loadJoblistPage') }}>Find a Jobs </a></li>
 
-                                            <li><a href={{ route('about') }}>About</a></li>
+                                            <li><a href={{ route('about') }}>About Us</a></li>
                                             <li><a href='#'>Blogs </a>
                                                 <ul class="submenu">
                                                     {{-- <li><a href={{ route('single-blog') }}>Single Blog</a></li> --}}

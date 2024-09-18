@@ -43,6 +43,8 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\ResumeParserController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ForgotPasswordController;
 
 
 /*
@@ -131,7 +133,18 @@ Route::middleware(['guest:jobseeker', 'guest:employer', 'guest:subuser'])->group
         return view('public.sample-video-resume');
     })->name('sample-video-resume');
 
+    Route::get('forgot-password', function () {
+        return view('forgotPassword');
+    })->name('forgot-password');  
+
+    Route::post('forgot-password', [ForgotPasswordController::class, 'SendResetLink'])->name('sendresetlink');
+
+     Route::get('forget-password/{token}', [ForgotPasswordController::class, 'forgetPasswordForm'])->name('forget-password-user.form');
+
+     Route::post('forget-password/user/reset', [ForgotPasswordController::class, 'forgetPasswordStore'])->name('reset-password-store-user');
+
 });
+
   Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('google.callback');
 
 Route::get('/get-keywords', [JobseekerController::class, 'getKeywords'])->name('getskillsoptions');
@@ -180,6 +193,8 @@ Route::middleware('jobseeker')->group(function () {
     Route::get('/jobseeker-apply-job', [ApplyJobController::class, 'applyJobList'])->name('applyJobList');
 
     Route::prefix('jobseeker')->group(function () {
+        Route::get('notifications', [NotificationController::class, 'getJobNotifications'])->name('job_notifications');
+
         Route::get('/profile/percentage', [ProfileCompleteController::class, 'ProfilePercentage']);
         Route::get('/supportlist', [SupportController::class, 'index'])->name('jobseeker_support_list');
         Route::post('/add-support', [SupportController::class, 'store_jobseeker'])->name('store_jobseeker_support');
@@ -217,6 +232,10 @@ Route::group(['middleware' => 'employer'], function () {
     Route::get('dashboard/employer', [DashboardController::class, 'countAllDataForJobEmployer'])->name('dashboardemployer');
 
     Route::prefix('employer')->group(function () {
+
+         Route::get('notifications', [NotificationController::class, 'getEmployerNotifications'])->name('employer_job_notifications');
+
+
         Route::get('/get-cities/data/{id}', [CitiesController::class, 'getCityByState'])->name('get_cities_by_state');
         Route::get('/followdetails', [SavedJobController::class, 'follower_list'])->name('employer_followers');
 
@@ -229,12 +248,6 @@ Route::group(['middleware' => 'employer'], function () {
             Route::post('/parse-resume', 'extractResume')->name('extract-resume');
             Route::get('/resume-details/{jobid}', 'extractResumeData');
         });
-
-        Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.auth');
-      
-        Route::get('emails', [GoogleController::class, 'listMessages'])->name('emails.index');
-        Route::get('readmail/{messageid}', [GoogleController::class, 'messageDetails'])->name('emails.read');
-
 
         // Blog Controller.
         Route::controller(BlogController::class)->prefix('blog')->group(function () {
@@ -393,6 +406,13 @@ Route::middleware('subuser')->group(function () {
     Route::prefix('subuser')->group(function () {
         Route::get('dashboard', [SubUserDashboardController::class, 'dashboard'])->name('subuser-dashboard');
         Route::post('logout', [SubUserDashboardController::class, 'logout'])->name('subuser-logout');
+
+        // Gmail and resume parsing API.
+         Route::controller(GoogleController::class)->group(function () {
+            Route::get('/auth/google', 'redirectToGoogle')->name('google.auth');
+            Route::get('emails', 'listMessages')->name('emails.index');
+            Route::get('readmail/{messageid}', 'messageDetails')->name('emails.read');
+        });
 
         Route::controller(SubuserController::class)->group(function () {
             Route::get('/profile', 'getSubuserData')->name('subuser-profile');

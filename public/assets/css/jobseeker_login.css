@@ -1,0 +1,12 @@
+      .eyeicon {
+            margin-top: -25px;
+        }
+
+        #rc-anchor-container {
+            max-width: 100%;
+            widows: 70%;
+        }
+          input::-ms-reveal,
+      input::-ms-clear {
+        display: none;
+      }

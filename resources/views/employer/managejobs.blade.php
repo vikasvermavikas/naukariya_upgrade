@@ -6,6 +6,9 @@
                 <div class="col-sm-12 col-md-12 ">
 
                     <div class="row">
+                    <div class="col-md-12 mb-5">
+                    {{ Breadcrumbs::render('manage_jobs') }}
+                 </div>
                         <div class="col-sm-9">
                             <h2 class="interview">Manage Job</h2>
                         </div>

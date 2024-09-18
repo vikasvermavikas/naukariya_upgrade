@@ -1,0 +1,108 @@
+
+        .setcertificate {
+            margin-left: 43%;
+        }
+
+        .whenfresher,
+        .nocertificate {
+            display: none;
+        }
+
+        #skills {
+            left: 50%;
+        }
+
+        li.active .profileclass {
+            border: none;
+            width: 57px;
+            border-radius: 22%;
+            height: 51px;
+            background: #e35e25;
+            padding: 15px;
+            color: white;
+        }
+
+        li .profileclass {
+            border: none;
+            width: 57px;
+            border-radius: 22%;
+            height: 51px;
+            background: lightgrey;
+            padding: 15px;
+            color: white;
+        }
+       
+        /* .preferlocation .select2-search__field{
+                                border : none;
+                            } */
+        .select2-container--default .select2-selection--multiple {
+            margin-top: 8px;
+        }
+
+        .select2-container .select2-selection--multiple {
+            min-height: 46px;
+        }
+
+        .bootstrap-tagsinput .badge {
+            margin-right: 2px;
+        }
+        @media only screen and (min-width: 768px) {
+            .skilldiv{
+                display: flex;
+                justify-content: center;
+            }
+        }
+        @media only screen and (min-width:320px) and (max-width:376px) {
+            .skillcontent{
+               width: 87% !important;
+            }
+            .notfresher{
+                width: 120%;
+            }
+            .educationouter{
+                width: 100%;
+            }
+            .certificateblock{
+                max-width: 100%;
+                width: 100%;
+            }
+            .stepselement {
+                margin-left: 36%;
+            }
+
+            h1 {
+                font-size: 167%;
+            }
+
+            .select2-container {
+                width: 100% !important;
+            }
+
+            .downloadresume {
+                width: 100%;
+                font-size: 68%;
+            }
+
+            .educationbtn {
+                padding: 25% 27%;
+            }
+
+            .educationnext {
+                padding: 24% 12%;
+                margin-left: 1% !important;
+            }
+
+            label {
+                display: block;
+            }
+
+        }
+        @media only screen and (min-width:425px) and (max-width:767.98px) {
+            .skillcontent{
+                width: 80% !important;
+            }
+        }
+        .select2-container {
+            max-width: 100%;
+            width: auto;
+        }

@@ -9,7 +9,7 @@ $(document).ready(function() {
             method : 'POST',
             dataType : "json",
             data : {
-                email : email,
+                newsleeteremail : email,
                 _token : $('meta[name="csrf-token"]').attr('content')
             },
             success : function(response) {

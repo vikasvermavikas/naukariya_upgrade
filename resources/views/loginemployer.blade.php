@@ -4,6 +4,10 @@
  .eyeicon{
         margin-top: -25px;
     }
+      input::-ms-reveal,
+      input::-ms-clear {
+        display: none;
+      }
 </style>
 @endsection
 @section('content')
@@ -39,7 +43,7 @@
                             </div>
                             <div class="form-row row">
                                 <div class="input-data ">
-                                    <input type="password" autocomplete="new-password" name="password" required>
+                                    <input type="password" autocomplete="new-password" name="password" class="pr-3" required>
                                     <i class="fas fa-solid fa-eye-slash float-right eyeicon"></i>
 
                                     <div class="underline"></div>
@@ -72,7 +76,7 @@
                                 </div>
                             </div>
                             <div class="input-data col">
-                                <a href="#" class="text-dark text-center">Forgot Password?</a>
+                                <a href="{{route('forgot-password')}}" class="text-dark text-center">Forgot Password?</a>
                             </div>
                             {{-- <div class="text-center">
                                 <p>OR</p>

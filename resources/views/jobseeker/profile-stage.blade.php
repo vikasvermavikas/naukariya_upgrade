@@ -1,125 +1,8 @@
 @extends('layouts.master', ['title' => 'Profile Stage'])
 @section('style')
-    {{-- <link rel="stylesheet" href="{{asset('assets/css/jobseeker/fontawesome.css')}}" --}}
-
     <link rel="stylesheet" href="{{ asset('assets/css/jobseeker.css') }}">
     <link href="{{ asset('assets/css/tagsinput.css') }}" rel="stylesheet" type="text/css">
-    <style>
-        /* .bootstrap-tagsinput .badge {
-                                margin-right: 10px;
-                            } */
-        /* .card-outer {
-            width: 100%;
-        } */
-
-        .setcertificate {
-            margin-left: 43%;
-        }
-
-        .whenfresher,
-        .nocertificate {
-            display: none;
-        }
-
-        #skills {
-            left: 50%;
-        }
-
-        li.active .profileclass {
-            border: none;
-            width: 57px;
-            border-radius: 22%;
-            height: 51px;
-            background: #e35e25;
-            padding: 15px;
-            color: white;
-        }
-
-        li .profileclass {
-            border: none;
-            width: 57px;
-            border-radius: 22%;
-            height: 51px;
-            background: lightgrey;
-            padding: 15px;
-            color: white;
-        }
-       
-        /* .preferlocation .select2-search__field{
-                                border : none;
-                            } */
-        .select2-container--default .select2-selection--multiple {
-            margin-top: 8px;
-        }
-
-        .select2-container .select2-selection--multiple {
-            min-height: 46px;
-        }
-
-        .bootstrap-tagsinput .badge {
-            margin-right: 2px;
-        }
-        @media only screen and (min-width: 768px) {
-            .skilldiv{
-                display: flex;
-                justify-content: center;
-            }
-        }
-        @media only screen and (min-width:320px) and (max-width:376px) {
-            .skillcontent{
-               width: 87% !important;
-            }
-            .notfresher{
-                width: 120%;
-            }
-            .educationouter{
-                width: 100%;
-            }
-            .certificateblock{
-                max-width: 100%;
-                width: 100%;
-            }
-            .stepselement {
-                margin-left: 36%;
-            }
-
-            h1 {
-                font-size: 167%;
-            }
-
-            .select2-container {
-                width: 100% !important;
-            }
-
-            .downloadresume {
-                width: 100%;
-                font-size: 68%;
-            }
-
-            .educationbtn {
-                padding: 25% 27%;
-            }
-
-            .educationnext {
-                padding: 24% 12%;
-                margin-left: 1% !important;
-            }
-
-            label {
-                display: block;
-            }
-
-        }
-        @media only screen and (min-width:425px) and (max-width:767.98px) {
-            .skillcontent{
-                width: 80% !important;
-            }
-        }
-        .select2-container {
-            max-width: 100%;
-            width: auto;
-        }
-    </style>
+    <link href="{{ asset('assets/css/jobseeker/profile-stage.css') }}" rel="stylesheet" type="text/css">
 @endsection
 
 @section('content')
@@ -267,12 +150,11 @@
 
                                             <!-- Experience section -->
                                             <div class="col-sm-2 currentsal">
-                                                <label class="col-form-label w-100  experince-level"><span
-                                                        style="color: red;">*</span> Experience </label>
+                                                <label class="col-form-label w-100  experince-level">Experience </label>
                                                 <div class="experince-level"></div>
                                                 <input type="number" name="exp_year" placeholder="Years" class="tab1"
                                                     data-id="years_error" id="year" max="19" min="0"
-                                                    value="{{ $data->exp_year }}" required>
+                                                    value="{{ $data->exp_year }}">
                                                 <small id="years_error" class="text-danger"></small>
                                             </div>
                                             <div class="col-sm-2">
@@ -282,8 +164,8 @@
 
                                                 </label>
                                                 <input type="number" name="exp_mon" placeholder="Months" class="tab1"
-                                                    data-id="month_error" id="month" min="1" max="12"
-                                                    value="{{ $data->exp_month }}" required>
+                                                    data-id="month_error" id="month" min="0" max="12"
+                                                    value="{{ $data->exp_month }}">
                                                 <small id="month_error" class="text-danger"></small>
                                             </div>
 
@@ -323,11 +205,11 @@
 
                                             <div class="col-sm-4 currentsal">
 
-                                                <label class="col-form-label w-100"><span style="color: red;">*</span> Cur
+                                                <label class="col-form-label w-100">Cur
                                                     Salary(LPA) </label>
                                                 <input type="number" name="curr_sal" placeholder="Current Salary"
                                                     class="tab1" data-id="cursalary_error" id="current salary"
-                                                    value="{{ $data->current_salary }}" min="0" required>
+                                                    value="{{ $data->current_salary }}" min="0">
                                                 <small id="cursalary_error" class="text-danger"></small>
                                             </div>
 
@@ -342,13 +224,13 @@
                                                 <small id="expsalary_error" class="text-danger"></small>
                                             </div>
                                             <div class="col-sm-4">
-                                                <label class="col-form-label"><span style="color: red;">*</span> Notice
+                                                <label class="col-form-label"> Notice
                                                     Period</label>
 
                                                 <div class="notice_period_new">
 
                                                     <select name="notice_period" data-id="notice-period-error"
-                                                        id="notice error" class='tab1' required>
+                                                        id="notice error" class='tab1'>
                                                         <option value="">Select Notice Period</option>
                                                         <option value="Currently Serving"
                                                             {{ $data->notice_period == 'Currently Serving' ? 'selected' : '' }}>

@@ -103,6 +103,9 @@
     color: #007bff;
   }
 
+.newsletteremail{
+    width: 80% !important;
+}
   .icon-button .icon-instagram {
     color: #d6249f;
   }
@@ -158,6 +161,7 @@
         } */
         .icon-button{
             margin: 0%;
+            margin-right: 1%;
         }
 
     }
@@ -217,10 +221,12 @@
                             <div class="footer-tittle">
                                 <h4>Quick Links</h4>
                                 <ul>
+                                    @if(is_guest())
                                     <li><a href="{{ route('about') }}">About Us</a></li>
                                     <li><a href="{{ route('advertise_with_us') }}">Advertise with Us</a></li>
                                     <li><a href="{{ route('contact') }}">Contact Us</a></li>
-                                    <li><a href="{{ route('blog') }}">Blog</a></li>
+                                    <li><a href="{{ route('blog') }}">Blogs</a></li>
+                                    @endif
                                     <li><a href="{{ route('show_faqs') }}">Guidelines/FAQs</a></li>
                                     <li><a href="{{ route('get_terms_conditions') }}">Terms & Conditions</a></li>
                                     <li><a href="{{ route('get_privacy_policies') }}">Privacy Policy</a></li>
@@ -243,7 +249,7 @@
                                             class="subscribe_form relative mail_part">
                                             @csrf
                                             <input type="email" name="newsleeteremail" id="newsletter-form-email"
-                                                placeholder="Email Address" class="placeholder hide-on-focus"
+                                                placeholder="Email Address" class="placeholder newsletteremail hide-on-focus" 
                                                 onfocus="this.placeholder = ''"
                                                 onblur="this.placeholder = 'Email Address'" required>
                                             @error('newsleeteremail')

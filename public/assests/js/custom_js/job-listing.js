@@ -88,6 +88,7 @@ $(document).ready(function () {
 
                 // var data = JSON.parse(data);
                 $('.joblists').hide();
+                $('.default_pagination').removeClass('d-flex');
                 $(".default_pagination").hide();
 
                 var html = '';
@@ -118,7 +119,9 @@ $(document).ready(function () {
                         // let jobdetails = route('job_details', value.id);
                         // var base_url = window.location.origin + 'job_details/' + value.id;
                         var base_url = SITE_URL + '/job_details/' + value.id;
-
+                        var cleanSkills = value.job_skills;
+                        console.log(cleanSkills);
+                        cleanSkills = cleanSkills.replace(/\,/g, ", ");
 
 
                         html += `<div class="single-job-items mb-30">
@@ -147,7 +150,7 @@ $(document).ready(function () {
 
                                                 </ul>
                                                 <span class="text-muted">Experience : ${exp_required}</span><br>
-                                                <span class="text-muted">Skills :${value.job_skills}</span>
+                                                <span class="text-muted">Skills :${cleanSkills}</span>
                                             </div>
                                                     </div>
                                                 </div>
@@ -159,7 +162,10 @@ $(document).ready(function () {
                     $('.joblists1').html(html);
                     //         // start pagination
                     var pagination = '<nav><ul class="pagination">';
+                    
                     $.each(data.data.links, function (key, value) {
+                        var searchParams = new URLSearchParams(value.url);
+                        var pageno =  searchParams.get('page');
                         if (value.url == null) {
                             pagination += ' <li class="page-item disabled" ><span class="page-link" aria-hidden="true">' + value.label + '</span></li>';
                         }
@@ -169,7 +175,7 @@ $(document).ready(function () {
                                 pagination += ' active';
                             }
 
-                            pagination += '"><button class="page-link customlink" onclick="getFilterdata(' + value.label + ')" href="' + value.url + '">' + value.label + '</button></li>';
+                            pagination += '"><button class="page-link customlink" onclick="getFilterdata(' + pageno + ')" href="' + value.url + '">' + value.label + '</button></li>';
                         }
 
                     });
@@ -191,9 +197,10 @@ $(document).ready(function () {
 
     function fetchDefaultData() {
         $('.joblists1').hide();
+        $('.filter_pagination').removeClass('d-flex');
         $('.filter_pagination').hide();
         $('.joblists').show();
-        $(".default_pagination").show();
+        $(".default_pagination").addClass('d-flex');
     }
 
     $('#industries').on('change', fetchJobListings);
@@ -208,6 +215,10 @@ $(document).ready(function () {
 function getFilterdata(pageno = 1) {
     $('.joblists1').show();
     var skill = $('#skill').val();
+    if (!skill) {
+        skill = '';
+    }
+
     var industry = $('#industries').val();
     var searchkeyword = $('#searchkeyword').val();
     var jobTypes = [];
@@ -224,7 +235,7 @@ function getFilterdata(pageno = 1) {
     });
 
     // var queryString = `industry=${industry}`;
-    var queryString = `industry=${industry}&jobTypes=${jobTypes.join(',')}&experiences=${experiences.join(',')}&postedWithin=${postedWithin.join(',')}searchkeyword=${searchkeyword}&skill=${skill}&page=${pageno}`;
+    var queryString = `industry=${industry}&jobTypes=${jobTypes.join(',')}&experiences=${experiences.join(',')}&postedWithin=${postedWithin.join(',')}&searchkeyword=${searchkeyword}&skill=${skill}&page=${pageno}`;
 
     // If all filters are removed then show default data.
     if (industry == '' && jobTypes.join(',') == '' && experiences.join(',') == '' && postedWithin.join(',') == '' && searchkeyword == '' && skill == '') {
@@ -236,6 +247,7 @@ function getFilterdata(pageno = 1) {
         type: 'GET',
         success: function (data) {
             $('.joblists').hide();
+            $(".default_pagination").removeClass('d-flex');
             $(".default_pagination").hide();
 
             var html = '';
@@ -295,9 +307,18 @@ function getFilterdata(pageno = 1) {
                 });
                 $('.joblists1').html(html);
 
-                //         // start pagination
+              
+
+            } else {
+                $('.joblists1').html('Record not Found');
+            }
+
+
+              //         // start pagination
                 var pagination = '<nav><ul class="pagination">';
                 $.each(data.data.links, function (key, value) {
+                     var searchParams = new URLSearchParams(value.url);
+                        var pageno =  searchParams.get('page');
                     if (value.url == null) {
                         pagination += ' <li class="page-item disabled" ><span class="page-link" aria-hidden="true">' + value.label + '</span></li>';
                     }
@@ -307,16 +328,14 @@ function getFilterdata(pageno = 1) {
                             pagination += ' active';
                         }
 
-                        pagination += '"><button class="page-link customlink" onclick="getFilterdata(' + value.label + ')" href="' + value.url + '">' + value.label + '</button></li>';
+                        pagination += '"><button class="page-link customlink" onclick="getFilterdata(' + pageno + ')" href="' + value.url + '">' + value.label + '</button></li>';
                     }
 
                 });
                 pagination += '</ul></nav>';
                 $(".filter_pagination").html(pagination);
-                $(".filter_pagination").show();
-            } else {
-                $('.joblists1').html('Record not Found');
-            }
+                $(".filter_pagination").addClass('d-flex');
+                // $(".filter_pagination").show();
         },
 
         error: function (error) {

@@ -3,11 +3,15 @@
   <link rel="stylesheet" href="{{asset('assets/css/my_profile.css')}}">
 @endsection
 @section('content')
+
     <div class="container-fluid about-section" style="background:#EAEDFF;">
         @php
             $user = Auth::guard('employer')->user();
         @endphp
         <div class="row align-items-center flex-row-reverse">
+            <div class="col-md-12">
+                    {{ Breadcrumbs::render('employer_my_profile') }}
+                 </div>
             <div class="col-md-12">
                 <h1 style="color: #E35E25">My Profile</h1>
             </div>

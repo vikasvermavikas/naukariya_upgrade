@@ -1,0 +1,9 @@
+.breadcrumb li.breadcrumb-item.active {
+	color: #e35e25;
+}
+.breadcrumb li.breadcrumb-item a{
+	color: black;
+}
+.breadcrumb li.breadcrumb-item a:hover{
+	color: #e35e25;
+}

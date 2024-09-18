@@ -2,6 +2,9 @@
 @section('content')
     <div class="container">
         <div class="row">
+             <div class="col-md-12">
+                    {{ Breadcrumbs::render('employer_change_password') }}
+                 </div>
             <div class="col-md-12">
                 @if (session()->has('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">

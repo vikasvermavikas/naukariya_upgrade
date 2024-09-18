@@ -26,6 +26,6 @@ class Employeer
                 return $next($request);
             }
         }
-        return redirect('/');
+        return redirect()->route('loadLoginPage');
     }
 }

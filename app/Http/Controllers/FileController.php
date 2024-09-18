@@ -10,6 +10,7 @@ use CV;
 use CURLFILE;
 use Illuminate\Support\Facades\Storage;
 use App\Models\MailMessage;
+use App\Models\MailResumeData;
 
 
 class FileController extends Controller
@@ -52,7 +53,7 @@ class FileController extends Controller
         ]);
     }
 
- public function extractData(Request $request)
+    public function extractData(Request $request)
     {
 
         // Validation pending.
@@ -95,33 +96,105 @@ class FileController extends Controller
         }
     }
 
-public function showResumeData($resumeid)
+    public function showResumeData($resumeid)
        {
-         $file = MailMessage::select('attachment_path')->where('messageid', $resumeid)->first();
+         $file = MailMessage::select('attachment_path', 'attachmentid')->where('messageid', $resumeid)->first();
 
          $filename = $file->attachment_path;
     
           try {
 
+            // If resume data is already initiated.
+            $existrecord = MailResumeData::where([
+                    'mailid' => $resumeid,
+                    'filename' => $filename
+                ])->first();
+
+                if ($existrecord) {
+                    
+                    $response = [
+                        'job_id' => $existrecord->jobid,
+                        'status_url' => $existrecord->status_url,
+                    ];
+                }
+                else {
+
             // Parse the file to extract the data.
             $response = $this->parseResume($filename);
+ 
+                // Save job id.
+                MailResumeData::firstOrCreate([
+                    'mailid' => $resumeid
+                ],
+                [
+                    'mailid' => $resumeid,
+                    'jobid' => $response['job_id'],
+                    'status_url' => $response['status_url'],
+                    'status' => 'initiate',
+                    'filename' => $filename,
+                    'attachmentid' => $file->attachmentid,
+                ]
+
+            );
+
+                sleep(15); // Time take to parse data is minimum 2 seconds.
+
+                }
+
            
             if ($response && isset($response['job_id'])) {
                
                 $jobid = $response['job_id'];
                 $requesturl = $response['status_url'];
 
-                sleep(15); // Time take to parse data is minimum 2 seconds.
+                // If resume data is already extracted and saved then fetch from database rather than through API.
+                $resumedata = MailResumeData::select('candidate_name', 'candidate_email', 'candidate_phone', 'skills')->where(
+                    [
+                        'jobid' => $jobid,
+                        'status' => 'success'
+                    ])->first();
 
+                if($resumedata){
+                    $data = [
+                        'data' => [
+                            'attributes' => [
+                                'status' => 'success',
+                                'result' => $resumedata->toArray()
+                            ]
+                        ]
+                    ];
+                }
+                else {
                 $data = $this->extractResumeData($requesturl);
+                }
+
+
                 $skills = [];
                 if ($data['data']['attributes']['status'] == 'success') {
                     $result = $data['data']['attributes']['result'];
+                    
+                    // If skills is not came from database.
+                    if (!isset($result['skills']) && isset($result['positions'])) 
+                    {
+
                     for($i = 0; $i < count($result['positions']); $i++) {
                         $skills[] = implode(",", $result['positions'][$i]['skills']);
                     }
+
                     $result['skills'] = implode(",", $skills);
 
+                    // Remove data which are not neccessary.
+                    unset($result['candidate_language']);
+                    unset($result['candidate_honors_and_awards']);
+                    unset($result['candidate_courses_and_certifications']);
+
+                    // Update resume data in database.
+                    $result['status'] = 'success';
+                    $status = MailResumeData::where('jobid', $jobid)
+                     ->update($result);
+                    }
+
+               
                     return $result;
 
                     // return view('employer.show-resume-data', ['result' => $result]);
@@ -130,7 +203,8 @@ public function showResumeData($resumeid)
                     return $data;
                 }
             } else {
-                print_r($response);
+                return redirect()->back()->with(['error' => true, 'message' => 'AI not working, contact to administrator']);
+                // print_r($response);
             }
         } catch (\Exception $e) {
             echo "Error: " . $e->getMessage();

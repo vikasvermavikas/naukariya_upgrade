@@ -3,12 +3,19 @@
     <link rel="stylesheet" href="{{ asset('assets/css/jobseeker/myProfile.css') }}">
 @endsection
 @section('content')
-    <div class="container mt-30 mb-40 border    ">
+<div class="container">
+    <div class="row">
+         <div class="col-md-12 mb-5">
+                    {{ Breadcrumbs::render('jobseeker_myprofile') }}
+        </div>
+    </div>
+</div>
+    <div class="container mt-30 mb-40 border">
         <div class="row h-auto">
             <div class="col-lg-4 col-md-6 col-sm-12 h-auto ">
                 <div class="card-wrapper">
                     <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
+                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <h5
                                 style="margin-top:30px; font-weight: bold; text-align: center; border: 1px solid gray; background-color: gray; color: white; padding: 10px 0px;">
                                 {{ $alldata->fname . ' ' . $alldata->lname }}

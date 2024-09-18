@@ -1,7 +1,7 @@
 @extends('layouts.master', ['title' => 'Employer Registeration'])
 @section('style')
 <style>
-    .eyeicon{
+    .eyeicon, .eyeicon_confirm{
         margin-top: -25px;
     }
     input::-ms-reveal,
@@ -84,6 +84,8 @@
                             <div class="form-row row mb-5">
                                 <div class="input-data col">
                                     <input type="password" name="password" minlength="8">
+                                    <i class="fas fa-solid fa-eye-slash float-right eyeicon"></i>
+
                                     <div class="underline"></div>
                                     <label for="password">Password</label>
                                     @error('password')
@@ -92,7 +94,7 @@
                                 </div>
                                 <div class="input-data col">
                                     <input type="password" name="password_confirmation" class="w-75" minlength="8">
-                                <i class="fas fa-solid fa-eye-slash float-right eyeicon"></i>
+                                <i class="fas fa-solid fa-eye-slash float-right eyeicon_confirm"></i>
                                     <div class="underline"></div>
                                     <label for="password_confirmation">Confirm Password</label>
                                     @error('password_confirmation')
@@ -159,5 +161,5 @@
     </section>
 @endsection
 @section('script')
-<script src="{{asset('assets/js/register.js')}}"></script>
+<script src="{{asset('assets/js/login.js')}}"></script>
 @endsection

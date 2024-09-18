@@ -34,9 +34,12 @@
     background: white;
 }
 
+.select2-selection__rendered{
+    width: 200%;
+}
 /* For mobile */
 @media only screen and (min-width: 320px) and (max-width: 768px) {
-    .select2-container {
+    form.shadow-none .select2-container {
         width: 100% !important;
         padding: 0px 0px 15px 0px;
         height: 60px;

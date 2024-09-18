@@ -2,6 +2,9 @@
 @section('content')
     <div class="container">
         <div class="row">
+             <div class="col-md-12 mb-5">
+                    {{ Breadcrumbs::render('view_questions') }}
+                 </div>
             <div class="col-md-12 mb-2">
                 <h3>View Questions</h3>
 

@@ -85,7 +85,7 @@ class FrontuserloginController extends Controller
         }
         if (is_null($recaptcha_response)) {
 
-            return redirect()->route($loginroute)->with('error', 'Please Complete the Recaptcha to proceed');
+            return redirect()->route($loginroute)->with(['error' => true, 'message' => 'Please Complete the Recaptcha to proceed']);
         }
 
         $url = "https://www.google.com/recaptcha/api/siteverify";
@@ -150,7 +150,7 @@ class FrontuserloginController extends Controller
                             'created_at' => Carbon::now(),
                             'updated_at' => Carbon::now()
                         ]);
-                        return redirect()->route('login')->with('error', $errors);
+                        return redirect()->route('login')->with(['error' => true, 'message' => $errors]);
                     }
                 } else {
                     $errors = 'Username or password is invalid';
@@ -163,7 +163,7 @@ class FrontuserloginController extends Controller
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now()
                     ]);
-                    return redirect()->back()->with('error', $errors);
+                    return redirect()->back()->with(['error' => true, 'message' => $errors]);
                 }
             }
     

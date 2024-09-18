@@ -55,6 +55,9 @@
     @endphp
     <div class="container">
         <div class="row">
+             <div class="col-md-12 mb-5">
+                    {{ Breadcrumbs::render('employer_edit_profile') }}
+                 </div>
             <div class="col-md-12">
                 <h1>Edit Profile</h1>
                 <hr>

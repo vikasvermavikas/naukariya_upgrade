@@ -1,15 +1,7 @@
 @extends('layouts.master', ['title' => 'Jobseeker Login'])
 @section('style')
-    <style>
-        .eyeicon {
-            margin-top: -25px;
-        }
+<link rel="stylesheet" type="text/css" href="{{asset('assets/css/jobseeker_login.css')}}">
 
-        #rc-anchor-container {
-            max-width: 100%;
-            widows: 70%;
-        }
-    </style>
 @endsection
 @section('content')
     <!-- ================ registration form section start ================= -->
@@ -18,15 +10,17 @@
 
             <div class="row bg-white m-auto">
                 <div class="col-sm-6 bg-light">
-                    <img src={{ asset('assets/images/login-img.png') }} class="w-100 p-5">
+                    <img src={{ asset('assets/images/login-img.png') }} class="img-fluid">
                 </div>
 
                 <div class="col-sm-6">
 
                     <div class="registration py-5">
+
                         @if (session()->has('error'))
-                            <span class="alert text-danger">{{ session()->get('error') }}</span>
+                            <span class="alert text-danger">{{ session()->get('message') }}</span>
                         @endif
+
                         <form method="POST" action="{{ route('jobseekerlogin') }}" autocomplete="off">
                             @csrf
                             <div class="d-none">
@@ -47,7 +41,7 @@
                             </div>
                             <div class="form-row row">
                                 <div class="input-data ">
-                                    <input type="password" autocomplete="new-password" name="password" required>
+                                    <input type="password" autocomplete="new-password" name="password" class="pr-3" required>
                                     <i class="fas fa-solid fa-eye-slash float-right eyeicon"></i>
 
                                     <div class="underline"></div>
@@ -88,7 +82,7 @@
                                 </div> --}}
                             </div>
                             <div class="input-data col">
-                                <a href="#" class="text-dark justify-content-center">Forgot Password?</a>
+                                <a href="{{route('forgot-password')}}" class="text-dark justify-content-center">Forgot Password?</a>
                             </div>
                             <div class="text-center">
                                 <p>OR</p>

@@ -268,14 +268,14 @@
 
                             <!-- Nav tabs -->
                             <ul class="nav d-flex justify-content-center" role="tablist">
-                                <li class="nav-item border rounded">
+                                <li class="nav-item border rounded my-2">
                                     <a class="nav-link text-dark active" data-toggle="tab"
                                         href="#egovernance">E-GOVERNANCE</a>
                                 </li>
-                                <li class="nav-item border rounded ml-2">
+                                <li class="nav-item border rounded ml-2 my-2">
                                     <a class="nav-link text-dark" data-toggle="tab" href="#corporate">CORPORATE</a>
                                 </li>
-                                <li class="nav-item border rounded ml-2">
+                                <li class="nav-item border rounded ml-2 my-2">
                                     <a class="nav-link text-dark" data-toggle="tab" href="#government">GOVERNMENT</a>
                                 </li>
                             </ul>
@@ -601,9 +601,8 @@
         </div>
         <!-- Support Company End-->
         <!-- Blog Area Start -->
-        <div class="home-blog-area blog-h-padding">
+       <!--  <div class="home-blog-area blog-h-padding">
             <div class="container">
-                <!-- Section Tittle -->
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-tittle text-center">
@@ -619,8 +618,7 @@
                             <div class="blog-img-cap">
                                 <div class="blog-img">
                                     <img src={{ asset('blogs/'.$blog->image) }} alt="">
-                                    <!-- Blog date -->
-                                    <div class="blog-date text-center">
+\                                    <div class="blog-date text-center">
                                         <span>{{date('d', strtotime($blog->created_at))}}</span>
                                         <p>{{date('M', strtotime($blog->created_at))}}</p>
                                     </div>
@@ -643,7 +641,7 @@
                             <div class="blog-img-cap">
                                 <div class="blog-img">
                                     <img src={{ asset('assets/img/blog/home-blog2.jpg') }} alt="">
-                                    <!-- Blog date -->
+                                  
                                     <div class="blog-date text-center">
                                         <span>24</span>
                                         <p>Nov</p>
@@ -660,7 +658,7 @@
                     </div> --}}
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- Blog Area End -->
 
     </main>

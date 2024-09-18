@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/sweetalert2.min.css') }}">
-
+    <link rel="stylesheet" href="{{ asset('assets/css/breadcrumbs.css') }}">
     <script async src="https://www.google.com/recaptcha/api.js">
         // Add recaptcha script
     </script>
@@ -48,7 +48,22 @@
         </div>
     </div>
     <!-- Preloader Start -->
-    @include('layouts.header')
+    @php 
+
+    if (auth()->guard('jobseeker')->check()){
+         
+    $notifications = App\Models\JobSeekerNotification::join('jobmanagers', 'jobmanagers.id', '=', 'job_seeker_notifications.job_id')->select('jobmanagers.title', 'jobmanagers.start_apply_date', 'jobmanagers.id')->where('jobseeker_id', auth()->guard('jobseeker')->user()->id)->orderByDesc('job_seeker_notifications.id')->limit(2)->get();
+    }  
+
+
+    if (auth()->guard('employer')->check()){
+         
+    $notifications = App\Models\EmployerNotification::join('jobmanagers', 'jobmanagers.id', '=', 'employer_notifications.job_id')->join('jobseekers', 'jobseekers.id', '=', 'employer_notifications.jobseeker_id')->select('jobmanagers.title', 'jobmanagers.id', 'jobseekers.fname', 'jobseekers.lname', 'employer_notifications.jobseeker_id', 'jobmanagers.created_at as Jobpostdate')->where('employer_notifications.employer_id', auth()->guard('employer')->user()->id)->orderByDesc('employer_notifications.id')->limit(2)->get();
+    }
+
+    @endphp
+    
+    @include('layouts.header', ['notifications' => isset($notifications) ? $notifications : ''])
 
     @yield('content')
 

@@ -2,6 +2,9 @@
 @section('content')
     <div class="container">
         <div class="row">
+             <div class="col-md-12 mb-5">
+                    {{ Breadcrumbs::render('view_tagged_candidates') }}
+                 </div>
             <div class="col-md-12">
                 <h3>Tagged View</h3>
             </div>
@@ -95,7 +98,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="viewResumemodalLabel">New message</h5>
+                        <h5 class="modal-title" id="viewResumemodalLabel">Resume</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

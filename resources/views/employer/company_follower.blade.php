@@ -2,6 +2,9 @@
 @section('content')
 <div class="container">
     <div class="row">
+         <div class="col-md-12 mb-5">
+                    {{ Breadcrumbs::render('follower_list') }}
+                 </div>
         <div class="col-md-12">
             <h1>Follower Details</h1>
         </div>

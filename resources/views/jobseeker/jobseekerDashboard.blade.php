@@ -13,7 +13,11 @@
 @section('content')
     <section id="registration-form">
         <div class="container py-5">
-            <div class="row my-5">
+            <div class="row">
+                <div class="col-md-12">
+                    {{ Breadcrumbs::render('jobseeker_dasboard') }}
+                </div>
+                
                 <div class="col-sm-9">
                     <h1 class="text-center"><b>DASHBOARD</b></h1>
                     <div class="row mt-5">
