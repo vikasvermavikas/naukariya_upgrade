@@ -1,0 +1,7 @@
+ .eyeicon, .eyeicon_confirm{
+        margin-top: -25px;
+    }
+    input::-ms-reveal,
+      input::-ms-clear {
+        display: none;
+      }

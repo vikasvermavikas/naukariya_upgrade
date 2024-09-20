@@ -484,13 +484,14 @@ $(document).ready(function () {
         var year = 0;
         var previousYear = 0;
         var isYearValidate = true;
+        var passingyears = [];
         // Validate pass years.
         $(".pass_years").each(function () {
             year = $(this).val();
             $(this).closest('.passingyear').find('.text-danger').text('');
 
             if (year) {
-
+                passingyears.push(year);
                 if (year < previousYear) {
                     $(this).closest('.passingyear').find('.text-danger').text('Passing Year must be greater than ' + previousYear + '');
                     Swal.fire({
@@ -508,7 +509,22 @@ $(document).ready(function () {
             }
 
         });
-     
+
+        // Check duplicacy.
+        let len1 = passingyears.length; //get the length of first array
+        let len2 = $.unique(passingyears).length; //the length of array removing the duplicates
+
+        if (len1 > len2) {
+            Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Invalid Passing Years, Duplicate years not allowed",
+                    });
+                    isYearValidate = false;
+                    return false;
+
+        } 
+        
         // If year is validate the submit the form.
         if (isYearValidate) {
             

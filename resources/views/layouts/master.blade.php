@@ -113,34 +113,15 @@
     <script src="{{ asset('assets/js/sweetalert.js') }}"></script>
     <script src="{{ asset('assests/js/custom_js/footer.js') }}"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/36.0.0/classic/ckeditor.js"></script>
-
-    <script>
-        const SITE_URL = "{{ env('JS_WEB_URL') }}";
-        const PUBLIC_PATH = "{{ env('JS_PUBLIC_URL') }}";
+ <script>
+        
+   const SITE_URL = "{{ env('JS_WEB_URL') }}";
+    const PUBLIC_PATH = "{{ env('JS_PUBLIC_URL') }}";
     </script>
+
     <script src="{{asset('assets/js/master.js')}}"></script>
     @yield('script')
-    <script>
-        if ($(".employer")[0]) {
-            $('.employer').click(function() {
-                $('.show-employer').toggle();
-            });
-        }
-
-        // Code for showing tooltip.
-        $(function() {
-            $('[data-toggle="tooltip"]').tooltip()
-        })
-
-        // footer js.
-        // $.ajax({
-        //     url: SITE_URL + '/get/sociallinks',
-        //     type: 'GET',
-        //     success: function(response) {
-        //         // $('.footer-script').html(response);
-        //     }
-        // });
-    </script>
+   
 </body>
 
 </html>

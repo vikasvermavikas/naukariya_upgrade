@@ -1,28 +1,7 @@
 @extends('layouts.master', ['title' => 'Edit Profile'])
+
 @section('style')
-    <style>
-        a {
-            color: black;
-        }
-
-        a:hover {
-            color: #000;
-        }
-
-        .nav-link.active {
-            background-color: #e5500b !important;
-            color: white !important;
-        }
-
-        label {
-            font-weight: bold;
-        }
-
-        legend {
-            color: #e5500b;
-            font-weight: bold;
-        }
-    </style>
+<link rel="stylesheet" type="text/css" href="{{asset('assets/css/employer/edit_profile.css')}}">
 @endsection
 @section('content')
     @php

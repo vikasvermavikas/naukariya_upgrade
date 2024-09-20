@@ -1224,9 +1224,9 @@
                                                         <div class="col-sm-12 col-md-4">
                                                             <label>
                                                                 <span style="color: red;">*</span>
-                                                                Certificate licence
+                                                                Certificate License
                                                             </label>
-                                                            <input type="text" placeholder="Enter Certificate licence"
+                                                            <input type="text" placeholder="Enter Certificate license"
                                                                 data-id="certificate-licence-error"
                                                                 value="{{ $certificate->grade }}" name="score[]"
                                                                 class="tab5" />

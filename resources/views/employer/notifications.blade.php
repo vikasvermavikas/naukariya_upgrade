@@ -33,7 +33,7 @@
 					</tr>
 					@empty
 					<tr>
-						<td colspan="5" class="text-danger text-center">Sorry you have no notifications yet.</td>
+						<td colspan="5" class="text-danger text-center">Sorry you don't have any notifications yet.</td>
 					</tr>
 					@endforelse
 				</tbody>

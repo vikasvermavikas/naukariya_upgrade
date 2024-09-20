@@ -1,0 +1,15 @@
+   @media only screen and (max-width:991px) {
+            ul.slicknav_nav {
+                overflow: auto;
+            }
+        }
+
+        @media only screen and (min-width:992px) {
+            .usermenu_custom {
+                left: -59px;
+            }
+
+            .customlogo {
+                margin-top: 17px;
+            }
+        }

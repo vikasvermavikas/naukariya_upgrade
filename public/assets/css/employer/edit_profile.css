@@ -1,0 +1,21 @@
+   a {
+            color: black;
+        }
+
+        a:hover {
+            color: #000;
+        }
+
+        .nav-link.active {
+            background-color: #e5500b !important;
+            color: white !important;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        legend {
+            color: #e5500b;
+            font-weight: bold;
+        }

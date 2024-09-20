@@ -1,14 +1,7 @@
 @extends('layouts.master', ['title' => 'Employer Login'])
+
 @section('style')
-<style>
- .eyeicon{
-        margin-top: -25px;
-    }
-      input::-ms-reveal,
-      input::-ms-clear {
-        display: none;
-      }
-</style>
+<link rel="stylesheet" type="text/css" href="{{asset('assets/css/employer/login.css')}}">
 @endsection
 @section('content')
     <!-- ================ registration form section start ================= -->

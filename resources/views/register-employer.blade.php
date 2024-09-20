@@ -1,14 +1,6 @@
 @extends('layouts.master', ['title' => 'Employer Registeration'])
 @section('style')
-<style>
-    .eyeicon, .eyeicon_confirm{
-        margin-top: -25px;
-    }
-    input::-ms-reveal,
-      input::-ms-clear {
-        display: none;
-      }
-</style>
+<link rel="stylesheet" type="text/css" href="{{asset('assets/css/employer/register.css')}}">
 @endsection
 @section('content')
 

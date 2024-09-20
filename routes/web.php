@@ -72,7 +72,9 @@ use App\Http\Controllers\ForgotPasswordController;
 //     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 // });
 
-
+// Route::fallback(function () {
+//     return view('error');
+// });
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

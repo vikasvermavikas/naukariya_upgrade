@@ -1,14 +1,6 @@
 @extends('layouts.master', ['title' => 'Jobseeker Dashboard'])
 @section('style')
-    <style>
-        @media (min-width:1025px) {
-
-            /* big landscape tablets, laptops, and desktops */
-            .companyfollowing {
-                margin-bottom: -16px;
-            }
-        }
-    </style>
+<link rel="stylesheet" type="text/css" href="{{asset('assets/css/jobseeker/dashboard.css')}}">
 @endsection
 @section('content')
     <section id="registration-form">

@@ -379,23 +379,8 @@
         <!-- Header End -->
     </header>
 @elseif (Auth::guard('subuser')->check())
-    <style>
-        @media only screen and (max-width:991px) {
-            ul.slicknav_nav {
-                overflow: auto;
-            }
-        }
-
-        @media only screen and (min-width:992px) {
-            .usermenu_custom {
-                left: -59px;
-            }
-
-            .customlogo {
-                margin-top: 17px;
-            }
-        }
-    </style>
+   
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/subuser/header.css')}}">
     <header class="border">
         <!-- Header Start -->
         <div class="header-area header-transparrent">
@@ -505,51 +490,8 @@
         <!-- Header End -->
     </header>
 @else
-    <style>
-        /* style for mobile only */
-        @media only screen and (max-width: 991px) {
-            ul.slicknav_nav {
-                overflow: auto;
-                max-height: 200px;
-            }
-        }
-
-        /* style for laptop */
-        @media only screen and (min-width: 992px) {
-            .show-employer {
-                line-height: 0px;
-            }
-
-        }
-
-        @media only screen and (min-width:991.98px) and (max-width:1199.98px) {
-            .logocontent {
-                position: relative;
-                right: 15px;
-            }
-
-            .menucontent {
-                position: relative;
-                left: 46px;
-            }
-        }
-
-        .carrermenu {
-            width: 229px !important;
-        }
-
-        .carrersubmenu {
-            /* width: 212px !important; */
-            width: 198px !important;
-            /* position: absolute !important; */
-            margin-left: 222px;
-            margin-top: -46px;
-        }
-
-        .header-area ul>li:hover>ul.submenu {
-            z-index: 2 !important;
-        }
-    </style>
+<link rel="stylesheet" type="text/css" href="{{asset('assets/css/guest_header.css')}}">
+  
     <header>
         <!-- Header Start -->
         <div class="header-area header-transparrent">
