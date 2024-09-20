@@ -70,7 +70,7 @@
 
                             <div class="col-md-4">
                                 <label class="col-form-label" for="job_title">Job Title</label>
-                                <input type="text" class="form-control" name="title" placeholder="Enter Job Title" value="{{$data->title}}">
+                                <input type="text" maxlength="25" class="form-control" name="title" placeholder="Enter Job Title" value="{{$data->title}}">
                             </div>
                             <div class="col-md-4">
                                 <label class="col-form-label" for="job_industry_id">Select Industry</label>
@@ -93,7 +93,7 @@
                             </div>
                             <div class="col-md-4">
                                 <label class="col-form-label" for="company_id">Company</label>
-                                <select class="form-control" name="company_id" id="company_id">
+                                <select class="form-control" name="company_id" id="company_id" disabled>
                                     <option value="">Select Company</option>
                                     @foreach ($companies as $company)
                                         <option value="{{ $company->id }}" {{$data->company_id == $company->id ? 'selected' : ''}}>{{ $company->company_name }}</option>

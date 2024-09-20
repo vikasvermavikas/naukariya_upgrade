@@ -38,7 +38,7 @@
             </div>
             @forelse ($data as $item)
                 <div class="col-sm-6 col-md-4 col-lg-3 my-2">
-                    <div class="card">
+                    <div class="card h-100">
                         @if ($item->status == 'Active')
                             <div class="card-header bg-success text-light rounded text-center">
                                 <h3 class="text-center text-light">{{ $item->status }}</h3>

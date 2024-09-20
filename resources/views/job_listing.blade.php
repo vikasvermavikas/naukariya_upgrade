@@ -291,7 +291,7 @@
                                                                     <li><i
                                                                             class="fas fa-map-marker-alt"></i>{{ $item->job_exp ? $item->job_exp : 'Not Defined' }}
                                                                     </li>
-                                                                    <li><i class="fas fa-rupee-sign"
+                                                                    <li class="marginleft"><i class="fas fa-rupee-sign"
                                                                             aria-hidden="true"></i>
                                                                         {{ $item->sal_disclosed == 'Yes' ? round($minsalary / 100000, 2) . ' - ' . round($item->offered_sal_max / 100000, 2) . ' LPA' : 'Not Disclosed' }}
                                                                     </li>

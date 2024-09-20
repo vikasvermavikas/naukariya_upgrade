@@ -83,7 +83,7 @@
                             </div>
                             <div class="form-row row mb-5">
                                 <div class="input-data col">
-                                    <input type="password" name="password" minlength="8">
+                                    <input type="password" name="password" minlength="8" class="pr-3">
                                     <i class="fas fa-solid fa-eye-slash float-right eyeicon"></i>
 
                                     <div class="underline"></div>
@@ -117,8 +117,8 @@
                                 </div>
     
                                 <div class="input-data col">
-                                    <select class="form-select" name="company_id"> <!-- size attribute to show multiple options -->
-                                        <option>-- Select Companies --</option>
+                                    <select class="form-select" name="company_id" > <!-- size attribute to show multiple options -->
+                                        <option value="">-- Select Companies --</option>
                                         @foreach($companies as $key => $value)
                                             <option value="{{ $value->id }}">{{ $value->company_name }}</option>
                                         @endforeach

@@ -1,11 +1,6 @@
 @extends('layouts.master', ['title' => 'Dashboard'])
 @section('style')
-<style>
-    .effectclass:hover{
-        transform: scale(1.1);
-        /* transition: 1s; */
-    }
-</style>
+<link rel="stylesheet" type="text/css" href="{{asset('assets/css/employer/dashboard.css')}}">
 @endsection
 @section('content')
     <section id="registration-form">
@@ -116,7 +111,7 @@
                         <div class="col-sm-6 col-md-6 col-lg-3 effectclass">
                             <a href="{{ route('get_consolidate_data') }}">
                                 <div class="box rounded bg-info py-4 text-center mt-3"><span
-                                        class="text-white">{{ isset($data['consolidateData']) ? $data['consolidateData'] : '' }}</span>
+                                        class="text-white">{{ isset($data['consolidateData']) ? $data['consolidateData'] : 0 }}</span>
                                     <hr class="hr1">
                                     {{-- <span class="text-white">Consolidate Data</span> --}}
                                     <p class="lead">
@@ -186,7 +181,7 @@
                         @foreach ($sub_user_data as $key => $value)
                             <div class="col-sm-6 col-md-6 col-lg-3 effectclass">
                                 <a href="{{ route('tracker-list') . '?userid=' . $value->id . '' }}">
-                                <div class="box rounded bg-info py-4 text-center mt-3"> <span class="text-white"><i
+                                <div class="box rounded bg-info py-4 text-center mt-3 fixedheight" > <span class="text-white"><i
                                             class="fa fa-user"></i> {{ $value->total }}</span>
                                     <hr class="hr1">
                                     <p class="lead">

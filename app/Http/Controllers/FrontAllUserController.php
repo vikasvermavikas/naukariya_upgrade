@@ -114,7 +114,7 @@ class FrontAllUserController extends Controller
                 'lastname' => 'required|regex:/^[a-zA-Z]+$/u',
                 // "designation" => 'required',
                 "email" => 'required|unique:all_users,email',
-                "mobile" => 'required|min:10|max:12|unique:all_users,contact',
+                "mobile" => 'required|numeric|min:10|unique:all_users,contact',
                 "gender" => 'required|string',
                 // 'usertype.required' => 'User type is required', rakesh 18/06/2024
                 // "com_search" => 'required',

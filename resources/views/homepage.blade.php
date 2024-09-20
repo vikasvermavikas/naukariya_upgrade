@@ -307,7 +307,8 @@
                                                         <li><i
                                                                 class="fas fa-map-marker-alt"></i>{{ $item->job_exp ? $item->job_exp : 'Not Defined' }}
                                                         </li>
-                                                        <li>{{ $item->sal_disclosed == 'Yes' ? 'INR ' . $minsalary . ' - ' . $item->offered_sal_max : 'Not Disclosed' }}
+                                                        <li><i class="fas fa-rupee-sign"
+                                                                            aria-hidden="true"></i> {{ $item->sal_disclosed == 'Yes' ? 'INR ' . $minsalary . ' - ' . $item->offered_sal_max : 'Not Disclosed' }}
                                                         </li>
 
                                                     </ul>
@@ -352,7 +353,8 @@
                                                         <li><i
                                                                 class="fas fa-map-marker-alt"></i>{{ $item->location ? $item->location : 'Not Defined' }}
                                                         </li>
-                                                        <li>{{ $item->sal_disclosed == 'Yes' ? 'INR ' . $minsalary . ' - ' . $item->offered_sal_max : 'Not Disclosed' }}
+                                                        <li><i class="fas fa-rupee-sign"
+                                                                            aria-hidden="true"></i> {{ $item->sal_disclosed == 'Yes' ? $minsalary . ' - ' . $item->offered_sal_max : 'Not Disclosed' }}
                                                         </li>
 
                                                     </ul>
@@ -397,7 +399,8 @@
                                                         <li><i
                                                                 class="fas fa-map-marker-alt"></i>{{ $item->location ? $item->location : 'Not Defined' }}
                                                         </li>
-                                                        <li>{{ $item->sal_disclosed == 'Yes' ? 'INR ' . $minsalary . ' - ' . $item->offered_sal_max : 'Not Disclosed' }}
+                                                        <li> <i class="fas fa-rupee-sign"
+                                                                            aria-hidden="true"></i> {{ $item->sal_disclosed == 'Yes' ? $minsalary . ' - ' . $item->offered_sal_max : 'Not Disclosed' }}
                                                         </li>
 
                                                     </ul>

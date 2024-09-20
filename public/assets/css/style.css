@@ -6612,7 +6612,7 @@ form.search-box .search-form a {
 
 @media (max-width: 767px) {
   .single-job-items .job-tittle ul li {
-    margin-right: 0px;
+/*    margin-right: 0px;          commented for joblisting page for giving space between location and salary icon */
     margin-bottom: 7px
   }
 }
