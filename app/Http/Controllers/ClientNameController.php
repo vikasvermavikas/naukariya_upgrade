@@ -43,10 +43,14 @@ class ClientNameController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' =>'required|alpha:ascii|max:255',
+            'name' =>'required|regex:/^[a-zA-Z\s]+$/|max:255',
             'email' =>'required|email:filter|unique:client_names',
             'contact' =>'required|numeric|min:10',
             'address' =>'required|string|max:255'
+        ],
+
+        [
+            'name.regex' => 'Client name must contain only letters'
         ]
     );
         // $uid = Session::get('user')['id'];
@@ -69,7 +73,7 @@ class ClientNameController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'updatename' =>'required|alpha:ascii|max:255',
+            'updatename' =>'required|regex:/^[a-zA-Z\s]+$/|max:255',
             'updateemail' => [
                 'required',
                 'email:filter',
@@ -78,8 +82,8 @@ class ClientNameController extends Controller
             'updatecontact' =>'required|numeric|min:10',
             'updateaddress' =>'required|max:255'
         ], [
-            'updatename.required' => 'Name is required',
-            'updatename.alpha' => 'Name must contain only letters',
+            'updatename.required' => 'Client Name is required',
+            'updatename.regex' => 'Client Name must contain only letters',
             'updateemail.required' => 'Email is required',
             'updateemail.email' => 'Invalid email format',
             'updateemail.unique' => 'Email already exists',

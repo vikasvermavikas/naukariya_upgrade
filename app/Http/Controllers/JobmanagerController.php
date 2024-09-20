@@ -1769,7 +1769,7 @@ class JobmanagerController extends Controller
         // $jobs = $jobs->get();
 
         // return response()->json($jobs, 200);
-        $locations = Cities::select('cities_name')->where('state_id', '<',  42)->groupBy('cities_name')->get();
+        // $locations = Cities::select('cities_name')->where('state_id', '<',  42)->groupBy('cities_name')->get();
         
         $blogs = Blog::select('id', 'title', 'image', 'created_at')->orderBy('id', 'desc')->offset(0)
         ->limit(2)->get();
@@ -1786,7 +1786,7 @@ class JobmanagerController extends Controller
         ->limit(8)
         ->get();
       
-       return view('homepage', ['egovernance' => $egovernance, 'corporate' => $corporate, 'government' => $government, 'locations' => $locations, 'blogs' => $blogs, 'topcategories' => $topcategories]);
+       return view('homepage', ['egovernance' => $egovernance, 'corporate' => $corporate, 'government' => $government, 'blogs' => $blogs, 'topcategories' => $topcategories]);
     }
 
     public function showSingleJob($id)

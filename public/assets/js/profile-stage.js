@@ -36,7 +36,7 @@ $(document).ready(function () {
 
         // Add validation for to date.
         $(document).find('.pro_todate').each(function () {
-            if ($(this).val()) { 
+            if ($(this).val()) {
                 let todate = new Date($(this).val());
                 let newfromdate = new Date(fromDate);
                 if (newfromdate < todate) {
@@ -48,7 +48,7 @@ $(document).ready(function () {
 
         // Add validation for from date.
         $(document).find('.fromdate').each(function () {
-            if ($(this).val()) { 
+            if ($(this).val()) {
                 let thisfromdate = new Date($(this).val());
                 let newfromdate = new Date(fromDate);
                 if (newfromdate < thisfromdate) {
@@ -57,7 +57,7 @@ $(document).ready(function () {
             }
             $(this).attr('max', fromDate);
         });
-        
+
         $(this).attr('max', currentfromDateMax);
         $(this).closest('.container').find('.pro_todate').attr('max', currentmax);
         $(this).closest('.container').find('.pro_todate').attr('min', fromDate);
@@ -429,35 +429,35 @@ $(document).ready(function () {
         //     });
         // } else {
 
-            // Submit profile form.
-            $.ajax({
-                url: SITE_URL + "/jobseeker/persnol-save",
-                type: "POST",
-                data: formData,
-                success: function (response) {
-                    if (response.status) {
+        // Submit profile form.
+        $.ajax({
+            url: SITE_URL + "/jobseeker/persnol-save",
+            type: "POST",
+            data: formData,
+            success: function (response) {
+                if (response.status) {
 
-                        // Update stage.
-                        update_stage(1);
-                        if (response.savedstage < 3) {
-                            $("#profile_stage").text(" 20% ");
-                        }
-                        Swal.fire({
-                            icon: "success",
-                            title: "Thank you!",
-                            text: "Your profile updated successfully",
-                        });
+                    // Update stage.
+                    update_stage(1);
+                    if (response.savedstage < 3) {
+                        $("#profile_stage").text(" 20% ");
                     }
-                    // // Reset the form
-                    $('#field-2').show();
-                    $('#field-1').hide();
-                    $('#educationid').addClass('active');
-                },
-                cache: false,
-                contentType: false,
-                processData: false
+                    Swal.fire({
+                        icon: "success",
+                        title: "Thank you!",
+                        text: "Your profile updated successfully",
+                    });
+                }
+                // // Reset the form
+                $('#field-2').show();
+                $('#field-1').hide();
+                $('#educationid').addClass('active');
+            },
+            cache: false,
+            contentType: false,
+            processData: false
 
-            });
+        });
 
 
         // }
@@ -481,73 +481,69 @@ $(document).ready(function () {
     // $("#home-next-2").click(function() {
     $("form#education_form").submit(function (e) {
         e.preventDefault();
+        var year = 0;
+        var previousYear = 0;
+        var isYearValidate = true;
+        // Validate pass years.
+        $(".pass_years").each(function () {
+            year = $(this).val();
+            $(this).closest('.passingyear').find('.text-danger').text('');
 
-        // var formData = new FormData(this);
+            if (year) {
 
-        // bcd = []
-        // $(".tab2").each(function(index) {
-
-        //     if ($(this).val() == "") {
-        //         var error = $(this).data('id');
-        //         var id = $(this).attr('id');
-        //         var classes = $(this).attr('class');
-        //         // alert(classes)
-        //         // alert(id)
-        //         $('#' + error).html('Please fill ' + id);
-        //         abc = 0;
-        //         bcd.push(abc);
-        //     } else {
-        //         $('#' + error).html('');
-        //         var error = $(this).data('id');
-        //         $('#' + error).html('');
-        //         abc = 1;
-        //         bcd.push(abc);
-
-
-        //     }
-        // });
-
-        // if ($.inArray(0, bcd) > -1) {
-        //     Swal.fire({
-        //         icon: "error",
-        //         title: "Oops...",
-        //         text: "Please fill all required fields",
-        //     });
-        // } else {
-
-        $.ajax({
-            url: SITE_URL + "/jobseeker/add-education-detail",
-            type: "POST",
-            data: $(this).serialize(),
-            success: function (response) {
-                if (response.success) {
-                    update_stage(2);
-                    if (response.savedstage < 4) {
-                        $("#profile_stage").text(" 40% ");
-                    }
-
-                    Swal.fire({
-                        icon: "success",
-                        title: "Thank you!",
-                        text: response.message,
-                    });
-                    $('#field-3').show();
-                    $('#field-2').hide();
-                    $('#professionalid').addClass('active');
-                } else {
+                if (year < previousYear) {
+                    $(this).closest('.passingyear').find('.text-danger').text('Passing Year must be greater than ' + previousYear + '');
                     Swal.fire({
                         icon: "error",
                         title: "Oops...",
-                        text: 'Something went wrong',
+                        text: "Invalid Passing Year",
                     });
+                    isYearValidate = false;
+                    return false;
                 }
+                previousYear = year;
             }
+            else {
+                return;
+            }
+
         });
+     
+        // If year is validate the submit the form.
+        if (isYearValidate) {
+            
+            $.ajax({
+                url: SITE_URL + "/jobseeker/add-education-detail",
+                type: "POST",
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        update_stage(2);
+                        if (response.savedstage < 4) {
+                            $("#profile_stage").text(" 40% ");
+                        }
+    
+                        Swal.fire({
+                            icon: "success",
+                            title: "Thank you!",
+                            text: response.message,
+                        });
+                        $('#field-3').show();
+                        $('#field-2').hide();
+                        $('#professionalid').addClass('active');
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: 'Something went wrong',
+                        });
+                    }
+                }
+            });
+        }
 
 
-        // }
-
-    })
+    });
 
     // Third Section nextbtn  ;
     // currently working code
@@ -714,31 +710,31 @@ $(document).ready(function () {
     });
 
     // When user is a fresher then submit professional details without data.
-    $(".whenfresher").click(function(){
-      var isfresher = $("input[name='professional_experience']:checked").val();
+    $(".whenfresher").click(function () {
+        var isfresher = $("input[name='professional_experience']:checked").val();
 
-      if (isfresher == 'fresher') {
-        update_stage(3); // update stage.
-        var getupdatedstage = $("#profile_stage").text();
-        if (getupdatedstage != '60%' && getupdatedstage != '80%') {
-            $("#profile_stage").text(" 60% ");  // Update stage when stage is below than 60%.
+        if (isfresher == 'fresher') {
+            update_stage(3); // update stage.
+            var getupdatedstage = $("#profile_stage").text();
+            if (getupdatedstage != '60%' && getupdatedstage != '80%') {
+                $("#profile_stage").text(" 60% ");  // Update stage when stage is below than 60%.
+            }
+            Swal.fire({
+                icon: "success",
+                title: "Thank you!",
+                text: 'Professional stage saved successfully',
+            });
+            $('#field-4').show();
+            $('#field-3').hide();
+            $('#skillid').addClass('active');
         }
-        Swal.fire({
-            icon: "success",
-            title: "Thank you!",
-            text: 'Professional stage saved successfully',
-        });
-        $('#field-4').show();
-        $('#field-3').hide();
-        $('#skillid').addClass('active');
-      }
-      else {
-        Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Jobseeker must be fresher.",
-        });
-      }
+        else {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Jobseeker must be fresher.",
+            });
+        }
     });
 
     $('#Third-prev').click(function () {
@@ -911,29 +907,29 @@ $(document).ready(function () {
     });
 
     // Submit certificate form if jobseeker has not certificates.
-     $(".nocertificate").click(function(){
+    $(".nocertificate").click(function () {
         var hascerfiticate = $("input[name='hascertificate']:checked").val();
-  
+
         if (hascerfiticate == 'No') {
-          update_stage(5); // update stage.
-          var getupdatedstage = $("#profile_stage").text();
-          if (getupdatedstage == '80%') {
-              $("#profile_stage").text(" 100% ");  // Update stage when stage is below than 60%.
-          }
-          Swal.fire({
-              icon: "success",
-              title: "Thank you!",
-              text: 'Certificate Details saved successfully',
-          });
-          window.location.href = SITE_URL + "/jobseeker/my-profile";
+            update_stage(5); // update stage.
+            var getupdatedstage = $("#profile_stage").text();
+            if (getupdatedstage == '80%') {
+                $("#profile_stage").text(" 100% ");  // Update stage when stage is below than 60%.
+            }
+            Swal.fire({
+                icon: "success",
+                title: "Thank you!",
+                text: 'Certificate Details saved successfully',
+            });
+            window.location.href = SITE_URL + "/jobseeker/my-profile";
         }
         else {
-          Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "Jobseeker must not have certificates.",
-          });
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Jobseeker must not have certificates.",
+            });
         }
-      });
+    });
 
 });

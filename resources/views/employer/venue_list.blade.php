@@ -219,7 +219,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form method="POST">
+                    <form method="POST" action="{{old('id') ? route('update_venue', ['id' => old('id')]) : ''}}">
                         @csrf
                         <div class="d-none">
                             <input type="hidden" name="id" id="venueid" value="{{old('id')}}">

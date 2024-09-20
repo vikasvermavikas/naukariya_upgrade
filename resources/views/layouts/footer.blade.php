@@ -184,7 +184,7 @@
                                                 <li><a href="{{ route('loadJoblistPage') }}">Search Jobs</a></li>
                                                 {{-- <li><a href="{{route('jobseekerProfile')}}">My Account</a></li> --}}
                                                 <li><a href="{{ route('loadJoblistPage') }}">Find Employer</a></li>
-                                                <li><a href="{{ route('jobseekerProfile') }}">Video Resumes</a></li>
+                                                <li><a href="{{ route('video-resume') }}">Video Resumes</a></li>
                                                 {{-- <li><a href="{{route('show_faqs')}}">Job Search Techniques</a></li> --}}
                                                 {{-- <li><a>Premium Services <span class="text-danger small">(Coming Soon..)</span></a></li> --}}
                                             </ul>

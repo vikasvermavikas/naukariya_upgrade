@@ -264,7 +264,7 @@ Route::group(['middleware' => 'employer'], function () {
             Route::get('/', 'index')->name('venue_list');
             Route::post('/add-venue', 'store')->name('add_venue');
             Route::get('/get-venuedata/{id}', 'getsinglevenue');
-            Route::post('/update-venue/{id}', 'update');
+            Route::post('/update-venue/{id}', 'update')->name('update_venue');
             Route::get('/deactive-venues/{id}', 'deactive');
             Route::get('/venues/{id}', 'destroy');
             Route::get('/active-venues/{id}', 'VenuesController@active');

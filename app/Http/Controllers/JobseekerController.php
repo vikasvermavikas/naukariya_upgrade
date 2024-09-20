@@ -553,7 +553,7 @@ class JobseekerController extends Controller
     public function getLocations($search = '')
     {
         //  $master_location = DB::table('master_location')->pluck('location')->toArray();
-        //$skills = JsSkill::pluck('skill')->toArray();
+        $cities = Cities::distinct()->pluck('cities_name')->where('state_id', '<',  42)->toArray();
         // $companies = Empcompaniesdetail::pluck('company_name')->toArray();
         // $jobManagers = Jobmanager::select('job_role', 'job_skills', 'title')->get();
 
@@ -562,7 +562,7 @@ class JobseekerController extends Controller
 
         // $demo = array_merge($cities);
 
-        $cities = Cities::select('cities_name')->where('state_id', '<',  42)->groupBy('cities_name')->get();
+        // $cities = Cities::select('cities_name')->where('state_id', '<',  42)->groupBy('cities_name')->get()->toArray();
 
 
         return $cities;

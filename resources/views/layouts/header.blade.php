@@ -1,61 +1,6 @@
 @if (Auth::guard('jobseeker')->check())
     <header>
-        <style>
-            .navbar-nav-new li:hover>ul.dropdown-menu {
-                display: block;
-            }
-
-            .dropdown-submenu {
-                position: relative;
-            }
-
-            .dropdown-submenu>.dropdown-menu {
-                top: 0;
-                left: 100%;
-                margin-top: -6px;
-            }
-
-            /* rotate caret on hover */
-            .dropdown-menu>li>a:hover:after {
-                text-decoration: underline;
-                /* transform: rotate(-90deg); */
-                margin-left: 10%;
-
-            }
-
-           
-
-            /* style for mobile only */
-            @media only screen and (max-width: 768px) {
-                ul.slicknav_nav {
-                    height: 200px;
-                    overflow-y: scroll;
-                }
-            }
-
-            /* style for laptop only */
-            @media only screen and (min-width: 992px) {
-                .companylogo {
-                    margin-top: 22px;
-                }
-
-                .usermenu_custom {
-                    left: -59px;
-                }
-                .jobsubmenu {
-                height: 200px;
-                overflow-y: scroll;
-                width: 216px !important;
-            }
-            .notificationsubmenu{
-
-        height: auto;
-        overflow-y: scroll;
-        width: 216px !important;
-    
-            }
-            }
-        </style>
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/jobseeker/header.css') }}">
         <!-- Header Start -->
         <div class="header-area header-transparrent">
             <div class="headder-top header-sticky">
@@ -67,8 +12,9 @@
                         <div class="col-lg-12 col-md-12 d-flex">
                             {{-- Naukriya Logo --}}
                             <div class="logo companylogo">
-                                <a href={{ route('AllDataForJobSeeker') }}><img src={{ asset('assets/images/naukriyan-logo.png') }}
-                                        style="width: 227px;" alt="Naukriyan-Logo" class=""></a>
+                                <a href={{ route('AllDataForJobSeeker') }}><img
+                                        src={{ asset('assets/images/naukriyan-logo.png') }} style="width: 227px;"
+                                        alt="Naukriyan-Logo" class=""></a>
                             </div>
                             <div class="menu-wrapper d-flex justify-content-end w-100">
                                 <!-- Main-menu -->
@@ -76,7 +22,7 @@
                                     <nav class="d-none d-lg-block">
                                         <ul id="navigation" class="navbar-nav-new">
                                             <li><a href={{ route('AllDataForJobSeeker') }}>Dashboard</a></li>
-                                            <li><a href='{{route('loadJoblistPage')}}'>Jobs </a>
+                                            <li><a href='{{ route('loadJoblistPage') }}'>Jobs </a>
                                                 <ul class="submenu jobsubmenu">
                                                     <li><a
                                                             href="{{ route('loadJoblistPage') }}?location=Jobs-in-Ahmedabad">Jobs
@@ -104,43 +50,6 @@
                                                 </ul>
                                             </li>
 
-                                            {{-- <li><a href={{ route('loadJoblistPage') }}>Blog</a></li> --}}
-                                            {{-- 
-                                            <li class="nav-item dropdown">
-                                                <a class="nav-link dropdown-toggle" href="http://example.com"
-                                                    id="navbarDropdownMenuLink" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
-                                                    Career Services
-                                                </a>
-                                                <ul class="dropdown-menu submenu" style="width: 130%;"
-                                                    aria-labelledby="navbarDropdownMenuLink">
-
-                                                    <li class="dropdown-submenu"><a
-                                                            class="dropdown-item dropdown-toggle" href="#">Video
-                                                            Resume</a>
-                                                        <ul class="dropdown-menu submenu w-100"
-                                                            style="margin-left: 100%;top:0%">
-                                                            <li><a class="dropdown-item" href="#">How to make
-                                                                    Video Resume</a></li>
-                                                            <li><a class="dropdown-item" href="#">Content of Video
-                                                                    Resume</a></li>
-                                                            <li><a class="dropdown-item" href="#">Sample Video
-                                                                    Resume</a>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                    <li class="dropdown-submenu"><a
-                                                            class="dropdown-item dropdown-toggle" href="#">How to
-                                                            make effective resume</a>
-                                                        <ul class="dropdown-menu submenu w-100"
-                                                            style="margin-left: 100%;top:0%">
-                                                            <li><a class="dropdown-item" href="#">Articles</a>
-                                                            </li>
-                                                    </li>
-                                                </ul>
-                                            </li> --}}
-                                            {{-- <li><a class="dropdown-item" href="#">Interview Preperation</a></li> --}}
-
                                             <li>
                                                 <a href="#" data-toggle="dropdown"
                                                     class="nav-link nav-link-label"><i
@@ -152,17 +61,20 @@
                                                                 badge-danger
                                                                 badge-default
                                                                 badge-up
-                                                            ">{{isset($notifications) ? count($notifications) : 0}}</span></a>
-                                                              <ul class="submenu notificationsubmenu">
+                                                            ">{{ isset($notifications) ? count($notifications) : 0 }}</span></a>
+                                                <ul class="submenu">
 
-                                                                @forelse($notifications as $notification)
-                                                    <li><a
-                                                            href="{{ route('job_details', ['id' => $notification->id]) }}">Requirement for {{$notification->title}}</a></li>
-                                                            @empty
-                                                              <li class="text-center text-danger">No Notifications</li>
-                                                              @endforelse
-                                                            <div class="dropdown-divider"></div>
-                                                    <li class="text-center"> <a href="{{route('job_notifications')}}">Show all notifications</a></li>
+                                                    @forelse($notifications as $notification)
+                                                        <li><a
+                                                                href="{{ route('job_details', ['id' => $notification->id]) }}">Requirement
+                                                                for {{ $notification->title }}</a></li>
+                                                    @empty
+                                                        <li class="text-center text-danger">No Notifications</li>
+                                                    @endforelse
+                                                    <div class="dropdown-divider"></div>
+                                                    <li class="text-center"> <a
+                                                            href="{{ route('job_notifications') }}">Show all
+                                                            notifications</a></li>
 
                                                 </ul>
                                             </li>
@@ -289,8 +201,9 @@
                         </div> --}}
                         <div class="col-lg-12 col-md-12 d-flex">
                             <div class="logo company-logo">
-                                <a href={{ route('dashboardemployer') }}><img src={{ asset('assets/images/naukriyan-logo.png') }}
-                                        style="width: 227px;" alt="Naukriyan-Logo"></a>
+                                <a href={{ route('dashboardemployer') }}><img
+                                        src={{ asset('assets/images/naukriyan-logo.png') }} style="width: 227px;"
+                                        alt="Naukriyan-Logo"></a>
                             </div>
                             <div class="menu-wrapper w-100">
                                 <!-- Main-menu -->
@@ -330,20 +243,23 @@
                                             badge-danger
                                             badge-default
                                             badge-up
-                                          ">{{isset($notifications) ? count($notifications) : 0}}</span></a>
+                                          ">{{ isset($notifications) ? count($notifications) : 0 }}</span></a>
 
 
-                                           <ul class="submenu notificationsubmenu">
+                                                <ul class="submenu notificationsubmenu">
 
-                                                                @forelse($notifications as $notification)
-                                                    <li><a
-                                                            href="{{ route('job_ats', ['id' => $notification->id]) }}">{{$notification->fname." ".$notification->lname}} applied for {{$notification->title}}</a></li>
-                                                            @empty
-                                                              <li class="text-center text-danger">No Notifications</li>
-                                                              @endforelse
-                                                            <div class="dropdown-divider"></div>
-                                                    <li class="text-center"> <a href="{{route('employer_job_notifications')}}">Show all notifications</a></li>
-                                                    </ul>
+                                                    @forelse($notifications as $notification)
+                                                        <li><a
+                                                                href="{{ route('job_ats', ['id' => $notification->id]) }}">{{ $notification->fname . ' ' . $notification->lname }}
+                                                                applied for {{ $notification->title }}</a></li>
+                                                    @empty
+                                                        <li class="text-center text-danger">No Notifications</li>
+                                                    @endforelse
+                                                    <div class="dropdown-divider"></div>
+                                                    <li class="text-center"> <a
+                                                            href="{{ route('employer_job_notifications') }}">Show all
+                                                            notifications</a></li>
+                                                </ul>
 
                                             </li>
 

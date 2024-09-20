@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', e => {
-    $('#searchkeyword').autocomplete()
+    $('#searchkeyword').autocomplete();
+    $('#locationssearch').autocomplete();
 
 }, false);
 $(document).ready(function () {

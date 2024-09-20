@@ -36,18 +36,14 @@
                             <div class="col-xl-10">
                                 <!-- form -->
                                 <form action="{{ route('loadJoblistPage') }}" method="GET" class="shadow-none">
-                                    {{-- <div class="form-group">
-                                        <label for="input-datalist">Timezone</label>
-                                        <input type="text" class="form-control" placeholder="Timezone" list="list-timezone" id="input-datalist">
-                                    </div> --}}
+                                
                                     <div class="row no-gutters">
                                         <div class="col-md-3 my-2 border-right">
-                                            {{-- <div class=""> --}}
+                                            
                                             <input type="text" class="border-0 form-control leftradius skillradius" name="searchkeyword"
                                                 id="searchkeyword" placeholder="Job Tittle or skills"
                                                 data-prefetch="{{ route('getskillsoptions') }}" title="Skills"
                                                 data-toggle="tooltip" required>
-                                            {{-- </div> --}}
                                         </div>
                                         <div class="col-md-3 my-2 border-right">
                                             <Select class="form-control experienceborder" title="Experience Level"
@@ -55,36 +51,29 @@
                                                 <option value="experienced" selected>Experienced</option>
                                                 <option value="fresher">Fresher</option>
                                             </Select>
-                                            {{-- <div class=""> --}}
-                                            {{-- <input type="text" class="border-0" name="searchkeyword"  id="searchkeyword" placeholder="Job Tittle or skills" data-prefetch="{{route('getskillsoptions')}}"
-                                                required> --}}
-                                            {{-- </div> --}}
+                                            
                                         </div>
                                         <div class="col-md-3 my-2 border-right">
-                                            {{-- <div class="">
-                                            <div class=""> --}}
-                                            {{-- <input class="form-control h-100 border-0" list="locationlist" name="location"
-                                                    id="location" placeholder="Enter location">
-                                                <datalist id="locationlist" class="bg-white" role="listbox">
-                                                </datalist> --}}
-                                            <select class="js-example-basic-single form-control"
+                                           
+                                           <!--  <select class="js-example-basic-single form-control"
                                                 placeholder="Enter location" name="location" title="locations"
                                                 data-toggle="tooltip" id="location">
                                                 <option value="">Select Location</option>
-                                                @foreach ($locations as $location)
-                                                    <option value="{{ $location->cities_name }}">
-                                                        {{ $location->cities_name }}</option>
-                                                @endforeach
-                                            </select>
-                                            {{-- </div>
-                                        </div> --}}
+                                            
+                                            </select> -->
+                                               <input type="text" class="border-0 form-control" name="locationssearch"
+                                                id="locationssearch" placeholder="Locations"
+                                                data-prefetch="{{ route('get-locations') }}" title="Locations"
+                                                data-toggle="tooltip" required>
+
+                                            
                                         </div>
                                         <div class="col-md-3 my-2 findjob">
 
-                                            {{-- <div class=""> --}}
+                                          
                                             <button class="btn rightradius" id="search_jobs" type="submit">Find
                                                 job</button>
-                                            {{-- </div> --}}
+                                           
                                         </div>
 
                                     </div>
@@ -104,7 +93,6 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-tittle text-center">
-                            {{-- <span>FEATURED TOURS Packages</span> --}}
                             <h2>Browse Top Categories </h2>
                         </div>
                     </div>

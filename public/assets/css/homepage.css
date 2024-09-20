@@ -28,7 +28,7 @@
     border-top-right-radius: 2.25rem !important;
     border-bottom-right-radius: 2.25rem !important;
 }
-.select2-container {
+.select2-container, #locationssearch {
     /* width: 100%; */
     height: 100%;
     background: white;
@@ -38,10 +38,11 @@
     width: 200%;
 }
 /* For mobile */
-@media only screen and (min-width: 320px) and (max-width: 768px) {
-    form.shadow-none .select2-container {
+@media only screen and (min-width: 320px) and (max-width: 767.9px) {
+    form.shadow-none .select2-container,  #locationssearch  {
         width: 100% !important;
-        padding: 0px 0px 15px 0px;
+        padding: 11px 8px 16px 12px;
+/*        padding: 0px 0px 15px 0px;*/
         height: 60px;
         border-top-right-radius: 2.25em !important;
         border-bottom-right-radius: 2.25em !important;
@@ -113,7 +114,7 @@
 }
 
 .dropdown-menu.show {
-    width: auto !important;
+/*    width: auto !important;*/
 }
 
 #searchkeyword,

@@ -432,7 +432,7 @@
                                                 <div class="container" style= "height: auto; width: 100%;">
 
                                                     <div class="row">
-                                                        <div class="col">
+                                                        <div class="col passingyear">
                                                             <label>
                                                                 <span style="color: red;"> *</span>Passing year
                                                             </label>
@@ -441,7 +441,7 @@
                                                                 max="{{ date('Y') }}" data-id="Syear-error"
                                                                 class="tab2 pass_years"
                                                                 value="{{ isset($highschool->passing_year) ? $highschool->passing_year : '' }}" required/>
-                                                            <small id="Syear-error" class="text-danger"></small>
+                                                            <small class="text-danger"></small>
                                                         </div>
                                                         <div class="col">
                                                             <label>
@@ -535,7 +535,7 @@
                                                 <div class="container" style= "height: auto; width: 100%;">
 
                                                     <div class="row">
-                                                        <div class="col">
+                                                        <div class="col passingyear">
                                                             <label>
                                                                 Passing year
                                                             </label>
@@ -544,7 +544,7 @@
                                                                 max="{{ date('Y') }}" data-id="Syear-error"
                                                                 class="tab2 pass_years"
                                                                 value="{{ isset($secondayschool->passing_year) ? $secondayschool->passing_year : '' }}" />
-                                                            <small id="Syear-error" class="text-danger"></small>
+                                                            <small  class="text-danger"></small>
                                                         </div>
                                                         <div class="col">
                                                             <label>
@@ -644,7 +644,7 @@
                                                 <div class="container" style= "height: auto; width: 100%;">
 
                                                     <div class="row">
-                                                        <div class="col">
+                                                        <div class="col passingyear">
                                                             <label>
                                                                 Passing year
                                                             </label>
@@ -653,7 +653,7 @@
                                                                 max="{{ date('Y') }}" data-id="Syear-error"
                                                                 class="tab2 pass_years"
                                                                 value="{{ isset($graduationdetails->passing_year) ? $graduationdetails->passing_year : '' }}" />
-                                                            <small id="Syear-error" class="text-danger"></small>
+                                                            <small  class="text-danger"></small>
                                                         </div>
                                                         <div class="col">
                                                             <label>
@@ -755,7 +755,7 @@
                                                 <div class="container" style= "height: auto; width: 100%;">
 
                                                     <div class="row">
-                                                        <div class="col">
+                                                        <div class="col passingyear">
                                                             <label>
                                                                 Passing year
                                                             </label>
@@ -764,7 +764,7 @@
                                                                 max="{{ date('Y') }}" data-id="Syear-error"
                                                                 class="tab2 pass_years"
                                                                 value="{{ isset($postgraduationDetails->passing_year) ? $postgraduationDetails->passing_year : '' }}" />
-                                                            <small id="Syear-error" class="text-danger"></small>
+                                                            <small  class="text-danger"></small>
                                                         </div>
                                                         <div class="col">
                                                             <label>
@@ -1427,7 +1427,7 @@
                                     </div>
 
                                     <button type="button" class="btn mt-4 p-4 rounded" id="Fifth-prev">Previous</button>
-                                    <button type="button" class="btn mt-4 yescertificate p-4 rounded" id="addCertificate ">Add
+                                    <button type="button" class="btn mt-4 yescertificate p-4 rounded" id="addCertificate">Add
                                         More</button>
 
                                     <button type="submit" class="btn mt-4 yescertificate p-4 rounded"
