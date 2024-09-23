@@ -498,14 +498,14 @@
             <div class="headder-top header-sticky">
                 <div class="container">
                     <div class="row align-items-center">
-                        <div class="col-lg-1 col-md-2 logocontent">
+                        <div class="col-md-2 logocontent">
                             <!-- Logo -->
                             <div class="logo">
                                 <a href={{ route('home') }}><img src={{ asset('assets/images/naukriyan-logo.png') }}
                                         style="width: 227px;" alt="Naukriyan-Logo"></a>
                             </div>
                         </div>
-                        <div class="col-lg-11 col-md-10 menucontent">
+                        <div class="col-md-10 menucontent">
                             <div class="menu-wrapper">
                                 <!-- Main-menu -->
                                 <div class="main-menu">

@@ -77,7 +77,7 @@
                                     <ul>
                                         <li>{{ $data->company_name }}</li>
                                         <li><i
-                                                class="fas fa-map-marker-alt"></i>{{ $data->location ? $data->location : 'Not Defined' }}
+                                                class="fas fa-map-marker-alt"></i>{{ $data->job_exp ? $data->job_exp : 'Not Defined' }}
                                         </li>
 
                                     </ul>

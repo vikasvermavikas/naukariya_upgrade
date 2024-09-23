@@ -61,7 +61,7 @@
                                                 <option value="">Select Location</option>
                                             
                                             </select> -->
-                                               <input type="text" class="border-0 form-control" name="locationssearch"
+                                               <input type="text" class="border-0 form-control" name="location"
                                                 id="locationssearch" placeholder="Locations"
                                                 data-prefetch="{{ route('get-locations') }}" title="Locations"
                                                 data-toggle="tooltip" required>
