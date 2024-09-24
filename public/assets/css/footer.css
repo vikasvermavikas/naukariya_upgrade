@@ -163,3 +163,11 @@
         }
 
     }
+
+    @-moz-document url-prefix() {
+  .icon-button .icon-twitter{
+    left: 6px !important;
+  top: 6px !important;
+    height: 28px;
+  }
+}  

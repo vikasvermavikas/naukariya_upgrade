@@ -10,6 +10,10 @@
 #skills {
     left: 50%;
 }
+.bootstrap-tagsinput {
+
+  border: none;
+}
 
 li.active .profileclass {
     border: none;

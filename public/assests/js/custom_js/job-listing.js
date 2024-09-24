@@ -78,7 +78,7 @@ $(document).ready(function () {
         // If all filters are removed then show default data.
         if (industry == '' && jobTypes.join(',') == '' && experiences.join(',') == '' && postedWithin.join(',') == '' && searchkeyword == '' && skill == '') {
             fetchDefaultData();
-            console.log('hi');
+            
             return false;
         }
         $.ajax({
@@ -90,14 +90,17 @@ $(document).ready(function () {
                 $('.joblists').hide();
                 $('.default_pagination').removeClass('d-flex');
                 $(".default_pagination").hide();
+                $("#jobcount").hide();
+                $("#filterjobcount").removeClass('d-none');
+                $("#filterjobcount").show();
 
                 var html = '';
                 var base_url = window.location.origin;
                 var jobCount = data.data.data.length;
                 if (jobCount) {
-                    $("#jobcount").html("Job Found (" + jobCount + ")");
+                    $("#filterjobcount").html("Job Found (" + jobCount + ")");
                 } else {
-                    $("#jobcount").html("Job Found (" + 0 + ")");
+                    $("#filterjobcount").html("Job Found (" + 0 + ")");
                 }
                 if (data.data.data.length > 0) {
 
@@ -197,6 +200,8 @@ $(document).ready(function () {
 
     function fetchDefaultData() {
         $('.joblists1').hide();
+        $('#jobcount').show();
+        $('#filterjobcount').hide();
         $('.filter_pagination').removeClass('d-flex');
         $('.filter_pagination').hide();
         $('.joblists').show();
@@ -249,14 +254,16 @@ function getFilterdata(pageno = 1) {
             $('.joblists').hide();
             $(".default_pagination").removeClass('d-flex');
             $(".default_pagination").hide();
+            $("#jobcount").hide();
+            $("#filterjobcount").removeClass('d-none');
 
             var html = '';
             var base_url = window.location.origin;
             var jobCount = data.data.data.length;
             if (jobCount) {
-                $("#jobcount").html("Job Found (" + jobCount + ")");
+                $("#filterjobcount").html("Job Found (" + jobCount + ")");
             } else {
-                $("#jobcount").html("Job Found (" + 0 + ")");
+                $("#filterjobcount").html("Job Found (" + 0 + ")");
             }
             if (data.data.data.length > 0) {
 
@@ -306,8 +313,6 @@ function getFilterdata(pageno = 1) {
 
                 });
                 $('.joblists1').html(html);
-
-              
 
             } else {
                 $('.joblists1').html('Record not Found');

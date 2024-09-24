@@ -159,7 +159,7 @@ class FrontJobseekerController extends Controller
             [
                 'firstname' => 'required|alpha:ascii',
                 'lastname' => 'required|alpha:ascii',
-                'mobile' => 'required|unique:jobseekers,contact|numeric',
+                'mobile' => 'required|numeric|max_digits:10|min_digits:10|unique:jobseekers,contact',
                 'gender' => 'required',
                 'candidate_type' => 'required',
                 'email' => 'required|unique:jobseekers,email',

@@ -77,21 +77,21 @@
                                     <td>{{ $item->contact_no }}</td>
                                     <td>{{ $item->venue_status == '1' ? 'Active' : 'Inactive' }}</td>
                                     <td>
-                                        <button type="button" class="btn p-2 rounded" data-toggle="modal"
+                                        <button type="button" class="btn p-2 rounded mt-2" data-toggle="modal"
                                             data-target="#updateVenueModal" data-whatever="{{ $item->id }}">
                                             <i class="far fa-edit mr-2"></i> Edit
                                         </button>
-                                        <button type="button" class="btn p-2 rounded deletebutton" value="{{ $item->id }}">
+                                        <button type="button" class="btn p-2 rounded deletebutton mt-2" value="{{ $item->id }}">
                                             <i class="far fa-trash-alt"></i> Delete
                                         </button>
                                         @if ($item->venue_status == 1)
                                             <button type="button" title="Deactivate" data-toggle="tooltip"
-                                                class="btn p-3 text-center deactivatebtn rounded" value="{{ $item->id }}">
+                                                class="btn p-3 text-center deactivatebtn rounded mt-2" value="{{ $item->id }}">
                                                 Deactivate
                                             </button>
                                         @else
                                             <button type="button" title="Activate" data-toggle="tooltip"
-                                                class="btn p-3 text-center activatebtn rounded" value="{{ $item->id }}">
+                                                class="btn p-3 text-center activatebtn rounded mt-2" value="{{ $item->id }}">
                                                 Acitvate
                                             </button>
                                         @endif

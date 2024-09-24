@@ -75,7 +75,7 @@
                             </div>
                             <div class="form-row row mb-5">
                                 <div class="input-data col">
-                                    <input type="password" name="password" minlength="8" class="pr-3">
+                                    <input type="password" name="password" class="pr-3">
                                     <i class="fas fa-solid fa-eye-slash float-right eyeicon"></i>
 
                                     <div class="underline"></div>
@@ -85,7 +85,7 @@
                                     @enderror
                                 </div>
                                 <div class="input-data col">
-                                    <input type="password" name="password_confirmation" class="w-75" minlength="8">
+                                    <input type="password" name="password_confirmation" class="w-75">
                                 <i class="fas fa-solid fa-eye-slash float-right eyeicon_confirm"></i>
                                     <div class="underline"></div>
                                     <label for="password_confirmation">Confirm Password</label>

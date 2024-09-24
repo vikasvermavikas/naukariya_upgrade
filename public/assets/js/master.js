@@ -26,9 +26,9 @@ $(".slicknav_icon-bar:last").after('<svg xmlns="http://www.w3.org/2000/svg" fill
             dataType: 'json',
             dataType : 'json',
             success: function (data) {
-                    $("#naukriyan_jobs").text(data.jobs);
-                    $("#naukriyan_employers").text(data.employers);
-                    $("#naukriyan_jobseekers").text(data.jobseeker);
+                    $("#naukriyan_jobs").html(data.jobs);
+                    $("#naukriyan_employers").html(data.employers);
+                    $("#naukriyan_jobseekers").html(data.jobseeker);
             }
         });
     }

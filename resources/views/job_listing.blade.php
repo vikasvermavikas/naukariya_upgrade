@@ -216,6 +216,7 @@
                                     <div class="col-lg-12">
                                         <div class="count-job mb-35">
                                             <span id="jobcount"> Jobs found ({{ $data->count() }}) </span>
+                                            <span id="filterjobcount" class="d-none"> </span>
                                             <!-- Select job items start -->
                                             <div>
                                                 {{-- <form action="{{ route('loadLoginPage') }}" method="GET" --}}

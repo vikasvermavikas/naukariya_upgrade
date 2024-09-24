@@ -52,7 +52,7 @@
                                 @enderror
                             </div>
                             <div class="input-data col mt-3">
-                                <input type="text" name="mobile" maxlength="10" pattern="[789][0-9]{9}" oninvalid="this.setCustomValidity('Invalid Contact Number.')" oninput="this.setCustomValidity('')" value="{{old('mobile')}}">
+                                <input type="text" name="mobile" maxlength="10"  value="{{old('mobile')}}">
                                 <div class="underline"></div>
                                 <label for="">Contact No.</label>
                                 @error('mobile')

@@ -46,7 +46,10 @@
                 </div>
 
             </div>
+            <div class="col-md-8 my-3">
+                
+            </div>
         </div>
     </div>
-    </div>
+    <!-- </div> -->
 @endsection
