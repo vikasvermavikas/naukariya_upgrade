@@ -4,7 +4,7 @@
         color :#e35e25;
     }
 </style>
-@Section('content')
+@section('content')
     <div class="container">
         <div class="row">
             <div class="col-md-12 my-3">
