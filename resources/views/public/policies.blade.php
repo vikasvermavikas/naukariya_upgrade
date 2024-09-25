@@ -1,9 +1,7 @@
 @extends('layouts.master', ['title' => 'Privacy Policies'])
-<style>
-    .card-body p a{
-        color :#e35e25;
-    }
-</style>
+@section('style')
+<link rel="stylesheet" type="text/css" href="{{asset('assets/css/guest/policies.css')}}">
+@endsection
 @section('content')
     <div class="container">
         <div class="row">

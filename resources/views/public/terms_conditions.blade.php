@@ -1,9 +1,7 @@
-@extends('layouts.master', ['title' => 'Terms and Conditions'])
-<style>
-    .card-body p a {
-        color : #e35e25;
-    }
-</style>
+@extends('layouts.master', ['title' => 'Terms and Conditions'])\
+@section('style')
+<link rel="stylesheet" type="text/css" href="{{asset('assets/css/guest/terms_and_conditions.css')}}">
+@endsection
 @Section('content')
     <div class="container">
         <div class="row">
