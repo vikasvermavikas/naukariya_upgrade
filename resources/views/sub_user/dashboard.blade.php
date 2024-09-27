@@ -1,6 +1,6 @@
 @extends('layouts.master', ['title' => 'Dashboard'])
 @section('content')
-    <div class="container">
+    <div class="container my-3">
         <div class="row">
             <div class="col-md-12">
                 <h1>Dashboard</h1>
@@ -49,5 +49,6 @@
            
         </div>
     </div>
+    <div class="my-5"></div>
     <!-- </div> -->
 @endsection
