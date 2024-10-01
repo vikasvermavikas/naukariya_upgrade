@@ -101,7 +101,7 @@ class TrackerController extends Controller
             }
         }
 
-
+        $totalrecord = $data->count();
         $trackerList = $data->paginate(10)->withQueryString();
         
         return view('sub_user.tracker-list', [
@@ -111,7 +111,8 @@ class TrackerController extends Controller
             'source' => $source,
             'location' => $location,
             'skills' => $skills,
-            'email' => $email
+            'email' => $email,
+            'totalrecord' => $totalrecord
         ]);
         // return response()->json(['data' => $trackerList], 200);
     }

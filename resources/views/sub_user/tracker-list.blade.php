@@ -57,7 +57,7 @@
             </div>
 
             <div class="col-md-12 my-2">
-                <h3 class="h5" style="color:#e35e25;">Total Candidates : <span class="text-dark">{{$data->count()}}</span></h3>
+                <h3 class="h5" style="color:#e35e25;">Total Candidates : <span class="text-dark">{{$totalrecord}}</span></h3>
                 
             </div>
             {{-- Showing Notifications if any. --}}
