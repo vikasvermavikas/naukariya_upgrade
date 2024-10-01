@@ -30,6 +30,7 @@ class TrackerController extends Controller
         $source = $request->source;
         $location = $request->location;
         $skills = $request->skills;
+        $email = $request->email;
         $uploadstatus = $request->uploadstatus;
         $keyword = $request->keyword;
         $subuser_id = Auth::guard('subuser')->user()->id;
@@ -47,6 +48,9 @@ class TrackerController extends Controller
 
         if (isset($to_date) && $to_date != '') {
             $data->whereDate('created_at', '<=', $to_date);
+        }
+        if (isset($email) && $email != '') {
+            $data->where('email', 'like', "%$email%");
         }
 
         if (isset($from_date) && isset($to_date)) {
@@ -107,6 +111,7 @@ class TrackerController extends Controller
             'source' => $source,
             'location' => $location,
             'skills' => $skills,
+            'email' => $email
         ]);
         // return response()->json(['data' => $trackerList], 200);
     }
@@ -119,7 +124,7 @@ class TrackerController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:trackers',
             'contact' => 'required|string|max:15',
-            'dob' => 'date',
+            'dob' => 'nullable|date',
             'gender' => 'required',
             'reference' => 'required',
             'resume' => 'mimes:doc,docx,pdf|max:1024'
@@ -345,7 +350,7 @@ class TrackerController extends Controller
                 Rule::unique('trackers')->ignore($id)
             ],
             'contact' => 'required|string|max:15',
-            'dob' => 'date',
+            'dob' => 'nullable|date',
             'gender' => 'required',
             'reference' => 'required',
             'resume' => 'mimes:doc,docx,pdf|max:1024'
@@ -541,10 +546,17 @@ class TrackerController extends Controller
 
         return response()->json(['data' => $data]);
     }
-    public function exportTrackerDataEmployer($trackerids = '')
+    public function exportTrackerDataEmployer(Request $request, $trackerids = '')
     {
-       
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+        $source = $request->source;
+        $location = $request->location;
+        $skills = $request->skills;
+        $email = $request->email;
+        $uploadstatus = $request->uploadstatus;
         $subuserId = Auth::guard('subuser')->user()->id;
+
         $today = date('d-m-Y');
        
         $headers = [
@@ -564,6 +576,54 @@ class TrackerController extends Controller
             )
             ->where('added_by', $subuserId)
             ->orderBy('id', 'desc');
+
+                if (isset($source) && $source != '') {
+            $list->Where('trackers.reference', $source);
+        }
+
+
+        if (isset($from_date) && $from_date != '') {
+            $list->whereDate('trackers.created_at', '>=', $from_date);
+        }
+
+        if (isset($to_date) && $to_date != '') {
+            $list->whereDate('trackers.created_at', '<=', $to_date);
+        }
+        if (isset($email) && $email != '') {
+            $list->where('trackers.email', 'like', "%$email%");
+        }
+
+        if (isset($from_date) && isset($to_date)) {
+            $list->whereBetween('trackers.created_at', [$from_date, $to_date]);
+        }
+
+
+        if (isset($location) && $location != '') {
+            $list->where(function ($query) use ($location) {
+                      $query->Where('trackers.current_location', 'like', "%$location%")
+                      ->orWhere('trackers.preffered_location', 'like', "%$location%");
+            });
+      
+        }
+
+        if (isset($skills) && $skills != '') {
+            $key = explode(',', $skills);
+            $list->Where(function ($query) use ($key) {
+                for ($i = 0; $i < count($key); $i++) {
+                    $query->orwhere('trackers.key_skills', 'like',  '%' . $key[$i] . '%');
+                }
+            });
+        }
+        if (isset($uploadstatus)) {
+
+            if ($uploadstatus === 'yes') {
+                $list->WhereNotNull('trackers.resume');
+            }
+            if ($uploadstatus === 'no') {
+                $list->WhereNull('trackers.resume');
+            }
+        }
+
             
             if ($trackerids)
             {

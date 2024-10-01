@@ -2,6 +2,7 @@ $(document).ready(function () {
     const urlParams = new URLSearchParams(window.location.search);
     const referenceparam = urlParams.get('source');
     const csrftoken = $("meta[name=csrf-token]").attr('content'); 
+
     function get_references() {
         $.ajax({
             url: SITE_URL + '/subuser/reference-list',
@@ -43,10 +44,10 @@ $(document).ready(function () {
             confirmButtonText: "Yes, export it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                window.open(
-                    SITE_URL + '/subuser/trackers/export/tracker/' + trackerids.toString(),
-                    "_blank"
-                  );
+                const url =  SITE_URL + '/subuser/trackers/export/tracker/' + trackerids.toString() + '?' +urlParams.toString();
+
+                window.open(url, "_blank");
+                    
                 // $.ajax({
                 //     url: SITE_URL + '/subuser/trackers/export/tracker',
                 //     type: 'POST',

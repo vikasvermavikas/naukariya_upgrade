@@ -515,12 +515,12 @@
                                             <li><a href={{ route('loadJoblistPage') }}>Find a Jobs </a></li>
 
                                             <li><a href={{ route('about') }}>About Us</a></li>
-                                            <li><a href='#'>Blogs </a>
-                                                <ul class="submenu">
+                                            <li><a href={{ route('blog') }}>Blogs </a>
+                                               <!--  <ul class="submenu">
                                                     {{-- <li><a href={{ route('single-blog') }}>Single Blog</a></li> --}}
                                                     <li><a href={{ route('blog') }}>Blog Details</a></li>
                                                     {{-- <li><a href={{ route('job_details') }}>job Details</a></li> --}}
-                                                </ul>
+                                                </ul> -->
                                             </li>
                                             <li><a href='#'>Career Services </a>
                                                 <ul class="submenu carrermenu">

@@ -38,11 +38,11 @@ $(document).ready(function () {
             success: function (data) {
                 var html = '<option value="">Select Reference Name</option>';
                 $.each(data.data, function (key, value) {
-                    if (referenceid && (value.id == referenceid)) {
-                        html += '<option value="' + value.id + '" selected>' + value.name + '</option>';
+                    if (referenceid && (value.name == referenceid)) {
+                        html += '<option value="' + value.name + '" selected>' + value.name + '</option>';
                     }
                     else {
-                        html += '<option value="' + value.id + '">' + value.name + '</option>';
+                        html += '<option value="' + value.name + '">' + value.name + '</option>';
                     }
 
                 });

@@ -416,7 +416,7 @@ Route::middleware('subuser')->group(function () {
             Route::get('readmail/{messageid}', 'messageDetails')->name('emails.read');
         });
 
-        Route::controller(SubuserController::class)->group(function () {
+    Route::controller(SubuserController::class)->group(function () {
             Route::get('/profile', 'getSubuserData')->name('subuser-profile');
             Route::post('/update/subuser/profileimage', 'updateSubUserProfileImage');
             Route::post('/update/subuser/profile', 'updateHimself')->name('update-subuser');

@@ -1,0 +1,10 @@
+@media only screen and (min-width : 768px) and (max-width : 1200px) {
+        .card-height{
+            height: 80%;
+        }
+    }    
+@media only screen and (min-width : 992px) and (max-width : 1440px) {
+        .card-profile-width{
+            width: 80%;
+        }
+    }

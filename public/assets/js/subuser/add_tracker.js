@@ -9,7 +9,7 @@ $(document).ready(function () {
             success: function (data) {
                 var html = '<option value="">Select Reference Name</option>';
                 $.each(data.data, function (key, value) {
-                    html += '<option value="' + value.id + '">' + value.name + '</option>';
+                    html += '<option value="' + value.name + '">' + value.name + '</option>';
                 });
                 html += '<option value="add_reference">Others</option>';
                 $('#reference').html(html);

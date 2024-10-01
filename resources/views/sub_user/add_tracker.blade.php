@@ -132,14 +132,14 @@
 
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <label>From</label>
-                                <input type="date" class="companydetails" name="from[]" max="{{ date('Y-m-d') }}">
+                                <input type="month" class="companydetails" name="from[]" max="{{ date('Y-m') }}">
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <span class="float-right small d-flex currenlyLog"><input type="checkbox"
                                         class="currentlyworking" name="currentlyWork" value="1" value="{{old('currentlyWork')}}" >Currently Working
                                 </span>
                                 <label>To</label>
-                                <input type="date" class="companydetails" name="to[]" max="{{ date('Y-m-d') }}" >
+                                <input type="month" class="companydetails" name="to[]" max="{{ date('Y-m') }}" >
                             </div>
 
                         </div>
@@ -150,14 +150,14 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12">
                             <label>Current CTC (In LPA)</label>
-                            <input type="number" min="1" name="current_ctc" pattern="[0-9]*[.,]?[0-9]*"
+                            <input type="number" min="1" max="30" name="current_ctc" step=".01"
                                 placeholder="Enter Current CTC" value="{{old('current_ctc')}}" >
 
                         </div>
 
                         <div class="col-lg-4 col-md-4 col-sm-12">
                             <label>Expected CTC (In LPA)</label>
-                            <input type="number" min="1" name="expected_ctc" pattern="[0-9]*[.,]?[0-9]*"
+                            <input type="number" min="1" max="30" step=".01" name="expected_ctc" 
                                 placeholder="Enter Expected CTC" value="{{old('expected_ctc')}}" >
 
                         </div>
@@ -369,8 +369,8 @@
                             </select>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12">
-                            <label>Date of Birth <span class="text-danger">*</span></label>
-                            <input type="date" name="dob" max="{{ date('Y-m-d') }}" value="{{old('dob')}}"  required/>
+                            <label>Date of Birth</label>
+                            <input type="date" name="dob" max="{{ date('Y-m-d') }}" value="{{old('dob')}}"/>
                             @error('dob')
                             <span class="text-danger">{{$message}}</span>
                             @enderror

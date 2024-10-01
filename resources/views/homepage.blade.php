@@ -567,7 +567,7 @@
                                 <h2>24k Talented people are getting Jobs</h2>
                             </div>
                             <div class="support-caption">
-                                <p class="pera-top">At Naukriyan, we're committed to connecting talent with opportunity.
+                                <p class="pera-top font-weight-normal">At Naukriyan, we're committed to connecting talent with opportunity.
                                     Currently, over thousands of skilled professionals have successfully found jobs through
                                     our platform. Our mission is to bridge the gap between talented individuals and top
                                     employers, ensuring that every job seeker finds a role that matches their skills and

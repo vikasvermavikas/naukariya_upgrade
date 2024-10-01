@@ -155,7 +155,7 @@
 
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <label>From</label>
-                                <input type="date" class="companydetails" name="from[]" max="{{ date('Y-m-d') }}" value="{{$experience->from}}">
+                                <input type="month" class="companydetails" name="from[]" max="{{ date('Y-m') }}" value="{{$experience->from}}">
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 @if ($experience->currently_working)
@@ -165,7 +165,7 @@
                                 </span>
                                 @endif
                                 <label>To</label>
-                                <input type="date" class="companydetails" name="to[]" max="{{ date('Y-m-d') }}" value="{{$experience->to}}" {{$experience->currently_working ? 'disabled' : ''}}>
+                                <input type="month" class="companydetails" name="to[]" max="{{ date('Y-m') }}" value="{{$experience->to}}" {{$experience->currently_working ? 'disabled' : ''}}>
                             </div>
                             @if ($loop->iteration > 1)
                             <div class='col-md-12 mb-2'><button type="button" class='btn rounded p-3 float-right removecompany'>Remove</button></div>
@@ -186,7 +186,7 @@
 
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <label>From</label>
-                                <input type="date" class="companydetails" name="from[]" max="{{ date('Y-m-d') }}">
+                                <input type="month" class="companydetails" name="from[]" max="{{ date('Y-m') }}">
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <span class="float-right small d-flex currenlyLog"><input type="checkbox"
@@ -194,7 +194,7 @@
                                         value="{{ old('currentlyWork') }}">Currently Working
                                 </span>
                                 <label>To</label>
-                                <input type="date" class="companydetails" name="to[]" max="{{ date('Y-m-d') }}">
+                                <input type="month" class="companydetails" name="to[]" max="{{ date('Y-m') }}">
                             </div>
 
                         </div>
@@ -208,14 +208,14 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12">
                             <label>Current CTC (In LPA)</label>
-                            <input type="number" min="1" name="current_ctc" pattern="[0-9]*[.,]?[0-9]*"
+                            <input type="number" min="1" name="current_ctc" step=".01" 
                                 placeholder="Enter Current CTC" value="{{ $trackerDetails->current_ctc }}">
 
                         </div>
 
                         <div class="col-lg-4 col-md-4 col-sm-12">
                             <label>Expected CTC (In LPA)</label>
-                            <input type="number" min="1" name="expected_ctc" pattern="[0-9]*[.,]?[0-9]*"
+                            <input type="number" min="1" name="expected_ctc" step=".01" 
                                 placeholder="Enter Expected CTC" value="{{ $trackerDetails->expected_ctc }}">
 
                         </div>
@@ -461,9 +461,9 @@
                             </select>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12">
-                            <label>Date of Birth <span class="text-danger">*</span></label>
+                            <label>Date of Birth</label>
                             <input type="date" name="dob" max="{{ date('Y-m-d') }}"
-                                value="{{ $trackerDetails->dob }}" required />
+                                value="{{ $trackerDetails->dob }}" />
                             @error('dob')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror

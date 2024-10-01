@@ -183,11 +183,13 @@ $trail->push('My Profile');
 
 Breadcrumbs::for('subuser_add_tracker', function ($trail) {
 $trail->parent('subuser_dasboard');
+$trail->push('Trackers List', route('subuser-tracker-list'));
 $trail->push('Add Tracker');
 });
 
 Breadcrumbs::for('subuser_edit_tracker', function ($trail) {
 $trail->parent('subuser_dasboard');
+$trail->push('Trackers List', route('subuser-tracker-list'));
 $trail->push('Edit Tracker');
 });
 
