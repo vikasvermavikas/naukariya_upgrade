@@ -68,8 +68,14 @@
                                     <input type="submit" value="Sign in">
                                 </div>
                             </div>
+                        </form>
+                            
                             <div class="input-data col">
-                                <a href="{{route('forgot-password')}}" class="text-dark text-center">Forgot Password?</a>
+                            <form action="{{route('fogot-password-form')}}" method="get">
+                                    @csrf
+                                    <button type="submit" class="btn rounded p-3">Forgot Password?</button>
+                                </form>
+                                
                             </div>
                             {{-- <div class="text-center">
                                 <p>OR</p>
@@ -85,7 +91,6 @@
                                     </div>
                                 </div>
                             </div> --}}
-                        </form>
                     </div>
                 </div>
 

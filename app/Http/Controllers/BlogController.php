@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
+
 class BlogController extends Controller
 {
     /**
@@ -32,7 +34,7 @@ class BlogController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => ['required', 'string', 'max:50'],
+            'title' => ['required', 'string', 'max:50', 'unique:blogs,title'],
             'image' => [
                 'required',
                 'max:1024',
@@ -86,7 +88,7 @@ class BlogController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'title' => ['required', 'string', 'max:50'],
+            'title' => ['required', 'string', 'max:50',  Rule::unique('blogs')->ignore($id)],
             'image' => [
                 'max:1024',
                 File::types(['png', 'jpg', 'jpeg'])
@@ -128,7 +130,8 @@ class BlogController extends Controller
      * Blog details page.
      */
     public function blogDetails($id){
-        $blog = Blog::find($id);
+        $title = Str::headline($id);
+        $blog = Blog::where('title', $title)->first();
         if (!$blog) {
             return redirect()->route('blog_list')->with(['error' => true, 'message' => 'Blog not found.']);
         }

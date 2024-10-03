@@ -22,7 +22,8 @@
             <span class="text-success">{{session()->get('messages')}}</span>
         @endif
 
-        <form class="form" action="{{route('sendresetlink')}}" method="post">
+            <!-- action="{{route('sendresetlink')}}" -->
+        <form class="form" id="resetform">
         	@csrf
         <div data-mdb-input-init class="form-outline">
             @error('email')
@@ -38,17 +39,20 @@
                 <option value="Employer">Employer</option>
                 <option value="Jobseeker">Jobseeker</option>
             </select>
-            <input type="email" name="email" value="{{old('email')}}" class="form-control my-3" required />
-            <label class="form-label" for="typeEmail">Email input</label>
+            <input type="email" name="email" value="{{old('email')}}" class="form-control my-3" placeholder="Enter Email" required />
+            <!-- <label class="form-label" for="typeEmail">Email input</label> -->
         </div>
         <button type="submit" data-mdb-ripple-init class="btn w-100 rounded">Reset password</button>
-        <div class="d-flex justify-content-center mt-4">
+       <!--  <div class="d-flex justify-content-center mt-4">
             <a class="btn w-100 text-light rounded" href="{{route('login')}}">Login</a>
-        </div>
+        </div> -->
         </form>
     </div>
 </div>
 		</div>
 	</div>
 </div>	
+@endsection
+@section('script')
+<script src="{{asset('assets/js/forgot-password.js')}}"></script>
 @endsection

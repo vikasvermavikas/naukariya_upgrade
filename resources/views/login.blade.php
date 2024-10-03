@@ -81,8 +81,13 @@
                                             data-action="submitContact">Submit</button>
                                 </div> --}}
                             </div>
+                             </form>
                             <div class="input-data col">
-                                <a href="{{route('forgot-password')}}" class="text-dark justify-content-center">Forgot Password?</a>
+                                <form action="{{route('fogot-password-form')}}" method="get">
+                                    @csrf
+                                    <button type="submit" class="btn rounded p-3">Forgot Password?</button>
+                                </form>
+                                
                             </div>
                             <div class="text-center">
                                 <p>OR</p>
@@ -102,7 +107,7 @@
                                     </a>
                                 </div>
                             </div>
-                        </form>
+                       
                     </div>
                 </div>
             </div>

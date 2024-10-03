@@ -34,7 +34,7 @@
             <img class=" card-img-top" src="{{asset('blogs/'.$blog->image)}}" alt="Card image cap">
             
             <div class="card-body">
-              <p class="card-text">{{Illuminate\Support\Str::limit($blog->content, 20)}} <a href="{{route('blog-details', ['id' => $blog->id])}}" class="text-danger small">Read More</a></p>
+              <p class="card-text">{{Illuminate\Support\Str::limit($blog->content, 20)}} <a href="{{route('blog-details', ['id' => Illuminate\Support\Str::of($blog->title)->slug('-')])}}" class="text-danger small">Read More</a></p>
             </div>
           </div>
     </div>

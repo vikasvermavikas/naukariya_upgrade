@@ -33,7 +33,8 @@
                                 <li>Password must contain at least one symbol.</li>
                             </ul></p>
                         </div>
-                    <form method="POST" action="{{ route('reset-password-store-user') }}" class="form">
+                        <!-- action="{{ route('reset-password-store-user') }}"  -->
+                    <form id="reset-password" class="form">
                         {{ csrf_field() }}
 
                         <div class="form-group">
@@ -63,4 +64,5 @@
 @endsection
 @section('script')
 <script type="text/javascript" src="{{asset('assets/js/login.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/js/reset-password.js')}}"></script>
 @endsection

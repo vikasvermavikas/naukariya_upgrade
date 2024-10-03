@@ -1385,7 +1385,7 @@ class JobmanagerController extends Controller
       
       // Send notifications to jobseekers who have skills similar to this job.
            if ($request->job_skills) {
-        $jobseekers = JsSkill::select('js_userid')->whereIn('skill', explode(",", $request->job_skills))->distinct()->get();
+        $jobseekers = JsSkill::join('jobseekers', 'jobseekers.id', '=', 'js_skills.js_userid')->select('js_skills.js_userid', 'jobseekers.email')->whereIn('skill', explode(",", $request->job_skills))->distinct()->get();
 
         $data = new stdclass();
         $data->jobid = $job->id;
@@ -1394,6 +1394,7 @@ class JobmanagerController extends Controller
         foreach($jobseekers as $jobseeker){
 
         $data->jobseeker_id = $jobseeker->js_userid;
+        $data->email = $jobseeker->email;
        // Trigger the event
         event(new JobPost($data));
         }

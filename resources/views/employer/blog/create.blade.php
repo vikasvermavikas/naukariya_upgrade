@@ -12,7 +12,7 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="title">Title <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="title" maxlength="50" required>
+                            <input type="text" class="form-control" name="title" maxlength="50" value="{{old('title')}}" required>
                             @error('title')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -28,7 +28,7 @@
                         </div>
                         <div class="form-group col-md-12">
                             <label for="content">Content <span class="text-danger">*</span></label>
-                            <textarea class="form-control" name="content" required></textarea>
+                            <textarea class="form-control" name="content" required>{{old('content')}}</textarea>
                             @error('content')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror

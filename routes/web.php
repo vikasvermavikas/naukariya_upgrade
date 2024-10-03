@@ -135,16 +135,20 @@ Route::middleware(['guest:jobseeker', 'guest:employer', 'guest:subuser'])->group
         return view('public.sample-video-resume');
     })->name('sample-video-resume');
 
-    Route::get('forgot-password', function () {
-        return view('forgotPassword');
-    })->name('forgot-password');  
+    Route::controller(ForgotPasswordController::class)->group(function () {
 
-    Route::post('forgot-password', [ForgotPasswordController::class, 'SendResetLink'])->name('sendresetlink');
+   // Route::get('forgot-password', function () {
+   //      return view('forgotPassword');
+   //  })->name('forgot-password');  
 
-     Route::get('forget-password/{token}', [ForgotPasswordController::class, 'forgetPasswordForm'])->name('forget-password-user.form');
+    Route::get('forgotPassword','get_form')->name('fogot-password-form');
+    Route::post('forgot-password','SendResetLink')->name('sendresetlink');
 
-     Route::post('forget-password/user/reset', [ForgotPasswordController::class, 'forgetPasswordStore'])->name('reset-password-store-user');
+     Route::get('forget-password/{token}','forgetPasswordForm')->name('forget-password-user.form');
 
+     Route::post('forget-password/user/reset','forgetPasswordStore')->name('reset-password-store-user');
+    });
+ 
 });
 
   Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('google.callback');

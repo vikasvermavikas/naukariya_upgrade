@@ -545,7 +545,7 @@
                                                             </li>
                                                         </ul>
                                                     </li>
-                                                    <li class="dropdown-submenu">
+                                                  <!--   <li class="dropdown-submenu">
                                                         <a class="dropdown-item dropdown-toggle" href="#">How to
                                                             make Effective Resume</a>
                                                         <ul class="submenu">
@@ -555,7 +555,7 @@
                                                                     target="_blank">Articles</a>
                                                             </li>
                                                         </ul>
-                                                    </li>
+                                                    </li> -->
                                                     {{-- <li>
                                                         <a class="dropdown-item" href="#">Interview
                                                             Preparation</a>

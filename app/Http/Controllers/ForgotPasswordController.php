@@ -23,18 +23,23 @@ class ForgotPasswordController extends Controller
         
         $role = $request->role;
         $email = $request->email;
-
         if ($role === 'Jobseeker') {
+                $redirectlink = route('login');
+
             $checkEmail = Jobseeker::where('email', $email)->where('user_type', $role)->first();
             if (!$checkEmail) {
-                return redirect()->route('forgot-password')->with(['error' => true, 'messages' => 'Email Not Exist']);
+                return response()->json(['error' => true, 'messages' => 'Email Not Exist']);
+                // return redirect()->route('forgot-password')->with(['error' => true, 'messages' => 'Email Not Exist']);
             }
         }
 
         if ($role === 'Employer') {
+        $redirectlink = route('loadLoginPage');
+
             $checkEmail = AllUser::where('email', $email)->where('user_type', $role)->first();
             if (!$checkEmail) {
-                return redirect()->route('forgot-password')->with(['error' => true, 'messages' => 'Email Not Exist']);
+                return response()->json(['error' => true, 'messages' => 'Email Not Exist']);
+                // return redirect()->route('forgot-password')->with(['error' => true, 'messages' => 'Email Not Exist']);
             }
         }
 
@@ -60,7 +65,9 @@ class ForgotPasswordController extends Controller
             // $message->from(env('TEST_USEREMAIL'), "Naukriyan.com");
         });
 
-        return redirect()->back()->with(['success' => true, 'messages' => 'Reset password link send successfully to your mail id.'], 200);
+        return response()->json(['success' => true, 'messages' => 'Reset password link send successfully to your mail id.', 'redirect' => $redirectlink]);
+
+        // return redirect()->back()->with(['success' => true, 'messages' => 'Reset password link send successfully to your mail id.'], 200);
     }
 
     public function forgetPasswordForm($token)
@@ -89,30 +96,60 @@ class ForgotPasswordController extends Controller
         $checkToken = DB::table('reset_passwords_user')->where('token', $token)->where('status', 0)->first();
 
         if (!$checkToken) {
-            return back()->with(['error' => true, 'messages' => 'Token mismatch or password already reset.']);
+            return response()->json(['error' => true, 'message' => 'Token mismatch or password already reset.']);
         }
 
         // TOKEN EXPIRY CHECK
         $tokenExpiry = DB::table('reset_passwords_user')->where('token', $token)->where('status', 0)->where('created_at', '>', Carbon::now()->subHours(1))->first();
 
         if (!$tokenExpiry) {
-            return back()->with(['error' => true, 'messages' => 'Token Expire']);
+            return response()->json(['error' => true, 'message' => 'Token Expire']);
         }
 
         $updateResetPassword = '';
-
+        $redirectlink = '';
         if ($tokenExpiry->user_type == 'Jobseeker') {
+            $redirectlink = route('login');
+            $username = Jobseeker::select(DB::raw('CONCAT(fname, " ", lname) as username'))->where('email', $checkToken->email)->first()->username;
             $updateResetPassword = Jobseeker::where('email', $checkToken->email)->update(['password' => $password]);
         } else if ($tokenExpiry->user_type == 'Employer') {
+            $redirectlink = route('loadLoginPage');
+               $username = AllUser::select(DB::raw('CONCAT(fname, " ", lname) as username'))->where('email', $checkToken->email)->first()->username;
             $updateResetPassword = AllUser::where('email', $checkToken->email)->where('user_type', $tokenExpiry->user_type)->update(['password' => $password]);
         } 
 
         if (!$updateResetPassword) {
-            return redirect()->back()->with(['error' => true, 'messages' => 'Something went wrong.']);
+            return response()->json(['error' => true, 'message' => 'Something went wrong.']);
         }
 
-        DB::table('reset_passwords_user')->where('token', $token)->update(['status' => 1]);
+        // DB::table('reset_passwords_user')->where('token', $token)->update(['status' => 1]);
 
-        return redirect()->back()->with(['success' => true, 'messages' => 'Your password has been changed Successfully.'], 200);
+        // Send email to user of change password successfully.
+
+        Mail::send('SendMail.password-changed', ['username' => $username, 'redirectlink' => $redirectlink], function ($message) use ($checkToken) {
+            $message->to($checkToken->email)
+                ->subject("Password Changed Successfully");
+            $message->from(env('MAIL_USERNAME',"shivam2211lp@gmail.com"), 'Naukriyan.com');
+            // $message->from(env('TEST_USEREMAIL'), "Naukriyan.com");
+        });
+        return response()->json(['success' => true, 'message' => 'Your password has been changed Successfully.', 'redirect' => $redirectlink], 200);
+    }
+
+    public function get_form(Request $request)
+
+    {
+           $formtoken = $request->{'_token'};
+ 
+           $currenttoken = csrf_token();
+
+           if($formtoken == $currenttoken){
+              $this->validate($request, [
+            '_token' => 'required'
+        ]);
+        return view('forgotPassword');
+           }
+           return redirect('/');
+
+      
     }
 }
