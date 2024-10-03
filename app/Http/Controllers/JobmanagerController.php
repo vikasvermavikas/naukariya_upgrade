@@ -95,7 +95,7 @@ class JobmanagerController extends Controller
     {
         // $uid = Session::get('user')['id'];
         $uid = Auth::guard('employer')->user()->id;
-
+        $jobskiils = Jobmanager::select('job_skills')->where('id', $id)->first();
         $jid = $id;
         $data = DB::table('apply_jobs')
             ->leftjoin('jobmanagers', 'jobmanagers.id', '=', 'apply_jobs.job_id')
@@ -105,6 +105,12 @@ class JobmanagerController extends Controller
             ->where('jobmanagers.userid', $uid)
             ->select('apply_jobs.*', 'jobmanagers.title as applied_for', 'js_resumes.resume', 'jobseekers.fname', 'jobseekers.lname', 'jobseekers.email', 'jobseekers.contact', 'jobseekers.designation', 'jobseekers.expected_salary', 'jobseekers.exp_year', 'jobseekers.exp_month', 'jobseekers.current_salary', 'jobseekers.expected_salary', 'jobseekers.notice_period', 'jobseekers.preferred_location')
             ->get();
+
+        // $alldata = Jobseeker::join('js_skills', 'js_skills.js_userid', '=', 'jobseekers.id')
+        //                  ->leftjoin('jobmanagers', 'jobmanagers.id', '=', 'apply_jobs.job_id')
+        //                  ->leftjoin('apply_jobs', 'apply_jobs.jsuser_id', '=', 'jobseekers.id')
+        //                 ->leftjoin('js_resumes', 'js_resumes.js_userid', '=', 'apply_jobs.jsuser_id')
+        //             ->select('jobseekers.fname', 'jobseekers.lname', 'jobseekers.email', 'jobseekers.contact', 'jobseekers.designation', 'jobseekers.expected_salary', 'jobseekers.exp_year', 'jobseekers.exp_month', 'jobseekers.current_salary', 'jobseekers.expected_salary', 'jobseekers.notice_period', 'jobseekers.preferred_location')->whereIn('js_skills.skill', [$jobskiils->job_skills])->get();
 
         // return response()->json(['data' => $data], 200);
         return view('employer.job_ats', ['data' => $data]);
@@ -1385,14 +1391,26 @@ class JobmanagerController extends Controller
       
       // Send notifications to jobseekers who have skills similar to this job.
            if ($request->job_skills) {
-        $jobseekers = JsSkill::join('jobseekers', 'jobseekers.id', '=', 'js_skills.js_userid')->select('js_skills.js_userid', 'jobseekers.email')->whereIn('skill', explode(",", $request->job_skills))->distinct()->get();
+        $jobseekers = JsSkill::join('jobseekers', 'jobseekers.id', '=', 'js_skills.js_userid')->select('js_skills.js_userid', 'jobseekers.email', 'jobseekers.fname', 'jobseekers.lname')->whereIn('skill', explode(",", $request->job_skills))->distinct()->get();
+
+        $companydetails = DB::table('empcompaniesdetails')->where('id', $session_company_id)->orderBy('id', 'desc')
+            ->first();
 
         $data = new stdclass();
         $data->jobid = $job->id;
         $data->date = date('d-m-Y', time());
+        $data->companylogo = $companydetails->company_logo;
+        $data->jobtitle = $request->title;
+        $data->companyname = $companydetails->company_name;
+        $data->companyaddress = $companydetails->address;
+        $data->empemail = Auth::guard('employer')->user()->email;
+        $data->companyemail = $companydetails->com_email;
+        $data->empcontact = Auth::guard('employer')->user()->contact;
+        $data->companycontact = $companydetails->com_contact;
+        $data->companywebsite = $companydetails->website;
 
         foreach($jobseekers as $jobseeker){
-
+        $data->jsname = $jobseeker->fname." ".$jobseeker->lname;
         $data->jobseeker_id = $jobseeker->js_userid;
         $data->email = $jobseeker->email;
        // Trigger the event

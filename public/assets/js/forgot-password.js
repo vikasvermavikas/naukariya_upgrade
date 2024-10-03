@@ -4,7 +4,7 @@ $(document).ready(function () {
         e.preventDefault();
         Swal.showLoading();
         $.ajax({
-            url : SITE_URL + 'forgot-password',
+            url : SITE_URL + '/forgot-password',
             type : 'POST',
             dataType : 'json',
             data : $(this).serialize(),
