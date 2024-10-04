@@ -1,6 +1,65 @@
 $(document).ready(function () {
     // Get designations.
     $('.designation').autocomplete();
+    const csrf = $("meta[name=csrf-token]").attr('content');
+
+    function validateEmail($email) {
+            var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+            return emailReg.test( $email );
+    }
+    
+    function setEmailError(textvalue){
+        $(".emailerror").text(textvalue);
+    }
+
+
+    $("#email").focusout(function () {
+            const element = $(this);
+            var emailval = element.val();
+            var emailerror = '';
+            if (!emailval) {
+                emailerror = 'Email field is required';
+                setEmailError(emailerror);
+
+                $(".savechanges").attr('disabled', true);
+            }
+            else if (!validateEmail(emailval)) {
+                emailerror = 'Invalid Email';
+                setEmailError(emailerror);
+                element.val('');
+
+                $(".savechanges").attr('disabled', true);
+
+            }
+            else{
+                $.ajax({
+                    url : SITE_URL+'/subuser/trackers/validate_email/'+emailval,
+                    type : 'post',
+                    dataType : 'json',
+                    data : {
+                        email : emailval,
+                        _token : csrf
+                    },
+                    success : function (response){
+                        if (response.success) {
+                         setEmailError('');
+                        $(".savechanges").attr('disabled', false);
+
+                        }
+                        else {
+                         setEmailError(response.message);
+                        element.val('');
+
+
+                        }
+                    },
+                    error : function (e){
+                $(this).val('');
+
+                    }
+                })
+            }
+        });
 
     function get_reference_list() {
         $.ajax({

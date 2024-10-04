@@ -549,6 +549,7 @@ class TrackerController extends Controller
     }
     public function exportTrackerDataEmployer(Request $request, $trackerids = '')
     {
+        // die;
         $from_date = $request->from_date;
         $to_date = $request->to_date;
         $source = $request->source;
@@ -615,6 +616,8 @@ class TrackerController extends Controller
                 }
             });
         }
+        // print_r($list->toSql());
+        // die;
         if (isset($uploadstatus)) {
 
             if ($uploadstatus === 'yes') {
@@ -1000,4 +1003,13 @@ class TrackerController extends Controller
 
         return view('sub_user.add_tracker', compact('locations', 'states'));
     }
+
+    public function tracker_email_validate($email){
+        if(Tracker::where('email', $email)->exists()){
+            return response()->json(['error' => 'true', 'message' => 'Email Already Exists']);
+        }
+            return response()->json(['success' => 'true']);
+
+    }
+
 }

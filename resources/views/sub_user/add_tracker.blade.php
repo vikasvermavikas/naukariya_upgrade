@@ -50,7 +50,8 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12">
                             <label><span style="color: red;">*</span> Email</label>
-                            <input type="email" placeholder="Enter Email" name="email" value="{{old('email')}}"  required />
+                            <input type="email" placeholder="Enter Email" name="email" id="email" value="{{old('email')}}"  required />
+                            <span class="text-danger emailerror"></span>
                             @error('email')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -70,9 +71,9 @@
                             <label><span style="color: red;">*</span> Select Gender</label>
                             <select name="gender" style="outline: none;" required>
                                 <option value="">Select Gender</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                                <option value="others">Others</option>
+                                <option value="male" {{old('gender') == 'male' ? 'selected' : ''}}>Male</option>
+                                <option value="female" {{old('gender') == 'female' ? 'selected' : ''}}>Female</option>
+                                <option value="others" {{old('gender') == 'others' ? 'selected' : ''}}>Others</option>
                             </select>
                             @error('gender')
                                 <span class="text-danger">{{ $message }}</span>
@@ -97,18 +98,18 @@
                                 name="current_designation" data-prefetch="{{ route('getskillsoptions') }}" value="{{old('current_designation')}}" >
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12">
-                            <label>Experience</label>
-                            <select name="experience" style="outline: none;">
+                            <label><span class="text-danger">*</span> Experience </label>
+                            <select name="experience" style="outline: none;" required>
                                 <option value="">Select Experience</option>
-                                <option value="fresher">0-1 Yr (Also Fresher)</option>
-                                <option value="1-2">1-2 Yr</option>
-                                <option value="2-4">2-4 Yr</option>
-                                <option value="4-5">4-5 Yr</option>
-                                <option value="5-8">5-8 Yr</option>
-                                <option value="8-10">8-10 Yr</option>
-                                <option value="10-15">10-15 Yr</option>
-                                <option value="15-20">15-20 Yr</option>
-                                <option value="20-25">20-25 Yr</option>
+                                <option value="fresher" {{old('experience' == 'fresher') ? 'selected' : ''}}>0-1 Yr (Also Fresher)</option>
+                                <option value="1-2" {{old('experience' == '1-2') ? 'selected' : ''}}>1-2 Yr</option>
+                                <option value="2-4" {{old('experience' == '2-4') ? 'selected' : ''}}>2-4 Yr</option>
+                                <option value="4-5" {{old('experience' == '4-5') ? 'selected' : ''}}>4-5 Yr</option>
+                                <option value="5-8" {{old('experience' == '5-8') ? 'selected' : ''}}>5-8 Yr</option>
+                                <option value="8-10" {{old('experience' == '8-10') ? 'selected' : ''}}>8-10 Yr</option>
+                                <option value="10-15" {{old('experience' == '10-15') ? 'selected' : ''}}>10-15 Yr</option>
+                                <option value="15-20" {{old('experience' == '15-20') ? 'selected' : ''}}>15-20 Yr</option>
+                                <option value="20-25" {{old('experience' == '20-25') ? 'selected' : ''}}>20-25 Yr</option>
                             </select>
                         </div>
                     </div>
@@ -123,16 +124,16 @@
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <label>Comapny Name</label>
                                 <input type="text" class="companydetails" placeholder="Enter Company Name"
-                                    name="company_name[]"  />
+                                    name="company_name[]" value="{{old('company_name')}}" />
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <label>Designation in Company</label>
-                                <input type="text" class="companydetails" placeholder="Working As" name="working_as[]" />
+                                <input type="text" class="companydetails" placeholder="Working As" name="working_as[]" {{old('working_as')}}/>
                             </div>
 
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <label>From</label>
-                                <input type="month" class="companydetails" name="from[]" max="{{ date('Y-m') }}">
+                                <input type="month" class="companydetails" name="from[]" max="{{ date('Y-m') }}" {{old('from')}}>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <span class="float-right small d-flex currenlyLog"><input type="checkbox"
@@ -165,8 +166,8 @@
                             <label>Intrested Job Type</label>
                             <select name="intrested_job_type">
                                 <option value="">Select Intrested Job Type</option>
-                                <option value="part-time">Part Time</option>
-                                <option value="full-time">Full Time</option>
+                                <option value="part-time" {{old('intrested_job_type') == 'part-time' ? 'selected' : ''}}>Part Time</option>
+                                <option value="full-time" {{old('intrested_job_type') == 'full-time' ? 'selected' : ''}}>Full Time</option>
                             </select>
 
                         </div>
@@ -417,7 +418,7 @@
 
                     </div>
                     <div class="text-center mb-50">
-                        <button type="submit" class="btn">Add</button>
+                        <button type="submit" class="btn savechanges">Add</button>
                     </div>
                 </form>
             </div>

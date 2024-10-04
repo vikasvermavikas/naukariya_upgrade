@@ -1,4 +1,4 @@
-@extends('layouts.master', ['title' => is_array($data) ? $data[0]->applied_for : ''])
+@extends('layouts.master', ['title' => $jobdetails->title])
 @section('style')
     <style>
         #editor {
@@ -13,7 +13,7 @@
 @endsection
 @section('content')
     <div class="container">
-        <h2 class="text-center mt-4">{{ is_array($data) ? $data[0]->applied_for : '' }}</h2>
+        <h2 class="text-center mt-4">{{ $jobdetails->title }}</h2>
         <div class="row">
             <div class="col-md-12 mb-5">
                     {{ Breadcrumbs::render('job_ats') }}
@@ -83,12 +83,14 @@
                                                         aria-hidden="true"></i></a>
                                             </p>
                                         </td>
-                                        <td>{{ $item->created_at }}</td>
+                                        <td>{{ $item->job_id == $jobid ? $item->created_at : ''}}</td>
                                         <td>{{ $item->exp_year }} - {{ $item->exp_month }}</td>
                                         <td>{{ $item->designation }}</td>
                                         <td>{{ $item->expected_salary }}</td>
                                         <td>{{ $item->notice_period }}</td>
                                         <td>
+                                            @if($item->status && $item->job_id == $jobid)
+
                                             @if ($item->status == 1)
                                                 Applied
                                             @elseif ($item->status == 2)
@@ -106,10 +108,15 @@
                                             @else
                                                 NA
                                             @endif
+                                            @else
+                                            Pending
+                                            @endif
+
 
 
                                         </td>
                                         <td>
+                                            @if ($item->id && $item->job_id == $jobid)
                                             @if ($item->status == 3)
                                                 <i style="color:#f95602;" class="fa fa-check" aria-hidden="true"></i>
                                             @else
@@ -167,6 +174,10 @@
                                                 </a>
                                             @endif
 
+                                            @else
+                                              -
+                                            @endif
+
                                         </td>
                                     </tr>
                                 @empty
@@ -180,7 +191,7 @@
                                     $isApplied = false;                                    
                                 @endphp
                                 @forelse($data as $item)
-                                    @if ($item->status == 1)
+                                    @if ($item->status == 1 && $item->job_id == $jobid)
                                     @php $isApplied = true; @endphp
                                         <tr>
                                             <td> {{ $item->fname }}
@@ -192,7 +203,7 @@
                                                             aria-hidden="true"></i></a>
                                                 </p>
                                             </td>
-                                            <td>{{ $item->created_at }}</td>
+                                            <td>{{ $item->job_id == $jobid ? $item->created_at : '' }}</td>
                                             <td>{{ $item->exp_year }} - {{ $item->exp_month }}</td>
                                             <td>{{ $item->designation }}</td>
                                             <td>{{ $item->expected_salary }}</td>
@@ -246,8 +257,9 @@
                             @php $isShortlisted = false; @endphp
                             <tbody id="Shortlisted" class="tab-pane fade">
                                 @forelse($data as $item)
-                                @if ($item->status == 3)
-                                @php $isApplied = true; @endphp
+                                @if ($item->status == 3 && $item->job_id == $jobid)
+                                
+                                @php $isShortlisted = true; @endphp
                                         <tr>
                                             <td> {{ $item->fname }}
                                                 {{ $item->lname ? $item->lname : '' }}
@@ -258,7 +270,7 @@
                                                             aria-hidden="true"></i></a>
                                                 </p>
                                             </td>
-                                            <td>{{ $item->created_at }}</td>
+                                            <td>{{ $item->job_id == $jobid ? $item->created_at : '' }}</td>
                                             <td>{{ $item->exp_year }} - {{ $item->exp_month }}</td>
                                             <td>{{ $item->designation }}</td>
                                             <td>{{ $item->expected_salary }}</td>
@@ -311,7 +323,7 @@
                             <tbody id="Rejected" class="tab-pane fade">
                                 @php $isRejected = false; @endphp
                                 @forelse($data as $item)
-                                    @if ($item->status == 4)
+                                    @if ($item->status == 4 && $item->job_id == $jobid)
                                      @php $isRejected = true; @endphp
                                         <tr>
                                             <td> {{ $item->fname }}
@@ -323,7 +335,7 @@
                                                             aria-hidden="true"></i></a>
                                                 </p>
                                             </td>
-                                            <td>{{ $item->created_at }}</td>
+                                            <td>{{ $item->job_id == $jobid ? $item->created_at : '' }}</td>
                                             <td>{{ $item->exp_year }} - {{ $item->exp_month }}</td>
                                             <td>{{ $item->designation }}</td>
                                             <td>{{ $item->expected_salary }}</td>
@@ -376,7 +388,7 @@
                             <tbody id="InterviewScheduled" class="tab-pane fade">
                                 @php $isInterviewScheduled = false; @endphp
                                 @forelse($data as $item)
-                                @if ($item->status == 2)
+                                @if ($item->status == 2 && $item->job_id == $jobid)
                                 @php $isInterviewScheduled = true; @endphp
                                     
                                         <tr>
@@ -389,7 +401,7 @@
                                                             aria-hidden="true"></i></a>
                                                 </p>
                                             </td>
-                                            <td>{{ $item->created_at }}</td>
+                                            <td>{{ $item->job_id == $jobid ? $item->created_at : '' }}</td>
                                             <td>{{ $item->exp_year }} - {{ $item->exp_month }}</td>
                                             <td>{{ $item->designation }}</td>
                                             <td>{{ $item->expected_salary }}</td>
@@ -441,7 +453,7 @@
                             <tbody id="Offer" class="tab-pane fade">
                                 @php $isOffered = false; @endphp
                                 @forelse($data as $item)
-                                @if ($item->status == 5)
+                                @if ($item->status == 5 && $item->job_id == $jobid)
                                 @php $isOffered = true; @endphp
                                         <tr>
                                             <td> {{ $item->fname }}
@@ -453,7 +465,7 @@
                                                             aria-hidden="true"></i></a>
                                                 </p>
                                             </td>
-                                            <td>{{ $item->created_at }}</td>
+                                            <td>{{ $item->job_id == $jobid ? $item->created_at : '' }}</td>
                                             <td>{{ $item->exp_year }} - {{ $item->exp_month }}</td>
                                             <td>{{ $item->designation }}</td>
                                             <td>{{ $item->expected_salary }}</td>
@@ -504,7 +516,7 @@
                             <tbody id="Hire" class="tab-pane fade">
                                 @php $isHired = false; @endphp
                                 @forelse($data as $item)
-                                @if ($item->status == 6)
+                                @if ($item->status == 6 && $item->job_id == $jobid)
                                 @php $isHired = true; @endphp
                                         <tr>
                                             <td> {{ $item->fname }}
@@ -516,7 +528,7 @@
                                                             aria-hidden="true"></i></a>
                                                 </p>
                                             </td>
-                                            <td>{{ $item->created_at }}</td>
+                                            <td>{{ $item->job_id == $jobid ? $item->created_at : '' }}</td>
                                             <td>{{ $item->exp_year }} - {{ $item->exp_month }}</td>
                                             <td>{{ $item->designation }}</td>
                                             <td>{{ $item->expected_salary }}</td>
@@ -568,7 +580,7 @@
                             <tbody id="SaveForFuture" class="tab-pane fade">
                                 @php $isSaved = false; @endphp
                                 @forelse($data as $item)
-                                    @if ($item->status == 7)
+                                    @if ($item->status == 7 && $item->job_id == $jobid)
                                     @php $isSaved = true; @endphp
                                         <tr>
                                             <td> {{ $item->fname }}
@@ -580,7 +592,7 @@
                                                             aria-hidden="true"></i></a>
                                                 </p>
                                             </td>
-                                            <td>{{ $item->created_at }}</td>
+                                            <td>{{ $item->job_id == $jobid ? $item->created_at : '' }}</td>
                                             <td>{{ $item->exp_year }} - {{ $item->exp_month }}</td>
                                             <td>{{ $item->designation }}</td>
                                             <td>{{ $item->expected_salary }}</td>

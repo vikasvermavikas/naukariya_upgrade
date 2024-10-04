@@ -93,27 +93,69 @@ class JobmanagerController extends Controller
 
     public function jobapplication($id)
     {
-        // $uid = Session::get('user')['id'];
         $uid = Auth::guard('employer')->user()->id;
-        $jobskiils = Jobmanager::select('job_skills')->where('id', $id)->first();
+        $jobskiils = Jobmanager::select('job_skills', 'title')->where('id', $id)->first();
+        $jobskiils->job_skills = explode(',', $jobskiils->job_skills);
         $jid = $id;
-        $data = DB::table('apply_jobs')
-            ->leftjoin('jobmanagers', 'jobmanagers.id', '=', 'apply_jobs.job_id')
-            ->leftjoin('jobseekers', 'jobseekers.id', '=', 'apply_jobs.jsuser_id')
-            ->leftjoin('js_resumes', 'js_resumes.js_userid', '=', 'apply_jobs.jsuser_id')
-            ->where('apply_jobs.job_id', $jid)
-            ->where('jobmanagers.userid', $uid)
-            ->select('apply_jobs.*', 'jobmanagers.title as applied_for', 'js_resumes.resume', 'jobseekers.fname', 'jobseekers.lname', 'jobseekers.email', 'jobseekers.contact', 'jobseekers.designation', 'jobseekers.expected_salary', 'jobseekers.exp_year', 'jobseekers.exp_month', 'jobseekers.current_salary', 'jobseekers.expected_salary', 'jobseekers.notice_period', 'jobseekers.preferred_location')
+        $data = DB::table('jobseekers')
+            ->leftJoin('apply_jobs', function ($join) use ($jid) {
+                $join->on('apply_jobs.jsuser_id', '=', 'jobseekers.id')
+                    ->where('apply_jobs.job_id', '=', $jid); // Match the job_id and jsuser_id
+            })
+            ->join('js_skills', 'js_skills.js_userid', '=', 'jobseekers.id') // Ensure skill matching is with the jobseekers
+            ->leftJoin('js_resumes', 'js_resumes.js_userid', '=', 'jobseekers.id') // Include resumes if they exist
+            ->select(
+                'apply_jobs.id',
+                'apply_jobs.job_id',
+                'apply_jobs.status',
+                'apply_jobs.created_at',
+                'js_resumes.resume',
+                'jobseekers.fname',
+                'jobseekers.lname',
+                'jobseekers.email',
+                'jobseekers.contact',
+                'jobseekers.designation',
+                'jobseekers.expected_salary',
+                'jobseekers.exp_year',
+                'jobseekers.exp_month',
+                'jobseekers.current_salary',
+                'jobseekers.notice_period',
+                'jobseekers.preferred_location'
+            )
+            ->whereIn('js_skills.skill', $jobskiils->job_skills) // Filter jobseekers by their skills
+            ->groupBy(
+                'jobseekers.email',
+                'apply_jobs.id',
+                'apply_jobs.job_id',
+                'apply_jobs.status',
+                'apply_jobs.created_at',
+                'js_resumes.resume',
+                'jobseekers.fname',
+                'jobseekers.lname',
+                'jobseekers.contact',
+                'jobseekers.designation',
+                'jobseekers.expected_salary',
+                'jobseekers.exp_year',
+                'jobseekers.exp_month',
+                'jobseekers.current_salary',
+                'jobseekers.notice_period',
+                'jobseekers.preferred_location'
+            )
             ->get();
 
-        // $alldata = Jobseeker::join('js_skills', 'js_skills.js_userid', '=', 'jobseekers.id')
-        //                  ->leftjoin('jobmanagers', 'jobmanagers.id', '=', 'apply_jobs.job_id')
-        //                  ->leftjoin('apply_jobs', 'apply_jobs.jsuser_id', '=', 'jobseekers.id')
-        //                 ->leftjoin('js_resumes', 'js_resumes.js_userid', '=', 'apply_jobs.jsuser_id')
-        //             ->select('jobseekers.fname', 'jobseekers.lname', 'jobseekers.email', 'jobseekers.contact', 'jobseekers.designation', 'jobseekers.expected_salary', 'jobseekers.exp_year', 'jobseekers.exp_month', 'jobseekers.current_salary', 'jobseekers.expected_salary', 'jobseekers.notice_period', 'jobseekers.preferred_location')->whereIn('js_skills.skill', [$jobskiils->job_skills])->get();
+        // $data = DB::table('apply_jobs')
+        //        ->leftjoin('jobmanagers', 'jobmanagers.id', '=', 'apply_jobs.job_id')
+        //        ->leftjoin('jobseekers', 'jobseekers.id', '=', 'apply_jobs.jsuser_id')
+        //        ->join('js_skills', 'js_skills.js_userid', '=', 'jobseekers.id')
+        //        ->leftjoin('js_resumes', 'js_resumes.js_userid', '=', 'apply_jobs.jsuser_id')
+        //        ->where('apply_jobs.job_id', $jid)
+        //        ->where('jobmanagers.userid', $uid)
+        //        ->orwhereIn('js_skills.skill', $jobskiils->job_skills)
+        //        ->select('apply_jobs.*', 'jobmanagers.title as applied_for', 'js_resumes.resume', 'jobseekers.fname', 'jobseekers.lname', 'jobseekers.email', 'jobseekers.contact', 'jobseekers.designation', 'jobseekers.expected_salary', 'jobseekers.exp_year', 'jobseekers.exp_month', 'jobseekers.current_salary', 'jobseekers.expected_salary', 'jobseekers.notice_period', 'jobseekers.preferred_location')
+        //        ->get();
 
         // return response()->json(['data' => $data], 200);
-        return view('employer.job_ats', ['data' => $data]);
+        return view('employer.job_ats', ['data' => $data, 'jobdetails' => $jobskiils, 'jobid' => $id]);
     }
 
     public function getScheduledInterviewLists()
@@ -129,7 +171,6 @@ class JobmanagerController extends Controller
 
         // return response()->json(['data' => $data], 200);
         return view('employer.interview_list', ['data' => $data]);
-
     }
 
     public function interview_scheduled(Request $request)
@@ -794,10 +835,9 @@ class JobmanagerController extends Controller
             });
         }
         //search keyword within Browse jobs end
-        if ($experiencelevel == 'experienced'){
+        if ($experiencelevel == 'experienced') {
             $dataFilter->where('jobmanagers.main_exp', '>', 0);
-        }
-        elseif ($experiencelevel == 'fresher'){
+        } elseif ($experiencelevel == 'fresher') {
             $dataFilter->where(function ($query) use ($keywordhome) {
                 $query->where('jobmanagers.main_exp', '=', 0);
                 $query->orWhere('jobmanagers.main_exp', '<', 1);
@@ -1305,37 +1345,36 @@ class JobmanagerController extends Controller
          Mail::to($to)->send(new Addjobmanager($name,$mobile,$job_title));
          }*/
 
-      $job->save();
-
+        $job->save();
     }
 
     public function store_front(Request $request)
-    {   
+    {
         try {
             $request->validate(
                 [
-                    'title' =>'required|max:255',
-                    'job_category_id' =>'required',
-                    'job_type_id' =>'required',
-                    'client_id' =>'required|integer',
-                    'job_industry_id' =>'required',
-                    'job_sector_id' =>'required',
+                    'title' => 'required|max:255',
+                    'job_category_id' => 'required',
+                    'job_type_id' => 'required',
+                    'client_id' => 'required|integer',
+                    'job_industry_id' => 'required',
+                    'job_sector_id' => 'required',
                     // 'is_deleted' =>'required',
-                    'job_address' =>'required|max:255',
-                    'job_city_id' =>'required',
-                    'job_state_id' =>'required',
-                    'main_exp' =>'required',
-                    'job_carreer_level' =>'required',
-                    'job_role' =>'required',
-                    'job_vaccancy' =>'required',
-                    'job_posted_type_id' =>'required',
-                    'job_functional_role_id' =>'required',
-                    'job_for' =>'required',
-                    'max_exp' =>'required',
-                    'job_qualification_id' =>'required',
+                    'job_address' => 'required|max:255',
+                    'job_city_id' => 'required',
+                    'job_state_id' => 'required',
+                    'main_exp' => 'required',
+                    'job_carreer_level' => 'required',
+                    'job_role' => 'required',
+                    'job_vaccancy' => 'required',
+                    'job_posted_type_id' => 'required',
+                    'job_functional_role_id' => 'required',
+                    'job_for' => 'required',
+                    'max_exp' => 'required',
+                    'job_qualification_id' => 'required',
                 ]
             );
-    
+
             $job = new Jobmanager();
             $uid = Auth::guard('employer')->user()->id;
             $session_company_id = Auth::guard('employer')->user()->company_id;
@@ -1387,41 +1426,39 @@ class JobmanagerController extends Controller
             $job->userid = $uid;
             $job->start_apply_date = $request->start_apply_date;
             $job->client_id = $request->client_id;
-           $job->save();
-      
-      // Send notifications to jobseekers who have skills similar to this job.
-           if ($request->job_skills) {
-        $jobseekers = JsSkill::join('jobseekers', 'jobseekers.id', '=', 'js_skills.js_userid')->select('js_skills.js_userid', 'jobseekers.email', 'jobseekers.fname', 'jobseekers.lname')->whereIn('skill', explode(",", $request->job_skills))->distinct()->get();
+            $job->save();
 
-        $companydetails = DB::table('empcompaniesdetails')->where('id', $session_company_id)->orderBy('id', 'desc')
-            ->first();
+            // Send notifications to jobseekers who have skills similar to this job.
+            if ($request->job_skills) {
+                $jobseekers = JsSkill::join('jobseekers', 'jobseekers.id', '=', 'js_skills.js_userid')->select('js_skills.js_userid', 'jobseekers.email', 'jobseekers.fname', 'jobseekers.lname')->whereIn('skill', explode(",", $request->job_skills))->distinct()->get();
 
-        $data = new stdclass();
-        $data->jobid = $job->id;
-        $data->date = date('d-m-Y', time());
-        $data->companylogo = $companydetails->company_logo;
-        $data->jobtitle = $request->title;
-        $data->companyname = $companydetails->company_name;
-        $data->companyaddress = $companydetails->address;
-        $data->empemail = Auth::guard('employer')->user()->email;
-        $data->companyemail = $companydetails->com_email;
-        $data->empcontact = Auth::guard('employer')->user()->contact;
-        $data->companycontact = $companydetails->com_contact;
-        $data->companywebsite = $companydetails->website;
+                $companydetails = DB::table('empcompaniesdetails')->where('id', $session_company_id)->orderBy('id', 'desc')
+                    ->first();
 
-        foreach($jobseekers as $jobseeker){
-        $data->jsname = $jobseeker->fname." ".$jobseeker->lname;
-        $data->jobseeker_id = $jobseeker->js_userid;
-        $data->email = $jobseeker->email;
-       // Trigger the event
-        event(new JobPost($data));
-        }
+                $data = new stdclass();
+                $data->jobid = $job->id;
+                $data->date = date('d-m-Y', time());
+                $data->companylogo = $companydetails->company_logo;
+                $data->jobtitle = $request->title;
+                $data->companyname = $companydetails->company_name;
+                $data->companyaddress = $companydetails->address;
+                $data->empemail = Auth::guard('employer')->user()->email;
+                $data->companyemail = $companydetails->com_email;
+                $data->empcontact = Auth::guard('employer')->user()->contact;
+                $data->companycontact = $companydetails->com_contact;
+                $data->companywebsite = $companydetails->website;
 
-           }
+                foreach ($jobseekers as $jobseeker) {
+                    $data->jsname = $jobseeker->fname . " " . $jobseeker->lname;
+                    $data->jobseeker_id = $jobseeker->js_userid;
+                    $data->email = $jobseeker->email;
+                    // Trigger the event
+                    event(new JobPost($data));
+                }
+            }
 
             return redirect()->route('postedjobs')->with(['message' => 'Job Posted Successfully']);
-        }
-        catch (Throwable $e) {
+        } catch (Throwable $e) {
             print_r($e->getMessage());
             die;
         }
@@ -1496,7 +1533,7 @@ class JobmanagerController extends Controller
             ->get();
 
 
-        return view('employer.edit_posted_job', ['data' => $data, 'sector' => $jobsector, 'clients' => $clients, 'industries' => $industries, 'functional_roles' => $functional_roles, 'companies' => $companies, 'states' => $states, 'posted_type' => $posted_type, 'jobcategory' => $jobcategory, 'careerlevel' => $careerlevel, 'jobtypes' => $jobtypes, 'jobshifts' => $jobshifts, 'locations' => $locations, 'qualifications' => $qualifications, 'questions' => $questions,'cities' => $cities, 'id' => $id]);
+        return view('employer.edit_posted_job', ['data' => $data, 'sector' => $jobsector, 'clients' => $clients, 'industries' => $industries, 'functional_roles' => $functional_roles, 'companies' => $companies, 'states' => $states, 'posted_type' => $posted_type, 'jobcategory' => $jobcategory, 'careerlevel' => $careerlevel, 'jobtypes' => $jobtypes, 'jobshifts' => $jobshifts, 'locations' => $locations, 'qualifications' => $qualifications, 'questions' => $questions, 'cities' => $cities, 'id' => $id]);
     }
 
     public function update_front(Request $request, $id)
@@ -1789,23 +1826,23 @@ class JobmanagerController extends Controller
 
         // return response()->json($jobs, 200);
         // $locations = Cities::select('cities_name')->where('state_id', '<',  42)->groupBy('cities_name')->get();
-        
+
         $blogs = Blog::select('id', 'title', 'image', 'created_at')->orderBy('id', 'desc')->offset(0)
-        ->limit(2)->get();
+            ->limit(2)->get();
         // select pi.id, pi.name as category, count(jb.id) as jobscount, group_concat(distinct i.id) as industryid from parent_industries pi join industries i on i.parent_id = pi.id 
-// join jobmanagers jb on jb.job_industry_id = i.id group by pi.name order by count(jb.id) DESC limit 8;
+        // join jobmanagers jb on jb.job_industry_id = i.id group by pi.name order by count(jb.id) DESC limit 8;
 
         $topcategories = ParentIndustry::join('industries', 'industries.parent_id', 'parent_industries.id')
-        ->join('jobmanagers', 'jobmanagers.job_industry_id', 'industries.id')
-        ->select('parent_industries.name as parent_name', 'parent_industries.image as icon', DB::raw('COUNT(DISTINCT jobmanagers.id) as jobscount'), DB::raw('GROUP_CONCAT(DISTINCT industries.id) as industryid'))
-        ->groupBy('parent_industries.name', 'parent_industries.image')
-        ->where('jobmanagers.status', 'Active')
-        ->orderBy('jobscount', 'DESC')
-        ->offset(0)
-        ->limit(8)
-        ->get();
-      
-       return view('homepage', ['egovernance' => $egovernance, 'corporate' => $corporate, 'government' => $government, 'blogs' => $blogs, 'topcategories' => $topcategories]);
+            ->join('jobmanagers', 'jobmanagers.job_industry_id', 'industries.id')
+            ->select('parent_industries.name as parent_name', 'parent_industries.image as icon', DB::raw('COUNT(DISTINCT jobmanagers.id) as jobscount'), DB::raw('GROUP_CONCAT(DISTINCT industries.id) as industryid'))
+            ->groupBy('parent_industries.name', 'parent_industries.image')
+            ->where('jobmanagers.status', 'Active')
+            ->orderBy('jobscount', 'DESC')
+            ->offset(0)
+            ->limit(8)
+            ->get();
+
+        return view('homepage', ['egovernance' => $egovernance, 'corporate' => $corporate, 'government' => $government, 'blogs' => $blogs, 'topcategories' => $topcategories]);
     }
 
     public function showSingleJob($id)
@@ -2472,7 +2509,8 @@ class JobmanagerController extends Controller
         }
     }
 
-    public function add_job(){
+    public function add_job()
+    {
         $uid = Auth::guard('employer')->user()->id;
         $companyId = Auth::guard('employer')->user()->company_id;
 
@@ -2536,6 +2574,6 @@ class JobmanagerController extends Controller
             ->get();
 
 
-        return view('employer.post_new_job', [ 'sector' => $jobsector, 'clients' => $clients, 'industries' => $industries, 'functional_roles' => $functional_roles, 'companies' => $companies, 'states' => $states, 'posted_type' => $posted_type, 'jobcategory' => $jobcategory, 'careerlevel' => $careerlevel, 'jobtypes' => $jobtypes, 'jobshifts' => $jobshifts, 'locations' => $locations, 'qualifications' => $qualifications, 'questions' => $questions]);
+        return view('employer.post_new_job', ['sector' => $jobsector, 'clients' => $clients, 'industries' => $industries, 'functional_roles' => $functional_roles, 'companies' => $companies, 'states' => $states, 'posted_type' => $posted_type, 'jobcategory' => $jobcategory, 'careerlevel' => $careerlevel, 'jobtypes' => $jobtypes, 'jobshifts' => $jobshifts, 'locations' => $locations, 'qualifications' => $qualifications, 'questions' => $questions]);
     }
 }

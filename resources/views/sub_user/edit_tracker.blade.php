@@ -108,8 +108,8 @@
                                 value="{{ $trackerDetails->current_designation }}">
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12">
-                            <label>Experience</label>
-                            <select name="experience" style="outline: none;">
+                            <label><span style="color: red;">*</span> Experience</label>
+                            <select name="experience" style="outline: none;" required>
                                 <option value="">Select Experience</option>
                                 <option value="fresher" {{ $trackerDetails->experience == 'fresher' ? 'selected' : '' }}>
                                     0-1 Yr (Also Fresher)</option>
@@ -502,7 +502,7 @@
                             </select>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12">
-                            <label>Reference <span class="text-danger">*</span></label>
+                            <label><span class="text-danger">*</span> Reference </label>
                             <input type="hidden" id="referenceid" value="{{$trackerDetails->reference}}">
                             <select name="reference" id="reference" required>
                                 <option value="">Select Reference Name</option>

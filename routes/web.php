@@ -434,6 +434,7 @@ Route::middleware('subuser')->group(function () {
             Route::get('tracker-details/{id}', 'edit')->name('edit_tracker');
             Route::post('update-tracker', 'update')->name('update_tracker');
             Route::post('update-tracker/resume', 'uploadResume')->name('upload_tracker_resume');
+            Route::post('validate_email/{email}', 'tracker_email_validate');
             Route::get('/export/tracker/{trackerids?}', 'exportTrackerDataEmployer')->name('export_subuser_tracker');
         });
 
