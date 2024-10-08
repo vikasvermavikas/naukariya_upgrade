@@ -136,7 +136,7 @@
                                 <li>Vacancy : <span>{{ $data->job_vaccancy }}</span></li>
                                 <li>Job nature : <span>{{ $data->job_type }}</span></li>
                                 <li>Salary :
-                                    <span>{{ $data->sal_disclosed == 'Yes' ? 'INR ' . $minsalary . ' - ' . $data->offered_sal_max : 'Not Disclosed' }}</span>
+                                    <span>{{ $data->sal_disclosed == 'Yes' ? round($minsalary / 100000, 2) . ' - ' . round($data->offered_sal_max / 100000, 2) . ' LPA' : 'Not Disclosed' }} </span>
                                 </li>
                                 <li>Job Shift : <span>{{ $data->job_shift }}</span></li>
                             </ul>

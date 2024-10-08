@@ -21,7 +21,7 @@ $(document).ready(function () {
     // Code for salary disclosed.
     $("#sal_disclosed").change(function () {
         var isSalaryDisclosed = this.value;
-        if (isSalaryDisclosed == 'No') {
+        if (isSalaryDisclosed == 'No' || isSalaryDisclosed == '') {
             $(".salarydisclosed").attr('disabled', 'disabled');
         }
         else {

@@ -36,9 +36,9 @@
                               <a href="{{asset('tracker/resume/'.$tracker->resume)}}" class="text-primary underline" title="Download Resume" target="_blank">Download Resume <i class="fas fa-download" aria-hidden="true"></i></a>
                                             </p>
 						</td>
-						<td>{{$tracker->experience}}</td>
+						<td>{{$tracker->experience && $tracker->experience == 'fresher' ? 'Fresher' : $tracker->experience." years"}}</td>
 						<td>{{$tracker->current_designation ? $tracker->current_designation : 'Not Mentioned'}}</td>
-						<td>{{$tracker->expected_ctc ? $tracker->expected_ctc : 'Not Mentioned'}}</td>
+						<td>{{$tracker->expected_ctc ? $tracker->expected_ctc." LPA" : 'Not Mentioned'}}</td>
 						<td>{{tracker_match_skill($jobid, $tracker->id)}} %</td>
 					</tr>
 					@empty

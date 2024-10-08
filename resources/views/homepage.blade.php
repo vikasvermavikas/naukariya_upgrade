@@ -276,9 +276,13 @@
                                     @forelse ($egovernance as $item)
                                         @php
                                             $minsalary = 0;
+                                            $maxsalary = 0;
                                             $exp_required = $item->main_exp . ' Yr - ' . $item->max_exp . ' Yr';
                                             if ($item->offered_sal_min) {
                                                 $minsalary = $item->offered_sal_min;
+                                            }
+                                              if ($item->offered_sal_max) {
+                                                $maxsalary = $item->offered_sal_max;
                                             }
                                             if ($item->main_exp === '0' && $item->max_exp === '0') {
                                                 $exp_required = 'Fresher';
@@ -308,7 +312,7 @@
                                                                 class="fas fa-map-marker-alt"></i>{{ $item->job_exp ? $item->job_exp : 'Not Defined' }}
                                                         </li>
                                                         <li><i class="fas fa-rupee-sign"
-                                                                            aria-hidden="true"></i> {{ $item->sal_disclosed == 'Yes' ? 'INR ' . $minsalary . ' - ' . $item->offered_sal_max : 'Not Disclosed' }}
+                                                                            aria-hidden="true"></i> {{ $item->sal_disclosed == 'Yes' ? 'INR ' . $minsalary . ' - ' . $maxsalary : 'Not Disclosed' }}
                                                         </li>
 
                                                     </ul>

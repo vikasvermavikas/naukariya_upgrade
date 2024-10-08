@@ -12,7 +12,7 @@
 			<h2>Job Notifications</h2>
 		</div>
 		<div class="table-responsive">
-			<table class="table  border">
+			<table class="table  table-bordered">
 				<thead class="home-bg-color text-light">
 					<tr>
 						<th>S No.</th>

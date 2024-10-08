@@ -1477,7 +1477,7 @@ class JobmanagerController extends Controller
 
     public function store_front(Request $request)
     {
-        try {
+       
             $request->validate(
                 [
                     'title' => 'required|max:255',
@@ -1499,9 +1499,13 @@ class JobmanagerController extends Controller
                     'job_for' => 'required',
                     'max_exp' => 'required',
                     'job_qualification_id' => 'required',
+                    'offered_sal_min' => 'required_if:sal_disclosed,==,Yes',
+                    'offered_sal_max' => 'required_if:sal_disclosed,==,Yes',
                 ]
             );
 
+            try {
+                
             $job = new Jobmanager();
             $uid = Auth::guard('employer')->user()->id;
             $session_company_id = Auth::guard('employer')->user()->company_id;
@@ -1664,7 +1668,35 @@ class JobmanagerController extends Controller
     }
 
     public function update_front(Request $request, $id)
+
     {
+
+        $request->validate(
+                [
+                    'title' => 'required|max:255',
+                    'job_category_id' => 'required',
+                    'job_type_id' => 'required',
+                    'client_id' => 'required|integer',
+                    'job_industry_id' => 'required',
+                    'job_sector_id' => 'required',
+                    // 'is_deleted' =>'required',
+                    'job_address' => 'required|max:255',
+                    'job_city_id' => 'required',
+                    'job_state_id' => 'required',
+                    'main_exp' => 'required',
+                    'job_carreer_level' => 'required',
+                    'job_role' => 'required',
+                    'job_vaccancy' => 'required',
+                    'job_posted_type_id' => 'required',
+                    'job_functional_role_id' => 'required',
+                    'job_for' => 'required',
+                    'max_exp' => 'required',
+                    'job_qualification_id' => 'required',
+                    'offered_sal_min' => 'required_if:sal_disclosed,==,Yes',
+                    'offered_sal_max' => 'required_if:sal_disclosed,==,Yes',
+                ]
+            );
+
         $job = Jobmanager::find($id);
 
         $uid = Session::get('user')['id'];

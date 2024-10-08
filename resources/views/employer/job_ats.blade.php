@@ -23,7 +23,7 @@
 
             <div class="col-sm-12">
 
-                <a href="{{ route('managejobs') }}" class="btn float-right mb-3">Back</a>
+                <a href="{{ route('managejobs') }}" class="btn float-right mb-3 rounded">Back</a>
             </div>
             <div class="col-md-12 my-2">
                 @if (session()->has('message'))
@@ -122,7 +122,7 @@
                                         <td>{{ $item->job_id == $jobid ? $item->created_at : 'Not Applied'}}</td>
                                         <td>{{ $item->exp_year && $item->exp_month ? $item->exp_year." years " .$item->exp_month." months " : 'Not Mentioned' }}</td>
                                         <td>{{ $item->designation ? $item->designation : 'Not Mentioned' }}</td>
-                                        <td>{{ $item->expected_salary ? $item->expected_salary : 'Not Mentioned' }}</td>
+                                        <td>{{ $item->expected_salary ? $item->expected_salary." LPA" : 'Not Mentioned' }}</td>
                                         <td>{{ $item->notice_period ? $item->notice_period : 'Not Mentioned' }}</td>
                                         <td>
                                             @if($item->status && $item->job_id == $jobid)

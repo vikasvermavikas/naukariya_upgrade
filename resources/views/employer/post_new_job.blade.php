@@ -30,12 +30,11 @@
                             </div>
 
                             <div class="col-md-6 col-xl-4">
-                                <label class="col-form-label" for="">Select Job For <span
-                                        class="text-danger">*</span></label>
+                                <label class="col-form-label" for="">Select Job For <span class="text-danger">*</span></label>
                                 <select class="form-control" name="job_for" id="job_for" required>
                                     <option value="">Select Job For</option>
-                                    <option value="Jobseeker">Candidate/Jobseeker</option>
-                                    <option value="Consultant">Consultant</option>
+                                    <option value="Jobseeker" {{old('job_for') == 'Jobseeker' ? 'selected' : ''}}>Candidate/Jobseeker</option>
+                                    <option value="Consultant" {{old('job_for') == 'Consultant' ? 'selected' : ''}}>Consultant</option>
                                 </select>
                                 @error('job_for')
                                     <span class="text-danger">{{ $message }}</span>
@@ -48,7 +47,7 @@
                                 <select class="form-control" name="job_sector_id" id="job_sector_id" required>
                                     <option value="">Select Job Sector</option>
                                     @foreach ($sector as $jobsector)
-                                        <option value="{{ $jobsector->id }}">{{ $jobsector->job_sector }}</option>
+                                        <option value="{{ $jobsector->id }}" {{old('job_sector_id') == $jobsector->id ? 'selected' : ''}}>{{ $jobsector->job_sector }}</option>
                                     @endforeach
                                 </select>
                                 @error('job_sector_id')
@@ -62,7 +61,7 @@
                                 <select class="form-control" name="client_id" id="client_id" required>
                                     <option value="">Select Client Name</option>
                                     @foreach ($clients as $client)
-                                        <option value="{{ $client->id }}">{{ $client->name }}</option>
+                                        <option value="{{ $client->id }}" {{old('client_id') == $client->id ? 'selected' : ''}}>{{ $client->name }}</option>
                                     @endforeach
                                     {{-- <option value="add_client">Others</option> --}}
 
@@ -86,7 +85,7 @@
                             <div class="col-md-6 col-xl-4">
                                 <label class="col-form-label" for="job_title">Job Title <span
                                         class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="title" placeholder="Enter Job Title"
+                                <input type="text" class="form-control" name="title" placeholder="Enter Job Title" value="{{old('title')}}" 
                                     required>
                                     @error('title')
                                     <span class="text-danger">{{ $message }}</span>
@@ -98,7 +97,7 @@
                                 <select class="form-control" name="job_industry_id" id="job_industry_id" required>
                                     <option value="">Select Industry</option>
                                     @foreach ($industries as $industry)
-                                        <option value="{{ $industry->id }}">{{ $industry->category_name }}</option>
+                                        <option value="{{ $industry->id }}" {{old('job_industry_id') == $industry->id ? 'selected' : ''}}>{{ $industry->category_name }}</option>
                                     @endforeach
                                 </select>
                                 @error('job_industry_id')
@@ -112,7 +111,7 @@
                                     required>
                                     <option value="">Select Functional area</option>
                                     @foreach ($functional_roles as $functional_role)
-                                        <option value="{{ $functional_role->id }}">
+                                        <option value="{{ $functional_role->id }}" {{old('job_functional_role_id') == $functional_role->id ? 'selected' : ''}}>
                                             {{ $functional_role->subcategory_name }}
                                         </option>
                                     @endforeach
@@ -126,7 +125,7 @@
                                 <label class="col-form-label" for="job_address">Address <span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="job_address" id="job_address"
-                                    placeholder="Enter Address" required>
+                                    placeholder="Enter Address" value="{{old('job_address')}}" required>
                                 @error('job_address')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -137,7 +136,7 @@
                                 <select class="form-control" name="job_state_id" id="job_state_id" required>
                                     <option value="">Select State</option>
                                     @foreach ($states as $state)
-                                        <option value="{{ $state->id }}">{{ $state->states_name }}</option>
+                                        <option value="{{ $state->id }}" {{old('job_state_id') == $state->id ? 'selected' : ''}}>{{ $state->states_name }}</option>
                                     @endforeach
                                 </select>
                                 @error('job_state_id')
@@ -160,7 +159,7 @@
                                 <select class="form-control" name="job_posted_type_id" id="job_posted_type_id" required>
                                     <option value="">Select Posted</option>
                                     @foreach ($posted_type as $type)
-                                        <option value="{{ $type->id }}">{{ $type->job_post_as }}</option>
+                                        <option value="{{ $type->id }}" {{old('job_posted_type_id') == $type->id ? 'selected' : ''}}>{{ $type->job_post_as }}</option>
                                     @endforeach
                                 </select>
                                 @error('job_posted_type_id')
@@ -171,10 +170,10 @@
                                 <label class="col-form-label" for="job_preference">Preference</label>
                                 <select class="form-control" name="job_preference" id="job_preference">
                                     <option disabled value="">Select Preference</option>
-                                    <option value="All">All</option>
-                                    <option value="Men">Men</option>
-                                    <option value="women">Women</option>
-                                    <option value="Handicapped">Handicapped</option>
+                                    <option value="All" {{old('job_preference') == 'All' ? 'selected' : ''}}>All</option>
+                                    <option value="Men" {{old('job_preference') == 'Men' ? 'selected' : ''}}>Men</option>
+                                    <option value="women" {{old('job_preference') == 'women' ? 'selected' : ''}}>Women</option>
+                                    <option value="Handicapped" {{old('job_preference') == 'Handicapped' ? 'selected' : ''}}>Handicapped</option>
                                 </select>
                             </div>
                             <div class="col-md-12 col-xl-4">
@@ -186,7 +185,7 @@
                                             required>
                                             <option value="">Select Category</option>
                                             @foreach ($jobcategory as $category)
-                                                <option value="{{ $category->id }}">{{ $category->job_category }}
+                                                <option value="{{ $category->id }}" {{old('job_category_id') == $category->id ? 'selected' : ''}}>{{ $category->job_category }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -201,7 +200,7 @@
                                             required>
                                             <option value="">Select Carrier Level</option>
                                             @foreach ($careerlevel as $career)
-                                                <option value="{{ $career->id }}">{{ $career->career_level }}</option>
+                                                <option value="{{ $career->id }}" {{old('job_carreer_level') == $career->id ? 'selected' : ''}}>{{ $career->career_level }}</option>
                                             @endforeach
                                         </select>
                                         @error('job_carreer_level')
@@ -214,7 +213,7 @@
                                 <label class="col-form-label" for="job_role">Role <span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="job_role" id="job_role"
-                                    placeholder="Enter Role" required>
+                                    placeholder="Enter Role" value="{{old('job_role')}}" required>
                                 @error('job_role')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -223,7 +222,7 @@
                                 <label class="col-form-label" for="job_vaccancy">No. Of Vacancy <span
                                         class="text-danger">*</span></label>
                                 <input type="number" name="job_vaccancy" id="job_vaccancy" class="form-control"
-                                    placeholder="Enter No. of Vacancy" required>
+                                    placeholder="Enter No. of Vacancy" min="1" value="{{old('job_vaccancy')}}" required>
                                 @error('job_vaccancy')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -236,7 +235,7 @@
                                         <select class="form-control" name="main_exp" id="main_exp" required>
                                             <option value="">Select Experience</option>
                                             @for ($i = 0; $i < 20; $i++)
-                                                <option value="{{ $i }}">{{ $i }}</option>
+                                                <option value="{{ $i }}" {{old('main_exp') == $i ? 'selected' : ''}}>{{ $i }}</option>
                                             @endfor
                                         </select>
                                         @error('main_exp')
@@ -249,7 +248,7 @@
                                         <select class="form-control" name="max_exp" id="max_exp" required>
                                             <option value="">Select Max Experience</option>
                                             @for ($i = 0; $i < 20; $i++)
-                                                <option value="{{ $i }}">{{ $i }}</option>
+                                                <option value="{{ $i }}" {{old('max_exp') == $i ? 'selected' : ''}}>{{ $i }}</option>
                                             @endfor
                                         </select>
                                         @error('max_exp')
@@ -261,12 +260,12 @@
                             <div class="col-md-6 col-xl-4">
                                 <label class="col-form-label" for="start_apply_date">Start Apply Date</label>
                                 <input type="date" class="form-control" min="{{ date('Y-m-d') }}"
-                                    name="start_apply_date" id="start_apply_date">
+                                    name="start_apply_date" id="start_apply_date" value="{{old('start_apply_date')}}">
                             </div>
                             <div class="col-md-6 col-xl-4">
                                 <label class="col-form-label" for="last_apply_date">Last Apply Date</label>
                                 <input type="date" class="form-control" name="last_apply_date"
-                                    min="{{ date('Y-m-d') }}" id="last_apply_date">
+                                    min="{{ date('Y-m-d') }}" id="last_apply_date" value="{{old('last_apply_date')}}">
                             </div>
                             <div class="col-md-12 col-xl-4">
                                 <div class="row">
@@ -285,7 +284,7 @@
                                         <select class="form-control" name="grad_end_year" id="grad_end_year">
                                             <option value="">to</option>
                                             @for ($i = date('Y') - 60; $i < date('Y') + 1; $i++)
-                                                <option value="{{ $i }}">{{ $i }}</option>
+                                                <option value="{{ $i }}" {{old('grad_end_year') == $i ? 'selected' : ''}}>{{ $i }}</option>
                                             @endfor
                                         </select>
 
@@ -298,7 +297,7 @@
                                 <select class="form-control" name="job_type_id" id="job_type_id" required>
                                     <option value="">Select Job Type</option>
                                     @foreach ($jobtypes as $jobtype)
-                                        <option value="{{ $jobtype->id }}">{{ $jobtype->job_type }}</option>
+                                        <option value="{{ $jobtype->id }}" {{old('job_type_id') == $jobtype->id ? 'selected' : ''}}>{{ $jobtype->job_type }}</option>
                                     @endforeach
 
                                 </select>
@@ -312,7 +311,7 @@
                                 <select class="form-control" name="job_shift_id" id="job_shift_id" required>
                                     <option disabled value="">Select Shift</option>
                                     @foreach ($jobshifts as $jobshift)
-                                        <option value="{{ $jobshift->id }}">{{ $jobshift->job_shift }}</option>
+                                        <option value="{{ $jobshift->id }}" {{old('job_shift_id') == $jobshift->id ? 'selected' : ''}}>{{ $jobshift->job_shift }}</option>
                                     @endforeach
                                 </select>
                                 @error('job_shift_id')
@@ -344,7 +343,7 @@
                                     required>
                                     <option value="">Select Qualification</option>
                                     @foreach ($qualifications as $qualification)
-                                        <option value="{{ $qualification->id }}">{{ $qualification->qualification }}
+                                        <option value="{{ $qualification->id }}" {{old('job_qualification_id') == $qualification->id ? 'selected' : ''}}>{{ $qualification->qualification }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -356,8 +355,8 @@
                                 <label class="col-form-label" for="sal_disclosed">Salary Disclosed</label>
                                 <select class="form-control" name="sal_disclosed" id="sal_disclosed">
                                     <option value="">Select Salary Disclosed</option>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No">No</option>
+                                    <option value="Yes" {{old('sal_disclosed') == 'Yes' ? 'selected' : ''}}>Yes</option>
+                                    <option value="No"  {{old('sal_disclosed') == 'No' ? 'selected' : ''}}>No</option>
                                 </select>
                             </div>
                             <div class="col-md-6 col-xl-4">
@@ -365,12 +364,20 @@
                                     <div class="col-md-6">
                                         <label class="col-form-label" for="offered_sal_min">Salary per year</label>
                                         <input type="number" min="0" class="form-control salarydisclosed"
-                                            name="offered_sal_min" id="offered_sal_min" placeholder="from">
+                                            name="offered_sal_min" id="offered_sal_min" value="{{old('offered_sal_min')}}" placeholder="from" disabled>
+                                            @error('offered_sal_min')
+                                    <span class="text-danger">{{ $message }}</span>
+
+                                            @enderror
                                     </div>
                                     <div class="col-md-6">
                                         <label class="col-form-label invisible" for="offered_sal_max">Max Salary</label>
                                         <input type="number" min="0" class="form-control salarydisclosed"
-                                            name="offered_sal_max" id="offered_sal_max" placeholder="to">
+                                            name="offered_sal_max" id="offered_sal_max" placeholder="to" value="{{old('offered_sal_max')}}" disabled>
+                                        @error('offered_sal_max')
+                                    <span class="text-danger">{{ $message }}</span>
+                                            
+                                            @enderror
                                     </div>
 
                                 </div>
@@ -389,7 +396,7 @@
                         </div>
                         <div class="col-md-12 form-group">
                             <label for="">Job Description</label>
-                            <textarea class="form-control" name="description" id="description" cols="30" rows="5"></textarea>
+                            <textarea class="form-control" name="description" id="description" cols="30" rows="5">{{old('description')}}</textarea>
                         </div>
                         <div class="col-md-12">
                             <hr class="font-weight-bold" style="border-bottom: 1px solid black;">
@@ -403,17 +410,17 @@
                             <div class="col-md-12">
                                 <label for="meta_title">Meta Title</label>
                                 <input type="text" class="form-control" name="meta_title"
-                                    placeholder="Enter Meta Title" id="meta_title">
+                                    placeholder="Enter Meta Title" id="meta_title" value="{{old('meta_title')}}">
                             </div>
                             <div class="col-md-12 my-2">
                                 <label for="meta_keywords">Meta Keywords</label>
                                 <input type="text" class="form-control" name="meta_keywords"
-                                    placeholder="Enter Meta Keywords" id="meta_keywords">
+                                    placeholder="Enter Meta Keywords" id="meta_keywords" value="{{old('meta_keywords')}}">
                             </div>
                             <div class="col-md-12 my-2">
                                 <label for="meta_description">Meta Description</label>
                                 <input type="text" class="form-control" name="meta_description"
-                                    placeholder="Enter Meta Description" id="meta_description">
+                                    placeholder="Enter Meta Description" id="meta_description" value="{{old('meta_description')}}">
                             </div>
                         </div>
 
@@ -426,9 +433,9 @@
                             <h3 class="font-weight-bold" style="text-decoration: underline;">Skills</h3>
                         </div>
                         <div class="col-md-12 form-group">
-                            <label for="">Skills <span class="text-danger">*</span></label>
+                            <label for="">Skills  (Separate by comma ( , ) for multiple skills) <span class="text-danger">*</span></label>
                             <textarea class="form-control" name="job_skills" id="job_skills" cols="30" rows="5"
-                                placeholder="Enter Skills in comma seperated format" required></textarea>
+                                placeholder="Enter Skills in comma seperated format" required>{{old('job_skills')}}</textarea>
                         </div>
                         <div class="col-md-12">
                             <hr class="font-weight-bold" style="border-bottom: 1px solid black;">
