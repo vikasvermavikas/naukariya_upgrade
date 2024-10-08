@@ -2,6 +2,11 @@
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Jobseeker;
+use App\Models\JsSkill;
+use App\Models\Jobmanager;
+use App\Models\Tracker;
+
 
 function get_experience()
 {
@@ -81,6 +86,83 @@ if (!function_exists('is_guest')) {
         }
 
         return false;
+
+     }
+    
+}
+
+if (!function_exists('jobseeker_match_skill')) {
+    /**
+     * Get jobseeker match skill to job skill.
+     * 
+     * @return integer, matching percentage of jobseeker skill.
+     */
+
+     function jobseeker_match_skill($jobid, $jobseekerid){
+        $jobskiils = Jobmanager::select('job_skills')->where('id', $jobid)->first();
+        $allskills = explode(',', $jobskiils->job_skills);
+        $allskills = array_unique(array_map('trim', $allskills));
+        $totalskills = count($allskills);
+
+        if ($totalskills) {
+        $jobseekerSkills = JsSkill::select(DB::raw('GROUP_CONCAT( skill ) as skills'))
+                                  ->where('js_userid', $jobseekerid)
+                                  ->groupBy('js_userid')
+                                  ->first();
+
+        $jobseeker_skill = explode(',', $jobseekerSkills->skills);
+        $jobseeker_skill = array_unique(array_map('trim', $jobseeker_skill));
+
+        $skillnotmatch = array_udiff($allskills, $jobseeker_skill, 'strcasecmp');
+
+        $total_not_match = count($skillnotmatch);
+
+        $netpercentage = (($totalskills - $total_not_match) / $totalskills) * 100;
+        return round($netpercentage);
+        }
+
+        return 0;
+
+
+        
+
+     }
+    
+}
+
+if (!function_exists('tracker_match_skill')) {
+    /**
+     * Get jobseeker match skill to job skill.
+     * 
+     * @return integer, matching percentage of jobseeker skill.
+     */
+
+     function tracker_match_skill($jobid, $trackerid){
+        $jobskiils = Jobmanager::select('job_skills')->where('id', $jobid)->first();
+        $allskills = explode(',', $jobskiils->job_skills);
+        $allskills = array_unique(array_map('trim', $allskills));
+        $totalskills = count($allskills);
+
+        if ($totalskills) {
+        $trackerk_skill = Tracker::select('key_skills')
+                                  ->where('id', $trackerid)
+                                  ->first();
+
+        $trackerk_skill = explode(',', $trackerk_skill->key_skills);
+        $trackerk_skill = array_unique(array_map('trim', $trackerk_skill));
+
+        $skillnotmatch = array_udiff($allskills, $trackerk_skill, 'strcasecmp');
+
+        $total_not_match = count($skillnotmatch);
+
+        $netpercentage = (($totalskills - $total_not_match) / $totalskills) * 100;
+        return round($netpercentage);
+        }
+
+        return 0;
+
+
+        
 
      }
     

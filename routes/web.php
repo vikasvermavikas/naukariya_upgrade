@@ -345,6 +345,7 @@ Route::group(['middleware' => 'employer'], function () {
             Route::get('/managejobs', 'sessionuser')->name('managejobs');
             Route::get('/jobDescription/{id}', 'job_description')->name('viewjobs');
             Route::get('/ats/{id}', 'jobapplication')->name('job_ats');
+            Route::get('/ats/trackers/{id}', 'trackers_applications')->name('job_ats_trackers');
             Route::get('/posted-jobs', 'posted_jobs')->name('postedjobs');
             Route::get('/deactive-jobme/{id}', 'deactiveme')->name('deactive_posted-job');
             Route::get('/active-jobme/{id}', 'activeme')->name('active_posted-job');

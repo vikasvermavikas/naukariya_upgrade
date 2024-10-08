@@ -22,6 +22,7 @@ use App\Mail\Deactivejobmanager;
 use App\Mail\Updatejobmanager;
 use App\Models\Notification;
 use App\Models\Jobseeker;
+use App\Models\Tracker;
 use App\Models\JsSkill;
 use Illuminate\Support\Facades\Redirect;
 use Throwable;
@@ -54,36 +55,112 @@ class JobmanagerController extends Controller
 
     public function count_applyjob($id)
     {
-        $data = ApplyJob::where('job_id', $id)->count();
+         $jobskiils = Jobmanager::select('job_skills')->where('id', $id)->first();
+        $allskills = explode(',', $jobskiils->job_skills);
+        $allskills = array_map('trim', $allskills);
+
+        $data = ApplyJob::join('jobseekers', 'jobseekers.id', '=', 'apply_jobs.jsuser_id')->join('js_skills', 'js_skills.js_userid', '=', 'jobseekers.id')->
+        where('apply_jobs.job_id', $id)
+        ->where('apply_jobs.status', 1)
+        ->whereIn('js_skills.skill', $allskills)
+        ->distinct('jobseekers.id')->count('jobseekers.id');
         // return response($data);
         return $data;
     }
 
     public function count_interview($id)
     {
-        $data = ApplyJob::where('job_id', $id)->where('status', '2')->count();
+         $jobskiils = Jobmanager::select('job_skills')->where('id', $id)->first();
+        $allskills = explode(',', $jobskiils->job_skills);
+        $allskills = array_map('trim', $allskills);
+
+        // $data = ApplyJob::where('job_id', $id)->where('status', '2')->count();
+         $data = ApplyJob::join('jobseekers', 'jobseekers.id', '=', 'apply_jobs.jsuser_id')->join('js_skills', 'js_skills.js_userid', '=', 'jobseekers.id')->
+        where('apply_jobs.job_id', $id)
+        ->where('apply_jobs.status', 2)
+        ->whereIn('js_skills.skill', $allskills)
+        ->distinct('jobseekers.id')->count('jobseekers.id');
         // return response($data);
         return $data;
     }
 
     public function count_shortlist($id)
     {
-        $data = ApplyJob::where('job_id', $id)->where('status', '3')->count();
+         $jobskiils = Jobmanager::select('job_skills')->where('id', $id)->first();
+        $allskills = explode(',', $jobskiils->job_skills);
+        $allskills = array_map('trim', $allskills);
+
+        // $data = ApplyJob::where('job_id', $id)->where('status', '3')->count();
+         $data = ApplyJob::join('jobseekers', 'jobseekers.id', '=', 'apply_jobs.jsuser_id')->join('js_skills', 'js_skills.js_userid', '=', 'jobseekers.id')->
+        where('apply_jobs.job_id', $id)
+        ->where('apply_jobs.status', 3)
+        ->whereIn('js_skills.skill', $allskills)
+        ->distinct('jobseekers.id')->count('jobseekers.id');
         // return response($data);
         return $data;
     }
 
     public function count_offer($id)
     {
-        $data = ApplyJob::where('job_id', $id)->where('status', '5')->count();
+         $jobskiils = Jobmanager::select('job_skills')->where('id', $id)->first();
+        $allskills = explode(',', $jobskiils->job_skills);
+        $allskills = array_map('trim', $allskills);
+
+        // $data = ApplyJob::where('job_id', $id)->where('status', '5')->count();
+         $data = ApplyJob::join('jobseekers', 'jobseekers.id', '=', 'apply_jobs.jsuser_id')->join('js_skills', 'js_skills.js_userid', '=', 'jobseekers.id')->
+        where('apply_jobs.job_id', $id)
+        ->where('apply_jobs.status', 5)
+        ->whereIn('js_skills.skill', $allskills)
+        ->distinct('jobseekers.id')->count('jobseekers.id');
         // return response($data);
         return $data;
     }
 
     public function count_save($id)
     {
-        $data = ApplyJob::where('job_id', $id)->where('status', '7')->count();
+         $jobskiils = Jobmanager::select('job_skills')->where('id', $id)->first();
+        $allskills = explode(',', $jobskiils->job_skills);
+        $allskills = array_map('trim', $allskills);
+
+        // $data = ApplyJob::where('job_id', $id)->where('status', '7')->count();
+         $data = ApplyJob::join('jobseekers', 'jobseekers.id', '=', 'apply_jobs.jsuser_id')->join('js_skills', 'js_skills.js_userid', '=', 'jobseekers.id')->
+        where('apply_jobs.job_id', $id)
+        ->where('apply_jobs.status', 7)
+        ->whereIn('js_skills.skill', $allskills)
+        ->distinct('jobseekers.id')->count('jobseekers.id');
         return response($data);
+    }
+
+    public function count_all_jobseekers($id)
+    {
+         $jobskiils = Jobmanager::select('job_skills')->where('id', $id)->first();
+        $allskills = explode(',', $jobskiils->job_skills);
+        $allskills = array_map('trim', $allskills);
+
+        // JobSeekers Count.
+       $data = Jobseeker::join('js_skills', 'js_skills.js_userid', '=', 'jobseekers.id')
+                ->whereIn('js_skills.skill', $allskills)->distinct('jobseekers.id')->count('jobseekers.id'); 
+
+        return $data;
+    }
+
+    public function count_all_trackers($id)
+    {
+        $employerid = auth()->guard('employer')->user()->id;
+         $jobskiils = Jobmanager::select('job_skills')->where('id', $id)->first();
+        $allskills = explode(',', $jobskiils->job_skills);
+        $allskills = array_map('trim', $allskills);
+
+        // Trackers Count.
+        $trackercount = Tracker::where('employer_id', $employerid)
+                        ->Where(function ($query) use ($allskills) {
+            for ($i=0; $i < count($allskills) ; $i++) { 
+            $query->orWhereRaw('FIND_IN_SET(?, key_skills)', [$allskills[$i]]);
+
+            }
+        } )->count();
+          
+        return $trackercount;
     }
 
     public function sharejob($id)
@@ -91,25 +168,40 @@ class JobmanagerController extends Controller
         return Redirect::to('/#/edit-viewjobs/' . $id);
     }
 
-    public function jobapplication($id)
+    public function jobapplication(Request $request, $id)
     {
+        $category = isset($request->category) ? $request->category : '';
+      
         $uid = Auth::guard('employer')->user()->id;
         $jobskiils = Jobmanager::select('job_skills', 'title')->where('id', $id)->first();
-        $jobskiils->job_skills = explode(',', $jobskiils->job_skills);
+        $allskills = explode(',', $jobskiils->job_skills);
+        $allskills = array_map('trim', $allskills);
         $jid = $id;
         $data = DB::table('jobseekers')
-            ->leftJoin('apply_jobs', function ($join) use ($jid) {
+           
+            ->join('js_skills', 'js_skills.js_userid', '=', 'jobseekers.id') // Ensure skill matching is with the jobseekers
+            ->leftJoin('js_resumes', 'js_resumes.js_userid', '=', 'jobseekers.id'); // Include resumes if they exist
+
+            if($category && $category != 'all'){
+                $data = $data->join('apply_jobs', 'apply_jobs.jsuser_id', '=', 'jobseekers.id')
+                    ->where('apply_jobs.job_id', '=', $jid)// Match the job_id and jsuser_id
+                    ->where('apply_jobs.status', $category);
+            }
+            else if (empty($category) || $category = 'all'){
+                 $data = $data->leftJoin('apply_jobs', function ($join) use ($jid) {
                 $join->on('apply_jobs.jsuser_id', '=', 'jobseekers.id')
                     ->where('apply_jobs.job_id', '=', $jid); // Match the job_id and jsuser_id
-            })
-            ->join('js_skills', 'js_skills.js_userid', '=', 'jobseekers.id') // Ensure skill matching is with the jobseekers
-            ->leftJoin('js_resumes', 'js_resumes.js_userid', '=', 'jobseekers.id') // Include resumes if they exist
-            ->select(
+                });
+            }
+            
+
+           $data = $data->select(
                 'apply_jobs.id',
                 'apply_jobs.job_id',
                 'apply_jobs.status',
                 'apply_jobs.created_at',
                 'js_resumes.resume',
+                'jobseekers.id as jobseekerid',
                 'jobseekers.fname',
                 'jobseekers.lname',
                 'jobseekers.email',
@@ -122,26 +214,35 @@ class JobmanagerController extends Controller
                 'jobseekers.notice_period',
                 'jobseekers.preferred_location'
             )
-            ->whereIn('js_skills.skill', $jobskiils->job_skills) // Filter jobseekers by their skills
-            ->groupBy(
-                'jobseekers.email',
-                'apply_jobs.id',
-                'apply_jobs.job_id',
-                'apply_jobs.status',
-                'apply_jobs.created_at',
-                'js_resumes.resume',
-                'jobseekers.fname',
-                'jobseekers.lname',
-                'jobseekers.contact',
-                'jobseekers.designation',
-                'jobseekers.expected_salary',
-                'jobseekers.exp_year',
-                'jobseekers.exp_month',
-                'jobseekers.current_salary',
-                'jobseekers.notice_period',
-                'jobseekers.preferred_location'
-            )
-            ->get();
+            ->whereIn('js_skills.skill', $allskills);
+
+          // Get the total records with distinct count on jobseekers email
+        $totalrecords = (clone $data)->distinct('jobseekers.email')->count('jobseekers.email');
+            $data = $data->groupBy(
+    'jobseekers.email',
+    'apply_jobs.id',
+    'apply_jobs.job_id',
+    'apply_jobs.status',
+    'apply_jobs.created_at',
+    'js_resumes.resume',
+    'jobseekers.id',
+    'jobseekers.fname',
+    'jobseekers.lname',
+    'jobseekers.contact',
+    'jobseekers.designation',
+    'jobseekers.expected_salary',
+    'jobseekers.exp_year',
+    'jobseekers.exp_month',
+    'jobseekers.current_salary',
+    'jobseekers.notice_period',
+    'jobseekers.preferred_location'
+)
+->paginate(50)
+->withQueryString();
+            // ->getBindings();
+
+            // print_r($data);
+            // die;
 
         // $data = DB::table('apply_jobs')
         //        ->leftjoin('jobmanagers', 'jobmanagers.id', '=', 'apply_jobs.job_id')
@@ -155,7 +256,31 @@ class JobmanagerController extends Controller
         //        ->get();
 
         // return response()->json(['data' => $data], 200);
-        return view('employer.job_ats', ['data' => $data, 'jobdetails' => $jobskiils, 'jobid' => $id]);
+        return view('employer.job_ats', ['data' => $data, 'jobdetails' => $jobskiils, 'jobid' => $id, 'category' => $category, 'totalrecord' => $totalrecords]);
+    }
+
+    public function trackers_applications($id){
+        $uid = Auth::guard('employer')->user()->id;
+        $jobskills = Jobmanager::select('job_skills', 'title')->where('id', $id)->first();
+        $allskills = explode(',', $jobskills->job_skills);
+        $allskills = array_map('trim', $allskills);
+       
+        $trackers = Tracker::select('id', 'name', 'experience', 'expected_ctc', 'current_designation', 'resume')->where('employer_id', $uid);
+
+        if (is_array($allskills) && count($allskills) > 0){
+
+              $trackers->Where(function ($query) use ($allskills) {
+
+            for ($i=0; $i < count($allskills); $i++) { 
+            $query->orWhereRaw('FIND_IN_SET(?, key_skills)', [$allskills[$i]]);
+            }
+
+            });
+
+        }
+
+        $trackers = $trackers->paginate(50); 
+        return view('employer.job_ats_trackers', ['jobskills' => $jobskills, 'trackers' => $trackers, 'jobid' => $id]);
     }
 
     public function getScheduledInterviewLists()
@@ -564,6 +689,8 @@ class JobmanagerController extends Controller
             $value->shortlisted = $this->count_shortlist($value->id);
             $value->interviewed = $this->count_interview($value->id);
             $value->offers = $this->count_offer($value->id);
+            $value->total_jobseekers = $this->count_all_jobseekers($value->id);
+            $value->total_trackers = $this->count_all_trackers($value->id);
         }
         // die;
         return view('employer.managejobs', ['data' => $data]);

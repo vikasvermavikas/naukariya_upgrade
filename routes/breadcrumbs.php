@@ -62,6 +62,12 @@ $trail->push('Manage Jobs', route('managejobs'));
 $trail->push('ATS');
 });
 
+Breadcrumbs::for('job_ats_trackers', function ($trail) {
+$trail->parent('employer_dasboard');
+$trail->push('Manage Jobs', route('managejobs'));
+$trail->push('Relevant Trackers');
+});
+
 Breadcrumbs::for('posted_jobs', function ($trail) {
 $trail->parent('employer_dasboard');
 $trail->push('Posted Jobs');

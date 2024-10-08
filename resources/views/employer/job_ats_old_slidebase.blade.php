@@ -13,14 +13,11 @@
 @endsection
 @section('content')
     <div class="container">
+        <h2 class="text-center mt-4">{{ $jobdetails->title }}</h2>
         <div class="row">
             <div class="col-md-12 mb-5">
                     {{ Breadcrumbs::render('job_ats') }}
-            </div>
-            <div class="col-md-12">
-            <h2 class="my-2">Relevent Jobseekers for <span style="color:#e35e25;">{{ $jobdetails->title }}</span></h2>
-            </div>
-
+                 </div>
             <div class="col-sm-12">
 
                 <a href="{{ route('managejobs') }}" class="btn float-right mb-3">Back</a>
@@ -35,7 +32,7 @@
                   </div>
             @endif
             </div>
-           <!--  <div class="col-md-12 mb-3 rounded" style="background:#F95602">
+            <div class="col-md-12 mb-3 rounded" style="background:#F95602">
                 <ul class="nav nav-tabs nav-fill">
                     <li class="nav-item active"><a data-toggle="tab" href="#All" class="nav-link fs-12 active">All</a>
                     </li>
@@ -55,42 +52,10 @@
                     <li class="nav-item"><a data-toggle="tab" href="#SaveForFuture"
                             class="nav-link fs-12 border-right-0">Save / Hold For Future</a></li>
                 </ul>
-            </div> -->
-
-            <!-- Filter Form -->
-
-            <div class="col-md-12 mb-5">
-                <form action="" class="form-inline">
-                    <div class="form-group">
-                        <label class="form-label">Select Category</label>
-                        <select class="form-control mx-4" name="category">
-                            <option value="all" {{$category == 'all' ? 'selected'  : ''}}>All</option>
-                            <option value="1" {{$category == '1' ? 'selected'  : ''}}>New Applied</option>
-                            <option value="3" {{$category == '3' ? 'selected'  : ''}}>Shortlisted</option>
-                            <option value="4" {{$category == '4' ? 'selected'  : ''}}>Rejected</option>
-                            <option value="2" {{$category == '2' ? 'selected'  : ''}}>Interview
-                            Scheduled</option>
-                            <option value="5" {{$category == '5' ? 'selected'  : ''}}>Offer</option>
-                            <option value="6" {{$category == '6' ? 'selected'  : ''}}>Joining</option>
-                            <option value="7" {{$category == '7' ? 'selected'  : ''}}>Save / Hold For Future</option>
-                        </select>
-                    </div>
-                    <div>
-                        <button type="submit" class="btn rounded p-3">Submit</button>
-                    </div>
-                </form>
             </div>
-
-            <!-- Job ats -->
-            <p style="color:#e35e25;">Total Candidates : <span class="text-dark">{{$totalrecord}}</span></p>
-            <!-- End Filter Form -->
-
-             <!-- Render Pagination -->
-            <div class="col-md-12 my-3 d-flex justify-content-center">
-                {{$data->onEachSide(0)->links()}}
-            </div>
-
             <div class="col-md-12">
+              
+
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead style="background:#f95602;" class="text-light">
@@ -102,7 +67,6 @@
                                 <th>Exp. Salary</th>
                                 <th>Notice Period</th>
                                 <th>Staus</th>
-                                <th>Match Percentage</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -119,11 +83,11 @@
                                                         aria-hidden="true"></i></a>
                                             </p>
                                         </td>
-                                        <td>{{ $item->job_id == $jobid ? $item->created_at : 'Not Applied'}}</td>
-                                        <td>{{ $item->exp_year && $item->exp_month ? $item->exp_year." years " .$item->exp_month." months " : 'Not Mentioned' }}</td>
-                                        <td>{{ $item->designation ? $item->designation : 'Not Mentioned' }}</td>
-                                        <td>{{ $item->expected_salary ? $item->expected_salary : 'Not Mentioned' }}</td>
-                                        <td>{{ $item->notice_period ? $item->notice_period : 'Not Mentioned' }}</td>
+                                        <td>{{ $item->job_id == $jobid ? $item->created_at : ''}}</td>
+                                        <td>{{ $item->exp_year }} - {{ $item->exp_month }}</td>
+                                        <td>{{ $item->designation }}</td>
+                                        <td>{{ $item->expected_salary }}</td>
+                                        <td>{{ $item->notice_period }}</td>
                                         <td>
                                             @if($item->status && $item->job_id == $jobid)
 
@@ -151,7 +115,6 @@
 
 
                                         </td>
-                                        <td>{{jobseeker_match_skill($jobid, $item->jobseekerid)}} %</td>
                                         <td>
                                             @if ($item->id && $item->job_id == $jobid)
                                             @if ($item->status == 3)
@@ -212,7 +175,7 @@
                                             @endif
 
                                             @else
-                                              Not Applied
+                                              -
                                             @endif
 
                                         </td>
@@ -223,7 +186,7 @@
                                     </tr>
                                 @endforelse
                             </tbody>
-                         <!--    <tbody id="NewApplied" class="tab-pane fade">
+                            <tbody id="NewApplied" class="tab-pane fade">
                                 @php
                                     $isApplied = false;                                    
                                 @endphp
@@ -676,7 +639,7 @@
                                     <td class="text-danger" colspan="8">No Record Found</td>
                                 </tr>
                                 @endif
-                            </tbody> -->
+                            </tbody>
 
                         </div>
                     </table>
@@ -726,12 +689,6 @@
                     {{-- {{$data->links()}} --}}
                 </div>
             </div>
-
-            <!-- Render Pagination -->
-            <div class="col-md-12 my-3 d-flex justify-content-center">
-                {{$data->onEachSide(0)->links()}}
-            </div>
-            <!-- End Render Pagination -->
         </div>
     </div>
     </div>

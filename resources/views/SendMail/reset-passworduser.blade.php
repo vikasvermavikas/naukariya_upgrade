@@ -9,99 +9,104 @@
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- css style -->
-    <style type="text/css">
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        font-family: Arial, sans-serif;
+        color: #333;
+        /* display: flex;
+        justify-content: center;
+        align-items: center; */
+        height: 100vh; /* Full viewport height */
+      }
+      .container {
+        width: 100%;
+        max-width: 700px;
+        background-color: #ffffff;
+        border-radius: 5px;
+       
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+      }
+      .header {
+        color: white;
+        text-align: center;
+        margin-top: 20px;
+      }
+      .header img{
+        margin-top: 20px;
+      }
+      .content {
+       padding: 0px 10px 10px 10px;
+      }
+      .footer {
+        background-color: #f4f4f4;
+        text-align: center;
+        padding: 10px;
+        font-size: 14px;
+      }
+      a {
+        color: #007bff;
+        text-decoration: none;
+      }
+
+      .btn {
+      border: none;
+    background: #e35e25;
+    text-transform: capitalize;
+    color: #fff;
+    border-radius: 5px;
+}
+      @media only screen and (max-width: 600px) {
         .container {
-            width: 800px;
-            margin: auto;
+          width: 100% !important;
+          max-width: 100% !important;
         }
-
-        footer ul li {
-            list-style: none;
-
+        .content {
+          padding: 20px !important;
         }
-
-        footer ul {
-            padding: 0;
+        .header,
+        .footer {
+          font-size: 18px !important;
         }
-
-        body {
-            font-family: system-ui;
-            font-size: 15px;
-            color: #404040;
-        }
-
-        footer {
-            background-color: #010027;
-            color: #fff;
-            padding: 1rem;
-            text-align: center;
-        }
-
-        footer a {
-            color: #fff;
-        }
-
-        nav img {
-            width: 260px;
-            margin-bottom: .5rem;
-        }
-
-        table,
-        th,
-        td {
-            border: 1px solid #bfbfbf;
-            border-collapse: collapse;
-            padding: 4px 14px;
-
-        }
-
-        table {
-            width: 100%;
-        }
-
-        tr,
-        td {
-            background-color: aliceblue;
-        }
-
-        tr,
-        th {}
-
+      }
     </style>
 </head>
 
 <body>
-    <nav>
-        <center>
-            <img class="responsive" src="https://naukriyan.com/default_images/logo%20naukriyan.png" alt="Naukriyan">
-        </center>
-    </nav>
-    <div class="container">
-        <strong>Dear User,</strong><br>
-        <p>We heard that you lost your Naukriyan.com password. Sorry about that!..</p>
-        <p>But don’t worry! You can click below button to reset your password.</p>
-        <button><a href="{{ Route('forget-password-user.form', $userData['token']) }}">Click Here</a></button>
-        <br>
-        <br>
-        If you don’t use this link within 30 minutes, it will expire. To get a new password reset link, visit <a
-            href="{{ url('/forget#/') }}">Click Here</a> <br>
-        <br>
-        <p>For any issues related to the system you can send us an email at <a
-                href="mailto:info@naukriyan.com">info@naukriyan.com</a>
-            <br>
-            Thanks & Regards,<br>
-            <b>Team Naukriyan</b>
+ <div class="container">
+      <div class="header">
+        <img
+          src="{{asset('default_images/naukriyan_logo.png')}}"
+          alt="Naukriyan Logo"
+          style="width: 200px; height: auto"
+        />
+      </div>
+      <div class="content">
+        <h4>Dear User,</h4>
+        <p>
+          We heard that you lost your Naukriyan.com password. Sorry about that!..<br>
+        But don’t worry! You can click below button to reset your password.
         </p>
-        <footer>
-            <ul>
-                <li>Website : <a href="https://naukriyan.com/"> www.naukriyan.com</a></li>
-                <li>Email :<a href="mailto:info@naukriyan.com"> info@naukriyan.com</a></li>
-                <li>Contact :<a href="tel:+91-1179626411"> +91-1179626411</a></li>
-            </ul>
-        </footer>
+       <button type="button" class="btn">Reset Password</button>
+       <p class="m-2">
+        If you don’t use this link within 30 minutes, it will expire. To get a new password reset link, visit 
+      </p>
+      <button type="button" class="btn">Click Here</button>
+      <p></p>
+      For any issues related to the system you can send us an email at info@naukriyan.com 
+      Thanks & Regards,
+      Team Naukriyan       
+      </p>
+      <ul>
+        <li><a href="">Website : www.naukriyan.com </a> </li>
+        <li><a href="">Email: info@naukriyan.com</a> </li>
+        <li><a href="">Contact:+91-1179626411</a> </li>
+      </ul>
+      </div>
+      
     </div>
-
-
 </body>
 
 </html>

@@ -30,7 +30,9 @@
                                     <th>Job Post Date</th>
                                     <th>Job Update Date</th>
                                     <th>Status</th>
-                                    <th>Application</th>
+                                    <th>Relevant Trackers</th>
+                                    <th>Relevant Jobseekers</th>
+                                    <th>Applied</th>
                                     <th>Shortlist</th>
                                     <th>Interview</th>
                                     <th>Offer</th>
@@ -46,16 +48,19 @@
                                         <td>{{ date('d-M-y', strtotime($item->created_at)) }}</td>
                                         <td>{{ date('d-M-y', strtotime($item->updated_at)) }}</td>
                                         <td>{{ $item->status }}</td>
+                                        <td>{{$item->total_trackers}}</td>
+                                        <td>{{$item->total_jobseekers}}</td>
                                         <td>{{ $item->total_applications }}</td>
                                         <td>{{ $item->shortlisted }}</td>
                                         <td>{{ $item->interviewed }}</td>
                                         <td>{{ $item->offers }}</td>
                                         <td>
-                                            <a href="{{ route('viewjobs', ['id' => $item->id]) }}" data-toggle="tooltip"
-                                                data-placement="top" class="text-dark" title="View"><i class="fas fa-eye"
-                                                    aria-hidden="true"></i></a>
-                                            <a href="{{ route('job_ats', ['id' => $item->id]) }}" data-toggle="tooltip"
-                                                data-placement="top" class="text-dark" title="ATS"><i
+                                            <a href="{{ route('viewjobs', ['id' => $item->id]) }}" data-toggle="tooltip" data-placement="top" class="text-dark" title="View"><i class="fas fa-eye" aria-hidden="true"></i></a>
+
+                                            <a href="{{ route('job_ats', ['id' => $item->id]) }}" data-toggle="tooltip" data-placement="top" class="text-dark" title="Jobseekers"><i
+                                                    class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+
+                                            <a href="{{ route('job_ats_trackers', ['id' => $item->id]) }}" data-toggle="tooltip" data-placement="top" class="text-dark" title="Trackers"><i
                                                     class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
                                         </td>
                                     </tr>

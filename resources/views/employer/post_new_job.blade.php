@@ -426,10 +426,9 @@
                             <h3 class="font-weight-bold" style="text-decoration: underline;">Skills</h3>
                         </div>
                         <div class="col-md-12 form-group">
-                            <label for="">Skills</label>
+                            <label for="">Skills <span class="text-danger">*</span></label>
                             <textarea class="form-control" name="job_skills" id="job_skills" cols="30" rows="5"
-                                placeholder="Enter Skills And Requirements............">
-                            </textarea>
+                                placeholder="Enter Skills in comma seperated format" required></textarea>
                         </div>
                         <div class="col-md-12">
                             <hr class="font-weight-bold" style="border-bottom: 1px solid black;">
