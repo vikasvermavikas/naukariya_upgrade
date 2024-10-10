@@ -1,15 +1,6 @@
 @extends('layouts.master', ['title' => $jobdetails->title])
 @section('style')
-    <style>
-        #editor {
-            height: 400px;
-            /* Set the height you want for the editor */
-        }
-
-        .fade:not(.show) {
-            display: none;
-        }
-    </style>
+<link href="{{asset('assets/css/employer/jobseeker_ats.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 @section('content')
     <div class="container">
@@ -61,9 +52,9 @@
 
             <div class="col-md-12 mb-5">
                 <form action="" class="form-inline">
-                    <div class="form-group">
+                    <div class="form-group custom-form-margin">
                         <label class="form-label">Select Category</label>
-                        <select class="form-control mx-4" name="category">
+                        <select class="form-control mx-4 custom-margin" name="category">
                             <option value="all" {{$category == 'all' ? 'selected'  : ''}}>All</option>
                             <option value="1" {{$category == '1' ? 'selected'  : ''}}>New Applied</option>
                             <option value="3" {{$category == '3' ? 'selected'  : ''}}>Shortlisted</option>

@@ -1,0 +1,5 @@
+@media only screen and (min-width: 320px) and (max-width: 416px) {
+    .custom-margin {
+        margin-left: 0% !important;
+}
+}

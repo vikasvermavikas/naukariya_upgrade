@@ -1,4 +1,7 @@
 @extends('layouts.master', ['title' => 'Relevant Trackers'])
+@section('style')
+<link rel="stylesheet" href="{{asset('assets/css/employer/tracker_ats.css')}}" type="text/css" />
+@endsection
 @section('content')
     <div class="container">
         <div class="row">
@@ -13,7 +16,7 @@
 				<form action="" class="form-inline">
 					<div class="form-group">
 						<label for="form-label">Select Category</label>
-						<Select class="form-control mx-3" name="category">
+						<Select class="form-control mx-3 custom-margin" name="category">
 							<option value="all" {{$category == 'all' ? 'selected' : ''}}>All</option>
 							<option value="shortlist" {{$category == 'shortlist' ? 'selected' : ''}}>Shortlisted Candidated</option>
 							<option value="interested" {{$category == 'interested' ? 'selected' : ''}}>Interested Candidates</option>

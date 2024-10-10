@@ -1,0 +1,17 @@
+#editor {
+    height: 400px;
+    /* Set the height you want for the editor */
+}
+
+.fade:not(.show) {
+    display: none;
+}
+@media only screen and (min-width: 320px) and (max-width: 425.90px) {
+    .custom-form-margin{
+        margin-right: 8% !important;
+    }
+    .custom-margin {
+        margin-left: 0% !important;
+        margin-right: 3.5rem !important;
+    }
+}
