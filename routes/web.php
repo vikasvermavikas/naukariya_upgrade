@@ -45,6 +45,7 @@ use App\Http\Controllers\ResumeParserController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\TrackerSelectionController;
 
 
 /*
@@ -246,6 +247,13 @@ Route::group(['middleware' => 'employer'], function () {
         Route::get('/followdetails', [SavedJobController::class, 'follower_list'])->name('employer_followers');
 
         Route::get('/getjobsector', [JobsectorController::class, 'index'])->name('get_job_sector');
+
+        // Tracker Ats.
+        Route::controller(TrackerSelectionController::class)->prefix('tracker/ats')->group(function () {
+            Route::post('/upgrade-selection', 'store');
+            Route::post('/schedule-interview', 'schedule_interview')->name('tracker_ats_interview');
+            Route::post('/get-interview-details', 'interview_details');
+        });
 
         // Resume Parsing API.
         Route::controller(ResumeParserController::class)->group(function () {
