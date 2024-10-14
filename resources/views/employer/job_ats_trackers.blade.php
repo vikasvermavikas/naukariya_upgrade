@@ -59,11 +59,14 @@
                         @forelse($trackers as $tracker)
                             <tr>
                                 <td>{{ $tracker->name }}
+                                    @if($tracker->resume)
                                     <p>
                                         <a href="{{ asset('tracker/resume/' . $tracker->resume) }}"
                                             class="text-primary underline" title="Download Resume" target="_blank">Download
                                             Resume <i class="fas fa-download" aria-hidden="true"></i></a>
                                     </p>
+                                    @endif
+                                 
                                 </td>
                                 <td>{{ $tracker->experience && $tracker->experience == 'fresher' ? 'Fresher' : $tracker->experience . ' years' }}
                                 </td>
@@ -71,8 +74,8 @@
                                 </td>
                                 <td>{{ $tracker->expected_ctc ? $tracker->expected_ctc . ' LPA' : 'Not Mentioned' }}</td>
                                 <td>{{ tracker_match_skill($jobid, $tracker->id) }} %</td>
-                                <td class="{{ $tracker->status ? $tracker->status == 'rejected' ?  'text-danger' : 'text-success' : 'text-warning' }}">
-                                    {{ $tracker->status ? Illuminate\Support\Str::ucfirst($tracker->status) : 'pending' }}
+                                <td class="{{ $tracker->status ? $tracker->status == 'rejected' ?  'text-danger' : 'text-success' : 'text-warning' }} text-capitalize">
+                                    {{ $tracker->status ?  $tracker->status == 'shortlist' ?  Illuminate\Support\Str::replace('_', ' ', $tracker->status."ed") : Illuminate\Support\Str::replace('_', ' ', $tracker->status) : 'pending' }}
                                 </td>
 
                                 @if ($tracker->status)

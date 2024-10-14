@@ -101,14 +101,16 @@
                             <tbody id="All" class="tab-pane fade active show">
                                 @forelse($data as $item)
                                     <tr>
-                                        <td> {{ $item->fname }}
+                                        <td class="text-capitalize"> {{ $item->fname }}
                                             {{ $item->lname ? $item->lname : '' }}
+                                            @if ($item->resume)
                                             <p>
                                                 <a href="{{ asset('resume/' . $item->resume . '') }}"
                                                     class="text-primary underline" title="Download Resume"
                                                     target="_blank">Download Resume <i class="fas fa-download"
                                                         aria-hidden="true"></i></a>
                                             </p>
+                                            @endif
                                         </td>
                                         <td>{{ $item->job_id == $jobid ? $item->created_at : 'Not Applied'}}</td>
                                         <td>{{ $item->exp_year && $item->exp_month ? $item->exp_year." years " .$item->exp_month." months " : 'Not Mentioned' }}</td>
