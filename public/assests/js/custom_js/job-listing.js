@@ -123,8 +123,10 @@ $(document).ready(function () {
                         // var base_url = window.location.origin + 'job_details/' + value.id;
                         var base_url = SITE_URL + '/job_details/' + value.id;
                         var cleanSkills = value.job_skills;
-                        console.log(cleanSkills);
+                        if (cleanSkills) {
+                            
                         cleanSkills = cleanSkills.replace(/\,/g, ", ");
+                        }
 
 
                         html += `<div class="single-job-items mb-30">

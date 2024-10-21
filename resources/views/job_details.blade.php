@@ -64,9 +64,9 @@
                         <!-- job single -->
                         <div class="single-job-items mb-50">
                             <div class="job-items">
-                                <div class="company-img company-img-details col-md-12">
-                                    <a href="#"><img src="{{ asset('assets/img/icon/job-list1.png') }}"
-                                            alt=""></a>
+                                <div class="company-img company-img-details col-md-12 mb-2">
+                                    <a href="#"><img src="{{ asset('company_logo/' . $data->company_logo . '') }}"
+                                            alt="" class="img-fluid border rounded p-1" width="80"></a>
                                     <a href="#">
                                         <h4>{{ $data->title }}</h4>
                                     </a>

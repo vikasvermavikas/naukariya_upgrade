@@ -252,7 +252,7 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12">
                             <label>10th Passing Year</label>
-                            <input type="number" placeholder="Enter 10th Passing Year" min="{{ date('Y') - 20 }}"
+                            <input type="number" placeholder="Enter 10th Passing Year" min="{{ date('Y') - 25 }}"
                                 max="{{ date('Y') }}" name="tenth_year"
                                 value="{{ $trackerDetails->tenth_year }}" />
                         </div>
@@ -273,7 +273,7 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12">
                             <label>12th Passing Year</label>
-                            <input type="number" placeholder="Enter 12th Passing Year" min="{{ date('Y') - 20 }}"
+                            <input type="number" placeholder="Enter 12th Passing Year" min="{{ date('Y') - 25 }}"
                                 max="{{ date('Y') }}" name="twelth_year"
                                 value="{{ $trackerDetails->twelve_year }}" />
                         </div>
@@ -299,7 +299,7 @@
                         </div>
                         <div class="col-lg-4 col-md-6 col-sm-12">
                             <label>Diploma Passing Year</label>
-                            <input type="number" placeholder="Diploma passing year" min="{{ date('Y') - 20 }}"
+                            <input type="number" placeholder="Diploma passing year" min="{{ date('Y') - 25 }}"
                                 max="{{ date('Y') }}" name="diploma_year"
                                 value="{{ $trackerDetails->diploma_year }}" />
                         </div>
@@ -341,7 +341,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-12">
                             <label>Graduation Passing Year</label>
                             <input type="number" placeholder="Graduation Passing year" name="graduation_year"
-                                min="{{ date('Y') - 20 }}" max="{{ date('Y') }}"
+                                min="{{ date('Y') - 25 }}" max="{{ date('Y') }}"
                                 value="{{ $trackerDetails->graduation_year }}" />
                         </div>
                     </div>
@@ -383,7 +383,7 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12">
                             <label>PG Passing Year</label>
-                            <input type="number" min="{{ date('Y') - 20 }}" max="{{ date('Y') }}"
+                            <input type="number" min="{{ date('Y') - 25 }}" max="{{ date('Y') }}"
                                 placeholder="Post Graduation Passing year" name="post_graduation_year"
                                 value="{{ $trackerDetails->post_graduation_year }}" />
                         </div>

@@ -431,6 +431,7 @@ class TrackerController extends Controller
                 $allexperience = count($experiencedetails);
             }
 
+            // If existing experience is came.
             if ($allexperience > 0) {
                 $currentlyworking = false;
                 for ($i = 0; $i < $allexperience; $i++) {
@@ -465,6 +466,36 @@ class TrackerController extends Controller
 
                     $existrecord->save();
                 }
+            }
+            else if($request->company_name && count($request->company_name) > 0) {
+                 $currentlyworking = false;
+                 for ($i=0; $i<count($request->company_name); $i++){
+                     $existrecord = new TrackerPastExperience;
+                    $existrecord->tracker_candidate_id = $id;
+                     // Set current working record.
+                    if ($i == 0 && $request->currentlyWork) {
+                        $existrecord->currently_working = 1;
+                        $currentlyworking = true;
+                    } else {
+                        $existrecord->currently_working = Null;
+                    }
+
+
+                    $existrecord->company_name = $request->company_name[$i];
+                    $existrecord->designation = $request->working_as[$i];
+                    $existrecord->from = $request->from[$i];
+
+                    if ($currentlyworking && $i == 0) {
+                        $existrecord->to = '';
+                    } else if ($currentlyworking) {
+                        $existrecord->to = $request->to[$i - 1];
+                    } else {
+                        $existrecord->to = $request->to[$i];
+                    }
+
+                    $existrecord->save();
+                 }
+
             }
 
             // Delete removed experciend records.

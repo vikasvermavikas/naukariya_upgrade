@@ -2063,6 +2063,7 @@ class JobmanagerController extends Controller
                 'jobmanagers.offered_sal_max',
                 'jobmanagers.main_exp',
                 'jobmanagers.max_exp',
+                'empcompaniesdetails.company_logo',
                 'jobmanagers.job_vaccancy',
                 'job_shifts.job_shift',
                 'job_types.job_type',

@@ -147,6 +147,10 @@
                     <span>Complete Data Export</span>
                 </a>
             </div>
+
+            <div class="col-md-12">
+                <p style="color:#e35e25;" class="font-weight-bold">Total Trackers : <span class="text-dark font-weight-normal">{{$data->total()}}</span></p>
+            </div>
             <div class="col-md-12 d-flex justify-content-center my-2">
                 {{ $data->onEachSide(0)->links() }}
             </div>

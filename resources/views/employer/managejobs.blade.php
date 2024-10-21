@@ -33,9 +33,9 @@
                                     <th>Relevant Trackers</th>
                                     <th>Relevant Jobseekers</th>
                                     <th>Applied</th>
-                                    <th>Shortlist</th>
+                                    {{-- <th>Shortlist</th>
                                     <th>Interview</th>
-                                    <th>Offer</th>
+                                    <th>Offer</th> --}}
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -51,9 +51,9 @@
                                         <td>{{$item->total_trackers}}</td>
                                         <td>{{$item->total_jobseekers}}</td>
                                         <td>{{ $item->total_applications }}</td>
-                                        <td>{{ $item->shortlisted }}</td>
+                                        {{-- <td>{{ $item->shortlisted }}</td>
                                         <td>{{ $item->interviewed }}</td>
-                                        <td>{{ $item->offers }}</td>
+                                        <td>{{ $item->offers }}</td> --}}
                                         <td>
                                             <a href="{{ route('viewjobs', ['id' => $item->id]) }}" data-toggle="tooltip" data-placement="top" class="text-dark" title="View"><i class="fas fa-eye" aria-hidden="true"></i></a>
 
