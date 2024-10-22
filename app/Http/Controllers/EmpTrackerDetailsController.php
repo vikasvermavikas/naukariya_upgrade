@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
+use throwable;
 
 class EmpTrackerDetailsController extends Controller
 {
@@ -383,7 +384,7 @@ class EmpTrackerDetailsController extends Controller
                 'Designation' => isset($past_experience[$x->main_id]) ? $past_experience[$x->main_id]->designation : 'Not Available',
                 'Tenure' => isset($past_experience[$x->main_id]) ? $past_experience[$x->main_id]->from_date : 'Not Available',
 
-                'Resume' => $x->resume ? url('/tracker/resume/' . $x->resume) : 'Not Available',
+                'Resume' => $x->resume ? asset('tracker/resume/' . $x->resume) : 'Not Available',
                 'Source' => $x->reference ? $x->reference : 'Not Available',
                 'Added By' => $x->emp_email ? $x->emp_email : 'Not Available',
                 'Date' => $x->created_at

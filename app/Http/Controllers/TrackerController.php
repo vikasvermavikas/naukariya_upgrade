@@ -128,7 +128,7 @@ class TrackerController extends Controller
             'dob' => 'nullable|date',
             'gender' => 'required',
             'reference' => 'required',
-            'resume' => 'mimes:doc,docx,pdf|max:1024'
+            'resume' => 'extensions:doc,docx,pdf|max:1024'
         ]);
 
         // echo "<pre>";
@@ -354,7 +354,7 @@ class TrackerController extends Controller
             'dob' => 'nullable|date',
             'gender' => 'required',
             'reference' => 'required',
-            'resume' => 'mimes:doc,docx,pdf|max:1024'
+            'resume' => 'extensions:doc,docx,pdf|max:1024'
         ]);
 
         try {
@@ -537,11 +537,7 @@ class TrackerController extends Controller
     {
         //dd($request->all());
         $this->validate($request, [
-            'resume' => [
-                'required',
-                FileRule::types('doc,docx,pdf')
-                    ->max('1mb')
-            ],
+        'resume' => 'required|extensions:doc,docx,pdf|max:1024',
             'id' => 'required|integer'
         ]);
 
