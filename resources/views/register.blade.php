@@ -71,7 +71,7 @@
                                 @enderror
                             </div>
                             <div class="input-data col mt-3">
-                                <input type="text" name="designation" placeholder="applied for designation"  value="{{old('designation')}}">
+                                <input type="text" name="designation" value="{{old('designation')}}">
                                 <div class="underline"></div>
                                 <label for="">Applied For</label>
                                 @error('designation')
