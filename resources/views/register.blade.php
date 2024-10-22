@@ -59,6 +59,26 @@
                                     <small class="text-danger"> {{$message }}</small>
                                 @enderror
                             </div>
+
+                        </div>
+                          <div class="form-row row mt-5">
+                            <div class="input-data col mt-3">
+                                <input type="text" name="college_name" value="{{old('college_name')}}">
+                                <div class="underline"></div>
+                                <label for="">College Name</label>
+                                @error('college_name')
+                                    <small class="text-danger"> {{$message }}</small>
+                                @enderror
+                            </div>
+                            <div class="input-data col mt-3">
+                                <input type="text" name="designation" placeholder="applied for designation"  value="{{old('designation')}}">
+                                <div class="underline"></div>
+                                <label for="">Applied For</label>
+                                @error('designation')
+                                    <small class="text-danger"> {{$message }}</small>
+                                @enderror
+                            </div>
+                            
                         </div>
                         <div class="form-row row  mt-sm-5">
                             <div class="input-data col mt-3">
