@@ -374,6 +374,8 @@ Route::group(['middleware' => 'employer'], function () {
             Route::get('tracker-list', 'index')->name('tracker-list');
             Route::get('/unique-source/tracker', 'getUniqueSourceEmployer')->name('get_tracker_source');
             Route::get('/export/tracker/{trackerid?}', 'exportTrackerDataEmployer')->name('exportTracker');
+            Route::get('details/{id}', 'tracker_details')->name('tracker_details');
+
         });
 
 

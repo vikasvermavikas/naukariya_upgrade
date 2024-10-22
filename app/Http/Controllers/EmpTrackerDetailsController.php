@@ -486,4 +486,9 @@ class EmpTrackerDetailsController extends Controller
 
         return response()->json(['data' => $data]);
     }
+
+    public function tracker_details($id){
+        $tracker = Tracker::findorFail($id);
+        return view('employer.tracker_details', ['tracker' => $tracker]);
+    }
 }

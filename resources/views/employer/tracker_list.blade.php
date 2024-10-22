@@ -158,7 +158,8 @@
             @forelse ($data as $item)
                 <div class="col-md-12">
                     {{-- Card Start --}}
-                    <div class="card mb-2 hover-overlay rounded">
+                    <a href="{{route('tracker_details', ['id' => $item->id])}}" class="text-dark">
+                          <div class="card mb-2 hover-overlay rounded">
                         <div class="card-header text-capitalize">
                             {{ $item->name }}
                         </div>
@@ -242,6 +243,8 @@
                             </div>
                         </div>
                     </div>
+                    </a>
+                  
 
 
                     {{-- Card End --}}
