@@ -488,7 +488,16 @@ class EmpTrackerDetailsController extends Controller
     }
 
     public function tracker_details($id){
-        $tracker = Tracker::findorFail($id);
+
+        try {
+        $tracker = Tracker::leftJoin('tracker_education', 'tracker_education.tracker_candidate_id', '=', 'trackers.id')
+            ->select('trackers.*', 'tracker_education.graduation', 'tracker_education.post_graduation' )
+            ->where('trackers.id', $id)->first();
         return view('employer.tracker_details', ['tracker' => $tracker]);
+        }
+        catch(throwable $exception){
+            return redirect()->back()->with(['error' => true, 'message' => 'Invalid Tracker.']);
+        }
+  
     }
 }

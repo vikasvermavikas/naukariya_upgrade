@@ -7,7 +7,7 @@
 		</div>
 		<div class="col-md-8 my-3">
 			<div class="embed-responsive embed-responsive-4by3">
-  <iframe class="embed-responsive-item" src={{'https://docs.google.com/gview?url=https://naukriyan.com/tracker/resume/'.$tracker->resume.'&embedded=true'}} allowfullscreen></iframe>
+  <iframe class="embed-responsive-item" src={{'https://docs.google.com/gview?url='.asset("tracker/resume/".$tracker->resume).'&embedded=true'}} allowfullscreen></iframe>
 </div>
 		</div>
 
@@ -18,12 +18,14 @@
   </div>
   <ul class="list-group list-group-flush">
     <li class="list-group-item list-group-item-action h4">{{$tracker->name}}</li>
+    @if($tracker->current_designation)
     <li class="list-group-item list-group-item-action">{{$tracker->current_designation}}</li>
+    @endif
     <li class="list-group-item list-group-item-action"><i class="far fa-envelope"></i> {{$tracker->email}}</li>
     <li class="list-group-item list-group-item-action"><i class="fas fa-phone"></i> {{$tracker->contact}}</li>
     <li class="list-group-item list-group-item-action"><i class="fas fa-briefcase"></i> {{$tracker->experience." years"}}</li>
-    <li class="list-group-item list-group-item-action"><i class="fas fa-wallet"></i> {{$tracker->current_ctc." LPA"}}</li>
-    <li class="list-group-item list-group-item-action"><i class="fas fa-user-graduate"></i> ..</li>
+    <li class="list-group-item list-group-item-action"><i class="fas fa-rupee-sign"></i> {{$tracker->current_ctc." LPA"}}</li>
+    <li class="list-group-item list-group-item-action"><i class="fas fa-graduation-cap"></i>{{$tracker->graduation ? $tracker->graduation : 'Null'}} {{$tracker->post_graduation ? ", ".$tracker->post_graduation : ''}}</li>
     <li class="list-group-item list-group-item-action"><i class="fas fa-cogs"></i> : {{$tracker->key_skills}}</li>
 
   </ul>
