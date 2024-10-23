@@ -1505,6 +1505,7 @@ class JobmanagerController extends Controller
         );
 
         try {
+            DB::beginTransaction();
 
             $job = new Jobmanager();
             $uid = Auth::guard('employer')->user()->id;
@@ -1566,6 +1567,8 @@ class JobmanagerController extends Controller
                 $companydetails = DB::table('empcompaniesdetails')->where('id', $session_company_id)->orderBy('id', 'desc')
                     ->first();
 
+                if($companydetails){
+                    
                 $data = new stdclass();
                 $data->jobid = $job->id;
                 $data->date = date('d-m-Y', time());
@@ -1583,15 +1586,19 @@ class JobmanagerController extends Controller
                     $data->jsname = $jobseeker->fname . " " . $jobseeker->lname;
                     $data->jobseeker_id = $jobseeker->js_userid;
                     $data->email = $jobseeker->email;
-                    // Trigger the event
+                    // Trigger the event for mail to users.
                     event(new JobPost($data));
                 }
+                }
+             
             }
-
+            DB::commit();
             return redirect()->route('postedjobs')->with(['message' => 'Job Posted Successfully']);
         } catch (Throwable $e) {
-            print_r($e->getMessage());
-            die;
+            DB::rollBack();
+            return redirect()->back()->with(['error' => true, 'message' => 'Server Error']);
+            // print_r($e->getMessage());
+            // die;
         }
     }
 
@@ -1697,6 +1704,8 @@ class JobmanagerController extends Controller
             ]
         );
 
+        try {
+            db::beginTransaction();
         $job = Jobmanager::find($id);
 
         $uid = Session::get('user')['id'];
@@ -1748,7 +1757,16 @@ class JobmanagerController extends Controller
         $job->client_id = $request->client_id;
         $job->save();
 
+        db::commit();
         return redirect()->route('postedjobs')->with(['message' => 'Job updated Successfully']);
+        }
+
+       catch (Throwable $e) {
+            DB::rollBack();
+            return redirect()->back()->with(['error' => true, 'message' => 'Server Error']);
+            // print_r($e->getMessage());
+            // die;
+        }
     }
 
     public function update(Request $request, $id)

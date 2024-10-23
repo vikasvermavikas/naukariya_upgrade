@@ -35,7 +35,7 @@ $(document).ready(function () {
             url : SITE_URL+'/employer/get-cities/data/'+stateid,
             type : 'GET',
             success : function(data) {
-                var html = '<option>Select City</option>';
+                var html = '<option value="">Select City</option>';
                $.each(data.data, function(key, value) {
                 html += '<option value="'+value.id+' ">' + value.cities_name + '</option>';
                });
