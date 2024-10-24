@@ -292,8 +292,8 @@ function getFilterdata(pageno = 1) {
                     html += `<div class="single-job-items mb-30">
                                            <div class="job-items mb-30">
                                        <div class="company-img">
-                                           <a href="${base_url}"><img
-                                                   src="assets/img/icon/job-list1.png" alt=""></a>
+                                         <a href="${base_url}"><img
+                                                                src="${PUBLIC_PATH}/company_logo/${value.company_logo}" class="img-fluid image-class rounded p-1" alt="no-image-found"></a>
                                        </div>
                                        <div class="job-tittle job-tittle2">
                                            <a href="${base_url}">

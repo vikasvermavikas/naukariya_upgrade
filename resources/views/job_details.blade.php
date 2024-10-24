@@ -170,12 +170,16 @@
                                         <button class="bg-success btn w-100" style="pointer-events: none" tabindex="-1"
                                             aria-disabled="true">Following</button>
                                     @else
-                                        <form
+
+                                        @if($data->company_id)
+                                             <form
                                             action="{{ route('followjob', ['companyid' => $data->company_id, 'jobid' => $data->id]) }}"
                                             method="POST">
                                             @csrf
                                             <button type="submit" class="btn w-100">Follow</button>
                                         </form>
+                                        @endif
+                                       
                                     @endif
 
                                     {{-- <a href="#" class="btn mt-2">Follow</a> --}}
