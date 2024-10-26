@@ -326,6 +326,16 @@ class EmpTrackerDetailsController extends Controller
             if (preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $exp)) {
                 $exp = str_replace('-', ' to ', $exp);
             }
+            $hometownstate = 'Not Available';
+            if ($x->hometown_state) {
+               $hometownstate = DB::table('states')->where('states_name', $x->hometown_state)
+                                    ->orWhere('id', $x->hometown_state)->value('states_name');
+            }
+            $hometowncity = 'Not Available';
+            if ($x->hometown_city) {
+               $hometowncity = DB::table('cities')->where('cities_name', $x->hometown_city)
+                                    ->orWhere('id', $x->hometown_city)->value('cities_name');
+            }
             // foreach ($x->past_exp as $pastexp) {
 
             //     $company_name[$x->main_id][$pastexp->company_name] = $pastexp->company_name;
@@ -354,8 +364,8 @@ class EmpTrackerDetailsController extends Controller
                 'Current CTC' => $x->current_ctc ? $x->current_ctc : 'Not Available',
                 'Current Location' => $x->current_location ? $x->current_location : 'Not Available',
                 'Preffered Location' => $x->preffered_location ? $x->preffered_location : 'Not Available',
-                'HomeTown State' => $x->hometown_state ? $x->hometown_state : 'Not Available',
-                'HomeTown City' => $x->hometown_city ? $x->hometown_city : 'Not Available',
+                'HomeTown State' => $hometownstate,
+                'HomeTown City' => $hometowncity,
                 'Tenth Board Name' => $x->tenth_board_name ? $x->tenth_board_name :  'Not Available',
                 'Tenth Percentage' => $x->tenth_percentage ? $x->tenth_percentage :  'Not Available',
                 'Tenth Year' => $x->tenth_year ? $x->tenth_year : 'Not Available',
