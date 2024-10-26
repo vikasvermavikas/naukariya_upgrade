@@ -46,7 +46,7 @@ use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\TrackerSelectionController;
-
+use App\Http\Controllers\PrakharDataController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,6 +78,10 @@ use App\Http\Controllers\TrackerSelectionController;
 // });
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// Prakhar API.
+Route::get('getjobscategory/prakharsoftwares', [PrakharDataController::class, 'getJobsBySectorPsspl']);
+Route::get('getjobs/prakharsoftwares', [PrakharDataController::class, 'getJobsByCategory']);
 
 Route::middleware(['guest:jobseeker', 'guest:employer', 'guest:subuser'])->group(function () {
 
