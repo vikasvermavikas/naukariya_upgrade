@@ -151,7 +151,7 @@ $(document).ready(function () {
             success: function (data) {
                 var html = '<option>Select City</option>';
                 $.each(data.data, function (key, value) {
-                    html += '<option value="' + value.id + ' ">' + value.cities_name + '</option>';
+                    html += '<option value="' + value.cities_name + ' ">' + value.cities_name + '</option>';
                 });
                 $("#hometown_city").html(html);
             }

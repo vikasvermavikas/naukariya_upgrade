@@ -430,8 +430,8 @@
                             <select class="form-control" name="hometown_state" id="hometown_state">
                                 <option value="">Select State</option>
                                 @foreach ($states as $state)
-                                    <option value="{{ $state->id }}"
-                                        {{ $trackerDetails->hometown_state == $state->id ? 'selected' : '' }}>
+                                    <option value="{{ $state->states_name }}"
+                                        {{ $trackerDetails->hometown_state == $state->states_name ? 'selected' : '' }}>
                                         {{ $state->states_name }}</option>
                                 @endforeach
                             </select>

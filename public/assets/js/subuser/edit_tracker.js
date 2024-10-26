@@ -17,11 +17,11 @@ $(document).ready(function () {
                 success: function (data) {
                     var html = '<option>Select City</option>';
                     $.each(data.data, function (key, value) {
-                        if (value.id == cityid) {
-                            html += '<option value="' + value.id + ' " selected>' + value.cities_name + '</option>';
+                        if (value.cities_name == cityid) {
+                            html += '<option value="' + value.cities_name + ' " selected>' + value.cities_name + '</option>';
                         }
                         else {
-                            html += '<option value="' + value.id + '">' + value.cities_name + '</option>';
+                            html += '<option value="' + value.cities_name + '">' + value.cities_name + '</option>';
                         }
                     });
                     $("#hometown_city").html(html);

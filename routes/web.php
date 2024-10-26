@@ -80,10 +80,10 @@ use App\Http\Controllers\PrakharDataController;
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Prakhar API.
-header('Access-Control-Allow-Origin:  https://www.prakharsoftwares.com');
-//header('Access-Control-Allow-Origin:  http://localhost');
+header('Access-Control-Allow-Origin:  *');
+// header('Access-Control-Allow-Origin:  http://127.0.0.1:8000');
 header('Access-Control-Allow-Methods:   GET');
-header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Authorization');
+header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Authorization, X-CSRF-Token, X-Requested-With');
 
 Route::get('getjobscategory/prakharsoftwares', [PrakharDataController::class, 'getJobsBySectorPsspl']);
 Route::get('getjobs/prakharsoftwares', [PrakharDataController::class, 'getJobsByCategory']);
@@ -461,7 +461,7 @@ Route::middleware('subuser')->group(function () {
         Route::get('/reference-list', [ReferenceController::class, 'index']);
         Route::post('/add-reference', [ReferenceController::class, 'store']);
 
-        Route::get('/get-cities/data/{id}', [CitiesController::class, 'getCityByState']);
+        Route::get('/get-cities/data/{id}', [CitiesController::class, 'getCityByStateName']);
     });
 });
 
