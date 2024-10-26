@@ -30,6 +30,7 @@ class CitiesController extends Controller
         ->first()->id;
         $data = DB::table('cities')
             ->where('state_id', $state_id)
+             ->orWhere('id', $name)
             ->get();
 
         return response()->json(['data' => $data], 200);

@@ -431,7 +431,7 @@
                                 <option value="">Select State</option>
                                 @foreach ($states as $state)
                                     <option value="{{ $state->states_name }}"
-                                        {{ $trackerDetails->hometown_state == $state->states_name ? 'selected' : '' }}>
+                                        {{ $trackerDetails->hometown_state == $state->states_name || $trackerDetails->hometown_state == $state->id ? 'selected' : '' }}>
                                         {{ $state->states_name }}</option>
                                 @endforeach
                             </select>

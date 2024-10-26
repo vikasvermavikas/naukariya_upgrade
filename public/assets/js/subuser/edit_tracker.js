@@ -17,7 +17,7 @@ $(document).ready(function () {
                 success: function (data) {
                     var html = '<option value="">Select City</option>';
                     $.each(data.data, function (key, value) {
-                        if (value.cities_name == cityid) {
+                        if (value.cities_name == cityid || value.id == cityid) {
                             html += '<option value="' + value.cities_name + ' " selected>' + value.cities_name + '</option>';
                         }
                         else {
