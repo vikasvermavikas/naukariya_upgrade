@@ -80,6 +80,11 @@ use App\Http\Controllers\PrakharDataController;
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Prakhar API.
+header('Access-Control-Allow-Origin:  https://www.prakharsoftwares.com');
+//header('Access-Control-Allow-Origin:  http://localhost');
+header('Access-Control-Allow-Methods:   GET');
+header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Authorization');
+
 Route::get('getjobscategory/prakharsoftwares', [PrakharDataController::class, 'getJobsBySectorPsspl']);
 Route::get('getjobs/prakharsoftwares', [PrakharDataController::class, 'getJobsByCategory']);
 
