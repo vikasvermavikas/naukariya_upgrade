@@ -15,7 +15,7 @@ $(document).ready(function () {
                 url: SITE_URL + '/subuser/get-cities/data/' + stateid,
                 type: 'GET',
                 success: function (data) {
-                    var html = '<option>Select City</option>';
+                    var html = '<option value="">Select City</option>';
                     $.each(data.data, function (key, value) {
                         if (value.cities_name == cityid) {
                             html += '<option value="' + value.cities_name + ' " selected>' + value.cities_name + '</option>';

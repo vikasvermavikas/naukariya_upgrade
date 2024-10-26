@@ -149,7 +149,7 @@ $(document).ready(function () {
             url: SITE_URL + '/subuser/get-cities/data/' + stateid,
             type: 'GET',
             success: function (data) {
-                var html = '<option>Select City</option>';
+                var html = '<option value="">Select City</option>';
                 $.each(data.data, function (key, value) {
                     html += '<option value="' + value.cities_name + ' ">' + value.cities_name + '</option>';
                 });
