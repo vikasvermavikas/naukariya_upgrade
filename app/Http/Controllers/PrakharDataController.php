@@ -44,7 +44,7 @@ class PrakharDataController extends Controller
         $jobs = DB::table('jobmanagers')
             ->leftjoin('empcompaniesdetails', 'jobmanagers.company_id', 'empcompaniesdetails.id')
             ->leftjoin('job_sectors', 'job_sectors.id', 'jobmanagers.job_sector_id')
-            ->select('jobmanagers.id', 'jobmanagers.job_sector_id', 'jobmanagers.last_apply_date', 'jobmanagers.location', 'jobmanagers.job_exp', 'jobmanagers.title', 'jobmanagers.main_exp', 'jobmanagers.max_exp', 'jobmanagers.description','empcompaniesdetails.company_name')
+            ->select('jobmanagers.id', 'jobmanagers.job_sector_id', 'jobmanagers.last_apply_date', 'jobmanagers.location', 'jobmanagers.job_exp', 'jobmanagers.title', 'jobmanagers.main_exp', 'jobmanagers.max_exp', 'jobmanagers.description', 'jobmanagers.job_skills', 'jobmanagers.created_at','empcompaniesdetails.company_name')
             ->where('jobmanagers.job_sector_id', $id)
             ->where('jobmanagers.job_for', '!=', 'Consultant')
             ->where('job_sectors.status', '1')
