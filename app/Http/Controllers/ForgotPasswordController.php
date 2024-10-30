@@ -11,12 +11,15 @@ use Mail;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rules\Password;
 use Hash;
+use throwable;
+
 class ForgotPasswordController extends Controller
 {
 
         public function SendResetLink(Request $request)
     {   
-        $this->validate($request, [
+        try {
+            $this->validate($request, [
             'role' => ['required', 'string'],
             'email' => ['required', 'email:filter']
         ]);
@@ -66,6 +69,12 @@ class ForgotPasswordController extends Controller
         });
 
         return response()->json(['success' => true, 'messages' => 'Reset password link send successfully to your mail id.', 'redirect' => $redirectlink]);
+        }
+
+        catch(throwable $e){
+             return response()->json(['error' => true, 'messages' => 'Server Error, contact to administrator.']);
+        }
+        
 
         // return redirect()->back()->with(['success' => true, 'messages' => 'Reset password link send successfully to your mail id.'], 200);
     }
