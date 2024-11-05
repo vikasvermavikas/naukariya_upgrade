@@ -8,10 +8,10 @@
 		<div class="col-md-12 my-4">
 			<h2 class="home-text-color">Forgot Password</h2>
 		</div>
-		<div class="col-md-12 d-flex justify-content-center my-3">
-			<div class="card text-center" style="width: 300px;">
-    <div class="card-header h5 text-white home-bg-color">Password Reset</div>
-    <div class="card-body px-5">
+		<div class="col-md-6 mx-auto my-3">
+			<div class="card text-center">
+            <div class="card-header h5 text-white home-bg-color">Password Reset</div>
+            <div class="card-body px-5">
         <p class="card-text py-2">
             Enter your email address and we'll send you an email with instructions to reset your password.
         </p>
