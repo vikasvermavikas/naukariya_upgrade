@@ -56,7 +56,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($trackers as $tracker)
+                        @forelse($sorted_trackers as $tracker)
+                        @php
+                        $tracker = (object) $tracker;
+                        @endphp
                             <tr>
                                 <td>{{ $tracker->name }}
                                     @if($tracker->resume)
@@ -81,7 +84,7 @@
                                 @if ($tracker->status)
                                     <!-- If status is shortlist. -->
                                     @if ($tracker->status == 'shortlist')
-                                        <td><button class="btn rounded p-3 interested mt-2" data-id="{{ $tracker->id }}"
+                                        <td><button class="btn rounded p-3 interested mt-2 mr-1" data-id="{{ $tracker->id }}"
                                                 job-id="{{ $jobid }}">Interested</button><button
                                                 class="btn rounded p-3 not-interested mt-2" data-id="{{ $tracker->id }}"
                                                 job-id="{{ $jobid }}">Not Interested</button></td>

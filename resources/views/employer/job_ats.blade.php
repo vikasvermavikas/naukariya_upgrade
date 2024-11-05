@@ -99,7 +99,10 @@
                         </thead>
                         <div class="tab-content">
                             <tbody id="All" class="tab-pane fade active show">
-                                @forelse($data as $item)
+                                @forelse($sorted_jobseekers as $item)
+                                @php
+                                $item = (object) $item;
+                                @endphp
                                     <tr>
                                         <td class="text-capitalize"> {{ $item->fname }}
                                             {{ $item->lname ? $item->lname : '' }}

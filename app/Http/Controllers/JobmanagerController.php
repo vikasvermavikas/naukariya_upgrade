@@ -230,8 +230,34 @@ class JobmanagerController extends Controller
             'jobseekers.notice_period',
             'jobseekers.preferred_location'
         )
-            ->paginate(50)
+            ->paginate(100)
             ->withQueryString();
+
+     // Sort the tracker on basis of skills.
+        $sorted_jobseekers = [];
+        foreach($data as $jobseeker){
+            $sorted_jobseekers[] = [
+                'id' => $jobseeker->id,
+                'fname' => $jobseeker->fname,
+                'lname' => $jobseeker->lname,
+                'resume' => $jobseeker->resume,
+                'job_id' => $jobseeker->job_id,
+                'created_at' => $jobseeker->created_at,
+                'exp_year' => $jobseeker->exp_year,
+                'exp_month' => $jobseeker->exp_month,
+                'designation' => $jobseeker->designation,
+                'expected_salary' => $jobseeker->expected_salary,
+                'notice_period' => $jobseeker->notice_period,
+                'status' => $jobseeker->status,
+                'skill_match_percentage' => jobseeker_match_skill($id, $jobseeker->jobseekerid),
+                'jobseekerid' => $jobseeker->jobseekerid
+            ];
+        };
+            array_multisort(array_column($sorted_jobseekers, 'skill_match_percentage'), SORT_DESC, $sorted_jobseekers);
+     
+        
+
+        
         // ->getBindings();
 
         // print_r($data);
@@ -249,7 +275,7 @@ class JobmanagerController extends Controller
         //        ->get();
 
         // return response()->json(['data' => $data], 200);
-        return view('employer.job_ats', ['data' => $data, 'jobdetails' => $jobskiils, 'jobid' => $id, 'category' => $category, 'totalrecord' => $totalrecords]);
+        return view('employer.job_ats', ['data' => $data, 'jobdetails' => $jobskiils, 'jobid' => $id, 'category' => $category, 'totalrecord' => $totalrecords, 'sorted_jobseekers' => $sorted_jobseekers]);
     }
 
     public function trackers_applications(Request $request, $id)
@@ -279,8 +305,25 @@ class JobmanagerController extends Controller
                 }
             });
         }
-        $trackers = $trackers->paginate(50);
-        return view('employer.job_ats_trackers', ['jobskills' => $jobskills, 'trackers' => $trackers, 'jobid' => $id, 'category' => $category]);
+        $trackers = $trackers->paginate(1000);
+
+        // Sort the tracker on basis of skills.
+        $sorted_trackers = [];
+        foreach($trackers as $tracker){
+            $sorted_trackers[] = [
+                'id' => $tracker->id,
+                'name' => $tracker->name,
+                'resume' => $tracker->resume,
+                'experience' => $tracker->experience,
+                'current_designation' => $tracker->current_designation,
+                'expected_ctc' => $tracker->expected_ctc,
+                'skill_match_percentage' => tracker_match_skill($id, $tracker->id),
+                'status' => $tracker->status
+            ];
+        };
+        array_multisort(array_column($sorted_trackers, 'skill_match_percentage'), SORT_DESC, $sorted_trackers);
+
+        return view('employer.job_ats_trackers', ['jobskills' => $jobskills, 'trackers' => $trackers, 'jobid' => $id, 'category' => $category, 'sorted_trackers' => $sorted_trackers]);
     }
 
     public function getScheduledInterviewLists()
