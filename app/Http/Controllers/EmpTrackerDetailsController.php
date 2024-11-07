@@ -174,7 +174,7 @@ class EmpTrackerDetailsController extends Controller
             $data->Where('added_by', $userid);
         }
        
-        $trackerList = $data->orderBy('trackers.id', 'desc')->paginate($view_per_page);
+        $trackerList = $data->orderBy('trackers.id', 'desc')->paginate($view_per_page)->withQueryString();
 
         // return response()->json(['data' => $trackerList, 'education_data' => $education_data], 200);
         return view('employer.tracker_list', ['data' => $trackerList, 'education_data' => $education_data, 'requestdata' => $request->all()]);
