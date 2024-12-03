@@ -66,6 +66,11 @@ $trail->parent('ats');
 $trail->push($title);
 });
 
+Breadcrumbs::for('ats_job_view', function ($trail) {
+$trail->parent('ats');
+$trail->push('Job Detail');
+});
+
 Breadcrumbs::for('job_ats', function ($trail) {
 $trail->parent('employer_dasboard');
 $trail->push('Manage Jobs', route('managejobs'));

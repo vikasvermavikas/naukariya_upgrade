@@ -41,7 +41,7 @@
 						<td>{{$value->status}}</td>
 						<td>{{$value->total_resumes}}</td>
 						<td>{{$value->total_applications}}</td>
-						<td><a href="{{route('viewjobs', ['id' => $value->id])}}" class="btn rounded p-4 mt-2 mr-2" title="view job details" data-toggle="tooltip">View</a><a href="{{route('get_ats_resumes', ['id' => $value->id])}}" class="btn rounded p-4 mt-2" title="get resumes" data-toggle="tooltip">Resumes</a></td>
+						<td><a href="{{route('ats_job_description', ['id' => $value->id])}}" class="btn rounded p-4 mt-2 mr-2" title="view job details" data-toggle="tooltip">View</a><a href="{{route('get_ats_resumes', ['id' => $value->id])}}" class="btn rounded p-4 mt-2" title="get resumes" data-toggle="tooltip">Resumes</a></td>
 					</tr>
 					@empty
 					<tr>

@@ -268,6 +268,7 @@ Route::group(['middleware' => 'employer'], function () {
         Route::controller(TrackerSelectionController::class)->prefix('ats')->group(function () {
             Route::get('/', 'ats')->name('ats_listing');
             Route::get('resumes/{id}', 'get_resumes')->name('get_ats_resumes');
+            Route::get('view/{id}', 'view_job')->name('ats_job_description');
         }); 
 
         // Resume Parsing API.

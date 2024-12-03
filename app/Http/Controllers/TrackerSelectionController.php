@@ -249,4 +249,39 @@ class TrackerSelectionController extends Controller
         // return response($data);
         return $data;
     }
+
+    public function view_job($id)
+    {
+        try {
+            $job = Jobmanager::select(
+                'jobmanagers.id',
+                'jobmanagers.qualification_for_gov',
+                'jobmanagers.location',
+                'jobmanagers.department',
+                'jobmanagers.attachment',
+                'jobmanagers.company_id',
+                'jobmanagers.job_preference',
+                'jobmanagers.job_exp',
+                'jobmanagers.title',
+                'jobmanagers.responsibility',
+                'jobmanagers.job_skills',
+                'jobmanagers.job_address',
+                'jobmanagers.description',
+                'jobmanagers.offered_sal_min',
+                'jobmanagers.offered_sal_max',
+                'jobmanagers.main_exp',
+                'jobmanagers.max_exp',
+                'jobmanagers.job_vaccancy',
+                'job_shifts.job_shift',
+                'job_types.job_type',
+                'jobmanagers.government_apply_link',
+                'jobmanagers.start_apply_date',
+                'jobmanagers.last_apply_date',
+                'jobmanagers.sal_disclosed'
+            )->leftjoin('job_types', 'job_types.id', 'jobmanagers.job_type_id')
+                ->leftjoin('job_shifts', 'job_shifts.id', 'jobmanagers.job_shift_id')->findOrFail($id);
+            return view('employer.ats.job_description', ['job' => $job]);
+        } catch (Throwable $e) {
+        }
+    }
 }
