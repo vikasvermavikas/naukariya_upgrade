@@ -19,7 +19,7 @@
                  </div>
 
             <div class="col-md-12">
-                <h2>Resume View</h2>
+                <h2>Jobseekers Resume</h2>
             </div>
             <div class="col-md-12 d-flex justify-content-center my-1">
                 <div style="background:#F95602;" class="text-light text-center w-50 rounded" role="button" data-toggle="modal"
@@ -56,6 +56,9 @@
                 echo "</pre>";
                 die;
             @endphp --}}
+            <div class="col-md-12 my-3">
+                <p>Total Resumes : <span class="font-weight-bold" style="color : #e35e25;">{{$category->total()}}</span></p>
+            </div>
             <div class="col-md-12 d-flex justify-content-center my-2">
                 {{ $category->onEachSide(0)->links() }}
             </div>

@@ -38,7 +38,8 @@ class DashboardController extends Controller
         $loggedUserType = Auth::guard('employer')->user()->user_type;
         $loggedCompanyId = Auth::guard('employer')->user()->company_id;
 
-
+        $data = [];
+        $data['jobseekers'] = Jobseeker::where('active', 'Yes')->count();
         $data['job_posted_by_me'] = Jobmanager::where('userid', $loggedUserId)->count();
 
         $data['active_jobs'] = Jobmanager::where('userid', $loggedUserId)
@@ -273,5 +274,23 @@ class DashboardController extends Controller
         });
         
         return view('employer.search_resume', compact('skills', 'locations', 'savedSearches'));
+    }
+
+    public function get_ats_data(){
+        $sql = 'select count(aj.job_id) as jobcount, aj.job_id, j.title  from apply_jobs aj join jobmanagers j on j.id = aj.job_id  group by job_id order by jobcount desc limit 5';
+
+         $data = ApplyJob::select(DB::raw('count(apply_jobs.job_id) as jobcount, apply_jobs.job_id, jobmanagers.title'))->join('jobmanagers', 'jobmanagers.id', '=', 'apply_jobs.job_id')->groupBy('apply_jobs.job_id')->orderBy('jobcount', 'desc')->offset(0)->limit(5)->get();
+         
+         $jobs = [];  // Jobs names.
+         $jobsvalues = [];  // Total no. of application for this job.
+
+         foreach($data as $datavalue){
+            $jobs[] = $datavalue->title;
+            $jobsvalues[] = $datavalue->jobcount;
+         }
+
+         return response()->json(['jobs' => $jobs, 'applications' => $jobsvalues], 200);
+
+
     }
 }

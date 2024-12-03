@@ -246,6 +246,7 @@ Route::group(['middleware' => 'employer'], function () {
     // Route::get('employer/dashboard', [DashboardController::class, 'dashboardloadPage'])->route('dashboardLoadPage');
     Route::get('get-subuser-activity', [DashboardController::class, 'CountSubuserActivity']);
     Route::get('dashboard/employer', [DashboardController::class, 'countAllDataForJobEmployer'])->name('dashboardemployer');
+    Route::get('get-dashboard-data', [DashboardController::class, 'get_dashboard_data']);
 
     Route::prefix('employer')->group(function () {
 
@@ -263,6 +264,11 @@ Route::group(['middleware' => 'employer'], function () {
             Route::post('/schedule-interview', 'schedule_interview')->name('tracker_ats_interview');
             Route::post('/get-interview-details', 'interview_details');
         });
+
+        Route::controller(TrackerSelectionController::class)->prefix('ats')->group(function () {
+            Route::get('/', 'ats')->name('ats_listing');
+            Route::get('resumes/{id}', 'get_resumes')->name('get_ats_resumes');
+        }); 
 
         // Resume Parsing API.
         Route::controller(ResumeParserController::class)->group(function () {
@@ -345,6 +351,7 @@ Route::group(['middleware' => 'employer'], function () {
         Route::get('search-resume', [DashboardController::class, 'search_resume'])->name('employer_search_resume');
         Route::get('view-employer-profile', [DashboardController::class, 'employer_profile_view'])->name('employer_view_profile');
         Route::get('view-employer-organisation', [DashboardController::class, 'employer_organisation'])->name('employer_organisation');
+         Route::get('get_ats_data', [DashboardController::class, 'get_ats_data']);
 
         // For resume filer.
         Route::get('/resume/filter', [ViewProfileTrackController::class, 'getResumeFilterDemo'])->name('resume_filter');

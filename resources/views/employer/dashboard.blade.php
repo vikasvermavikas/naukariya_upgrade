@@ -4,14 +4,38 @@
 @endsection
 @section('content')
     <section id="registration-form">
-        <div class="container py-5">
+        <div class="container py-3">
+            <div class="d-none">
+                <input type="hidden" id="data-total-subusers" value="{{$data['totalSubuser']}}">
+                <input type="hidden" id="data-total-jobseekers" value="{{$data['jobseekers']}}">
+                <input type="hidden" id="data-total-clients" value="{{$data['totalClient']}}">
+                <input type="hidden" id="data-total-followers" value="{{$data['followers']}}">
+            </div>
             <div class="row">
                  <div class="col-md-12 ">
                     {{ Breadcrumbs::render('employer_dasboard') }}
                  </div>
+                    <div class="col-md-12 my-3" >
+                    <h1 class="text-center"><b>Welcome to Your Hiring Hub !</b></h1>
+                </div>
                 <div class="col-md-9">
-                    <h1 class="text-center"><b>DASHBOARD</b></h1>
-                    <div class="row mt-5">
+                    
+                    <div class="row">
+                        <div class="col-md-6 card rounded bg-light d-flex justify-content-center text-center align-items-center">
+                            <div class="card-body text-center align-items-center d-flex justify-content-center">
+                                <div class="d-block">
+                                    <!-- <img src={{asset('assets/images/ats.png')}} class="img-fluid" title="ATS" data-toggle="tooltip" /> -->
+                                    <a href="{{route('ats_listing')}}">
+                                    <img src={{asset('assets/images/ats-icon.png')}} class="img-fluid w-75" title="ATS" data-toggle="tooltip" />
+                                </a>
+                                  <!-- <p class="lead font-weight-bold">  ATS </p> -->
+                                </div>
+                               
+                            </div>
+                        </div>
+                         <div class="col-md-6">
+                        <canvas id="chart-line" width="299" height="200" class="chartjs-render-monitor" style="display: block; width: 299px; height: 200px;"></canvas>
+                        </div>
 
                         <div class="col-sm-6 col-md-6 col-lg-3 effectclass">
                             <a href="{{ route('managejobs') }}">
@@ -31,15 +55,16 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-3 effectclass">
+                        <!-- <div class="col-sm-6 col-md-6 col-lg-3 effectclass">
                             
-                            <a href="{{route('resume_filter')}}">
-                                <div class="box rounded bg-info py-4 text-center mt-3"><span class="text-white">0</span>
-                                    <hr class="hr1">
-                                    <p class="lead"><span class="text-white">View Resume</span></p>
+                            <a href="{{route('ats_listing')}}">
+                                <div class="box rounded bg-info text-center mt-3" style="height:91%;padding-top: 39%;">
+                                    
+                                    <span class="text-white lead">ATS</span>
+                                    
                                 </div>
                             </a>
-                        </div>
+                        </div> -->
                         <div class="col-sm-6 col-md-6 col-lg-3 effectclass">
                             <a href="{{ route('interview_list') }}">
                                 <div class="box rounded bg-dark py-4 text-center mt-3"><span
@@ -50,19 +75,26 @@
                             </a>
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-3 effectclass">
-                            <div class="box rounded bg-info py-4 text-center mt-3"><span class="text-white">
+                             <a href="{{route('resume_filter')}}">
+                                <div class="box rounded bg-info py-4 text-center mt-3"><span class="text-white">{{$data['jobseekers']}}</span>
+                                    <hr class="hr1">
+                                    <p class="lead"><span class="text-white">View Resume</span></p>
+                                </div>
+                            </a>
+
+                           <!--  <div class="box rounded bg-info py-4 text-center mt-3"><span class="text-white">
                                     {{ $data['reports'] }}</span>
                                 <hr class="hr1">
                                 <p class="lead"><span class="text-white">Reports</span></p>
-                            </div>
+                            </div> -->
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-3 effectclass">
+                      <!--   <div class="col-sm-6 col-md-6 col-lg-3 effectclass">
                             <div class="box rounded bg-success py-4 text-center mt-3"><span
                                     class="text-white">{{ $data['package_subscription'] }}</span>
                                 <hr class="hr1">
                                 <p class="lead"><span class="text-white">Subscriptions</span></p>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-sm-6 col-md-6 col-lg-3 effectclass">
                             <a href="{{ route('employer_followers') }}">
                                 <div class="box rounded bg-dark py-4 text-center mt-3"><span
@@ -72,7 +104,7 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-3 effectclass">
+                       <!--  <div class="col-sm-6 col-md-6 col-lg-3 effectclass">
                             <a href="{{ route('employer_support_list') }}">
                                 <div class="box rounded bg-primary py-4 text-center mt-3"><span
                                         class="text-white">{{ $data['helpdesk'] }}</span>
@@ -80,7 +112,7 @@
                                     <p class="lead"><span class="text-white">Helpdesk</span></p>
                                 </div>
                             </a>
-                        </div>
+                        </div> -->
                         <div class="col-sm-6 col-md-6 col-lg-3 effectclass">
                             <a href="{{ route('tracker-list') }}">
                                 <div class="box rounded bg-primary py-4 text-center mt-3"><span
@@ -170,7 +202,9 @@
 
 
             </div>
-            <div class="row my-5">
+
+            <!-- Subuser section -->
+          <!--   <div class="row my-5">
                 <div class="col-sm-9">
 
                     <div class="row">
@@ -195,11 +229,12 @@
                     </div>
                 </div>
 
-            </div>
+            </div> -->
         </div>
     </section>
 @endsection
 
 @section('script')
-    <script src="{{ asset('assets/js/employer-dashboard.js') }}"></script>
+<script src='{{ asset("assets/js/employer/Chart.bundle.min.js")}}'></script>
+<script src="{{ asset('assets/js/employer-dashboard.js') }}"></script>
 @endsection
