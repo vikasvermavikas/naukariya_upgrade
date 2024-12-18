@@ -18,6 +18,7 @@
 			<form action="" class="form-inline">
 				<div class="form-group" >
 					<select class="form-control mx-3" name="type" required>
+						<option value="both" {{$type == 'both' ? 'selected' : ''}}>All</option>
 						<option value="trackers" {{$type == 'trackers' ? 'selected' : ''}}>Trackers</option>
 						<option value="jobseekers" {{$type == 'jobseekers' ? 'selected' : ''}}>Jobseekers</option>
 					</select>
@@ -34,8 +35,10 @@
 		<div class="col-md-12">
 			@if($is_tracker)
 			<p>Total Resumes : <span class="text-color">{{$trackers->total()}}</span></p>
-			@else 
+			@elseif($is_jobseeker) 
 			<p>Total Resumes : <span class="text-color">{{$jobseekers->total()}}</span></p>
+            @else 
+			<p>Total Resumes : <span class="text-color">{{$combinedPaginated->total()}}</span></p>
 			@endif
 		</div>
 
@@ -43,8 +46,10 @@
 		<div class="col-md-12 d-flex justify-content-center my-2">
 			@if($is_tracker)
 			{{$trackers->onEachSide(0)->links()}}
-			@else 
+			@elseif($is_jobseeker)
 			{{$jobseekers->onEachSide(0)->links()}}
+			@else 
+			{{$combinedPaginated->onEachSide(0)->links()}}
 			@endif
 		</div>
 
@@ -84,6 +89,7 @@
                                 </td>
                                 <td>{{ $tracker->expected_ctc ? $tracker->expected_ctc . ' LPA' : 'Not Mentioned' }}</td>
                                 <td>{{ tracker_match_skill($jobid, $tracker->id) }} %</td>
+                                {{-- <td>{{ $tracker->match_percentage}}</td> --}}
                                 <td class="{{ $tracker->status ? $tracker->status == 'rejected' ?  'text-danger' : 'text-success' : 'text-warning' }} text-capitalize">
                                     {{ $tracker->status ?  $tracker->status == 'shortlist' ?  Illuminate\Support\Str::replace('_', ' ', $tracker->status."ed") : Illuminate\Support\Str::replace('_', ' ', $tracker->status) : 'pending' }}
                                 </td>
@@ -95,56 +101,132 @@
                             </tr>
                         @endforelse
                     </tbody>
+                 {{-- @else --}}
+                 @elseif($is_jobseeker)
+                    <tbody id="All" class="tab-pane fade active show">
+                        @forelse($jobseekers as $item)
+                        
+                            <tr>
+                                <td class="text-capitalize"> {{ $item->fname }}
+                                    {{ $item->lname ? $item->lname : '' }}
+                                    @if ($item->resume)
+                                    <p>
+                                        <a href="{{ asset('resume/' . $item->resume . '') }}"
+                                            class="text-primary underline" title="Download Resume"
+                                            target="_blank">Download Resume <i class="fas fa-download"
+                                                aria-hidden="true"></i></a>
+                                    </p>
+                                    @endif
+                                </td>
+                                <td>{{ $item->exp_year && $item->exp_month ? $item->exp_year." years " .$item->exp_month." months " : 'Not Mentioned' }}</td>
+                                    <td>{{ $item->designation ? $item->designation : 'Not Mentioned' }}</td>
+                                <td>{{ $item->expected_salary ? $item->expected_salary." LPA" : 'Not Mentioned' }}</td>
+
+                            
+                                <td>
+                                    {{-- {{jobseeker_match_skill($jobid, $item->jobseekerid)}} % --}}
+                                    {{$item->match_percentage ? $item->match_percentage .'%' : '0%' }}
+                                </td>
+                                <td class="{{ $item->status ? $item->status == 'rejected' ?  'text-danger' : 'text-success' : 'text-warning' }}">
+                                    @if($item->status && $item->job_id == $jobid)
+
+                                    @if ($item->status == 1)
+                                        Applied
+                                    @elseif ($item->status == 2)
+                                        Interview Scheduled
+                                    @elseif ($item->status == 3)
+                                        Shortlisted
+                                    @elseif ($item->status == 4)
+                                        Rejected
+                                    @elseif ($item->status == 5)
+                                        Offer Letter
+                                    @elseif ($item->status == 6)
+                                        Joining
+                                    @elseif ($item->status == 7)
+                                        Save / Hold
+                                    @else
+                                        NA
+                                    @endif
+                                    @else
+                                    Pending
+                                    @endif
+
+
+
+                                </td>
+                            
+                            </tr>
+                        @empty
+                            <tr>
+                                <td class="text-danger text-center" colspan="6">No Record Found</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
                  @else
                  	<!-- If filter, jobseeker selected. -->
-                 	  <tbody id="All" class="tab-pane fade active show">
-                                @forelse($jobseekers as $item)
-                                
+                 	   <tbody id="All" class="tab-pane fade active show">
+                            @forelse($combinedPaginated as $item)
+                          
                                     <tr>
-                                        <td class="text-capitalize"> {{ $item->fname }}
-                                            {{ $item->lname ? $item->lname : '' }}
-                                            @if ($item->resume)
+                                        <td class="text-capitalize"> {{ $item['fname'] }}
+                                            {{ $item['lname'] ? $item['lname'] : '' }}
+                                            @if ($item['resume'])
                                             <p>
-                                                <a href="{{ asset('resume/' . $item->resume . '') }}"
+                                                <a href="{{ asset('resume/' . $item['resume'] . '') }}"
                                                     class="text-primary underline" title="Download Resume"
                                                     target="_blank">Download Resume <i class="fas fa-download"
                                                         aria-hidden="true"></i></a>
                                             </p>
                                             @endif
                                         </td>
-                                           <td>{{ $item->exp_year && $item->exp_month ? $item->exp_year." years " .$item->exp_month." months " : 'Not Mentioned' }}</td>
-                                            <td>{{ $item->designation ? $item->designation : 'Not Mentioned' }}</td>
-                                        <td>{{ $item->expected_salary ? $item->expected_salary." LPA" : 'Not Mentioned' }}</td>
+                                           @if($item['experience'])
+                                          
+                                           <td>{{ $item['experience'] && $item['experience'] == 'fresher' ? 'Fresher' : $item['experience'] . ' years' }}</td>
+                                           @else
+                                           <td>{{ $item['exp_year'] && $item['exp_month'] ? $item['exp_year']." years " .$item['exp_month']." months " : 'Not Mentioned' }}</td>
+                                           @endif
+                                            <td>{{ $item['designation'] ? $item['designation'] : 'Not Mentioned' }}</td>
+                                        <td>{{ $item['expected_salary'] ? $item['expected_salary']." LPA" : 'Not Mentioned' }}</td>
 
-                                      
-                                        <td>{{jobseeker_match_skill($jobid, $item->jobseekerid)}} %</td>
-                                          <td>
-                                            @if($item->status && $item->job_id == $jobid)
-
-                                            @if ($item->status == 1)
-                                                Applied
-                                            @elseif ($item->status == 2)
-                                                Interview Scheduled
-                                            @elseif ($item->status == 3)
-                                                Shortlisted
-                                            @elseif ($item->status == 4)
-                                                Rejected
-                                            @elseif ($item->status == 5)
-                                                Offer Letter
-                                            @elseif ($item->status == 6)
-                                                Joining
-                                            @elseif ($item->status == 7)
-                                                Save / Hold
+                                            {{-- @if($item['type'] ="tracker")
+                                                <td>{{ tracker_match_skill($jobid, $item['jobseekerid']) }} %</td>
                                             @else
-                                                NA
-                                            @endif
-                                            @else
-                                            Pending
-                                            @endif
+                                                {{ $item['jobseekerid'] ? jobseeker_match_skill($jobid, $item['jobseekerid']).'%' : '0%' }} 
+                                            @endif --}}
+                                           <td> {{$item['match_percentage'] ? $item['match_percentage'] .'%' : '0%'}}  </td>
+                                         
+                                           @if($item['type'] == "jobseeker")
+                                             
+                                            <td class="{{ $item['status'] ? $item['status'] == 'rejected' ?  'text-danger' : 'text-success' : 'text-warning' }}" >
+                                                @if($item['status'] && $item['job_id'] == $jobid)
 
-
-
-                                        </td>
+                                                @if ($item['status'] == 1)
+                                                    Applied
+                                                @elseif ($item['status'] == 2)
+                                                    Interview Scheduled
+                                                @elseif ($item['status'] == 3)
+                                                    Shortlisted
+                                                @elseif ($item['status'] == 4)
+                                                    Rejected
+                                                @elseif ($item['status'] == 5)
+                                                    Offer Letter
+                                                @elseif ($item['status'] == 6)
+                                                    Joining
+                                                @elseif ($item['status'] == 7)
+                                                    Save / Hold
+                                                @else
+                                                    NA
+                                                @endif
+                                                @else
+                                                Pending
+                                                @endif
+                                            </td>
+                                                
+                                           @else
+                                            <td class="{{ $item['status'] ? $item['status'] == 'rejected' ?  'text-danger' : 'text-success' : 'text-warning' }} text-capitalize">
+                                                {{ $item['status'] ?  $item['status'] == 'shortlist' ?  Illuminate\Support\Str::replace('_', ' ', $item['status']."ed") : Illuminate\Support\Str::replace('_', ' ', $item['status']) : 'pending' }}
+                                            </td>
+                                           @endif
                                       
                                     </tr>
                                 @empty
@@ -152,7 +234,7 @@
                                         <td class="text-danger text-center" colspan="6">No Record Found</td>
                                     </tr>
                                 @endforelse
-                            </tbody>
+                        </tbody>
                  @endif   
 			</table>
 		</div>
@@ -161,8 +243,10 @@
 		<div class="col-md-12 d-flex justify-content-center my-2">
 			@if($is_tracker)
 			{{$trackers->onEachSide(0)->links()}}
-			@else 
+			@elseif($is_jobseeker) 
 			{{$jobseekers->onEachSide(0)->links()}}
+			@else 
+			{{$combinedPaginated->onEachSide(0)->links()}}
 
 			@endif
 		</div>
