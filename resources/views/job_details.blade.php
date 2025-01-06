@@ -158,8 +158,11 @@
                                         <button class="bg-success btn w-100" style="pointer-events: none" tabindex="-1"
                                             aria-disabled="true">Saved</button>
                                     @else
-                                        <form action="{{ route('savejob', ['id' => $data->id]) }}" method="POST">
+                                        <form class="save_job_form">
                                             @csrf
+                                             <div class="d-none">
+                                                <input type="hidden" class="jobid" value="{{$data->id}}">
+                                             </div>
                                             <button type="submit" class="btn w-100">Save Job</button>
                                         </form>
                                     @endif
@@ -172,10 +175,12 @@
                                     @else
 
                                         @if($data->company_id)
-                                             <form
-                                            action="{{ route('followjob', ['companyid' => $data->company_id, 'jobid' => $data->id]) }}"
-                                            method="POST">
-                                            @csrf
+                                        <form method="POST" class="follow_job_form">
+                                                @csrf
+                                             <div class="d-none">
+                                                <input type="hidden" class="jobid" value="{{$data->id}}">
+                                                <input type="hidden" class="companyid" value="{{$data->company_id}}">
+                                             </div>
                                             <button type="submit" class="btn w-100">Follow</button>
                                         </form>
                                         @endif
@@ -198,9 +203,11 @@
                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             </div>
 
-                                            <form role="form" action={{ route('applyjob', ['id' => $data->id]) }}
-                                                method="post">
+                                            <form role="form" method="post" enctype="multipart/form-data" class="apply_job_form">
                                                 @csrf
+                                                <div class="d-none">
+                                                    <input type="hidden" class="jobid" value="{{$data->id}}">
+                                                </div>
                                                 <!-- Modal body -->
                                                 <div class="modal-body">
                                                     <div class="form-group row inputBox">
@@ -281,6 +288,21 @@
                                                             </div>
                                                         </fieldset>
                                                     </div>
+                                                    <div class="question">
+                                                        <p> Upload Resume<span class="text-danger">*</span></p>
+                                                        <fieldset class="mb-3">
+                                                            <div class="form-group ask_question">
+                                                                <div class="icheck-primary d-inline">
+                                                                <input type="file"
+                                                                        id="radioPrimary6" name="resume" class="form-control" accept=".pdf,.doc,.docx" required>
+                                                                @error('resume')
+                                                                <span class="text-danger">{{$message}}</span>
+                                                                @enderror
+                                                                </div>
+                                                               
+                                                            </div>
+                                                        </fieldset>
+                                                    </div>
 
                                                 </div>
 
@@ -321,4 +343,7 @@
         <!-- job post company End -->
 
     </main>
+@endsection
+@section('script')
+<script src="{{asset('assets/js/job_details.js')}}"></script>
 @endsection

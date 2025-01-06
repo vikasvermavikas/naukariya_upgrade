@@ -120,20 +120,27 @@
                                                         <a href="{{ route('jobseekerProfile') }}"
                                                             class="user-menu-link p-0">
                                                             <div class="text-color"><i class="fas fa-user-circle"></i>
-                                                                My profile
+                                                                My Profile
                                                             </div>
+                                                        </a>
+                                                         <a href="{{ route('profile-stages') }}"
+                                                            class="user-menu-link p-0 mt-2">
+                                                            <div class="text-color"><i class="fas fa-edit"></i>
+                                                                Edit Profile
+                                                            </div>
+
                                                         </a>
                                                     </li>
 
                                                     <li class="user-menu__item mt-2">
                                                         <a href="#" class="user-menu-link p-0">
-                                                            <div class="text-color">
+                                                            <div class="text-color text-center">
                                                                 <form id="logout-form"
                                                                     action="{{ route('jobseekerlogout') }}"
                                                                     method="POST">
                                                                     @csrf
                                                                     <button type="submit"
-                                                                        class="btn head-btn2">Logout</button>
+                                                                        class="btn rounded">Logout</button>
                                                                 </form>
                                                             </div>
                                                         </a>

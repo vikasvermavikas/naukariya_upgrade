@@ -6,12 +6,14 @@ use Illuminate\Http\Request;
 use App\Models\ApplyJob;
 use App\Models\Jobmanager;
 use App\Models\Admin;
+use App\Models\JobResume;
 use Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Mail;
 use App\Events\JobApplied;
 use stdclass;
+use Illuminate\Validation\Rules\File;
 
 class ApplyJobController extends Controller
 {
@@ -59,7 +61,6 @@ class ApplyJobController extends Controller
             ->orderBy('apply_jobs.created_at', 'DESC')
             ->get();
 
-
             return view('jobseeker.applied_jobs',[
                 'data' => $data,
             ]);
@@ -68,20 +69,38 @@ class ApplyJobController extends Controller
 
     public function store(Request $request, $id)
     {
-        $this->validate($request, []);
+        DB::beginTransaction();
+        try {
+                $this->validate($request, [
+                'resume' => ['required', File::types(['pdf', 'doc', 'docx'])->max('3mb')]
+            ]);
+        $file = $request->file('resume');
+        $orignal_file_name = $file->getClientOriginalName();
+        $filename = time() . '.' . $file->extension();
+        $path = public_path() . '/resume/';
+
         if (Auth::guard('jobseeker')->check()){
             $employer = Jobmanager::select('userid')->where('id', $id)->first();
             // If user has completed his profile.
-            if (Auth::guard('jobseeker')->user()->savestage == 6){
+            // if (Auth::guard('jobseeker')->user()->savestage == 6){
                 $userid = Auth::guard('jobseeker')->user()->id;
                 $application_id = "NKR/" . $userid . "/" . $id;
-                $applyjob = new ApplyJob();
-                $applyjob->jsuser_id = $userid;
-                $applyjob->job_id = $id;
-                $applyjob->application_id = $application_id;
-                $applyjob->username = Auth::guard('jobseeker')->user()->email;
-                $applyjob->save();
-
+              $applyjob = ApplyJob::create([
+                'jsuser_id' => $userid,
+                'job_id' => $id,
+                'application_id' => $application_id,
+                'username' => Auth::guard('jobseeker')->user()->email
+                ]);
+                
+               if ($applyjob->id) {
+                    $file->move($path, $filename);
+                    JobResume::create([
+                        'job_id' => $id,
+                        'jobseeker_id' => $userid,
+                        'resume' => $filename,
+                        'filename' => $orignal_file_name
+                    ]);
+               }
                 // call the event
                 $data = new stdclass();
                 $data->jobseeker_id = $userid;
@@ -89,15 +108,21 @@ class ApplyJobController extends Controller
                 $data->employer_id = $employer->userid;
                 event(new JobApplied($data));
 
-                return redirect()->back()->with(['success' => true , 'message' => 'Job successfully applied']);
-            }
-            return redirect()->back()->with(['error' => true, 'message' => 'Please complete your profile first']);
+                DB::commit();
+                return response()->json(['success' => true , 'message' => 'Job successfully applied']);
+                // return redirect()->back()->with(['success' => true , 'message' => 'Job successfully applied']);
+            // }
+            // return redirect()->back()->with(['error' => true, 'message' => 'Please complete your profile first']);
 
         }
         else {
+            DB::rollBack();
             return redirect()->route('login', ['job' => $id])->with(['error' => 'You must be logged in to apply for a job']);
         }
-
-       
+        }
+        catch(Throwable $th){
+            DB::rollBack();
+            return response()->json(['error' => true , 'message' => 'Server Error.']);        
+        }
     }
 }
