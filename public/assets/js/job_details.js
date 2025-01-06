@@ -2,6 +2,7 @@ $(document).ready(function (){
 	$("form.apply_job_form").submit(function (e) {
 		e.preventDefault();
 		var jobid = $(this).find(".jobid").val();
+		$(this).find(".confirm_apply").attr('disabled', 'disabled');
 		var formData = new FormData(this);
 
 		$.ajax({
@@ -23,6 +24,8 @@ $(document).ready(function (){
 				});
 				}
 				else if (res.error) {
+					$(this).find(".confirm_apply").removeAttr('disabled');
+
 					Swal.fire({
 					  icon: "error",
 					  title: "Oops...",

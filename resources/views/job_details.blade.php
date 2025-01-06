@@ -309,7 +309,7 @@
 
                                                 <!-- Modal footer -->
                                                 <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-primary">
+                                                    <button type="submit" class="btn btn-primary confirm_apply">
                                                         Confirm Apply
                                                     </button>
                                                     <button type="button" class="btn btn-danger"
