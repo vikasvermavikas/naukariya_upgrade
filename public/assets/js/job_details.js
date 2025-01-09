@@ -35,7 +35,12 @@ $(document).ready(function (){
 					})
 					.then((result) => {
 					  if (result.isConfirmed) {
+					  	if (res.jobid) {
+					  		window.location.href = SITE_URL+'/login?job='+res.jobid;
+					  	}
+					  	else {					  		
 					   	location.reload();
+					  	}
 					  }
 					});	
 				}			

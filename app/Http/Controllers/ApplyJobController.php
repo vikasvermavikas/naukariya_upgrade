@@ -131,7 +131,8 @@ class ApplyJobController extends Controller
         }
         else {
             DB::rollBack();
-            return redirect()->route('login', ['job' => $id])->with(['error' => 'You must be logged in to apply for a job']);
+            // return redirect()->route('login', ['job' => $id])->with(['error' => 'You must be logged in to apply for a job']);
+             return response()->json(['error' => true , 'message' => 'You must be logged in to apply for a job', 'jobid' => $id]);
         }
         }
         catch(Throwable $th){
