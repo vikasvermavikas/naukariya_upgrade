@@ -9,7 +9,7 @@
             <thead>
                 <tr style="width:100%">
                     <td style="background-color:#fff;text-align: center;padding-top: 12px;padding-bottom: 6px; ">
-                         <img src="https://naukriyan.com/public/company_logo/{{$mailData['logo']}}" alt="Logo">
+                         <img src="https://naukriyan.com/public/company_logo/{{$mailData['logo']}}" style="width:10%" class="img-responsive" alt="Logo">
                     </td>
                 </tr>
             </thead>
