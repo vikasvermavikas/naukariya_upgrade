@@ -3,6 +3,7 @@ $(document).ready(function (){
 		e.preventDefault();
 		var jobid = $(this).find(".jobid").val();
 		$(this).find(".confirm_apply").attr('disabled', 'disabled');
+		Swal.showLoading();
 		var formData = new FormData(this);
 
 		$.ajax({
@@ -12,6 +13,7 @@ $(document).ready(function (){
 			data: formData,
 			success : function (res){
 				if (res.success) {
+				Swal.hideLoading();
 				Swal.fire({
 				  title: "Congratulations!",
 				  text: res.message,
@@ -35,8 +37,20 @@ $(document).ready(function (){
 					  if (result.isConfirmed) {
 					   	location.reload();
 					  }
-				});	
+					});	
 				}			
+			},
+			error : function(err){
+				Swal.fire({
+					  icon: "error",
+					  title: "Oops...",
+					  text: 'Server Error',
+					})
+					.then((result) => {
+					  if (result.isConfirmed) {
+					   	location.reload();
+					  }
+					});	
 			},
 			cache: false,
         	contentType: false,

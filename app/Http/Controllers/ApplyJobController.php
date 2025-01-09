@@ -7,10 +7,12 @@ use App\Models\ApplyJob;
 use App\Models\Jobmanager;
 use App\Models\Admin;
 use App\Models\JobResume;
+use App\Models\Empcompaniesdetail;
 use Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Mail;
+use App\Mail\ApplyJobMail;
 use App\Events\JobApplied;
 use stdclass;
 use Illuminate\Validation\Rules\File;
@@ -80,7 +82,10 @@ class ApplyJobController extends Controller
         $path = public_path() . '/resume/';
 
         if (Auth::guard('jobseeker')->check()){
-            $employer = Jobmanager::select('userid')->where('id', $id)->first();
+            $jobseeker_name = Auth::guard('jobseeker')->user()->fname." ".Auth::guard('jobseeker')->user()->lname;
+            $jobseeker_email = Auth::guard('jobseeker')->user()->email;
+            $employer = Jobmanager::select('userid', 'title', 'company_id')->where('id', $id)->first();
+            $company = Empcompaniesdetail::where('id', $employer->company_id)->value('company_name');
             // If user has completed his profile.
             // if (Auth::guard('jobseeker')->user()->savestage == 6){
                 $userid = Auth::guard('jobseeker')->user()->id;
@@ -107,6 +112,14 @@ class ApplyJobController extends Controller
                 $data->job_id = $id;
                 $data->employer_id = $employer->userid;
                 event(new JobApplied($data));
+                
+                // Mail sent to jobseeker.
+                  $mailData = [
+                    'name' => $jobseeker_name,
+                    'job_title' => $employer->title,
+                    'company' => $company 
+                    ];
+                Mail::to($jobseeker_email)->send(new ApplyJobMail($mailData));
 
                 DB::commit();
                 return response()->json(['success' => true , 'message' => 'Job successfully applied']);

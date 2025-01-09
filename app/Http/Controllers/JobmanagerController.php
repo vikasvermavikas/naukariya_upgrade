@@ -2797,4 +2797,11 @@ class JobmanagerController extends Controller
 
         return view('employer.post_new_job', ['sector' => $jobsector, 'clients' => $clients, 'industries' => $industries, 'functional_roles' => $functional_roles, 'companies' => $companies, 'states' => $states, 'posted_type' => $posted_type, 'jobcategory' => $jobcategory, 'careerlevel' => $careerlevel, 'jobtypes' => $jobtypes, 'jobshifts' => $jobshifts, 'locations' => $locations, 'qualifications' => $qualifications, 'questions' => $questions]);
     }
+
+    public function job_resumes($id){
+        $jobid = $id;
+       $job_title =  Jobmanager::where('id', $id)->value('title');
+       $resumes = EmployerNotification::select('jobmanagers.title', 'jobseekers.fname', 'jobseekers.lname', 'employer_notifications.created_at', 'jobseekers.id')->join('jobmanagers', 'jobmanagers.id', 'employer_notifications.job_id')->join('jobseekers', 'jobseekers.id', 'employer_notifications.jobseeker_id')->where('employer_notifications.job_id', $id)->paginate(20);
+        return view('employer.job-resumes', compact('resumes', 'job_title', 'jobid'));
+    }
 }

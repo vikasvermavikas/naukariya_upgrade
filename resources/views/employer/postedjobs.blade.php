@@ -58,12 +58,12 @@
                             <p class="text-center">
                                 @if ($item->status == 'Active')
                                     <a href="{{ route('deactive_posted-job', ['id' => $item->id]) }}"
-                                        class="btn bg-danger">Deactivate</a>
+                                        class="btn bg-danger p-3 rounded">Deactivate</a>
                                 @else
                                     <a href="{{ route('active_posted-job', ['id' => $item->id]) }}"
-                                        class="btn bg-success">Activate</a>
+                                        class="btn bg-success p-3 rounded">Activate</a>
                                 @endif
-
+                                <a href="{{route('job_resumes',['id' => $item->id])}}" class="btn p-3 rounded">Resumes</a>
                             </p>
                             </p>
                         </div>

@@ -78,7 +78,7 @@
                              <a href="{{route('resume_filter')}}">
                                 <div class="box rounded bg-info py-4 text-center mt-3"><span class="text-white">{{$data['jobseekers']}}</span>
                                     <hr class="hr1">
-                                    <p class="lead"><span class="text-white">View Resume</span></p>
+                                    <p class="lead"><span class="text-white">Jobseekers</span></p>
                                 </div>
                             </a>
 

@@ -369,6 +369,7 @@ Route::group(['middleware' => 'employer'], function () {
         Route::controller(JobmanagerController::class)->group(function () {
             Route::get('/managejobs', 'sessionuser')->name('managejobs');
             Route::get('/jobDescription/{id}', 'job_description')->name('viewjobs');
+            Route::get('/job-resumes/{id}', 'job_resumes')->name('job_resumes');
             Route::get('/ats/{id}', 'jobapplication')->name('job_ats');
             Route::get('/ats/trackers/{id}', 'trackers_applications')->name('job_ats_trackers');
             Route::get('/posted-jobs', 'posted_jobs')->name('postedjobs');

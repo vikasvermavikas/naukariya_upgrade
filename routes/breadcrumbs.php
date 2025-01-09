@@ -88,6 +88,12 @@ $trail->parent('employer_dasboard');
 $trail->push('Posted Jobs');
 });
 
+Breadcrumbs::for('job_resumes', function ($trail, $title) {
+$trail->parent('employer_dasboard');
+$trail->push('Posted Jobs', route('postedjobs'));
+$trail->push($title);
+});
+
 Breadcrumbs::for('resume_view', function ($trail) {
 $trail->parent('employer_dasboard');
 $trail->push('View Resumes');

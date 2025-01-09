@@ -6,6 +6,8 @@ use App\Models\Jobseeker;
 use App\Models\JsSkill;
 use App\Models\Jobmanager;
 use App\Models\Tracker;
+use App\Models\JsResume;
+use App\Models\JobResume;
 
 
 function get_experience()
@@ -166,4 +168,47 @@ if (!function_exists('tracker_match_skill')) {
 
      }
     
+}
+
+/**
+* Get jobseeker resume.
+* @param $jobseeker_id
+* @param $jobseeker_id
+* @return resume link.
+*/
+if (!function_exists('get_jobseeker_resume')) {
+
+    function get_jobseeker_resume($jobseeker_id, $jobid = ''){
+        try {
+            $profile_resume = JsResume::select('resume', 'updated_at', 'created_at')->where('js_userid', $jobseeker_id)->first();
+            if ($profile_resume && $profile_resume->resume) {
+                $resume = $profile_resume->resume;
+            }
+
+            if ($jobid) {
+        $job_resume = JobResume::select('resume', 'created_at')->where('jobseeker_id', $jobseeker_id)->where('job_id', $jobid)->first();
+            }
+            if ($profile_resume && $jobid && $job_resume) {
+           if (strtotime($profile_resume->updated_at) > strtotime($job_resume->created_at) ) {
+               return $profile_resume->resume;
+           }
+           else {
+            return $job_resume->resume;
+           }
+            }
+            else if($profile_resume && empty($job_resume)) {
+            return $profile_resume->resume;
+            }
+            else if($job_resume) {
+            return $job_resume->resume;
+            }
+            else {
+            return '';
+            }
+        }
+        catch (Throwable $th) {
+            return '';
+        }
+       
+    }
 }
