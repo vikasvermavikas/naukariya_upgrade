@@ -85,7 +85,7 @@ class ApplyJobController extends Controller
             $jobseeker_name = Auth::guard('jobseeker')->user()->fname." ".Auth::guard('jobseeker')->user()->lname;
             $jobseeker_email = Auth::guard('jobseeker')->user()->email;
             $employer = Jobmanager::select('userid', 'title', 'company_id')->where('id', $id)->first();
-            $company = Empcompaniesdetail::where('id', $employer->company_id)->value('company_name');
+            $company = Empcompaniesdetail::select('company_name', 'company_logo')->where('id', $employer->company_id)->first();
             // If user has completed his profile.
             // if (Auth::guard('jobseeker')->user()->savestage == 6){
                 $userid = Auth::guard('jobseeker')->user()->id;
@@ -117,7 +117,8 @@ class ApplyJobController extends Controller
                   $mailData = [
                     'name' => $jobseeker_name,
                     'job_title' => $employer->title,
-                    'company' => $company 
+                    'company' => $company->company_name,
+                    'logo' => $company->company_logo
                     ];
                 Mail::to($jobseeker_email)->send(new ApplyJobMail($mailData));
 
