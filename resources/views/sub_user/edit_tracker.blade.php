@@ -144,7 +144,7 @@
                         <div class="row childcompany">
                             <input type="hidden" class="companydetails" name="experienceid[]" id="experiencedid" value="{{$experience->id}}">
                             <div class="col-lg-6 col-md-6 col-sm-12">
-                                <label>Comapny Name</label>
+                                <label>Company Name</label>
                                 <input type="text" class="companydetails" placeholder="Enter Company Name"
                                     name="company_name[]" value="{{$experience->company_name}}"/>
                             </div>
@@ -409,7 +409,7 @@
 
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12">
-                            <label>Preffered Loaction</label>
+                            <label>Preferred Location</label>
                             <select name="preffered_location" id="preffered_location" required>
                                 @for ($i = 0; $i < count($locations); $i++)
                                     <optgroup label="{{ $locations[$i]['state'] }}">
@@ -448,9 +448,9 @@
                     <hr>
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-12">
-                            <label>Maritial Status</label>
+                            <label>Marital Status</label>
                             <select style="outline: none;" name="maritial_status">
-                                <option value="" disabled>Select Maritial Status</option>
+                                <option value="" disabled>Select Marital Status</option>
                                 <option value="unmarried"
                                     {{ $trackerDetails->maritial_status == 'unmarried' ? 'selected' : '' }}>Unmarried
                                 </option>

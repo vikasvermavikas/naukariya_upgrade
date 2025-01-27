@@ -43,7 +43,7 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label for="" class="font-weight-bold">Skiils</label>
+                            <label for="" class="font-weight-bold">Skills</label>
                             <div class="form-group">
                                 <input type="text" class="form-control" name="skills" data-role="tagsinput"
                                     placeholder="Enter multiple comma seperated skills"

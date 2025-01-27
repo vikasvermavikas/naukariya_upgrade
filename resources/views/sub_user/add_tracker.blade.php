@@ -122,7 +122,7 @@
                     <div class="parentcompany">
                         <div class="row childcompany">
                             <div class="col-lg-6 col-md-6 col-sm-12">
-                                <label>Comapny Name</label>
+                                <label>Company Name</label>
                                 <input type="text" class="companydetails" placeholder="Enter Company Name"
                                     name="company_name[]" />
                             </div>
@@ -326,7 +326,7 @@
 
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12">
-                            <label>Preffered Loaction</label>
+                            <label>Preferred Location</label>
                             <select name="preffered_location" id="preffered_location" required>
                                 @for ($i = 0; $i < count($locations); $i++)
                                     <optgroup label="{{ $locations[$i]['state'] }}">
@@ -361,9 +361,9 @@
                     <hr>
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-12">
-                            <label>Maritial Status</label>
+                            <label>Marital Status</label>
                             <select style="outline: none;" name="maritial_status">
-                                <option value="" disabled>Select Maritial Status</option>
+                                <option value="" disabled>Select Marital Status</option>
                                 <option value="unmarried">Unmarried</option>
                                 <option value="married">Married</option>
                                 <option value="other">Other</option>
@@ -403,7 +403,7 @@
                             </select>
                         </div>
                         <div class="col-lg-4 col-md-6 col-sm-12">
-                            <label>Raference <span class="text-danger">*</span></label>
+                            <label>Reference <span class="text-danger">*</span></label>
                             <select name="reference" id="reference" required>
                                 <option value="">Select Reference Name</option>
                             </select>
