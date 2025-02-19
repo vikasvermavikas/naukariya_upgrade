@@ -381,6 +381,7 @@
                         <div class="col-lg-4 col-md-6 col-sm-12">
                             <label>Resume</label>
                             <span style="color: red;"><i aria-hidden="true" class="fa fa-info ml-2 mr-1"></i></span>
+                            <span style="font-weight: lighter;font-size: small;">(File must be less than 1 mb)</span>
                             <input type="file"
                                 accept="application/pdf,application/msword,
                         application/vnd.openxmlformats-officedocument.wordprocessingml.document"
