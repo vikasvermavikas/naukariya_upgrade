@@ -107,7 +107,7 @@
                                     <div class="form-group col-sm-6">
                                         <label class="col-form-label font-weight-bold" for="">Last Name</label>
                                         <input type="text" class="form-control" name="lname"
-                                            value="{{ old('lname') }}" placeholder="Enter Last Name" required>
+                                            value="{{ old('lname') }}" placeholder="Enter Last Name">
                                         @error('lname')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -201,7 +201,7 @@
                                                 Name</label>
                                             <input type="text" class="form-control" name="updatelname"
                                                 id="updatelname" value="{{ old('updatelname') }}"
-                                                placeholder="Enter Last Name" required>
+                                                placeholder="Enter Last Name">
                                             @error('updatelname')
                                                 <span class="text-danger updateerror">{{ $message }}</span>
                                             @enderror

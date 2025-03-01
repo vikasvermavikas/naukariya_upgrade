@@ -119,7 +119,7 @@ class SubuserController extends Controller
 
         $request->validate([
             'fname' => 'required|alpha:ascii',
-            'lname' => 'required|alpha:ascii',
+            // 'lname' => 'required|alpha:ascii',
             'email' => 'required|email:filter|unique:sub_users,email',
             'contact' => 'required|numeric|min:10',
             'designation' => [
@@ -185,7 +185,7 @@ class SubuserController extends Controller
     {
         $request->validate([
             'updatefname' => 'required|alpha:ascii',
-            'updatelname' => 'required|alpha:ascii',
+            // 'updatelname' => 'required|alpha:ascii',
             'updateemail' => [
                 'required',
                 'email:filter',
