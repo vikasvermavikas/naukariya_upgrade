@@ -12,8 +12,12 @@ $(document).ready(function () {
         $(".emailerror").text(textvalue);
     }
 
+    function setEmailSuccess(textvalue){
+        $(".emailsuccess").text(textvalue);
+    }
 
     $("#email").focusout(function () {
+        setEmailSuccess('');
             const element = $(this);
             var emailval = element.val();
             var emailerror = '';
@@ -43,10 +47,12 @@ $(document).ready(function () {
                     success : function (response){
                         if (response.success) {
                          setEmailError('');
+                         setEmailSuccess('Available');
                         $(".savechanges").attr('disabled', false);
 
                         }
                         else {
+                         setEmailSuccess('');
                          setEmailError(response.message);
                         element.val('');
 

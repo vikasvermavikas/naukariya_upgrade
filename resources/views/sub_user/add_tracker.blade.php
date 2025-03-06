@@ -50,8 +50,9 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12">
                             <label><span style="color: red;">*</span> Email</label>
-                            <input type="email" placeholder="Enter Email" name="email" id="email" value="{{old('email')}}"  required />
+                            <input type="email" placeholder="Enter Email" name="email" id="email" value="{{old('email')}}" class="mb-0"  required />
                             <span class="text-danger emailerror"></span>
+                            <span class="text-success emailsuccess"></span>
                             @error('email')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
