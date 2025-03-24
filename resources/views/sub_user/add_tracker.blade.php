@@ -308,7 +308,7 @@
                         </div>
 
                     </div>
-                    <h3>Loaction Details</h3>
+                    <h3>Location Details</h3>
                     <hr>
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-12">
