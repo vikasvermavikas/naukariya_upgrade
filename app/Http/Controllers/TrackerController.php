@@ -685,7 +685,7 @@ class TrackerController extends Controller
                 'Current CTC (In LPA)' => $x->current_ctc ? $x->current_ctc : 'Not Available',
                 'Current Location' => $x->current_location ? $x->current_location : 'Not Available',
                 'Preffered Location' => $x->preffered_location ? $x->preffered_location : 'Not Available',
-                'Resume' => $x->resume ? url('/tracker/resume/' . $x->resume) : 'Not Available',
+                'Resume' => $x->resume ? asset('tracker/resume/' . $x->resume) : 'Not Available',
                 'Source' => $x->reference ? $x->reference : 'Not Available',
                 'Added By' => $x->emp_email ? $x->emp_email : 'Not Available',
                 'Date' => $x->created_at,
