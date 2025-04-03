@@ -7798,3 +7798,9 @@ form.search-box .search-form a {
     width: 40% !important;
   }
 }
+
+
+.focus
+{
+  border-color: #e35e25 !important;
+}

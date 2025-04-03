@@ -1,6 +1,7 @@
 $(document).ready(function () {
     // Get designations.
     $('.designation').autocomplete();
+    
     const csrf = $("meta[name=csrf-token]").attr('content');
 
     function validateEmail($email) {
@@ -129,7 +130,7 @@ $(document).ready(function () {
         $(".parentcompany .childcompany:last").find(".companydetails:last").prop("disabled", false); // Make todate field indisabled.
         // Add remove button
         $(".parentcompany .childcompany:last div:last").after(
-            "<div class='col-md-12 mb-2'><button class='btn rounded p-3 float-right removecompany'>Remove</button></div>"
+            "<div class='col-md-12 mb-2'><button class='btn-secondary rounded float-right removecompany'>Remove</button></div>"
         );
 
     });

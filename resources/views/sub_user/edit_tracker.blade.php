@@ -168,7 +168,7 @@
                                 <input type="month" class="companydetails" name="to[]" max="{{ date('Y-m') }}" value="{{$experience->to}}" {{$experience->currently_working ? 'disabled' : ''}}>
                             </div>
                             @if ($loop->iteration > 1)
-                            <div class='col-md-12 mb-2'><button type="button" class='btn rounded p-3 float-right removecompany'>Remove</button></div>
+                            <div class='col-md-12 mb-2'><button type="button" class='btn-secondary rounded float-right removecompany'>Remove</button></div>
                             @endif
 
                         </div>
@@ -221,7 +221,7 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12">
                             <label>Intrested Job Type</label>
-                            <select name="intrested_job_type">
+                            <select name="intrested_job_type" style="outline: none;">
                                 <option value="">Select Intrested Job Type</option>
                                 <option value="part-time"
                                     {{ $trackerDetails->intrested_job_type == 'part-time' ? 'selected' : '' }}>Part Time
@@ -244,7 +244,7 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12">
                             <label>10th Percentage</label>
-                            <input type="number" placeholder="Enter 10th  %" min="40" max="100"
+                            <input type="number" placeholder="Enter 10th  %" min="1" max="100"
                                 name="tenth_percentage" value="{{ $trackerDetails->tenth_percentage }}" />
                             @error('tenth_percentage')
                                 <span class="text-danger">{{ $message }}</span>
@@ -265,7 +265,7 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12">
                             <label>12th Percentage</label>
-                            <input type="number" placeholder="Enter 12th  %" min="40" max="100"
+                            <input type="number" placeholder="Enter 12th  %" min="1" max="100"
                                 name="twelth_percentage" value="{{ $trackerDetails->twelve_percentage }}" />
                             @error('twelth_percentage')
                                 <span class="text-danger">{{ $message }}</span>
@@ -286,7 +286,7 @@
                         </div>
                         <div class="col-lg-4 col-md-6 col-sm-12">
                             <label>Diploma Percentage</label>
-                            <input type="number" placeholder="Diploma %" min="40" max="100"
+                            <input type="number" placeholder="Diploma %" min="1" max="100"
                                 name="diploma_percentage" value="{{ $trackerDetails->diploma_percentage }}" />
                             @error('diploma_percentage')
                                 <span class="text-danger">{{ $message }}</span>
@@ -307,7 +307,7 @@
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-12">
                             <label>Graduation Mode</label>
-                            <select name="graduation_mode">
+                            <select name="graduation_mode" style="outline: none;">
                                 <option value="">Graduation Mode</option>
                                 <option value="part-time"
                                     {{ $trackerDetails->graduation_mode == 'part-time' ? 'selected' : '' }}>Part Time
@@ -332,7 +332,7 @@
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-12">
                             <label>Graduation Percentage</label>
-                            <input type="number" placeholder="Graduation %" min="40" max="100"
+                            <input type="number" placeholder="Graduation %" min="1" max="100"
                                 name="graduation_percentage" value="{{ $trackerDetails->graduation_percentage }}" />
                             @error('graduation_percentage')
                                 <span class="text-danger">{{ $message }}</span>
@@ -348,7 +348,7 @@
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-12">
                             <label>PG Mode</label>
-                            <select name="post_graduation_mode">
+                            <select name="post_graduation_mode" style="outline: none;">
                                 <option value="">Post Graduation Mode</option>
                                 <option value="part-time"
                                     {{ $trackerDetails->post_graduation_mode == 'part-time' ? 'selected' : '' }}>Part Time
@@ -374,7 +374,7 @@
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-12">
                             <label>PG Percentage(%)</label>
-                            <input type="number" min="40" max="100" placeholder="Post Graduation %"
+                            <input type="number" min="1" max="100" placeholder="Post Graduation %"
                                 name="post_graduation_percentage"
                                 value="{{ $trackerDetails->post_graduation_percentage }}" />
                             @error('post_graduation_percentage')
@@ -394,7 +394,7 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-12">
                             <label>Current Location</label>
-                            <select name="current_location" id="current_location" required>
+                            <select name="current_location" id="current_location" style="outline: none;" required>
                                 @for ($i = 0; $i < count($locations); $i++)
                                     <optgroup label="{{ $locations[$i]['state'] }}">
                                         @foreach ($locations[$i]['location'] as $locationvalue)
@@ -410,7 +410,7 @@
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12">
                             <label>Preferred Location</label>
-                            <select name="preffered_location" id="preffered_location" required>
+                            <select name="preffered_location" id="preffered_location" style="outline: none;" required>
                                 @for ($i = 0; $i < count($locations); $i++)
                                     <optgroup label="{{ $locations[$i]['state'] }}">
                                         @foreach ($locations[$i]['location'] as $locationvalue)
@@ -427,7 +427,7 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-12">
                             <label>Hometown State</label>
-                            <select class="form-control" name="hometown_state" id="hometown_state">
+                            <select name="hometown_state" id="hometown_state" style="outline: none;">
                                 <option value="">Select State</option>
                                 @foreach ($states as $state)
                                     <option value="{{ $state->states_name }}"
@@ -439,7 +439,7 @@
                         <div class="col-lg-6 col-md-6 col-sm-12">
                             <label>Hometown City</label>
                             <input type="hidden" id="cityid" value="{{$trackerDetails->hometown_city}}">
-                            <select class="form-control" name="hometown_city" id="hometown_city">
+                            <select name="hometown_city" id="hometown_city" style="outline: none;">
                                 <option value="">Select City</option>
                             </select>
                         </div>
@@ -504,7 +504,7 @@
                         <div class="col-lg-6 col-md-6 col-sm-12">
                             <label><span class="text-danger">*</span> Reference </label>
                             <input type="hidden" id="referenceid" value="{{$trackerDetails->reference}}">
-                            <select name="reference" id="reference" required>
+                            <select name="reference" id="reference" style="outline: none;" required>
                                 <option value="">Select Reference Name</option>
                             </select>
                             @error('reference')
@@ -605,4 +605,5 @@
     <script src="{{ asset('assets/js/subuser/edit_tracker.js') }}"></script>
     <script src="{{ asset('assets/js/tagsinput.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap-autocomplete.js') }}"></script>
+    <script src="{{ asset('assets/js/focus.js') }}"></script>
 @endsection
