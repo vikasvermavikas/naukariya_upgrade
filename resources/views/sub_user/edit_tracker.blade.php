@@ -2,28 +2,6 @@
 @section('style')
     <link rel="stylesheet" href="{{ asset('assets/css/subuser/addTracker.css') }}">
     <link href="{{ asset('assets/css/tagsinput.css') }}" rel="stylesheet" type="text/css">
-
-    <style>
-        .currenlyLog {
-            margin-top: -0.75rem !important;
-        }
-
-        label {
-            font-weight: bold;
-        }
-
-        h3 {
-            color: #e35e25;
-        }
-
-        hr {
-            border-bottom: 3px solid #eceff8;
-        }
-
-        .bootstrap-tagsinput .badge {
-            margin-right: 2px;
-        }
-    </style>
 @endsection
 @section('content')
     <div class="container">
