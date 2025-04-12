@@ -132,4 +132,15 @@ $(document).ready(function () {
         var stateid = this.value;
         get_cities(stateid);
     });
+
+     $(document).on('click', function (e) {
+        const $input = $('input.designation');
+        const $dropdown = $input.closest('div').find('div.dropdown-menu');
+
+    // If click is NOT on input or dropdown
+    if (!$input.is(e.target) && !$dropdown.is(e.target) && $dropdown.has(e.target).length === 0) {
+        $dropdown.removeClass('show');
+    }
+
+    });
 });
