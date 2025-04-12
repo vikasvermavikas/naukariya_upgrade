@@ -16,7 +16,7 @@
                 <h3 style="margin-top: 20px;">Profile Details</h3>
                 <hr>
                 <!-- Profile details row-1 -->
-                <form action="{{ route('update_tracker') }}" method="POST" enctype="multipart/form-data">
+                <form class="edit_tracker_form" action="{{ route('update_tracker') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="d-none">
                         <input type="hidden" name="id" value="{{$id}}">

@@ -143,4 +143,18 @@ $(document).ready(function () {
     }
 
     });
+
+
+    // Disable submit on form submit.
+    $("form.edit_tracker_form").submit(function () {
+        $(this).find('button[type=submit]').attr('disabled', 'disabled');
+        Swal.fire({
+            title: "processing...",
+            html: "<b>please wait</b>",
+            didOpen: () => {
+                Swal.showLoading();
+            },
+            allowOutsideClick : false
+        });
+    });
 });

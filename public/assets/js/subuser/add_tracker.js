@@ -166,20 +166,6 @@ $(document).ready(function () {
     });
 
     // Remove dropdown designation on focus out.
-    // var eventfired = false;
-    // $('input.designation').on('pick.bs.autocomplete', function(el, item){
-    //     if (!eventfired) {
-    //         eventfired = true;
-    //     }
-    // });
-
-    // $("input.designation").change(function () {
-    //     if (!eventfired) {
-    //         console.log('hi');
-    //         $(this).closest('div').find('div.dropdown-menu').removeClass('show');
-    //     }
-    // });
-
     $(document).on('click', function (e) {
         const $input = $('input.designation');
         const $dropdown = $input.closest('div').find('div.dropdown-menu');
@@ -190,5 +176,19 @@ $(document).ready(function () {
     }
 
     });
+
+    // Disable submit on form submit.
+    $("form.add_tracker_form").submit(function () {
+        $(this).find('button[type=submit]').attr('disabled', 'disabled');
+        Swal.fire({
+            title: "processing...",
+            html: "<b>please wait</b>",
+            didOpen: () => {
+                Swal.showLoading();
+            },
+            allowOutsideClick : false
+        });
+    });
+
 
 });
