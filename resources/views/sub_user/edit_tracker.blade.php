@@ -118,6 +118,7 @@
                         Please add experience in reverse chronological order, from last to first</i>
                     <div class="parentcompany">
                         <input type="hidden" name="removed_experiences[]" id="removedexperiences">
+
                         @forelse ($experienceDetails as $experience)
                         <div class="row childcompany">
                             <input type="hidden" class="companydetails" name="experienceid[]" id="experiencedid" value="{{$experience->id}}">
@@ -136,7 +137,7 @@
                                 <input type="month" class="companydetails" name="from[]" max="{{ date('Y-m') }}" value="{{$experience->from}}">
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12">
-                                @if ($experience->currently_working)
+                                @if ($experience->currently_working ||  $loop->iteration == 1)
                                 <span class="float-right small d-flex currenlyLog"><input type="checkbox"
                                         class="currentlyworking" name="currentlyWork" value="1"
                                         {{$experience->currently_working ? 'checked' : ''}}>Currently Working
