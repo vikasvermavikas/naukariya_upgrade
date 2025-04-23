@@ -197,6 +197,11 @@ class SubuserController extends Controller
                 'regex:/(^[A-Za-z ]+$)+/'
             ],
             'updategender' => 'required',
+            'password' => ['nullable', 'confirmed', Password::min(8)
+                ->mixedCase()
+                ->numbers()
+                ->symbols()],
+            'password_confirmation' => ['required_with:password'] 
         ],
         [
             'updatefname.required' => 'First name is required.',
@@ -206,8 +211,8 @@ class SubuserController extends Controller
             'updatedesignation.regex' => 'Invalid Designation',
         ]
     );
-
-        $subuser = SubUser::find($request->id);
+        
+            $subuser = SubUser::find($request->id);
 
         $subuser->fname = $request->updatefname;
         $subuser->lname = $request->updatelname;
@@ -215,6 +220,10 @@ class SubuserController extends Controller
         $subuser->contact = $request->updatecontact;
         $subuser->designation = $request->updatedesignation;
         $subuser->gender = $request->updategender;
+        if ($request->password) {
+        $subuser->password = Hash::make($request->password);
+        $subuser->password_view = $request->password; //decrpt password
+        }
         $subuser->save();
         return redirect()->route('get_subusers')->with(['message' => 'Sub User updated successfully.']);
     }

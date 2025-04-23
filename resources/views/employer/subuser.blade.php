@@ -1,4 +1,13 @@
 @extends('layouts.master', ['title' => 'Sub Users List'])
+@section('style')
+<style>
+    .eyeicon{
+            position: relative;
+    bottom: 25px;
+    right: 10px;
+    }
+</style>
+@endsection
 @section('content')
     <div class="container">
         <div class="row">
@@ -254,6 +263,24 @@
                                                 <span class="text-danger updateerror">{{ $message }}</span>
                                             @enderror
                                         </div>
+                                         <div class="form-group col-sm-6">
+                                            <label class="col-form-label font-weight-bold" for="">New Password</label>
+                                            <input type="password" class="form-control password" name="password"
+                                                placeholder="Enter New Password" minlength="8">
+                                            <i class="fas fa-solid fa-eye-slash float-right eyeicon"></i>
+                                            @error('password')
+                                                <span class="text-danger updateerror">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                         <div class="form-group col-sm-6">
+                                            <label class="col-form-label font-weight-bold" for="">Confirm Password</label>
+                                            <input type="password" class="form-control password" name="password_confirmation" placeholder="Re-type Password" minlength="8">
+                                            <i class="fas fa-solid fa-eye-slash float-right eyeicon"></i>
+                                            @error('password_confirmation')
+                                                <span class="text-danger updateerror">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+
                                         <div class="col-sm-12"> <i class="fa fa-info-circle" aria-hidden="true"></i><span
                                                 style="color: red"> All Fields
                                                 are Mandatory</span></div>
@@ -298,7 +325,9 @@
             $errors->has('updateemail') ||
             $errors->has('updatecontact') ||
             $errors->has('updatedesignation') ||
-            $errors->has('updategender'))
+            $errors->has('updategender')  ||
+            $errors->has('password') ||
+            $errors->has('password_confirmation'))
         <script>
             $('#updateSubuser').modal('show');
         </script>

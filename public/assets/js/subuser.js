@@ -47,4 +47,11 @@ $(document).ready(function () {
            
         });
     })
+
+    $(".eyeicon").click(function() {
+        $(this).toggleClass("fa-eye fa-eye-slash");
+        var passwordInput = $(this).closest('div').find("input.password");
+        passwordInput.attr("type", passwordInput.attr("type") === "password"? "text" : "password");
+    }); 
+    
 });
