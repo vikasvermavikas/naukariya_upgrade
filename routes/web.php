@@ -47,6 +47,8 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\TrackerSelectionController;
 use App\Http\Controllers\PrakharDataController;
+use App\Http\Controllers\ImapController;
+use App\Http\Controllers\JobDataController;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,6 +86,17 @@ header('Access-Control-Allow-Origin:  *');
 // header('Access-Control-Allow-Origin:  http://127.0.0.1:8000');
 header('Access-Control-Allow-Methods:   GET');
 header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Authorization, X-CSRF-Token, X-Requested-With');
+
+Route::controller(ImapController::class)->prefix('imap')->group(function () {
+    Route::get('mails', 'index');
+    Route::get('fetch-data', 'fetch');
+});
+
+Route::controller(JobDataController::class)->prefix('jobs')->group(function () {
+    Route::get('coresignal', 'index');
+    Route::get('activejobs', 'activejobs');
+    Route::get('proxycurl', 'proxycurl');
+});
 
 Route::get('getjobscategory/prakharsoftwares', [PrakharDataController::class, 'getJobsBySectorPsspl']);
 Route::get('getjobs/prakharsoftwares', [PrakharDataController::class, 'getJobsByCategory']);

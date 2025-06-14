@@ -8,6 +8,7 @@ use App\Models\Jobmanager;
 use App\Models\Tracker;
 use App\Models\JsResume;
 use App\Models\JobResume;
+use App\Models\MailDownload;
 
 
 function get_experience()
@@ -210,5 +211,20 @@ if (!function_exists('get_jobseeker_resume')) {
             return '';
         }
        
+    }
+}
+
+/**
+ * Store attachment.
+ * @param object $data
+ */
+if (!function_exists('store_attachment')) {
+    function store_attachment($data){
+        MailDownload::create([
+            'mail_date' => $data['date'],
+            'file_original_name' => $data['filename'],
+            'file_name' => $data['stored_file'],
+            'download_status' => $data['download_status']
+        ]);
     }
 }
